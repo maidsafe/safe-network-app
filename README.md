@@ -1,1 +1,3 @@
-# safe_launchpad_app
+# SAFE Launch Pad
+
+Desktop app for managing the your SAFE Network applications.
