@@ -14,6 +14,7 @@ import { app } from 'electron';
 import path from 'path';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { logger } from '$Logger';
 import { configureStore } from '$Store/configureStore';
 import { MenuBuilder } from './menu';
 
@@ -31,7 +32,13 @@ export default class AppUpdater {
     public constructor() {
         log.transports.file.level = 'info';
         autoUpdater.logger = log;
-        autoUpdater.checkForUpdatesAndNotify();
+
+        try {
+            autoUpdater.checkForUpdatesAndNotify();
+        } catch ( error ) {
+            logger.error( 'Problems with auto updating...' );
+            logger.error( error );
+        }
     }
 }
 

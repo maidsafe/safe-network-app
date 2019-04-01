@@ -53,7 +53,7 @@ if ( log.transports ) {
 }
 
 // HACK: for jest
-if ( inMainProcess && !isRunningSpectronTestProcess ) {
+if ( isRunningUnpacked || ( isRunningDebug && !isRunningSpectronTestProcess ) ) {
     // TODO: add buld ID if prod. Incase you're opening up, NOT THIS BUILD.
     log.info( '' );
     log.info( '' );
@@ -82,20 +82,6 @@ if ( inMainProcess && !isRunningSpectronTestProcess ) {
     log.info( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>' );
     log.info( '' );
 
-    // process.on( 'uncaughtTypeError', err =>
-    // {
-    //     log.error(
-    //         '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
-    //     );
-    //     log.error( 'whoops! there was an uncaught type error:' );
-    //     log.error( err );
-    //     log.error( err.file );
-    //     log.error( err.line );
-    //     log.error(
-    //         '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
-    //     );
-    // } );
-
     process.on( 'uncaughtException', ( error: NodeError ) => {
         log.error( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>' );
         log.error( 'whoops! there was an uncaught error:' );
@@ -105,9 +91,8 @@ if ( inMainProcess && !isRunningSpectronTestProcess ) {
 
     process.on( 'unhandledRejection', ( error: NodeError ) => {
         log.error( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>' );
-        log.error( 'Unhandled Rejection. Reason:', error.message || error );
-        log.error( error.line );
-        log.error( error.file );
+        log.error( 'Unhandled Rejection. Reason:' );
+        log.error( error, '\n' );
         log.error( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>' );
     } );
 }

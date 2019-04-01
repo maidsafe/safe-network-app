@@ -1,8 +1,8 @@
+import path from 'path';
 import { Tray, BrowserWindow, ipcMain } from 'electron';
 import { logger } from '$Logger';
 import { Application } from './definitions/application.d';
 
-// import path from 'path';
 import {
     isRunningUnpacked,
     // isRunningDevelopment,
@@ -45,7 +45,9 @@ const toggleWindow = (): void => {
 };
 
 export const createTray = (): void => {
-    tray = new Tray( 'resources/icon.png' );
+    const iconPathtray = path.resolve( __dirname, 'tray-icon.png' );
+
+    tray = new Tray( iconPathtray );
     tray.on( 'right-click', toggleWindow );
     tray.on( 'double-click', toggleWindow );
     tray.on( 'click', ( event ) => {
