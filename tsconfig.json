@@ -6,7 +6,6 @@
         "allowJs": true,
         "noEmit": true,
         "jsx": "react",
-        "lib": ["dom"],
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "paths": {
@@ -18,7 +17,8 @@
             "$Reducers/*": ["app/reducers/*"],
             "$Logger": ["app/logger.ts"],
             "$Components/*": ["app/components/*"],
-            "$Constants": ["app/constants"],
+            "$Constants/*": ["app/constants/*"],
+            "$Constants": ["app/constants/index.ts"],
             "$Utils/*": ["app/utils/*"],
             "$Package": ["package.json"]
         }

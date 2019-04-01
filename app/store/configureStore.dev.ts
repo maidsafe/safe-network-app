@@ -15,7 +15,11 @@ import {
     replayActionRenderer
 } from 'electron-redux';
 
-import { inRendererProcess, isRunningSpectronTestProcess } from '$Constants';
+import {
+    inRendererProcess,
+    isRunningSpectronTestProcess,
+    inMainProcess
+} from '$Constants';
 
 import { createRootReducer } from '../reducers';
 import { addMiddlewares } from '$Store/addMiddlewares';
@@ -56,7 +60,7 @@ export const configureStore = ( initialState: {} = initialStateFromMain ) => {
     } );
 
     // Skip redux logs in console during the tests
-    if ( process.env.NODE_ENV !== 'test' ) {
+    if ( process.env.NODE_ENV !== 'test' && !inMainProcess ) {
         middleware.push( logger );
     }
 

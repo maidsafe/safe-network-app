@@ -3,11 +3,7 @@ import { Tray, BrowserWindow, ipcMain } from 'electron';
 import { logger } from '$Logger';
 import { Application } from './definitions/application.d';
 
-import {
-    isRunningUnpacked,
-    // isRunningDevelopment,
-    CONFIG
-} from '$Constants';
+import { isRunningUnpacked, CONFIG } from '$Constants';
 
 let tray;
 let safeLaunchPadWindow;

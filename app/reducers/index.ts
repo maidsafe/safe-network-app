@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import { authenticator } from './authenticator';
+import { install } from './install';
 
 export const createRootReducer = ( history ) => {
     return combineReducers( {
         router: history ? connectRouter( history ) : null,
-        authenticator
+        install
     } );
 };

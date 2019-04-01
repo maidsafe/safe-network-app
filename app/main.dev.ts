@@ -25,7 +25,7 @@ import { Application } from './definitions/application.d';
 import { createSafeLaunchPadWindow, createTray } from './setupLaunchPad';
 import { setupBackground } from './setupBackground';
 
-app.setPath( 'userData', path.resolve( app.getPath( 'temp' ), 'sauther' ) );
+// app.setPath( 'userData', path.resolve( app.getPath( 'temp' ), 'sauther' ) );
 
 /* eslint-disable-next-line import/no-default-export */
 export default class AppUpdater {

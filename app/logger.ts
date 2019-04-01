@@ -23,6 +23,7 @@ if ( log.transports ) {
     // error, warn, log, log, debug, silly
     // log.transports.console.level = 'silly';
     log.transports.file.level = 'silly';
+    log.transports.console.level = 'silly';
 
     if (
         isRunningSpectronTestProcess ||
@@ -53,7 +54,10 @@ if ( log.transports ) {
 }
 
 // HACK: for jest
-if ( isRunningUnpacked || ( isRunningDebug && !isRunningSpectronTestProcess ) ) {
+if (
+    ( inMainProcess && isRunningUnpacked ) ||
+    ( isRunningDebug && !isRunningSpectronTestProcess )
+) {
     // TODO: add buld ID if prod. Incase you're opening up, NOT THIS BUILD.
     log.info( '' );
     log.info( '' );

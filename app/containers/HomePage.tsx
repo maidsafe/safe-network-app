@@ -1,16 +1,19 @@
-// import { bindActionCreators } from "redux";
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Home } from '../components/Home';
-// import {  }
+import { Home } from '$Components/Home';
+import { installApp } from '$Actions/alias_install_actions';
+
 function mapStateToProperties( state ) {
     return {
         // counter: state.counter
     };
 }
 function mapDispatchToProperties( dispatch ) {
-    // return bindActionCreators( AuthenticatorActions, dispatch );
     // until we have a reducer to add here.
-    return {};
+    const actions = {
+        installApp
+    };
+    return bindActionCreators( actions, dispatch );
 }
 
 export const HomePage: React.ComponentClass = connect(

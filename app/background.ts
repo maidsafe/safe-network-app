@@ -11,9 +11,9 @@ logger.info( "Welcome to the BG process it's ID is: ", PID );
 const initBgProcess = () => {
     const store = configureStore( undefined );
 
-    store.subscribe( () => {
-        logger.info( 'chchchchchaaaanges' );
-    } );
+    // store.subscribe( () => {
+    //     logger.info( 'chchchchchaaaanges' );
+    // } );
 };
 
 initBgProcess();
