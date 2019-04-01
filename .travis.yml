@@ -40,13 +40,13 @@ matrix:
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
 
-cache:
-  yarn: true
-  directories:
-    - node_modules
-    - $(npm config get prefix)/lib/node_modules
-    # - $HOME/.cache/electron
-    # - $HOME/.cache/electron-builder
+# cache:
+#   yarn: true
+#   directories:
+#     - node_modules
+#     - $(npm config get prefix)/lib/node_modules
+#     # - $HOME/.cache/electron
+#     # - $HOME/.cache/electron-builder
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-8"; fi
