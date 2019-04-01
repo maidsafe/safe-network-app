@@ -5,20 +5,21 @@
   "identifier": "SafeLaunchpad",
   "description": "Launchpad for the SAFE Network",
   "scripts": {
-    "build": "concurrently \"yarn build-main\" \"yarn build-bg\" \"yarn build-renderer\"",
+    "build": "concurrently \"yarn build-main\" \"yarn build-renderer-n-bg\"",
     "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
     "build-e2e": "cross-env E2E_BUILD=true yarn build",
     "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.main.prod.babel.js --colors",
-    "build-bg": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.background.prod.babel.js --colors",
-    "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors",
+    "build-renderer-n-bg": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.background.prod.babel.js --colors",
     "check-types": "tsc",
     "dev": "cross-env START_HOT=1 node -r babel-register-ts ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev",
     "lint": "cross-env NODE_ENV=development eslint --cache --format=pretty --ext .js,.jsx,.ts,.tsx .",
     "lint-fix": "yarn --silent lint --fix; exit 0",
     "lint-styles": "stylelint --ignore-path .eslintignore '**/*.*(css|scss)' --syntax scss",
     "lint-styles-fix": "yarn --silent lint-styles --fix; exit 0",
+    "log": "tail -f $TMPDIR/safe-browser.log",
     "package": "yarn build && electron-builder build --publish never",
     "package-all": "yarn build && electron-builder build -mwl",
+    "package-macos": "yarn build && electron-builder --publish always",
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
     "package-linux": "yarn build && electron-builder build --linux",
     "package-win": "yarn build && electron-builder build --win --x64",
@@ -63,11 +64,11 @@
     "appId": "org.develar.SAFELaunchPad",
     "files": [
       "app/dist/",
+      "app/tray-icon.png",
       "app/app.html",
+      "app/bg.html",
       "app/main.prod.js",
-      "app/main.bg.js",
       "app/main.prod.js.map",
-      "app/main.bg.js.map",
       "package.json"
     ],
     "dmg": {
@@ -112,8 +113,8 @@
     "publish": {
       "provider": "github",
       "owner": "maidsafe",
-      "repo": "maidsafe",
-      "private": false
+      "repo": "safe_launchpad_app",
+      "private": true
     }
   },
   "repository": {
