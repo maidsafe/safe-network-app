@@ -6,6 +6,6 @@ module.exports = {
     $Logger: './app/logger.ts',
     $Components: './app/components',
     $Reducers: './app/reducers',
-    $Constants: './app/constants.ts',
+    $Constants: './app/constants',
     $Package: './package.json'
 };

@@ -6,9 +6,9 @@ import pkg from '$Package';
 import getPort from 'get-port';
 
 export const { platform } = process;
-// const OSX = 'darwin';
-// const LINUX = 'linux';
-// const WINDOWS = 'win32';
+export const OSX = 'darwin';
+export const LINUX = 'linux';
+export const WINDOWS = 'win32';
 // export
 
 declare const document: Document;
@@ -174,7 +174,7 @@ export const CONFIG = {
     PORT: remote ? remote.getGlobal( 'port' ) : getRandomPort( forcedPort ),
     SAFE_PARTITION: 'persist:safe-tab',
     SAFE_NODE_LIB_PATH: safeNodeLibraryPath(),
-    APP_HTML_PATH: path.resolve( __dirname, './app.html' ),
+    APP_HTML_PATH: path.resolve( __dirname, '..', './app.html' ),
     DATE_FORMAT: 'h:MM-mmm dd',
     NET_STATUS_CONNECTED: 'Connected',
     STATE_KEY: 'safeBrowserState',
@@ -219,33 +219,33 @@ interface AppInfo {
         _public: Array<string>;
     };
 }
-const appInfo: AppInfo = {
-    info: {
-        id: pkg.identifier,
-        scope: null,
-        name: pkg.productName,
-        vendor: pkg.author.name,
-        customExecPath: safeNodeAppPath()
-    },
-    // eslint-disable-next-line unicorn/prevent-abbreviations
-    opts: {
-        /* eslint-disable-next-line @typescript-eslint/camelcase */
-        own_container: true
-    },
-    permissions: {
-        _public: ['Read', 'Insert', 'Update', 'Delete']
-        // _publicNames : ['Read', 'Insert', 'Update', 'Delete']
-    }
-};
+// const appInfo: AppInfo = {
+//     info: {
+//         id: pkg.identifier,
+//         scope: null,
+//         name: pkg.productName,
+//         vendor: pkg.author.name,
+//         customExecPath: safeNodeAppPath()
+//     },
+//     // eslint-disable-next-line unicorn/prevent-abbreviations
+//     opts: {
+//         /* eslint-disable-next-line @typescript-eslint/camelcase */
+//         own_container: true
+//     },
+//     permissions: {
+//         _public: ['Read', 'Insert', 'Update', 'Delete']
+//         // _publicNames : ['Read', 'Insert', 'Update', 'Delete']
+//     }
+// };
 
 // OSX: Add bundle for electron in dev mode
-if ( isRunningUnpacked && process.platform === 'darwin' ) {
-    appInfo.info.bundle = 'com.github.electron';
-} else if ( process.platform === 'darwin' ) {
-    appInfo.info.bundle = 'com.electron.safe-browser';
-}
+// if ( isRunningUnpacked && process.platform === 'darwin' ) {
+//     appInfo.info.bundle = 'com.github.electron';
+// } else if ( process.platform === 'darwin' ) {
+//     appInfo.info.bundle = 'com.electron.safe-browser';
+// }
 
-export const APP_INFO = appInfo;
+// export const APP_INFO = appInfo;
 
 // TODO. Unify with test lib/constants browser UI?
 export const CLASSES = {

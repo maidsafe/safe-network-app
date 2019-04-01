@@ -36,14 +36,6 @@ module.exports = ( api ) => {
         ],
         plugins: [
             require( '@babel/plugin-proposal-object-rest-spread' ),
-            'add-module-exports',
-            [
-                'import',
-                {
-                    libraryName: 'antd',
-                    style: 'css'
-                }
-            ],
             // Stage 0
             require( '@babel/plugin-proposal-function-bind' ),
 

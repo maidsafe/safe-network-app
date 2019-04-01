@@ -1,6 +1,7 @@
 import { BrowserWindow } from 'electron';
+import { download } from 'electron-dl';
+import { manageDownloads } from './manageInstallations';
 import { logger } from '$Logger';
-// import path from 'path';
 import {
     isRunningUnpacked,
     isRunningDebug,
@@ -35,13 +36,6 @@ export const setupBackground = async (): Promise<BrowserWindow> =>
                 }
             } );
 
-            // Hide the window when it loses focus
-            //   backgroundProcessWindow.on('blur', () => {
-            //     if (!backgroundProcessWindow.webContents.isDevToolsOpened()) {
-            //       backgroundProcessWindow.hide()
-            //     }
-            // });
-
             backgroundProcessWindow.webContents.on(
                 'did-finish-load',
                 (): void => {
@@ -62,6 +56,9 @@ export const setupBackground = async (): Promise<BrowserWindow> =>
                     return resolve( backgroundProcessWindow );
                 }
             );
+
+            // hook in to initiate downloads (can only happen from main process :/ )
+            manageDownloads( backgroundProcessWindow );
 
             backgroundProcessWindow.webContents.on(
                 'did-fail-load',
