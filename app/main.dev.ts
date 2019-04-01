@@ -18,7 +18,7 @@ import { configureStore } from '$Store/configureStore';
 import { MenuBuilder } from './menu';
 
 // eslint-disable-next-line import/no-unresolved
-import { Application } from './application';
+import { Application } from './definitions/application.d';
 
 // import { PROTOCOLS } from '$Constants';
 import { createSafeLaunchPadWindow, createTray } from './setupLaunchPad';

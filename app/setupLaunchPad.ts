@@ -1,6 +1,6 @@
 import { Tray, BrowserWindow, ipcMain } from 'electron';
 import { logger } from '$Logger';
-import { Application } from './application.d';
+import { Application } from './definitions/application.d';
 
 // import path from 'path';
 import {

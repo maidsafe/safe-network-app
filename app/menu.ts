@@ -1,5 +1,5 @@
 import { app, Menu, shell } from 'electron';
-import { Application } from './application.d';
+import { Application } from './definitions/application.d';
 
 export class MenuBuilder {
     private mainWindow: Application.Window;
