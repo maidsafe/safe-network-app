@@ -1,4 +1,6 @@
 matrix:
+  allow_failures:
+    - os: windows
   include:
     - os: osx
       language: node_js
@@ -56,6 +58,7 @@ before_install:
   - npm --version
   - npm config rm proxy
   - npm config rm https-proxy
+  - npm config set cache-lock-retries 500
 
 install:
   - travis_wait 30 yarn --ignore-engines --network-timeout 800000
