@@ -13,7 +13,7 @@ import {
 const BACKGROUND_PROCESS = `file://${__dirname}/bg.html`;
 
 let backgroundProcessWindow = null;
-export const setupBackground = async (): Promise<BrowserWindow> =>
+export const setupBackground = async ( store ): Promise<BrowserWindow> =>
     new Promise( ( resolve, reject ) => {
         logger.info( 'Setting up Background Process' );
 
@@ -58,7 +58,7 @@ export const setupBackground = async (): Promise<BrowserWindow> =>
             );
 
             // hook in to initiate downloads (can only happen from main process :/ )
-            manageDownloads( backgroundProcessWindow );
+            manageDownloads( store, backgroundProcessWindow );
 
             backgroundProcessWindow.webContents.on(
                 'did-fail-load',

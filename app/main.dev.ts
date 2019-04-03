@@ -14,18 +14,19 @@ import { app } from 'electron';
 import path from 'path';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { Store } from 'redux'
+
+import { addApplication } from '$Actions/application_actions';
 import { logger } from '$Logger';
 import { configureStore } from '$Store/configureStore';
 import { MenuBuilder } from './menu';
-
-// eslint-disable-next-line import/no-unresolved
 import { Application } from './definitions/application.d';
-
-// import { PROTOCOLS } from '$Constants';
 import { createSafeLaunchPadWindow, createTray } from './setupLaunchPad';
 import { setupBackground } from './setupBackground';
 
-// app.setPath( 'userData', path.resolve( app.getPath( 'temp' ), 'sauther' ) );
+import managedApplications from '$App/managedApplications.json';
+
+logger.info( 'User data exists: ', app.getPath( 'userData' ) );
 
 /* eslint-disable-next-line import/no-default-export */
 export default class AppUpdater {
@@ -71,17 +72,15 @@ const installExtensions = async () => {
 
 // const loadMiddlewarePackages = [];
 
-let store;
+let store : Store;
 let mainWindow: Application.Window;
-
-// app.setAsDefaultProtocolClient( PROTOCOLS.SAFE_LAUNCHER );
-//
-// const isDefault = app.isDefaultProtocolClient( PROTOCOLS.SAFE_LAUNCHER);
 
 const gotTheLock = app.requestSingleInstanceLock();
 
 if ( !gotTheLock ) {
-    console.error( 'Not got the lock. This is so sad' );
+    logger.warn(
+        'Another instance of the launcher is already running. Closing this one.'
+    );
     app.quit();
 } else {
     app.on( 'second-instance', ( event, commandLine, workingDirectory ) => {
@@ -105,37 +104,15 @@ if ( !gotTheLock ) {
         const initialState = {};
         store = configureStore( initialState );
 
+        // initialSetup of apps
+        Object.keys( managedApplications ).forEach( ( application ) => {
+            console.log('--------------------',application)
+            store.dispatch( addApplication( managedApplications[application] ) );
+        } );
+
         createTray();
         mainWindow = createSafeLaunchPadWindow();
-        setupBackground();
-        // const bgWindow = setupBackground();
-        //
-
-        // mainWindow = new BrowserWindow({
-        //   show: false,
-        //   width: 1024,
-        //   height: 728
-        // });
-        //
-        // mainWindow.loadURL(`file://${__dirname}/app.html`);
-        //
-        // // @TODO: Use 'ready-to-show' event
-        // //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
-        // mainWindow.webContents.on('did-finish-load', () => {
-        //   if (!mainWindow) {
-        //     throw new Error('"mainWindow" is not defined');
-        //   }
-        //   if (process.env.START_MINIMIZED) {
-        //     mainWindow.minimize();
-        //   } else {
-        //     mainWindow.show();
-        //     mainWindow.focus();
-        //   }
-        // });
-        //
-        // mainWindow.on('closed', () => {
-        //   mainWindow = null;
-        // });
+        setupBackground(store);
 
         const menuBuilder = new MenuBuilder( mainWindow );
         menuBuilder.buildMenu();

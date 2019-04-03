@@ -1,0 +1,8 @@
+{
+    "SAFE Browser": {
+        "name": "SAFE Browser",
+        "downloadUrl": "https://github.com/joshuef/safe_browser/releases/download/v0.1.0/safe-browser-0.1.0.dmg",
+        "nextVersion": "0.1.0",
+        "type": "userApplications"
+    }
+}

@@ -34,7 +34,7 @@ if ( log.transports ) {
         log.transports.console.level = 'warn';
     }
 
-    log.transports.file.file = path.resolve( os.tmpdir(), 'safe-browser.log' );
+    log.transports.file.file = path.resolve( os.tmpdir(), 'safe-launch-pad.log' );
 
     log.transports.console.format = '[{label} {h}:{i}:{s}.{ms}] › {text}';
     if ( currentWindowId ) {

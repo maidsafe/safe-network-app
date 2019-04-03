@@ -1,6 +1,6 @@
 import path from 'path';
 import { app } from 'electron';
-import { OSX, LINUX, WINDOWS, platform } from '$Constants';
+import { LINUX, WINDOWS, platform } from '$Constants';
 
 export const DOWNLOAD_TARGET_DIR = path.resolve(
     app.getPath( 'userData' ),
@@ -17,7 +17,7 @@ const homeDirectory = app.getPath( 'home' );
 // default to macos
 let installTargetDirectory = path.resolve( '/Applications' );
 let browserDownloadUrl = SAFE_BROWSER_MAC;
-let browserApplicationName = 'safe-browser-v0.12.0-osx-x64/SAFE Browser.app/';
+let browserApplicationName = 'SAFE Browser.app';
 
 if ( platform === LINUX ) {
     browserApplicationName = 'safe-browser-v0.12.0-linux-x64';
@@ -36,6 +36,10 @@ if ( platform === WINDOWS ) {
 export const INSTALL_TARGET_DIR = installTargetDirectory;
 export const BROWSER_URL = browserDownloadUrl;
 export const BROWSER_APPLICATION_NAME = browserApplicationName;
+export const INSTALLED_APP = path.resolve(
+    INSTALL_TARGET_DIR,
+    BROWSER_APPLICATION_NAME
+);
 
 export const APPLICATIONS = {
     BROWSER: 'browser'

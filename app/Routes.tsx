@@ -8,6 +8,9 @@ import { HomePage } from './containers/HomePage';
 export const Routes = () => (
     <App>
         <Switch>
+            {
+                // Homepage displays the overview (for now)
+            }
             <Route path={HOME} component={HomePage} />
         </Switch>
     </App>
