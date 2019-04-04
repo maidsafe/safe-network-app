@@ -23,6 +23,7 @@ const getDowloadUrlForApplication = (
     // TODO ensure name conformity with download, or if different, note how.
     const version = application.latestVersion;
     const baseUrl: string = `${
+        // TODO: Sanitize URLs here? strip slashes etc
         application.repository
     }/releases/download/v${version}/${application.packageName ||
         application.name}-${version}`;
@@ -41,7 +42,7 @@ const getDowloadUrlForApplication = (
         }
         case LINUX: {
             // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/download/v0.1.0/electron-react-boilerplate-0.1.0-x86_64.AppImage
-            targetUrl = `${baseUrl}.-x86_64.AppImage`;
+            targetUrl = `${baseUrl}-x86_64.AppImage`;
             break;
         }
         default: {
@@ -129,6 +130,32 @@ const silentInstallMacOS = ( executable, downloadLocation? ) => {
     } );
 };
 
+const silentInstallLinux = ( executable, downloadLocation? ) => {
+    const sourceAppPath = path.resolve( downloadLocation );
+    const installPath = path.resolve( INSTALL_TARGET_DIR, executable );
+
+    if ( isDryRun ) {
+        logger.info( `DRY RUN: Would have then installed to, ${installPath}` );
+        return;
+    }
+
+    logger.info( 'Copying ', sourceAppPath, 'to', installPath );
+
+    const copied = spawnSync( 'cp', [sourceAppPath, installPath] );
+
+    if ( copied.error ) {
+        logger.error( 'Error during copy', copied.error );
+    }
+
+    const installedPath = path.resolve( INSTALL_TARGET_DIR, executable );
+    const makeExecutable = spawnSync( 'chmod', ['+x', installedPath] );
+    if ( makeExecutable.error ) {
+        logger.error( 'Error during permissions update', makeExecutable.error );
+    }
+    logger.info( 'Copying complete.' );
+    logger.info( 'Install complete.' );
+};
+
 const silentInstall = (
     application: ManagedApplication,
     downloadLocation?: string
@@ -144,7 +171,7 @@ const silentInstall = (
             break;
         }
         case LINUX: {
-            logger.warn( 'No linux install func yet, sorry!' );
+            silentInstallLinux( applicationExecutable, downloadLocation );
             break;
         }
         default: {
@@ -229,6 +256,9 @@ const downloadAndInstall = async (
 };
 
 const uninstallApplication = async ( application: ManagedApplication ) => {
+    // TODO, check app exists first.
+    logger.info( 'Starting uninstall of', application.name );
+
     const applicationExecutable = getApplicationExecutable( application );
 
     const installedPath = path.resolve(
@@ -239,6 +269,9 @@ const uninstallApplication = async ( application: ManagedApplication ) => {
         app.getPath( 'appData' ),
         application.name
     );
+
+    logger.verbose( `Attempting to remove ${installedPath}` );
+    logger.verbose( `Attempting to remove ${applicationUserDataPath}` );
 
     if ( isDryRun ) {
         logger.info( `DRY RUN: Would have uninstalled ${application.name}` );
@@ -253,11 +286,11 @@ const uninstallApplication = async ( application: ManagedApplication ) => {
         // TODO dont force dryrun
         const byeApp = del( installedPath, {
             force: true,
-            dryRun: true
+            dryRun: isDryRun
         } );
         const byeData = del( applicationUserDataPath, {
             force: true,
-            dryRun: true
+            dryRun: isDryRun
         } );
         await Promise.all( [byeApp, byeData] );
 
