@@ -7,5 +7,6 @@ module.exports = {
     $Components: './app/components',
     $Reducers: './app/reducers',
     $Constants: './app/constants',
+    $Definitions: './app/definitions',
     $Package: './package.json'
 };

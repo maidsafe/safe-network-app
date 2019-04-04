@@ -20,6 +20,7 @@ let shouldRunMockNetwork: boolean = fs.existsSync(
 );
 
 let hasDebugFlag = false;
+let hasDryRunFlag = false;
 
 export const isRunningSpectronTestProcess =
     !!process.env.SPECTRON_TEST || false;
@@ -56,6 +57,10 @@ if ( allPassedArguments.includes( '--debug' ) ) {
     hasDebugFlag = true;
 }
 
+if ( allPassedArguments.includes( '--dryRun' ) || process.env.LAUNCHER_DRY_RUN ) {
+    hasDryRunFlag = true;
+}
+
 let forcedPort: number;
 if ( allPassedArguments.includes( '--port' ) ) {
     const index = allPassedArguments.indexOf( '--port' );
@@ -87,6 +92,7 @@ export const startedRunningMock: boolean =
 export const startedRunningProduction = !startedRunningMock;
 export const isRunningNodeEnvironmentTest = environment.startsWith( 'test' );
 export const isRunningDebug = hasDebugFlag || isRunningSpectronTestProcess;
+export const isDryRun = hasDryRunFlag || isRunningSpectronTestProcess;
 export const inRendererProcess = typeof window !== 'undefined';
 export const inMainProcess = typeof remote === 'undefined';
 

@@ -6,25 +6,97 @@ import del from 'del';
 import dmg from 'dmg';
 import path from 'path';
 import { updateInstallProgress } from '$Actions/application_actions';
+import { OSX, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
 
 import { logger } from '$Logger';
-// import {
-//     isRunningUnpacked,
-//     isRunningDebug,
-//     isRunningSpectronTestProcess,
-//     isRunningDevelopment,
-//     isCI
-// } from '$Constants';
 
+import { ManagedApplication } from '$Definitions/application.d';
 import {
-    APPLICATIONS,
-    BROWSER_URL,
     DOWNLOAD_TARGET_DIR,
-    INSTALL_TARGET_DIR,
-    INSTALLED_APP
+    INSTALL_TARGET_DIR
 } from '$Constants/installConstants';
 
-const silentInstallMacOS = ( downloadLocation ) => {
+const getDowloadUrlForApplication = (
+    application: ManagedApplication
+): string => {
+    // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/tag/v0.1.0
+    // TODO ensure name conformity with download, or if different, note how.
+    const version = application.latestVersion;
+    const baseUrl: string = `${
+        application.repository
+    }/releases/download/v${version}/${application.packageName ||
+        application.name}-${version}`;
+    let targetUrl: string;
+
+    logger.info( ' checking platform', platform );
+    switch ( platform ) {
+        case OSX: {
+            targetUrl = `${baseUrl}.dmg`;
+            break;
+            // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/download/v0.1.0/ElectronTypescriptBoiler-0.1.0.dmg
+        }
+        case WINDOWS: {
+            targetUrl = `${baseUrl}.nsis`;
+            break;
+        }
+        case LINUX: {
+            // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/download/v0.1.0/electron-react-boilerplate-0.1.0-x86_64.AppImage
+            targetUrl = `${baseUrl}.-x86_64.AppImage`;
+            break;
+        }
+        default: {
+            logger.error(
+                'Unsupported platform for desktop applications:',
+                platform
+            );
+        }
+    }
+    logger.verbose( 'Download URL: ', targetUrl );
+    return targetUrl;
+};
+
+const getApplicationExecutable = ( application: ManagedApplication ): string => {
+    // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/tag/v0.1.0
+    // TODO ensure name conformity with download, or if different, note how.
+
+    let applicationExecutable: string;
+
+    switch ( platform ) {
+        case OSX: {
+            applicationExecutable = `${application.packageName ||
+                application.name}.app`;
+            break;
+        }
+        case WINDOWS: {
+            applicationExecutable = `${application.packageName ||
+                application.name}.exe`;
+            break;
+        }
+        case LINUX: {
+            applicationExecutable = `${application.packageName ||
+                application.name}.AppImage`;
+            break;
+            // electron-react-boilerplate-0.1.0-x86_64.AppImage
+        }
+        default: {
+            logger.error(
+                'Unsupported platform for desktop applications:',
+                platform
+            );
+        }
+    }
+    logger.verbose( 'Executable is called: ', applicationExecutable );
+    return applicationExecutable;
+};
+
+const silentInstallMacOS = ( executable, downloadLocation? ) => {
+    if ( isDryRun ) {
+        logger.info(
+            `DRY RUN: Would have then installed to, ${INSTALL_TARGET_DIR}/${executable}`
+        );
+        return;
+    }
+
     // path must be absolute and the extension must be .dmg
     dmg.mount( downloadLocation, async ( error, mountedPath ) => {
         if ( error ) {
@@ -34,11 +106,11 @@ const silentInstallMacOS = ( downloadLocation ) => {
             );
             logger.error( error );
         }
-        const targetApp = path.resolve( mountedPath, 'SAFE Browser.app' );
+        const targetAppPath = path.resolve( mountedPath, executable );
 
-        logger.info( 'Copying ', targetApp, 'to', INSTALL_TARGET_DIR );
+        logger.info( 'Copying ', targetAppPath, 'to', INSTALL_TARGET_DIR );
 
-        const done = spawnSync( 'cp', ['-r', targetApp, INSTALL_TARGET_DIR] );
+        const done = spawnSync( 'cp', ['-r', targetAppPath, INSTALL_TARGET_DIR] );
 
         if ( done.error ) {
             logger.error( 'Error during copy', done.error );
@@ -57,15 +129,57 @@ const silentInstallMacOS = ( downloadLocation ) => {
     } );
 };
 
+const silentInstall = (
+    application: ManagedApplication,
+    downloadLocation?: string
+) => {
+    const applicationExecutable = getApplicationExecutable( application );
+    switch ( platform ) {
+        case OSX: {
+            silentInstallMacOS( applicationExecutable, downloadLocation );
+            break;
+        }
+        case WINDOWS: {
+            logger.warn( 'No windows install func yet, sorry!' );
+            break;
+        }
+        case LINUX: {
+            logger.warn( 'No linux install func yet, sorry!' );
+            break;
+        }
+        default: {
+            logger.error(
+                'Unsupported platform for desktop applications:',
+                platform
+            );
+        }
+    }
+};
+
 const downloadAndInstall = async (
     store: Store,
     targetWindow: BrowserWindow,
-    application: string
+    application: ManagedApplication
 ): Promise<void> => {
-    let url: string;
+    const url: string = getDowloadUrlForApplication( application );
 
-    if ( application === APPLICATIONS.BROWSER ) {
-        url = BROWSER_URL;
+    if ( isDryRun ) {
+        logger.info(
+            `DRY RUN: Would have downloaded ${
+                application.name
+            } to ${DOWNLOAD_TARGET_DIR}`
+        );
+
+        store.dispatch(
+            updateInstallProgress( {
+                ...application,
+                progress: 1
+            } )
+        );
+
+        const fakeDlLocation = '';
+        silentInstall( application, fakeDlLocation );
+        return;
     }
 
     let theDownload: DownloadItem;
@@ -74,25 +188,27 @@ const downloadAndInstall = async (
         directory: DOWNLOAD_TARGET_DIR,
         // filename,
         onStarted: ( downloadingFile: DownloadItem ) => {
-            logger.verbose( 'Started downloading ', application );
+            logger.info( 'Started downloading ', application );
 
             theDownload = downloadingFile;
 
             theDownload.on( 'done', ( event, state ) => {
                 if ( state !== 'completed' ) {
-                    logger.info( 'DID NOT FINISH', state );
+                    logger.info(
+                        'Download done but not finished. Downlaod state:',
+                        state
+                    );
                     return;
                 }
 
+                logger.info( 'Starting install' );
                 // TODO: check hashhhhh
                 const downloadLocation = theDownload.getSavePath();
 
-                silentInstallMacOS( downloadLocation );
+                silentInstall( application );
             } );
         },
         onProgress: ( progress ) => {
-            // logger.verbose( prog );
-
             store.dispatch(
                 updateInstallProgress( {
                     // todo, pull from app
@@ -103,8 +219,7 @@ const downloadAndInstall = async (
             );
 
             if ( progress === 1 ) {
-                logger.info( 'FINISHHEDDDD DOWNLOAD' );
-                logger.info( 'starting install' );
+                logger.info( 'Finshed download' );
             }
         }
     };
@@ -113,18 +228,43 @@ const downloadAndInstall = async (
     download( targetWindow, url, downloaderOptions );
 };
 
-const uninstallApplication = async ( application: string ) => {
+const uninstallApplication = async ( application: ManagedApplication ) => {
+    const applicationExecutable = getApplicationExecutable( application );
+
+    const installedPath = path.resolve(
+        INSTALL_TARGET_DIR,
+        applicationExecutable
+    );
+    const applicationUserDataPath = path.resolve(
+        app.getPath( 'appData' ),
+        application.name
+    );
+
+    if ( isDryRun ) {
+        logger.info( `DRY RUN: Would have uninstalled ${application.name}` );
+        logger.info( `DRY RUN: from path: ${installedPath}` );
+        logger.info(
+            `DRY RUN: as well as userData from: ${applicationUserDataPath}`
+        );
+    }
+
     // TODO all platforms;
     try {
-        const byeApp = del( INSTALLED_APP, { force: true, dryRun: true } );
-        const byeData = del( app.getPath( 'userData' ), {
+        // TODO dont force dryrun
+        const byeApp = del( installedPath, {
+            force: true,
+            dryRun: true
+        } );
+        const byeData = del( applicationUserDataPath, {
             force: true,
             dryRun: true
         } );
         await Promise.all( [byeApp, byeData] );
 
-        console.log( 'byeApp', byeApp );
-        console.log( 'byeData', byeData );
+        if ( isDryRun ) {
+            logger.info( `uninstalled:`, byeApp );
+            logger.info( `uninstalled:`, byeData );
+        }
     } catch ( error ) {
         logger.error( 'Error deleting the application: ', application );
         logger.error( error );
@@ -133,11 +273,13 @@ const uninstallApplication = async ( application: string ) => {
 
 export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
     // setup event
-    ipcMain.on( 'initiateDownload', ( event, application: string ) =>
+    ipcMain.on( 'initiateDownload', ( event, application: ManagedApplication ) =>
         downloadAndInstall( store, targetWindow, application )
     );
     // TODO: Specify full app / type
-    ipcMain.on( 'uninstallApplication', ( event, application: string ) =>
-        uninstallApplication( application )
+    ipcMain.on(
+        'uninstallApplication',
+        ( event, application: ManagedApplication ) =>
+            uninstallApplication( application )
     );
 }

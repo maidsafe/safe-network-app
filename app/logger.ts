@@ -14,6 +14,7 @@ import {
     isRunningSpectronTestProcessingPackagedApp,
     isRunningTestCafeProcess,
     inMainProcess,
+    isDryRun,
     isCI
 } from '$Constants';
 import log from 'electron-log';
@@ -55,8 +56,9 @@ if ( log.transports ) {
 
 // HACK: for jest
 if (
-    ( inMainProcess && isRunningUnpacked ) ||
-    ( isRunningDebug && !isRunningSpectronTestProcess )
+    // ( inMainProcess && isRunningUnpacked ) ||
+    isRunningDebug &&
+    !isRunningSpectronTestProcess
 ) {
     // TODO: add buld ID if prod. Incase you're opening up, NOT THIS BUILD.
     log.info( '' );
@@ -70,6 +72,7 @@ if (
     log.info( '' );
     log.info( 'isCI?: ', isCI );
     log.info( 'process.env.NODE_ENV: ', process.env.NODE_ENV );
+    log.info( 'isDryRun?', isDryRun );
     log.info( 'isRunningDebug?', isRunningDebug );
     log.info( 'isRunningUnpacked?', isRunningUnpacked );
     log.info( 'isRunningPackaged?', isRunningPackaged );

@@ -10,8 +10,10 @@ export namespace Application {
 
 export interface ManagedApplication {
     name: string;
+    packageName: string;
     type: 'userApplications' | 'developmentApplications';
-    currentVersion?: string;
+    repository: string;
+    latestVersion?: string;
     isOpen?: boolean;
     progress?: number;
 }
@@ -22,7 +24,7 @@ export interface ApplicationsState {
 }
 
 export interface TheState {
-    applications : ApplicationsState
+    applications: ApplicationsState;
 }
 
 export interface ApplicationsAction {

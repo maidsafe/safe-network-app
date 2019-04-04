@@ -1,8 +1,20 @@
 {
-    "SAFE Browser": {
-        "name": "SAFE Browser",
-        "downloadUrl": "https://github.com/joshuef/safe_browser/releases/download/v0.1.0/safe-browser-0.1.0.dmg",
-        "nextVersion": "0.1.0",
-        "type": "userApplications"
+    "schmemaName": "LaunchapdApps",
+    "version": "1",
+    "applications": {
+        "SAFE Browser": {
+            "name": "SAFE Browser",
+            "packageName": "safe-browser",
+            "repository": "https://github.com/joshuef/safe_browser",
+            "latestVersion": "0.1.0",
+            "type": "userApplications"
+        },
+        "ElectronTypescriptBoiler": {
+            "name": "ElectronTypescriptBoiler",
+            "packageName": "ElectronTypescriptBoiler",
+            "repository": "https://github.com/joshuef/electron-typescript-react-boilerplate/",
+            "latestVersion": "0.1.0",
+            "type": "userApplications"
+        }
     }
 }

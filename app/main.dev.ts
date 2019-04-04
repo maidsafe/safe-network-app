@@ -14,7 +14,7 @@ import { app } from 'electron';
 import path from 'path';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { Store } from 'redux'
+import { Store } from 'redux';
 
 import { addApplication } from '$Actions/application_actions';
 import { logger } from '$Logger';
@@ -72,7 +72,7 @@ const installExtensions = async () => {
 
 // const loadMiddlewarePackages = [];
 
-let store : Store;
+let store: Store;
 let mainWindow: Application.Window;
 
 const gotTheLock = app.requestSingleInstanceLock();
@@ -104,15 +104,18 @@ if ( !gotTheLock ) {
         const initialState = {};
         store = configureStore( initialState );
 
-        // initialSetup of apps
-        Object.keys( managedApplications ).forEach( ( application ) => {
-            console.log('--------------------',application)
-            store.dispatch( addApplication( managedApplications[application] ) );
-        } );
+        // initialSetup of apps,
+        const allApplications = managedApplications.applications;
+        if ( managedApplications.version === '1' ) {
+            Object.keys( allApplications ).forEach( ( application ) => {
+                console.log( 'Managing:', application );
+                store.dispatch( addApplication( allApplications[application] ) );
+            } );
+        }
 
         createTray();
         mainWindow = createSafeLaunchPadWindow();
-        setupBackground(store);
+        setupBackground( store );
 
         const menuBuilder = new MenuBuilder( mainWindow );
         menuBuilder.buildMenu();
