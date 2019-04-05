@@ -12,7 +12,7 @@
         "ElectronTypescriptBoiler": {
             "name": "ElectronTypescriptBoiler",
             "packageName": "ElectronTypescriptBoiler",
-            "repository": "https://github.com/joshuef/electron-typescript-react-boilerplate/",
+            "repository": "https://github.com/joshuef/electron-typescript-react-boilerplate",
             "latestVersion": "0.1.0",
             "type": "userApplications"
         }

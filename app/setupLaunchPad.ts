@@ -27,7 +27,9 @@ const getWindowPosition = (): { x: number; y: number } => {
 
 const showWindow = (): void => {
     const position = getWindowPosition();
-    safeLaunchPadWindow.setPosition( position.x, position.y, false );
+
+    // TODO: broken on windows/ ubuntu
+    // safeLaunchPadWindow.setPosition( position.x, position.y, false );
     safeLaunchPadWindow.show();
     safeLaunchPadWindow.focus();
 };

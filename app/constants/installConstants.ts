@@ -15,10 +15,8 @@ if ( platform === LINUX ) {
     installTargetDirectory = path.resolve( homeDirectory, 'bin' );
 }
 if ( platform === WINDOWS ) {
-    installTargetDirectory = path.resolve(
-        homeDirectory,
-        'safe-launcher-installed-wrongly'
-    );
+    //  ~/AppData/Local/Programs/safe-launch-pad/safe Launch Pad.exe
+    installTargetDirectory = path.resolve( homeDirectory, 'Local', 'Programs' );
 }
 
 export const INSTALL_TARGET_DIR = installTargetDirectory;

@@ -37,7 +37,7 @@ const getDowloadUrlForApplication = (
             // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/download/v0.1.0/ElectronTypescriptBoiler-0.1.0.dmg
         }
         case WINDOWS: {
-            targetUrl = `${baseUrl}.nsis`;
+            targetUrl = `${baseUrl}.exe`;
             break;
         }
         case LINUX: {
@@ -156,6 +156,36 @@ const silentInstallLinux = ( executable, downloadLocation? ) => {
     logger.info( 'Install complete.' );
 };
 
+// https://nsis.sourceforge.io/Docs/Chapter4.html#silent
+const silentInstallWindows = ( executable, downloadLocation? ) => {
+    // Windows has a separate installer to the application name
+    const installAppPath = path.resolve( downloadLocation );
+    const installPath = path.resolve( INSTALL_TARGET_DIR, executable );
+
+    if ( isDryRun ) {
+        logger.info( `DRY RUN: Would have then installed to, ${installPath}` );
+        logger.info( `DRY RUN: via command: $ ${installAppPath}` );
+        return;
+    }
+
+    // isntalled lives ~/AppData/Local/Programs/safe-launch-pad/safe Launch Pad.exe
+    logger.info(
+        'Triggering NSIS install of ',
+        installAppPath,
+        'to',
+        installPath,
+        executable
+    );
+
+    const installer = spawnSync( installAppPath, ['/S', `/D=${installPath}`] );
+
+    if ( installer.error ) {
+        logger.error( 'Error during install', installer.error );
+    }
+
+    logger.info( 'Install complete.' );
+};
+
 const silentInstall = (
     application: ManagedApplication,
     downloadLocation?: string
@@ -167,7 +197,7 @@ const silentInstall = (
             break;
         }
         case WINDOWS: {
-            logger.warn( 'No windows install func yet, sorry!' );
+            silentInstallWindows( applicationExecutable, downloadLocation );
             break;
         }
         case LINUX: {
@@ -270,6 +300,10 @@ const uninstallApplication = async ( application: ManagedApplication ) => {
         application.name
     );
 
+    const windowsUninstallLocation = `${INSTALL_TARGET_DIR}/${
+        application.packageName
+    } Uninstall.exe`;
+
     logger.verbose( `Attempting to remove ${installedPath}` );
     logger.verbose( `Attempting to remove ${applicationUserDataPath}` );
 
@@ -281,9 +315,25 @@ const uninstallApplication = async ( application: ManagedApplication ) => {
         );
     }
 
-    // TODO all platforms;
+    if ( platform === WINDOWS && isDryRun ) {
+        logger.info(
+            `DRY RUN: Would have uninstalled via command: "${windowsUninstallLocation} /S"`
+        );
+    }
+
+    if ( platform === WINDOWS ) {
+        const uninstalled = spawnSync( windowsUninstallLocation, ['/S'] );
+
+        if ( uninstalled.error ) {
+            logger.error( 'Error during uninstall', uninstalled.error );
+        }
+
+        // ? ALSO: ~/AppData/Local/safe-launchpad-updater
+
+        return;
+    }
+
     try {
-        // TODO dont force dryrun
         const byeApp = del( installedPath, {
             force: true,
             dryRun: isDryRun
@@ -292,6 +342,7 @@ const uninstallApplication = async ( application: ManagedApplication ) => {
             force: true,
             dryRun: isDryRun
         } );
+
         await Promise.all( [byeApp, byeData] );
 
         if ( isDryRun ) {
