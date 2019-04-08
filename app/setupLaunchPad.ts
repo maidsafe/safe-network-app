@@ -1,9 +1,15 @@
 import path from 'path';
-import { Tray, BrowserWindow, ipcMain } from 'electron';
+import { Tray, BrowserWindow, ipcMain, screen } from 'electron';
 import { logger } from '$Logger';
 import { Application } from './definitions/application.d';
 
-import { isRunningUnpacked, CONFIG } from '$Constants';
+import {
+    isRunningUnpacked,
+    CONFIG,
+    platform,
+    WINDOWS,
+    LINUX
+} from '$Constants';
 
 let tray;
 let safeLaunchPadWindow;
@@ -12,15 +18,28 @@ const getWindowPosition = (): { x: number; y: number } => {
     const safeLaunchPadWindowBounds = safeLaunchPadWindow.getBounds();
     const trayBounds = tray.getBounds();
 
+    const mainScreen = screen.getPrimaryDisplay();
+    const screenBounds = mainScreen.bounds;
+
     // Center safeLaunchPadWindow horizontally below the tray icon
-    const x = Math.round(
+    let x = Math.round(
         trayBounds.x +
             trayBounds.width / 2 -
             safeLaunchPadWindowBounds.width / 2
     );
 
+    if ( platform === LINUX ) {
+        x = Math.round( safeLaunchPadWindowBounds.width );
+    }
+
     // Position safeLaunchPadWindow 4 pixels vertically below the tray icon
-    const y = Math.round( trayBounds.y + trayBounds.height + 4 );
+    let y = Math.round( trayBounds.y + trayBounds.height + 4 );
+
+    if ( platform === WINDOWS ) {
+        // TODO:
+        // make this minus window height
+        y = Math.round( screenBounds.y - safeLaunchPadWindowBounds.height + 20 );
+    }
 
     return { x, y };
 };
@@ -29,7 +48,7 @@ const showWindow = (): void => {
     const position = getWindowPosition();
 
     // TODO: broken on windows/ ubuntu
-    // safeLaunchPadWindow.setPosition( position.x, position.y, false );
+    safeLaunchPadWindow.setPosition( position.x, position.y, false );
     safeLaunchPadWindow.show();
     safeLaunchPadWindow.focus();
 };
