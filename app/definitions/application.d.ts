@@ -32,3 +32,33 @@ export interface ApplicationsAction {
     meta: {};
     type: string;
 }
+
+export interface Notification {
+    type: string;
+    priority: string;
+    appId?: string;
+}
+
+export interface LaunchpadState {
+    shouldOnboard: boolean;
+    userPreferences: {};
+    notifications: { [s: string]: Notification };
+    launchpad: {
+        hasUpdate: boolean;
+        newVersion: boolean;
+        isUpdating: boolean;
+    };
+}
+
+export interface Apps {
+    id: string;
+    name: string;
+    isInstalling: boolean;
+    isUpdating: boolean;
+    isUninstalling: boolean;
+    progress: number;
+}
+
+export interface AppManagerState {
+    applicationList: { [appId: string]: Apps };
+}
