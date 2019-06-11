@@ -1,4 +1,6 @@
+/* eslint import/no-extraneous-dependencies: off */
 import { ClientFunction, Selector } from 'testcafe';
+/* eslint import/no-extraneous-dependencies: off */
 import { ReactSelector, waitForReact } from 'testcafe-react-selectors';
 import { getPageUrl } from './helpers';
 
@@ -10,7 +12,7 @@ const assertNoConsoleErrors = async ( t ): Promise<void> => {
     await t.expect( error ).eql( [] );
 };
 
-fixture`Home Page`.page( '../../app/app.html' ).afterEach( assertNoConsoleErrors );
+// fixture`Home Page`.page( '../../app/app.html' ).afterEach( assertNoConsoleErrors );
 
 test( 'e2e', async ( t ) => {
     await t.expect( getPageTitle() ).eql( 'SAFE Launch Pad!' );

@@ -34,31 +34,42 @@ export interface ApplicationsAction {
 }
 
 export interface Notification {
+    id: string;
     type: string;
-    priority: string;
+    priority: 'HIGH' | 'MEDIUM' | 'LOW';
     appId?: string;
+}
+
+export interface UserPreferences {
+    autoUpdate: boolean;
+    pinToMenuBar: boolean;
+    launchOnStart: boolean;
+    showDeveloperApps: boolean;
+    warnOnAccessingClearnet: boolean;
 }
 
 export interface LaunchpadState {
     shouldOnboard: boolean;
-    userPreferences: {};
+    userPreferences: UserPreferences;
     notifications: { [s: string]: Notification };
     launchpad: {
         hasUpdate: boolean;
-        newVersion: boolean;
+        newVersion: string;
         isUpdating: boolean;
     };
 }
 
-export interface Apps {
+export interface App {
     id: string;
     name: string;
     isInstalling: boolean;
     isUpdating: boolean;
     isUninstalling: boolean;
     progress: number;
+    lastSkippedVersion: string;
+    error: Error | null;
 }
 
 export interface AppManagerState {
-    applicationList: { [appId: string]: Apps };
+    applicationList: { [appId: string]: App };
 }

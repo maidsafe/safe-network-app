@@ -1,4 +1,4 @@
-import { Notification } from '../definitions/application.d';
+import { Notification, UserPreferences } from '../definitions/application.d';
 
 export const TYPES = {
     GET_USER_PREFERENCES: 'GET_USER_PREFERENCES',
@@ -14,9 +14,9 @@ export const pushNotification = ( notification: Notification ) => {};
 
 export const getUserPreferences = () => {};
 
-export const storeUserPreferences = ( userPreferences ) => {};
+export const storeUserPreferences = ( userPreferences: UserPreferences ) => {};
 
-export const updateUserPreferences = ( userPreferences ) => {};
+export const updateUserPreferences = ( userPreferences: UserPreferences ) => {};
 
 export const shouldOnboard = () => {};
 
