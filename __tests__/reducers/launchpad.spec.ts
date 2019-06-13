@@ -1,6 +1,7 @@
 import { launchpadReducer, initialState } from '$Reducers/launchpad_reducer';
 import { TYPES } from '$Actions/launcher_actions';
-import { generateRandomString } from '../../app/utils/app_utils';
+import { generateRandomString } from '$Utils/app_utils';
+import { ERRORS } from '$App/constants';
 
 describe( 'launchpad reducer', () => {
     it( 'should return the initial state', () => {
@@ -26,11 +27,11 @@ describe( 'launchpad reducer', () => {
                         shouldOnboard: 'false'
                     }
                 } )
-            ).toThrow();
+            ).toThrow( ERRORS.INVALID_TYPE );
         } );
     } );
 
-    describe( 'GET_USER_PREFERENCES or UPDATE_USER_PREFERENCES', () => {
+    describe( 'SET_USER_PREFERENCES', () => {
         it( 'Should update user preferences', () => {
             const userPreferences = {
                 autoUpdate: true,
@@ -40,7 +41,7 @@ describe( 'launchpad reducer', () => {
                 warnOnAccessingClearnet: false
             };
             const nextStore = launchpadReducer( undefined, {
-                type: TYPES.GET_USER_PREFERENCES,
+                type: TYPES.SET_USER_PREFERENCES,
                 payload: {
                     userPreferences: { ...userPreferences }
                 }
@@ -72,105 +73,12 @@ describe( 'launchpad reducer', () => {
 
             expect( () =>
                 launchpadReducer( undefined, {
-                    type: TYPES.GET_USER_PREFERENCES,
+                    type: TYPES.SET_USER_PREFERENCES,
                     payload: {
                         userPreferences: { ...userPreferences }
                     }
                 } )
-            ).toThrow();
-        } );
-    } );
-
-    describe( 'CHECK_LAUNCHPAD_HAS_UPDATE', () => {
-        it( 'Should update for launchpad new update available', () => {
-            const launchpad = { ...initialState.launchpad };
-            launchpad.hasUpdate = true;
-            launchpad.newVersion = '0.12.0';
-
-            const updatedState = launchpadReducer( undefined, {
-                type: TYPES.CHECK_LAUNCHPAD_HAS_UPDATE,
-                payload: { launchpad: { ...launchpad } }
-            } );
-
-            expect( updatedState.launchpad.hasUpdate ).toBeTruthy();
-            expect( updatedState.launchpad.newVersion ).toEqual(
-                launchpad.newVersion
-            );
-        } );
-
-        it( 'make no change on no update available', () => {
-            const launchpad = { ...initialState.launchpad };
-            launchpad.hasUpdate = false;
-            launchpad.newVersion = '0.12.0';
-
-            const updatedState = launchpadReducer( undefined, {
-                type: TYPES.CHECK_LAUNCHPAD_HAS_UPDATE,
-                payload: { launchpad: { ...launchpad } }
-            } );
-
-            expect( updatedState.launchpad.hasUpdate ).toBeFalsy();
-            expect( updatedState.launchpad.newVersion ).toEqual(
-                initialState.launchpad.newVersion
-            );
-        } );
-    } );
-
-    describe( 'UPDATE_LAUNCHPAD', () => {
-        it( 'Should not update when no new update available', () => {
-            expect(
-                launchpadReducer( undefined, {
-                    type: TYPES.UPDATE_LAUNCHPAD
-                } ).launchpad.isUpdating
-            ).toBeFalsy();
-        } );
-
-        it( 'Should update only when new update available', () => {
-            const store = { ...initialState };
-            store.launchpad.hasUpdate = true;
-            store.launchpad.newVersion = '0.12.0';
-            expect(
-                launchpadReducer( store, {
-                    type: TYPES.UPDATE_LAUNCHPAD
-                } ).launchpad.isUpdating
-            ).toBeTruthy();
-        } );
-
-        it( 'Should not set the new version when no new update available', () => {
-            const store = { ...initialState };
-            store.launchpad.hasUpdate = false;
-            store.launchpad.newVersion = '0.12.0';
-            expect(
-                launchpadReducer( store, {
-                    type: TYPES.UPDATE_LAUNCHPAD
-                } ).launchpad.isUpdating
-            ).toBeFalsy();
-        } );
-
-        it( 'Should stop updating on any failure', () => {
-            const store = { ...initialState };
-            store.launchpad.isUpdating = true;
-            store.launchpad.hasUpdate = true;
-            store.launchpad.newVersion = '0.12.0';
-
-            expect(
-                launchpadReducer( store, {
-                    type: `${TYPES.UPDATE_LAUNCHPAD}_FAILURE`
-                } ).launchpad.isUpdating
-            ).toBeFalsy();
-        } );
-
-        it( 'Should reset to initial state on launchpad update success', () => {
-            const store = { ...initialState };
-            store.launchpad.isUpdating = true;
-            store.launchpad.hasUpdate = true;
-            store.launchpad.newVersion = '0.12.0';
-
-            const launchpadStore = launchpadReducer( store, {
-                type: `${TYPES.UPDATE_LAUNCHPAD}_SUCCESS`
-            } ).launchpad;
-            expect( launchpadStore.isUpdating ).toBeFalsy();
-            expect( launchpadStore.hasUpdate ).toBeFalsy();
-            expect( launchpadStore.newVersion ).toEqual( null );
+            ).toThrow( ERRORS.INVALID_PROP );
         } );
     } );
 
@@ -208,7 +116,7 @@ describe( 'launchpad reducer', () => {
                         notification: { ...newNotification }
                     }
                 } )
-            ).toThrow();
+            ).toThrow( ERRORS.NOTIFICATION_ID_NOT_FOUND );
         } );
     } );
 
@@ -236,7 +144,7 @@ describe( 'launchpad reducer', () => {
                     type: TYPES.DISMISS_NOTIFICATION,
                     payload: {}
                 } )
-            ).toThrow();
+            ).toThrow( ERRORS.NOTIFICATION_ID_NOT_FOUND );
         } );
 
         it( 'Should remove notification based on ID', () => {

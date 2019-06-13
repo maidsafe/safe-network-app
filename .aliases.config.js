@@ -8,5 +8,6 @@ module.exports = {
     $Reducers: './app/reducers',
     $Constants: './app/constants',
     $Definitions: './app/definitions',
-    $Package: './package.json'
+    $Package: './package.json',
+    $Utils: './app/utils'
 };

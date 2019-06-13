@@ -48,26 +48,22 @@ export interface UserPreferences {
     warnOnAccessingClearnet: boolean;
 }
 
-export interface LaunchpadState {
-    shouldOnboard: boolean;
-    userPreferences: UserPreferences;
-    notifications: { [s: string]: Notification };
-    launchpad: {
-        hasUpdate: boolean;
-        newVersion: string;
-        isUpdating: boolean;
-    };
-}
-
 export interface App {
     id: string;
     name: string;
     isInstalling: boolean;
     isUpdating: boolean;
     isUninstalling: boolean;
+    hasUpdate: boolean;
     progress: number;
     lastSkippedVersion: string;
     error: Error | null;
+}
+
+export interface LaunchpadState {
+    shouldOnboard: boolean;
+    userPreferences: UserPreferences;
+    notifications: { [s: string]: Notification };
 }
 
 export interface AppManagerState {

@@ -102,7 +102,7 @@ export const currentWindowId =
         : undefined;
 
 // Set global for tab preload.
-// Adds app folder for asar packaging (space before app is important).
+// Adds app folder for asar packaging ( space before app is important ).
 const preloadLocation = isRunningUnpacked ? '' : '../';
 
 let safeNodeAppPathModifier = '..';
@@ -134,7 +134,6 @@ const safeNodeAppPath = () => {
     if ( !remote || !remote.app ) {
         return '';
     }
-
     const nodeAppPath: Array<string> = isRunningUnpacked
         ? [
             remote.process.execPath,
@@ -202,9 +201,9 @@ if ( inMainProcess ) {
     global.SPECTRON_TEST = isRunningSpectronTestProcess;
 }
 
-// if( isRunningUnpacked )
+// if(  isRunningUnpacked  )
 // {
-//     CONFIG.CONFIG_PATH = path.resolve( __dirname, '../resources' );
+//     CONFIG.CONFIG_PATH = path.resolve(  __dirname, '../resources'  );
 // }
 
 interface AppInfo {
@@ -245,9 +244,9 @@ interface AppInfo {
 // };
 
 // OSX: Add bundle for electron in dev mode
-// if ( isRunningUnpacked && process.platform === 'darwin' ) {
+// if (  isRunningUnpacked && process.platform === 'darwin'  ) {
 //     appInfo.info.bundle = 'com.github.electron';
-// } else if ( process.platform === 'darwin' ) {
+// } else if (  process.platform === 'darwin'  ) {
 //     appInfo.info.bundle = 'com.electron.safe-browser';
 // }
 
@@ -299,3 +298,13 @@ const getDomClasses = () => {
 };
 
 export const GET_DOM_EL_CLASS = getDomClasses();
+
+export const LAUNCHPAD_APP_ID = '__LAUNCHPAD_APP_ID__';
+
+export const ERRORS = {
+    APP_ID_NOT_FOUND: new Error( 'Application ID not found' ),
+    VERSION_NOT_FOUND: new Error( 'Application not found' ),
+    INVALID_TYPE: new Error( 'Invalid type of value passed' ),
+    INVALID_PROP: new Error( 'Invalid properties found' ),
+    NOTIFICATION_ID_NOT_FOUND: new Error( 'Notification ID required' )
+};

@@ -1,5 +1,5 @@
 /* eslint import/prefer-default-export: off */
-/* eslint import/no-extraneous-dependencies: off */
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { ClientFunction } from 'testcafe';
 
 /* eslint no-undef: "off" */

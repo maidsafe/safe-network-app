@@ -1,6 +1,7 @@
 import { TYPES } from '$Actions/app_manager_actions';
 
 import { AppManagerState } from '../definitions/application.d';
+import { ERRORS } from '$Constants/index';
 
 export const initialState: AppManagerState = {
     applicationList: {}
@@ -20,9 +21,8 @@ export function appManager( state = initialState, action ): AppManagerState {
         case `${TYPES.FETCH_APPS}_SUCCESS`: {
             applicationList = {};
             payload.applicationList.forEach( ( application ) => {
-                if ( !application.id ) {
-                    throw new Error( 'Application ID not found' );
-                }
+                if ( !application.id ) throw ERRORS.APP_ID_NOT_FOUND;
+
                 applicationList[application.id] = application;
             } );
             return {
@@ -32,9 +32,7 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case `${TYPES.INSTALL_APP}_PENDING`: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
             app.isInstalling = true;
             app.progress = payload.progress || 0;
             return {
@@ -47,9 +45,8 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case `${TYPES.INSTALL_APP}_SUCCESS`: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             if ( !app.isInstalling ) {
                 return state;
             }
@@ -65,9 +62,8 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case `${TYPES.INSTALL_APP}_FAILURE`: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             if ( !app.isInstalling ) {
                 return state;
             }
@@ -84,9 +80,8 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case TYPES.CANCEL_APP_INSTALLATION: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             if ( !app.isInstalling ) {
                 return state;
             }
@@ -102,9 +97,8 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case TYPES.PAUSE_APP_INSTALLATION: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             if ( !app.isInstalling ) {
                 return state;
             }
@@ -119,9 +113,8 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case TYPES.RETRY_APP_INSTALLATION: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             if ( app.isInstalling ) {
                 return state;
             }
@@ -136,9 +129,8 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case `${TYPES.UNINSTALL_APP}_PENDING`: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             app.isUninstalling = true;
             return {
                 ...state,
@@ -150,9 +142,8 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case `${TYPES.UNINSTALL_APP}_SUCCESS`: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             app.isUninstalling = false;
             return {
                 ...state,
@@ -163,10 +154,22 @@ export function appManager( state = initialState, action ): AppManagerState {
             };
         }
 
+        case `${TYPES.CHECK_APP_HAS_UPDATE}`: {
+            if ( !app ) return state;
+
+            app.hasUpdate = payload.hasUpdate;
+            return {
+                ...state,
+                applicationList: {
+                    ...applicationList,
+                    [payload.appId]: { ...app }
+                }
+            };
+        }
+
         case `${TYPES.UPDATE_APP}_PENDING`: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             app.isUpdating = true;
             app.progress = payload.progress || 0;
             return {
@@ -179,19 +182,23 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case `${TYPES.UPDATE_APP}_SUCCESS`: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             app.isUpdating = false;
+            app.hasUpdate = false;
             app.progress = 100;
-            applicationList[payload.appId] = { ...app };
-            return { ...state, applicationList };
+            return {
+                ...state,
+                applicationList: {
+                    ...applicationList,
+                    [payload.appId]: { ...app }
+                }
+            };
         }
 
         case `${TYPES.UPDATE_APP}_FAILURE`: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             app.isUpdating = false;
             app.progress = 0;
             app.error = payload.error;
@@ -205,12 +212,11 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case TYPES.SKIP_APP_UPDATE: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
-            if ( !payload.version ) {
-                throw new Error( 'Skip version not found' );
-            }
+            if ( !app ) return state;
+
+            if ( !payload.version ) throw ERRORS.VERSION_NOT_FOUND;
+
+            app.hasUpdate = false;
             app.lastSkippedVersion = payload.version;
             return {
                 ...state,
@@ -222,9 +228,8 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case TYPES.RESET_APP_STATE: {
-            if ( !app ) {
-                throw new Error( 'Application not found' );
-            }
+            if ( !app ) return state;
+
             app.isInstalling = false;
             app.isUninstalling = false;
             app.isUpdating = false;
