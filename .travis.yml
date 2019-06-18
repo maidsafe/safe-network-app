@@ -88,6 +88,6 @@ script:
   # - yarn package-ci
   - yarn lint
   - yarn check-types
-  # - yarn test;
+  - yarn test
   # - yarn build-e2e
   # - travis_retry yarn test-e2e
