@@ -19,15 +19,14 @@ export function appManager( state = initialState, action ): AppManagerState {
 
     switch ( action.type ) {
         case `${TYPES.FETCH_APPS}_SUCCESS`: {
-            applicationList = {};
+            const newApplicationList = {};
             payload.applicationList.forEach( ( application ) => {
                 if ( !application.id ) throw ERRORS.APP_ID_NOT_FOUND;
-
-                applicationList[application.id] = application;
+                newApplicationList[application.id] = { ...application };
             } );
             return {
                 ...state,
-                applicationList: { ...applicationList }
+                applicationList: newApplicationList
             };
         }
 
@@ -35,136 +34,61 @@ export function appManager( state = initialState, action ): AppManagerState {
             if ( !app ) return state;
             app.isInstalling = true;
             app.progress = payload.progress || 0;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case `${TYPES.INSTALL_APP}_SUCCESS`: {
-            if ( !app ) return state;
-
-            if ( !app.isInstalling ) {
-                return state;
-            }
+            if ( !app || !app.isInstalling ) return state;
             app.isInstalling = false;
             app.progress = 100;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case `${TYPES.INSTALL_APP}_FAILURE`: {
-            if ( !app ) return state;
-
-            if ( !app.isInstalling ) {
-                return state;
-            }
+            if ( !app || !app.isInstalling ) return state;
             app.isInstalling = false;
             app.progress = 0;
             app.error = payload.error;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case TYPES.CANCEL_APP_INSTALLATION: {
-            if ( !app ) return state;
-
-            if ( !app.isInstalling ) {
-                return state;
-            }
+            if ( !app || !app.isInstalling ) return state;
             app.isInstalling = false;
             app.progress = 0;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case TYPES.PAUSE_APP_INSTALLATION: {
-            if ( !app ) return state;
+            if ( !app || !app.isInstalling ) return state;
 
-            if ( !app.isInstalling ) {
-                return state;
-            }
             app.isInstalling = false;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case TYPES.RETRY_APP_INSTALLATION: {
-            if ( !app ) return state;
-
-            if ( app.isInstalling ) {
-                return state;
-            }
+            if ( !app || app.isInstalling ) return state;
             app.isInstalling = true;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case `${TYPES.UNINSTALL_APP}_PENDING`: {
             if ( !app ) return state;
-
             app.isUninstalling = true;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case `${TYPES.UNINSTALL_APP}_SUCCESS`: {
             if ( !app ) return state;
-
             app.isUninstalling = false;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case `${TYPES.CHECK_APP_HAS_UPDATE}`: {
             if ( !app ) return state;
 
             app.hasUpdate = payload.hasUpdate;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case `${TYPES.UPDATE_APP}_PENDING`: {
@@ -172,13 +96,7 @@ export function appManager( state = initialState, action ): AppManagerState {
 
             app.isUpdating = true;
             app.progress = payload.progress || 0;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case `${TYPES.UPDATE_APP}_SUCCESS`: {
@@ -187,13 +105,7 @@ export function appManager( state = initialState, action ): AppManagerState {
             app.isUpdating = false;
             app.hasUpdate = false;
             app.progress = 100;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case `${TYPES.UPDATE_APP}_FAILURE`: {
@@ -202,13 +114,7 @@ export function appManager( state = initialState, action ): AppManagerState {
             app.isUpdating = false;
             app.progress = 0;
             app.error = payload.error;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case TYPES.SKIP_APP_UPDATE: {
@@ -218,13 +124,7 @@ export function appManager( state = initialState, action ): AppManagerState {
 
             app.hasUpdate = false;
             app.lastSkippedVersion = payload.version;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         case TYPES.RESET_APP_STATE: {
@@ -235,16 +135,15 @@ export function appManager( state = initialState, action ): AppManagerState {
             app.isUpdating = false;
             app.progress = null;
             app.error = null;
-            return {
-                ...state,
-                applicationList: {
-                    ...applicationList,
-                    [payload.appId]: { ...app }
-                }
-            };
+            break;
         }
 
         default:
             return state;
     }
+    applicationList[app.id] = { ...app };
+    return {
+        ...state,
+        applicationList
+    };
 }

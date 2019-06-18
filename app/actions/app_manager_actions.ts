@@ -81,9 +81,9 @@ export const skipAppUpdate = createAliasedAction(
 );
 
 export const updateLaunchpadApp = () => {
-    updateApp( LAUNCHPAD_APP_ID );
+    return updateApp( LAUNCHPAD_APP_ID );
 };
 
 export const skipLaunchpadAppUpdate = () => {
-    skipAppUpdate( LAUNCHPAD_APP_ID );
+    return skipAppUpdate( LAUNCHPAD_APP_ID );
 };
