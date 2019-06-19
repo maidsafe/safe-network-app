@@ -26,36 +26,36 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
         }
 
         case TYPES.SET_USER_PREFERENCES: {
-            const userPreferences: UserPreferences = {
+            const newUserPreferences: UserPreferences = {
                 ...state.userPreferences,
                 ...payload.userPreferences
             };
             if (
-                Object.keys( userPreferences ).length !==
+                Object.keys( newUserPreferences ).length !==
                 Object.keys( initialState.userPreferences ).length
             )
                 throw ERRORS.INVALID_PROP;
 
-            return { ...state, userPreferences: { ...userPreferences } };
+            return { ...state, userPreferences: newUserPreferences };
         }
 
         case TYPES.PUSH_NOTIFICATION: {
-            const notifications = { ...state.notifications };
-            if ( !payload.notification.id )
+            const newNotifications = { ...state.notifications };
+            if ( !payload.notification || !payload.notification.id )
                 throw ERRORS.NOTIFICATION_ID_NOT_FOUND;
 
-            notifications[payload.notification.id] = {
+            newNotifications[payload.notification.id] = {
                 ...payload.notification
             };
-            return { ...state, notifications: { ...notifications } };
+            return { ...state, notifications: newNotifications };
         }
 
         case TYPES.DISMISS_NOTIFICATION: {
-            const notifications = { ...state.notifications };
+            const newNotifications = { ...state.notifications };
             if ( !payload.notificationId ) throw ERRORS.NOTIFICATION_ID_NOT_FOUND;
 
-            delete notifications[payload.notificationId];
-            return { ...state, notifications: { ...notifications } };
+            delete newNotifications[payload.notificationId];
+            return { ...state, notifications: newNotifications };
         }
 
         default:
