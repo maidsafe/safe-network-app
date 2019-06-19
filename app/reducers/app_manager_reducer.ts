@@ -7,143 +7,142 @@ export const initialState: AppManagerState = {
     applicationList: {}
 };
 
+const setApplicationList = ( state, applicationList ) => {
+    const newApplicationList = {};
+    applicationList.forEach( ( app ) => {
+        if ( !app.id ) throw ERRORS.APP_ID_NOT_FOUND;
+        newApplicationList[app.id] = { ...app };
+    } );
+    return {
+        ...state,
+        applicationList: newApplicationList
+    };
+};
+
+const updateAppInApplicationList = ( state, targetApp ) => {
+    const updatedState = {
+        ...state,
+        applicationList: { ...state.applicationList }
+    };
+
+    updatedState.applicationList[targetApp.id] = targetApp;
+    return updatedState;
+};
+
 export function appManager( state = initialState, action ): AppManagerState {
     const { payload } = action;
 
-    let applicationList;
-    let app;
+    let targetApp;
     if ( payload && payload.appId ) {
-        applicationList = { ...state.applicationList };
-        app = { ...applicationList[payload.appId] };
+        targetApp = { ...state.applicationList[payload.appId] };
     }
 
     switch ( action.type ) {
         case `${TYPES.FETCH_APPS}_SUCCESS`: {
-            const newApplicationList = {};
-            payload.applicationList.forEach( ( application ) => {
-                if ( !application.id ) throw ERRORS.APP_ID_NOT_FOUND;
-                newApplicationList[application.id] = { ...application };
-            } );
-            return {
-                ...state,
-                applicationList: newApplicationList
-            };
+            return setApplicationList( state, payload.applicationList );
         }
 
         case `${TYPES.INSTALL_APP}_PENDING`: {
-            if ( !app ) return state;
-            app.isInstalling = true;
-            app.progress = payload.progress || 0;
-            break;
+            if ( !targetApp ) return state;
+            targetApp.isInstalling = true;
+            targetApp.progress = payload.progress || 0;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case `${TYPES.INSTALL_APP}_SUCCESS`: {
-            if ( !app || !app.isInstalling ) return state;
-            app.isInstalling = false;
-            app.progress = 100;
-            break;
+            if ( !targetApp || !targetApp.isInstalling ) return state;
+            targetApp.isInstalling = false;
+            targetApp.progress = 100;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case `${TYPES.INSTALL_APP}_FAILURE`: {
-            if ( !app || !app.isInstalling ) return state;
-            app.isInstalling = false;
-            app.progress = 0;
-            app.error = payload.error;
-            break;
+            if ( !targetApp || !targetApp.isInstalling ) return state;
+            targetApp.isInstalling = false;
+            targetApp.progress = 0;
+            targetApp.error = payload.error;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case TYPES.CANCEL_APP_INSTALLATION: {
-            if ( !app || !app.isInstalling ) return state;
-            app.isInstalling = false;
-            app.progress = 0;
-            break;
+            if ( !targetApp || !targetApp.isInstalling ) return state;
+            targetApp.isInstalling = false;
+            targetApp.progress = 0;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case TYPES.PAUSE_APP_INSTALLATION: {
-            if ( !app || !app.isInstalling ) return state;
-
-            app.isInstalling = false;
-            break;
+            if ( !targetApp || !targetApp.isInstalling ) return state;
+            targetApp.isInstalling = false;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case TYPES.RETRY_APP_INSTALLATION: {
-            if ( !app || app.isInstalling ) return state;
-            app.isInstalling = true;
-            break;
+            if ( !targetApp || targetApp.isInstalling ) return state;
+            targetApp.isInstalling = true;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case `${TYPES.UNINSTALL_APP}_PENDING`: {
-            if ( !app ) return state;
-            app.isUninstalling = true;
-            break;
+            if ( !targetApp ) return state;
+            targetApp.isUninstalling = true;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case `${TYPES.UNINSTALL_APP}_SUCCESS`: {
-            if ( !app ) return state;
-            app.isUninstalling = false;
-            break;
+            if ( !targetApp ) return state;
+            targetApp.isUninstalling = false;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case `${TYPES.CHECK_APP_HAS_UPDATE}`: {
-            if ( !app ) return state;
-
-            app.hasUpdate = payload.hasUpdate;
-            break;
+            if ( !targetApp ) return state;
+            targetApp.hasUpdate = payload.hasUpdate;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case `${TYPES.UPDATE_APP}_PENDING`: {
-            if ( !app ) return state;
-
-            app.isUpdating = true;
-            app.progress = payload.progress || 0;
-            break;
+            if ( !targetApp ) return state;
+            targetApp.isUpdating = true;
+            targetApp.progress = payload.progress || 0;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case `${TYPES.UPDATE_APP}_SUCCESS`: {
-            if ( !app ) return state;
-
-            app.isUpdating = false;
-            app.hasUpdate = false;
-            app.progress = 100;
-            break;
+            if ( !targetApp ) return state;
+            targetApp.isUpdating = false;
+            targetApp.hasUpdate = false;
+            targetApp.progress = 100;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case `${TYPES.UPDATE_APP}_FAILURE`: {
-            if ( !app ) return state;
-
-            app.isUpdating = false;
-            app.progress = 0;
-            app.error = payload.error;
-            break;
+            if ( !targetApp ) return state;
+            targetApp.isUpdating = false;
+            targetApp.progress = 0;
+            targetApp.error = payload.error;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case TYPES.SKIP_APP_UPDATE: {
-            if ( !app ) return state;
-
+            if ( !targetApp ) return state;
             if ( !payload.version ) throw ERRORS.VERSION_NOT_FOUND;
-
-            app.hasUpdate = false;
-            app.lastSkippedVersion = payload.version;
-            break;
+            targetApp.hasUpdate = false;
+            targetApp.lastSkippedVersion = payload.version;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         case TYPES.RESET_APP_STATE: {
-            if ( !app ) return state;
-
-            app.isInstalling = false;
-            app.isUninstalling = false;
-            app.isUpdating = false;
-            app.progress = null;
-            app.error = null;
-            break;
+            if ( !targetApp ) return state;
+            targetApp.isInstalling = false;
+            targetApp.isUninstalling = false;
+            targetApp.isUpdating = false;
+            targetApp.progress = null;
+            targetApp.error = null;
+            return updateAppInApplicationList( state, targetApp );
         }
 
         default:
             return state;
     }
-    applicationList[app.id] = { ...app };
-    return {
-        ...state,
-        applicationList
-    };
 }
