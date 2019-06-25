@@ -5149,6 +5149,11 @@ electron-chromedriver@~3.0.0:
     electron-download "^4.1.0"
     extract-zip "^1.6.5"
 
+electron-db@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/electron-db/-/electron-db-0.15.1.tgz#44ba13d4f65d5d3404bffd7ec9a278a19cb4047e"
+  integrity sha512-xzxpRdr7xpPurWFVAiuObzxhh+l+nFO3tGW+RpKDjxDlqV1USe3lylnTkC+bz+XTPQQvMlovKMUMY0vV89q9fw==
+
 electron-debug@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/electron-debug/-/electron-debug-2.1.0.tgz#8a926a37a7b2db77d35063ba1362c05e0fb78bda"

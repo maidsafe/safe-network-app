@@ -1,6 +1,7 @@
 import { createActions } from 'redux-actions';
 import { createAliasedAction } from 'electron-redux';
 
+import { userPreferenceDatabase } from './helpers/user_preferences_db';
 import { UserPreferences } from '../definitions/application.d';
 
 export const TYPES = {
@@ -17,9 +18,35 @@ export const mockPromise = ( data = null ) =>
         }, 1000 );
     } );
 
-const fetchUserPreferencesLocally = () => mockPromise();
+const fetchUserPreferencesLocally = () =>
+    new Promise( async ( resolve, reject ) => {
+        try {
+            let [userPreferences] = await userPreferenceDatabase.getAll();
+
+            if ( !userPreferences ) {
+                await userPreferenceDatabase.setup();
+                [userPreferences] = await userPreferenceDatabase.getAll();
+            }
+            delete userPreferences.id;
+            return resolve( userPreferences );
+        } catch ( error ) {
+            return reject( error );
+        }
+    } );
+
 const storeUserPreferencesLocally = ( userPreferences: UserPreferences ) =>
-    mockPromise( userPreferences );
+    new Promise( async ( resolve, reject ) => {
+        try {
+            if ( !userPreferenceDatabase.canUpdate() ) {
+                await userPreferenceDatabase.init();
+            }
+            await userPreferenceDatabase.updatePreferences( userPreferences );
+            return resolve();
+        } catch ( error ) {
+            return reject( error );
+        }
+    } );
+
 const checkOnBoardingCompleted = () => mockPromise( true );
 
 export const enableAutoLaunch = () => {};

@@ -275,6 +275,7 @@
     "del": "4.1.0",
     "devtron": "^1.4.0",
     "dmg": "0.1.0",
+    "electron-db": "^0.15.1",
     "electron-debug": "^2.1.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-dl": "1.13.0",
