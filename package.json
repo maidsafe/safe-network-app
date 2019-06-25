@@ -268,6 +268,7 @@
   },
   "dependencies": {
     "@material-ui/core": "3.9.3",
+    "auto-launch": "^5.0.5",
     "chalk": "^2.4.2",
     "connected-react-router": "^6.3.2",
     "core-js": "3.0.0",

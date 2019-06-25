@@ -1,5 +1,8 @@
+import { ipcRenderer } from 'electron';
 import { createActions } from 'redux-actions';
 import { createAliasedAction } from 'electron-redux';
+import AutoLaunch from 'auto-launch';
+import pkg from '$Package';
 
 import { userPreferenceDatabase } from './helpers/user_preferences_db';
 import { UserPreferences } from '../definitions/application.d';
@@ -49,9 +52,34 @@ const storeUserPreferencesLocally = ( userPreferences: UserPreferences ) =>
 
 const checkOnBoardingCompleted = () => mockPromise( true );
 
-export const enableAutoLaunch = () => {};
-export const pinLaunchpadToMenu = () => {};
-export const releaseLaunchpadFromMenu = () => {};
+export const launchOnLogin = ( enable ) => {
+    return new Promise( async ( resolve, reject ) => {
+        const launchpadAutoLaunch = new AutoLaunch( {
+            name: pkg.name
+        } );
+        if ( enable ) {
+            launchpadAutoLaunch.enable();
+            return resolve();
+        }
+        try {
+            const isEnabled = launchpadAutoLaunch.isEnabled();
+            if ( isEnabled ) {
+                launchpadAutoLaunch.disable();
+            }
+            return resolve();
+        } catch ( error ) {
+            return reject( error );
+        }
+    } );
+};
+
+export const pinLaunchpadToMenu = () => {
+    ipcRenderer.send( 'pinToMenuBar' );
+};
+
+export const releaseLaunchpadFromMenu = () => {
+    ipcRenderer.send( 'releaseFromMenuBar' );
+};
 
 export const {
     pushNotification,
