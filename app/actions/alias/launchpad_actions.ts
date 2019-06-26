@@ -1,4 +1,5 @@
 import { createAliasedAction } from 'electron-redux';
+import { ipcRenderer } from 'electron';
 
 import { UserPreferences } from '$Definitions/application.d';
 import {
@@ -12,7 +13,9 @@ export const TYPES = {
     ALIAS_SHOULD_ONBOARD: 'ALIAS_SHOULD_ONBOARD',
     ALIAS_STORE_USER_PREFERENCES: 'ALIAS_STORE_USER_PREFERENCES',
     ALIAS_AUTO_LAUNCH: 'ALIAS_AUTO_LAUNCH',
-    ALIAS_PIN_TO_TRAY: 'ALIAS_PIN_TO_TRAY'
+    ALIAS_PIN_TO_TRAY: 'ALIAS_PIN_TO_TRAY',
+    ALIAS_TO_SET_STANDARD_WINDOW_VISIBILITY:
+        'ALIAS_TO_SET_STANDARD_WINDOW_VISIBILITY'
 };
 
 export const storeUserPreferences = createAliasedAction(
@@ -46,5 +49,15 @@ export const pinToTray = createAliasedAction(
     ( enable ) => ( {
         type: TYPES.ALIAS_PIN_TO_TRAY,
         payload: pinLaunchpadToTray( enable )
+    } )
+);
+
+export const triggerSetStandardWindowVisibility = createAliasedAction(
+    TYPES.ALIAS_TO_SET_STANDARD_WINDOW_VISIBILITY,
+    ( isVisible: boolean ) => ( {
+        type: TYPES.ALIAS_TO_SET_STANDARD_WINDOW_VISIBILITY,
+        payload: ( () => {
+            ipcRenderer.send( 'set-standard-window-visibility', isVisible );
+        } )()
     } )
 );

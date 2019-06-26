@@ -39,6 +39,10 @@ export function appManager( state = initialState, action ): AppManagerState {
     }
 
     switch ( action.type ) {
+        case `${TYPES.SET_APPS}`: {
+            return setApplicationList( state, payload.applicationList );
+        }
+
         case TYPES.RESET_APP_STATE: {
             if ( !targetApp ) return state;
             targetApp.isInstalling = false;
@@ -66,10 +70,6 @@ export function appManager( state = initialState, action ): AppManagerState {
             if ( !targetApp || targetApp.isInstalling ) return state;
             targetApp.isInstalling = true;
             return updateAppInApplicationList( state, targetApp );
-        }
-
-        case `${ALIAS_TYPES.ALIAS_FETCH_APPS}_SUCCESS`: {
-            return setApplicationList( state, payload.applicationList );
         }
 
         case `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`: {

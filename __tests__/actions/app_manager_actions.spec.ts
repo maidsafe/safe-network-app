@@ -5,6 +5,11 @@ describe( 'Application Manager actions', () => {
     it( 'should have types', () => {
         expect( appManager.TYPES ).toBeDefined();
     } );
+    
+    it( 'should set applications', () => {
+        expect( appManager.setApps ).toBeDefined();
+        expect( appManager.setApps().type ).toEqual( appManager.TYPES.SET_APPS );
+    } );
 
     it( 'should cancel application installation', () => {
         const payload = {

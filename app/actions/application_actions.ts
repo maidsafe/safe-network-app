@@ -1,4 +1,5 @@
 import { createActions } from 'redux-actions';
+import { Store } from 'redux';
 
 export const TYPES = {
     ADD_APPLICATION: 'ADD_APPLICATION',
@@ -9,6 +10,13 @@ export const TYPES = {
     SET_NEXT_VERSION: 'SET_NEXT_VERSION',
     UNINSTALL_APPLICATION: 'UNINSTALL_APPLICATION',
     UPDATE_INSTALL_PROGRESS: 'UPDATE_INSTALL_PROGRESS'
+};
+
+let currentStore: Store;
+
+export const getCurrentStore = () => currentStore;
+export const setCurrentStore = ( passedStore: Store ): void => {
+    currentStore = passedStore;
 };
 
 export const {

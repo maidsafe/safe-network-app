@@ -1,4 +1,5 @@
 import { BrowserWindow } from 'electron';
+import { Router } from 'react-router';
 
 export namespace Application {
     export interface Window extends BrowserWindow {
@@ -9,6 +10,7 @@ export namespace Application {
 }
 
 export interface ManagedApplication {
+    id: string;
     name: string;
     packageName: string;
     type: 'userApplications' | 'developmentApplications';
@@ -16,6 +18,12 @@ export interface ManagedApplication {
     latestVersion?: string;
     isOpen?: boolean;
     progress?: number;
+    isInstalling?: boolean;
+    isUpdating?: boolean;
+    isUninstalling?: boolean;
+    hasUpdate?: boolean;
+    lastSkippedVersion?: string;
+    error?: Error | null;
 }
 
 export interface ApplicationsState {
@@ -48,24 +56,38 @@ export interface UserPreferences {
     warnOnAccessingClearnet: boolean;
 }
 
+export type AppType = 'userApplications' | 'developmentApplications';
+
 export interface App {
     id: string;
     name: string;
-    isInstalling: boolean;
-    isUpdating: boolean;
-    isUninstalling: boolean;
-    hasUpdate: boolean;
-    progress: number;
-    lastSkippedVersion: string;
-    error: Error | null;
+    packageName: string;
+    type: AppType;
+    repository: string;
+    latestVersion?: string;
+    isOpen?: boolean;
+    progress?: number;
+    isInstalling?: boolean;
+    isUpdating?: boolean;
+    isUninstalling?: boolean;
+    hasUpdate?: boolean;
+    lastSkippedVersion?: string;
+    error?: Error | null;
 }
 
 export interface LaunchpadState {
     shouldOnboard: boolean;
     userPreferences: UserPreferences;
     notifications: { [s: string]: Notification };
+    standardWindowIsVisible: boolean;
 }
 
 export interface AppManagerState {
     applicationList: { [appId: string]: App };
+}
+
+export interface AppState {
+    appManager: AppManagerState;
+    launchpad: LaunchpadState;
+    router: Router;
 }

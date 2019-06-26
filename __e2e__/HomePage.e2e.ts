@@ -22,3 +22,8 @@ test(
     "should haven't any logs in console of main window",
     assertNoConsoleErrors
 );
+
+// TODO: initial existence assertion failing
+// test( 'clicking on window-switch button hides BrowserWindow', async ( t ) => {
+//     await t.expect( ReactSelector('HomePage').exists ).ok( );
+// } );

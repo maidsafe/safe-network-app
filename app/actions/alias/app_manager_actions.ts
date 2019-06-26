@@ -1,8 +1,12 @@
 import { createAliasedAction } from 'electron-redux';
 import { LAUNCHPAD_APP_ID } from '$Constants/index';
+import { setApps } from '$Actions/app_manager_actions';
+import { getCurrentStore } from '$Actions/application_actions';
+import { mockPromise } from '$Actions/helpers/launchpad';
+import appData from '../../managedApplications.json';
+
 
 import {
-    fetchAppsFromGithub,
     installApplicationById,
     uninstallApplicationById,
     checkForApplicationUpdateById,
@@ -19,9 +23,21 @@ export const TYPES = {
     ALIAS_SKIP_APP_UPDATE: 'ALIAS_SKIP_APP_UPDATE'
 };
 
+const fetchAppsFromGithub = async ( data ): Promise<void> => {
+    try {
+        const store = getCurrentStore();
+        const response = await mockPromise( data );
+        store.dispatch( setApps( response ) );
+    } catch ( error ) {
+        console.error( error );
+    }
+};
+
 export const fetchApps = createAliasedAction( TYPES.ALIAS_FETCH_APPS, () => ( {
     type: TYPES.ALIAS_FETCH_APPS,
-    payload: fetchAppsFromGithub()
+    payload: fetchAppsFromGithub( {
+        applicationList: Object.values( appData.applications )
+    } )
 } ) );
 
 export const installApp = createAliasedAction(

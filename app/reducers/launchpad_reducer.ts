@@ -6,7 +6,8 @@ import { ERRORS, defaultPreferences } from '$Constants/index';
 export const initialState: LaunchpadState = {
     shouldOnboard: false,
     userPreferences: { ...defaultPreferences },
-    notifications: {}
+    notifications: {},
+    standardWindowIsVisible: true
 };
 
 export function launchpadReducer( state = initialState, action ): LaunchpadState {
@@ -52,6 +53,10 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
                 throw ERRORS.INVALID_TYPE;
 
             return { ...state, shouldOnboard: payload.shouldOnboard };
+        }
+
+        case TYPES.SET_STANDARD_WINDOW_VISIBILITY: {
+            return { ...state, standardWindowIsVisible: payload };
         }
 
         default:

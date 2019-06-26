@@ -47,4 +47,17 @@ describe( 'Launchpad actions', () => {
         };
         expect( launchpad.setUserPreferences( payload ) ).toEqual( expectAction );
     } );
+
+    it( 'should create action to indicate window visibility', () => {
+        const payload = {
+            isVisible: true
+        };
+        const expectAction = {
+            type: launchpad.TYPES.SET_STANDARD_WINDOW_VISIBILITY,
+            payload
+        };
+        expect( launchpad.setStandardWindowVisibility( payload ) ).toEqual(
+            expectAction
+        );
+    } );
 } );
