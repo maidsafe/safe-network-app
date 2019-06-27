@@ -84,8 +84,8 @@ export const createTray = (): void => {
 
 export const createSafeLaunchPadWindow = (): Application.Window => {
     safeLaunchPadWindow = new BrowserWindow( {
-        width: 300,
-        height: 450,
+        width: 320,
+        height: 600,
         show: false,
         frame: false,
         fullscreenable: false,

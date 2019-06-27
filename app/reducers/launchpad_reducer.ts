@@ -28,7 +28,7 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
         case TYPES.SET_USER_PREFERENCES: {
             const newUserPreferences: UserPreferences = {
                 ...state.userPreferences,
-                ...payload.userPreferences
+                ...payload
             };
             if (
                 Object.keys( newUserPreferences ).length !==

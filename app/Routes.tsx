@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router';
 
 import { HOME } from './constants/routes.json';
 import { App } from './containers/App';
-import { HomePage } from './containers/HomePage';
+import { SettingsPage } from './containers/Settings';
 
 export const Routes = () => (
     <App>
@@ -11,7 +11,7 @@ export const Routes = () => (
             {
                 // Homepage displays the overview (for now)
             }
-            <Route path={HOME} component={HomePage} />
+            <Route path="/" component={SettingsPage} />
         </Switch>
     </App>
 );

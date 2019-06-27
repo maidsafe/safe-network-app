@@ -38,3 +38,9 @@ export const databaseCallBackHandler = ( resolve, reject ) => {
         return success ? resolve( data ) : reject( data );
     };
 };
+
+export const camelToTitle = ( camelCase ) =>
+    camelCase
+        .replace( /([A-Z])/g, ( match ) => ` ${match}` )
+        .replace( /^./, ( match ) => match.toUpperCase() )
+        .trim();
