@@ -1,5 +1,5 @@
 import { launchpadReducer, initialState } from '$Reducers/launchpad_reducer';
-import { TYPES } from '$Actions/launcher_actions';
+import { TYPES } from '$App/actions/launchpad_actions';
 import { generateRandomString } from '$Utils/app_utils';
 import { ERRORS } from '$App/constants';
 

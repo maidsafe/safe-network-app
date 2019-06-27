@@ -10,6 +10,8 @@ body {
     height: 100vh;
     font-family: Arial, Helvetica, Helvetica Neue, serif;
     overflow-y: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 h2 {

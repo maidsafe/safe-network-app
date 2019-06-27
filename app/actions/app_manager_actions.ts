@@ -1,6 +1,6 @@
 import { createActions } from 'redux-actions';
 import { createAliasedAction } from 'electron-redux';
-import { mockPromise } from './launcher_actions';
+import { mockPromise } from './launchpad_actions';
 import { LAUNCHPAD_APP_ID } from '$Constants/index';
 
 export const TYPES = {

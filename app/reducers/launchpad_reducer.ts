@@ -1,4 +1,4 @@
-import { TYPES } from '$Actions/launcher_actions';
+import { TYPES } from '$App/actions/launchpad_actions';
 import { LaunchpadState, UserPreferences } from '../definitions/application.d';
 import { ERRORS } from '$Constants/index';
 

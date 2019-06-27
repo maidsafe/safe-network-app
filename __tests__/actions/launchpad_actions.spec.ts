@@ -1,4 +1,4 @@
-import * as launchpad from '$Actions/launcher_actions';
+import * as launchpad from '$App/actions/launchpad_actions';
 import { generateRandomString } from '$Utils/app_utils';
 
 describe( 'Launchpad actions', () => {

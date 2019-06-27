@@ -5,6 +5,12 @@ import { PreferenceItem } from './PreferenceItem';
 
 import { UserPreferences } from '$Definitions/application.d';
 import { generateRandomString } from '$Utils/app_utils';
+import {
+    launchOnLogin,
+    pinLaunchpadToMenu,
+    releaseLaunchpadFromMenu,
+    storeUserPreferences
+} from '$App/actions/launchpad_actions';
 
 interface Props {
     userPreferences: UserPreferences;
@@ -23,8 +29,38 @@ export class Preferences extends Component<Props> {
         ]
     };
 
+    public static changeCompleted( userPreferences ) {
+        // Enable or disable auto launch
+        launchOnLogin( userPreferences.launchOnStart );
+
+        // switch between standard or tray window
+        if ( userPreferences.pinToMenuBar ) {
+            pinLaunchpadToMenu();
+        } else {
+            releaseLaunchpadFromMenu();
+        }
+
+        // Save user preference
+        storeUserPreferences( userPreferences );
+    }
+
     private handleChange = ( name: string, changedStatus: boolean ) => {
         const { userPreferences, onChange } = this.props;
+        switch ( name ) {
+            case 'pinToMenuBar':
+                if ( changedStatus ) {
+                    pinLaunchpadToMenu();
+                } else {
+                    releaseLaunchpadFromMenu();
+                }
+                break;
+            case 'launchOnStart':
+                launchOnLogin( changedStatus );
+                break;
+            default:
+                break;
+        }
+
         userPreferences[name] = changedStatus;
         onChange( userPreferences );
     };

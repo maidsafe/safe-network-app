@@ -53,22 +53,25 @@ const storeUserPreferencesLocally = ( userPreferences: UserPreferences ) =>
 const checkOnBoardingCompleted = () => mockPromise( true );
 
 export const launchOnLogin = ( enable ) => {
-    return new Promise( async ( resolve, reject ) => {
-        const launchpadAutoLaunch = new AutoLaunch( {
-            name: pkg.name
-        } );
-        if ( enable ) {
-            launchpadAutoLaunch.enable();
-            return resolve();
-        }
+    return new Promise( async ( resolve ) => {
         try {
-            const isEnabled = launchpadAutoLaunch.isEnabled();
+            const launchpadAutoLaunch = new AutoLaunch( {
+                name: pkg.name
+            } );
+            const isEnabled = await launchpadAutoLaunch.isEnabled();
+            if ( !isEnabled && enable ) {
+                await launchpadAutoLaunch.enable();
+                return resolve();
+            }
+
             if ( isEnabled ) {
-                launchpadAutoLaunch.disable();
+                await launchpadAutoLaunch.disable();
             }
             return resolve();
         } catch ( error ) {
-            return reject( error );
+            // TODO: Show error notification
+            console.log( 'Unable to process the request', error );
+            return resolve();
         }
     } );
 };

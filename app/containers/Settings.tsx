@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Settings } from '$Components/Settings';
 
-import { setUserPreferences } from '$Actions/launcher_actions';
+import { setUserPreferences } from '$App/actions/launchpad_actions';
 
 const mapStateToProperties = ( state ) => {
     return {
