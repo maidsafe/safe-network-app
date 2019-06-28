@@ -11,6 +11,7 @@ import { camelToTitle } from '$Utils/app_utils';
 interface Props {
     name: string;
     status: boolean;
+    disabled: boolean;
     onChange: Function;
 }
 
@@ -29,7 +30,7 @@ const CustomSwitch = withStyles( {
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const PreferenceItem = ( props: Props ) => {
-    const { name, status, onChange } = props;
+    const { name, status, disabled, onChange } = props;
     return (
         <ListItem divider>
             <ListItemText primary={camelToTitle( name )} />
@@ -40,6 +41,7 @@ export const PreferenceItem = ( props: Props ) => {
                         onChange( name, !status );
                     }}
                     checked={status}
+                    disabled={disabled}
                 />
             </ListItemSecondaryAction>
         </ListItem>

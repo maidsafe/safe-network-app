@@ -42,9 +42,7 @@ describe( 'launchpad reducer', () => {
             };
             const nextStore = launchpadReducer( undefined, {
                 type: TYPES.SET_USER_PREFERENCES,
-                payload: {
-                    userPreferences: { ...userPreferences }
-                }
+                payload: { ...userPreferences }
             } );
             expect( nextStore.userPreferences.autoUpdate ).toEqual(
                 userPreferences.autoUpdate
@@ -74,9 +72,7 @@ describe( 'launchpad reducer', () => {
             expect( () =>
                 launchpadReducer( undefined, {
                     type: TYPES.SET_USER_PREFERENCES,
-                    payload: {
-                        userPreferences: { ...userPreferences }
-                    }
+                    payload: { ...userPreferences }
                 } )
             ).toThrow( ERRORS.INVALID_PROP );
         } );

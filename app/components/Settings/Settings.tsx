@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { History } from 'history';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,6 +13,7 @@ import { UserPreferences } from '$Definitions/application.d';
 interface Props {
     userPreferences: UserPreferences;
     setUserPreferences: Function;
+    history: History;
 }
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
@@ -21,7 +23,7 @@ export class Settings extends Component<Props> {
     }
 
     render() {
-        const { userPreferences, setUserPreferences } = this.props;
+        const { userPreferences, setUserPreferences, history } = this.props;
         return (
             <Grid container>
                 <Box>
@@ -30,6 +32,9 @@ export class Settings extends Component<Props> {
                             edge="start"
                             color="inherit"
                             aria-label="Back"
+                            onClick={() => {
+                                history.push( '/' );
+                            }}
                         >
                             <ArrowBack fontSize="inherit" />
                         </IconButton>

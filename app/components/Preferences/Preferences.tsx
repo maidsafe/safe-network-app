@@ -15,18 +15,18 @@ import {
 interface Props {
     userPreferences: UserPreferences;
     onChange: Function;
-    items?: Array<string>;
+    requiredItems?: { [item: string]: boolean };
 }
 
 export class Preferences extends Component<Props> {
     static defaultProps = {
-        items: [
-            'autoUpdate',
-            'pinToMenuBar',
-            'launchOnStart',
-            'showDeveloperApps',
-            'warnOnAccessingClearnet'
-        ]
+        requiredItems: {
+            autoUpdate: true,
+            pinToMenuBar: true,
+            launchOnStart: true,
+            showDeveloperApps: true,
+            warnOnAccessingClearnet: true
+        }
     };
 
     public static changeCompleted( userPreferences ) {
@@ -66,18 +66,22 @@ export class Preferences extends Component<Props> {
     };
 
     render() {
-        const { userPreferences = {}, items } = this.props;
+        const { userPreferences = {}, requiredItems } = this.props;
+        const requiredItemArray = Object.keys( requiredItems );
 
         return (
             <List>
                 {Object.keys( userPreferences ).map( ( userPreference ) => {
-                    if ( !items.includes( userPreference ) ) return null;
+                    if ( !requiredItemArray.includes( userPreference ) )
+                        return null;
+
                     return (
                         <PreferenceItem
                             key={generateRandomString()}
                             name={userPreference}
                             status={userPreferences[userPreference]}
                             onChange={this.handleChange}
+                            disabled={!requiredItems[userPreference]}
                         />
                     );
                 } )}
