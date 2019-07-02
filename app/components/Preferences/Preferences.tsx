@@ -20,13 +20,15 @@ interface Props {
 
 export class Preferences extends Component<Props> {
     static defaultProps = {
+        userPreference: {},
         requiredItems: {
             autoUpdate: true,
             pinToMenuBar: true,
             launchOnStart: true,
             showDeveloperApps: true,
             warnOnAccessingClearnet: true
-        }
+        },
+        onChange: () => {}
     };
 
     public static changeCompleted( userPreferences ) {
@@ -62,15 +64,17 @@ export class Preferences extends Component<Props> {
         }
 
         userPreferences[name] = changedStatus;
-        onChange( userPreferences );
+        if ( typeof onChange === 'function' ) {
+            onChange( userPreferences );
+        }
     };
 
     render() {
-        const { userPreferences = {}, requiredItems } = this.props;
+        const { userPreferences, requiredItems } = this.props;
         const requiredItemArray = Object.keys( requiredItems );
 
         return (
-            <List>
+            <List aria-label="Preferences">
                 {Object.keys( userPreferences ).map( ( userPreference ) => {
                     if ( !requiredItemArray.includes( userPreference ) )
                         return null;
