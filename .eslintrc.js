@@ -12,7 +12,8 @@ module.exports = {
         'plugin:unicorn/recommended',
         'prettier',
         'prettier/react',
-        'prettier/@typescript-eslint'
+        'prettier/@typescript-eslint',
+        'plugin:testcafe/recommended'
     ],
     parserOptions: {
         ecmaFeatures: {
@@ -93,7 +94,14 @@ module.exports = {
             }
         }
     ],
-    plugins: ['@typescript-eslint', 'jest', 'promise', 'import', 'unicorn'],
+    plugins: [
+        '@typescript-eslint',
+        'jest',
+        'promise',
+        'import',
+        'unicorn',
+        'testcafe'
+    ],
     settings: {
         // 'import/ignore': '*config*.js',
         'import/core-modules': ['electron'],

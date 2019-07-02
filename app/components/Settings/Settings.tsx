@@ -13,7 +13,7 @@ import { UserPreferences } from '$Definitions/application.d';
 interface Props {
     userPreferences: UserPreferences;
     setUserPreferences: Function;
-    history: History;
+    history?: History;
 }
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
@@ -31,14 +31,14 @@ export class Settings extends Component<Props> {
                         <IconButton
                             edge="start"
                             color="inherit"
-                            aria-label="Back"
+                            aria-label="GoBack"
                             onClick={() => {
                                 history.push( '/' );
                             }}
                         >
                             <ArrowBack fontSize="inherit" />
                         </IconButton>
-                        <Typography>Settings</Typography>
+                        <Typography aria-label="title">Settings</Typography>
                     </Toolbar>
                 </Box>
                 <Grid item xs={12}>

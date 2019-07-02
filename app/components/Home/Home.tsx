@@ -18,7 +18,7 @@ export const Home = ( props ) => {
                         <IconButton
                             edge="end"
                             color="inherit"
-                            aria-label="Back"
+                            aria-label="Settings"
                             onClick={() => {
                                 history.push( 'settings' );
                             }}
@@ -28,7 +28,7 @@ export const Home = ( props ) => {
                         <IconButton
                             edge="end"
                             color="inherit"
-                            aria-label="Back"
+                            aria-label="OnBoarding"
                             onClick={() => {
                                 history.push( 'onBoarding' );
                             }}

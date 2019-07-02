@@ -4,3 +4,4 @@ import { ClientFunction } from 'testcafe';
 
 /* eslint no-undef: "off" */
 export const getPageUrl = ClientFunction( () => window.location.href );
+export const getPageTitle = ClientFunction( () => document.title );

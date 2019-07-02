@@ -1,0 +1,4 @@
+diff a/app/components/Preferences/Preferences.tsx b/app/components/Preferences/Preferences.tsx	(rejected hunks)
+@@ -67 +67 @@ export class Preferences extends Component<Props> {
+-        if (typeof onChange === 'function') {
++        if ( typeof onChange === 'function' ) {

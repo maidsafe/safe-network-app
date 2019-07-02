@@ -5767,7 +5767,8 @@ eslint-plugin-react@^7.12.4:
 
 eslint-plugin-testcafe@^0.2.1:
   version "0.2.1"
-  resolved "https://registry.npmjs.org/eslint-plugin-testcafe/-/eslint-plugin-testcafe-0.2.1.tgz#4089f646dadb69b1376a01d7e608184907e6036b"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-testcafe/-/eslint-plugin-testcafe-0.2.1.tgz#4089f646dadb69b1376a01d7e608184907e6036b"
+  integrity sha1-QIn2RtrbabE3agHX5ggYSQfmA2s=
 
 eslint-plugin-unicorn@8.0.0:
   version "8.0.0"
