@@ -8,9 +8,7 @@ import { camelToTitle } from '$Utils/app_utils';
 
 const shallow = createShallow();
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
 const shallowSetup = ( propOverrides? ) => {
-    // eslint-disable-next-line unicorn/prevent-abbreviations
     const props = Object.assign(
         {
             name: 'autoUpdate',
@@ -35,7 +33,7 @@ describe( 'Preferences Item', () => {
         expect( wrapper ).toMatchSnapshot();
     } );
 
-    it( 'convert camel-case text to title', () => {
+    it( 'render proper case for title', () => {
         const { wrapper, props } = shallowSetup();
         const convertedText = camelToTitle( props.name );
         expect( wrapper.childAt( 0 ).type() ).toEqual( ListItemText );

@@ -306,7 +306,8 @@
     "redux-thunk": "^2.3.0",
     "ref-array": "1.2.0",
     "ref-struct": "1.1.0",
-    "source-map-support": "^0.5.11"
+    "source-map-support": "^0.5.11",
+    "typeface-roboto": "^0.0.54"
   },
   "devEngines": {
     "node": ">=7.x",

@@ -6,9 +6,7 @@ import { Preferences } from '$Components/Preferences';
 
 const shallow = createShallow();
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
 const shallowSetup = ( propOverrides? ) => {
-    // eslint-disable-next-line unicorn/prevent-abbreviations
     const props = Object.assign(
         {
             userPreferences: {
