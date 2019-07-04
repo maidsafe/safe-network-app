@@ -1,4 +1,5 @@
 {
     "HOME": "/",
-    "COUNTER": "/counter"
+    "SETTINGS": "/settings",
+    "ON_BOARDING": "/onBoarding"
 }

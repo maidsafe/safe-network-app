@@ -13,17 +13,27 @@ import { UserPreferences } from '$Definitions/application.d';
 interface Props {
     userPreferences: UserPreferences;
     setUserPreferences: Function;
+    storeUserPreferences: Function;
+    pinToTray: Function;
+    autoLaunch: Function;
     history?: History;
 }
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
 export class Settings extends Component<Props> {
     componentWillUnmount() {
-        Preferences.changeCompleted( this.props.userPreferences );
+        const { storeUserPreferences, userPreferences } = this.props;
+        storeUserPreferences( userPreferences );
     }
 
     render() {
-        const { userPreferences, setUserPreferences, history } = this.props;
+        const {
+            userPreferences,
+            setUserPreferences,
+            pinToTray,
+            autoLaunch,
+            history
+        } = this.props;
+
         return (
             <Grid container>
                 <Box>
@@ -45,6 +55,8 @@ export class Settings extends Component<Props> {
                     <Preferences
                         userPreferences={userPreferences}
                         onChange={setUserPreferences}
+                        onChangeLaunchOnStart={autoLaunch}
+                        onChangePinToMenu={pinToTray}
                     />
                 </Grid>
             </Grid>

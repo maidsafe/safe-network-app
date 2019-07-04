@@ -10,15 +10,40 @@ import { Preferences } from '$Components/Preferences';
 interface Props {
     userPreferences: UserPreferences;
     setUserPreferences: Function;
+    pinToTray: Function;
+    autoLaunch: Function;
+    storeUserPreferences: Function;
 }
 
 export class BasicSettings extends Component<Props> {
     componentWillUnmount() {
-        Preferences.changeCompleted( this.props.userPreferences );
+        const {
+            userPreferences,
+            storeUserPreferences,
+            autoLaunch,
+            pinToTray
+        } = this.props;
+
+        // Enable auto launch if set
+        if ( userPreferences.launchOnStart ) {
+            autoLaunch( true );
+        }
+
+        // switch between standard or tray window
+        pinToTray( userPreferences.pinToMenuBar );
+
+        // Save user preference
+        storeUserPreferences( userPreferences );
     }
 
     render() {
-        const { userPreferences, setUserPreferences } = this.props;
+        const {
+            userPreferences,
+            setUserPreferences,
+            pinToTray,
+            autoLaunch
+        } = this.props;
+
         const requiredItems = {
             autoUpdate: true,
             pinToMenuBar: true,
@@ -41,6 +66,8 @@ export class BasicSettings extends Component<Props> {
                         userPreferences={userPreferences}
                         requiredItems={requiredItems}
                         onChange={setUserPreferences}
+                        onChangeLaunchOnStart={autoLaunch}
+                        onChangePinToMenu={pinToTray}
                     />
                 </Grid>
             </Grid>

@@ -5,17 +5,13 @@ import { PreferenceItem } from './PreferenceItem';
 
 import { UserPreferences } from '$Definitions/application.d';
 import { generateRandomString } from '$Utils/app_utils';
-import {
-    launchOnLogin,
-    pinLaunchpadToMenu,
-    releaseLaunchpadFromMenu,
-    storeUserPreferences
-} from '$App/actions/launchpad_actions';
 
 interface Props {
     userPreferences: UserPreferences;
-    onChange: Function;
     requiredItems?: { [item: string]: boolean };
+    onChange: Function;
+    onChangeLaunchOnStart: Function;
+    onChangePinToMenu: Function;
 }
 
 export class Preferences extends Component<Props> {
@@ -28,36 +24,40 @@ export class Preferences extends Component<Props> {
             showDeveloperApps: true,
             warnOnAccessingClearnet: true
         },
-        onChange: () => {}
+        onChange: () => {},
+        onChangeLaunchOnStart: () => {},
+        onChangePinToMenu: () => {}
     };
 
-    public static changeCompleted( userPreferences ) {
-        // Enable or disable auto launch
-        launchOnLogin( userPreferences.launchOnStart );
+    // public static changeCompleted( userPreferences ) {
+    //     // Enable or disable auto launch
+    //     launchOnLogin( userPreferences.launchOnStart );
 
-        // switch between standard or tray window
-        if ( userPreferences.pinToMenuBar ) {
-            pinLaunchpadToMenu();
-        } else {
-            releaseLaunchpadFromMenu();
-        }
+    //     // switch between standard or tray window
+    //     if ( userPreferences.pinToMenuBar ) {
+    //         pinLaunchpadToMenu();
+    //     } else {
+    //         releaseLaunchpadFromMenu();
+    //     }
 
-        // Save user preference
-        storeUserPreferences( userPreferences );
-    }
+    //     // Save user preference
+    //     storeUserPreferences( userPreferences );
+    // }
 
     private handleChange = ( name: string, changedStatus: boolean ) => {
-        const { userPreferences, onChange } = this.props;
+        const {
+            userPreferences,
+            onChange,
+            onChangeLaunchOnStart,
+            onChangePinToMenu
+        } = this.props;
+
         switch ( name ) {
             case 'pinToMenuBar':
-                if ( changedStatus ) {
-                    pinLaunchpadToMenu();
-                } else {
-                    releaseLaunchpadFromMenu();
-                }
+                onChangePinToMenu( changedStatus );
                 break;
             case 'launchOnStart':
-                launchOnLogin( changedStatus );
+                onChangeLaunchOnStart( changedStatus );
                 break;
             default:
                 break;

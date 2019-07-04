@@ -6,7 +6,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Settings from '@material-ui/icons/Settings';
 import Star from '@material-ui/icons/Star';
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
+import { SETTINGS, ON_BOARDING } from '$Constants/routes.json';
+
 export const Home = ( props ) => {
     const { history } = props;
 
@@ -20,7 +21,7 @@ export const Home = ( props ) => {
                             color="inherit"
                             aria-label="Settings"
                             onClick={() => {
-                                history.push( 'settings' );
+                                history.push( SETTINGS );
                             }}
                         >
                             <Settings fontSize="inherit" />
@@ -30,7 +31,7 @@ export const Home = ( props ) => {
                             color="inherit"
                             aria-label="OnBoarding"
                             onClick={() => {
-                                history.push( 'onBoarding' );
+                                history.push( ON_BOARDING );
                             }}
                         >
                             <Star fontSize="inherit" />
