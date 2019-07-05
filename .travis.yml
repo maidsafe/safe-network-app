@@ -87,7 +87,7 @@ script:
   # - yarn package
   # - yarn package-ci
   - yarn lint
-  # - yarn check-types
+  - yarn check-types
   - yarn build
   - yarn test
   - yarn build-e2e

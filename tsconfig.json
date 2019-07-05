@@ -9,7 +9,6 @@
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "paths": {
-            "*": ["app/definitions"],
             "$Tests/*": ["__tests__/*"],
             "$App/*": ["app/*"],
             "$Actions/*": ["app/actions/*"],
@@ -22,7 +21,8 @@
             "$Constants": ["app/constants/index.ts"],
             "$Utils/*": ["app/utils/*"],
             "$Package": ["package.json"]
-        }
+        },
+        "skipLibCheck": true
     },
     "exclude": ["*.config*?js", "app/*.prod.js", "app/dist", "node_modules"]
 }
