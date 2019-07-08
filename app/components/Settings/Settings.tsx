@@ -26,11 +26,14 @@ export class Settings extends Component<Props> {
     }
 
     handleBack = () => {
-        const { storeUserPreferences, userPreferences, history } = this.props;
-        storeUserPreferences( userPreferences );
-
         // go home
-        history.push( '/' );
+        this.props.history.push( '/' );
+    };
+
+    handlePreferenceChange = ( userPreferences: UserPreferences ) => {
+        const { storeUserPreferences, setUserPreferences } = this.props;
+        storeUserPreferences( userPreferences );
+        setUserPreferences( userPreferences );
     };
 
     render() {
@@ -59,7 +62,7 @@ export class Settings extends Component<Props> {
                 <Grid item xs={12}>
                     <Preferences
                         userPreferences={userPreferences}
-                        onChange={setUserPreferences}
+                        onChange={this.handlePreferenceChange}
                         onChangeLaunchOnStart={autoLaunch}
                         onChangePinToMenu={pinToTray}
                     />

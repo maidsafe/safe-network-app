@@ -19,12 +19,13 @@ class UserPreferencesDatabase {
 
     private static createApplicationFolder() {
         return new Promise( async ( resolve, reject ) => {
-            const appFolderPath = getAppFolderPath();
+            let appFolderPath = getAppFolderPath();
             if ( !appFolderPath ) {
                 return reject(
                     new Error( 'Unable to fetch application folder path' )
                 );
             }
+            appFolderPath = path.resolve( appFolderPath, pkg.name );
             try {
                 if ( !fs.existsSync( appFolderPath ) ) fs.mkdirSync( appFolderPath );
                 return resolve();
@@ -35,10 +36,14 @@ class UserPreferencesDatabase {
     }
 
     private checkDatabaseExist() {
-        const appFolderPath = getAppFolderPath();
-        return fs.existsSync(
-            path.resolve( appFolderPath, pkg.name, `${this.tableName}.json` )
-        );
+        try {
+            const appFolderPath = getAppFolderPath();
+            return fs.existsSync(
+                path.resolve( appFolderPath, pkg.name, `${this.tableName}.json` )
+            );
+        } catch ( error ) {
+            return false;
+        }
     }
 
     private createTable() {
@@ -75,7 +80,6 @@ class UserPreferencesDatabase {
                 const initialUserPreferences: UserPreferences = {
                     ...defaultPreferences
                 };
-
                 await this.storeInitialData( initialUserPreferences );
                 // initialize
                 await this.init();
