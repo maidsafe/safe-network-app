@@ -1,4 +1,4 @@
-import * as launchpad from '$App/actions/launchpad_actions';
+import * as launchpad from '$Actions/launchpad_actions';
 import { generateRandomString } from '$Utils/app_utils';
 
 describe( 'Launchpad actions', () => {
@@ -46,12 +46,5 @@ describe( 'Launchpad actions', () => {
             payload
         };
         expect( launchpad.setUserPreferences( payload ) ).toEqual( expectAction );
-    } );
-
-    it( 'should check onboarding process completed', () => {
-        expect( launchpad.shouldOnboard ).toBeDefined();
-        expect( launchpad.shouldOnboard().meta.trigger ).toEqual(
-            launchpad.TYPES.SHOULD_ONBOARD
-        );
     } );
 } );

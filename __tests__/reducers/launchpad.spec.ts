@@ -1,5 +1,6 @@
 import { launchpadReducer, initialState } from '$Reducers/launchpad_reducer';
-import { TYPES } from '$App/actions/launchpad_actions';
+import { TYPES } from '$Actions/launchpad_actions';
+import { TYPES as ALIAS_TYPES } from '$Actions/alias/launchpad_actions';
 import { generateRandomString } from '$Utils/app_utils';
 import { ERRORS } from '$App/constants';
 
@@ -12,7 +13,7 @@ describe( 'launchpad reducer', () => {
         it( 'Should update On-Boarding flag', () => {
             expect(
                 launchpadReducer( undefined, {
-                    type: TYPES.SHOULD_ONBOARD,
+                    type: ALIAS_TYPES.ALIAS_SHOULD_ONBOARD,
                     payload: {
                         shouldOnboard: true
                     }
@@ -22,7 +23,7 @@ describe( 'launchpad reducer', () => {
         it( 'Should throw if invalid value passed', () => {
             expect( () =>
                 launchpadReducer( undefined, {
-                    type: TYPES.SHOULD_ONBOARD,
+                    type: ALIAS_TYPES.ALIAS_SHOULD_ONBOARD,
                     payload: {
                         shouldOnboard: 'false'
                     }

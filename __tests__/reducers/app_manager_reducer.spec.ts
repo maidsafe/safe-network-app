@@ -1,5 +1,6 @@
 import { appManager, initialState } from '$Reducers/app_manager_reducer';
 import { TYPES } from '$Actions/app_manager_actions';
+import { TYPES as ALIAS_TYPES } from '$Actions/alias/app_manager_actions';
 import { generateRandomString } from '$Utils/app_utils';
 import { ERRORS } from '$Constants/index';
 
@@ -30,7 +31,7 @@ describe( 'app manager reducer', () => {
             applicationList.push( app2 );
 
             const nextStore = appManager( undefined, {
-                type: `${TYPES.FETCH_APPS}_SUCCESS`,
+                type: `${ALIAS_TYPES.ALIAS_FETCH_APPS}_SUCCESS`,
                 payload: {
                     applicationList
                 }
@@ -50,7 +51,7 @@ describe( 'app manager reducer', () => {
 
             expect( () =>
                 appManager( undefined, {
-                    type: `${TYPES.FETCH_APPS}_SUCCESS`,
+                    type: `${ALIAS_TYPES.ALIAS_FETCH_APPS}_SUCCESS`,
                     payload: {
                         applicationList
                     }
@@ -70,7 +71,7 @@ describe( 'app manager reducer', () => {
 
         beforeEach( () => {
             store = appManager( undefined, {
-                type: `${TYPES.FETCH_APPS}_SUCCESS`,
+                type: `${ALIAS_TYPES.ALIAS_FETCH_APPS}_SUCCESS`,
                 payload: {
                     applicationList
                 }
@@ -81,7 +82,7 @@ describe( 'app manager reducer', () => {
             const appId = applicationList[0].id;
             const otherAppId = applicationList[1].id;
             const nextStore = appManager( store, {
-                type: `${TYPES.INSTALL_APP}_PENDING`,
+                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
                 payload: {
                     appId
                 }
@@ -100,7 +101,7 @@ describe( 'app manager reducer', () => {
         it( 'Should return previous store if application not found', () => {
             expect(
                 appManager( store, {
-                    type: `${TYPES.INSTALL_APP}_PENDING`,
+                    type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
                     payload: {}
                 } )
             ).toEqual( store );
@@ -111,7 +112,7 @@ describe( 'app manager reducer', () => {
             const otherAppId = applicationList[1].id;
             const progress = 89;
             const nextStore = appManager( store, {
-                type: `${TYPES.INSTALL_APP}_PENDING`,
+                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
                 payload: {
                     appId,
                     progress
@@ -134,14 +135,14 @@ describe( 'app manager reducer', () => {
             store.applicationList[appId].isUpdating = true;
 
             let nextStore = appManager( store, {
-                type: `${TYPES.INSTALL_APP}_PENDING`,
+                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
                 payload: {
                     appId
                 }
             } );
 
             nextStore = appManager( nextStore, {
-                type: `${TYPES.INSTALL_APP}_SUCCESS`,
+                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_SUCCESS`,
                 payload: {
                     appId
                 }
@@ -163,14 +164,14 @@ describe( 'app manager reducer', () => {
         it( "Should return previous store if couldn't find app on app installation success", () => {
             const appId = applicationList[0].id;
             const nextStore = appManager( store, {
-                type: `${TYPES.INSTALL_APP}_PENDING`,
+                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
                 payload: {
                     appId
                 }
             } );
             expect(
                 appManager( nextStore, {
-                    type: `${TYPES.INSTALL_APP}_SUCCESS`,
+                    type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_SUCCESS`,
                     payload: {}
                 } )
             ).toEqual( nextStore );
@@ -182,14 +183,14 @@ describe( 'app manager reducer', () => {
             const installationError = new Error( 'Unable to install' );
 
             let nextStore = appManager( store, {
-                type: `${TYPES.INSTALL_APP}_PENDING`,
+                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
                 payload: {
                     appId,
                     progress: 86
                 }
             } );
             nextStore = appManager( nextStore, {
-                type: `${TYPES.INSTALL_APP}_FAILURE`,
+                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_FAILURE`,
                 payload: {
                     appId,
                     error: installationError
@@ -208,7 +209,7 @@ describe( 'app manager reducer', () => {
             const installationError = new Error( 'Unable to install' );
 
             const nextStore = appManager( store, {
-                type: `${TYPES.INSTALL_APP}_PENDING`,
+                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
                 payload: {
                     appId,
                     progress: 86
@@ -216,7 +217,7 @@ describe( 'app manager reducer', () => {
             } );
             expect(
                 appManager( nextStore, {
-                    type: `${TYPES.INSTALL_APP}_FAILURE`,
+                    type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_FAILURE`,
                     payload: {}
                 } )
             ).toEqual( nextStore );
@@ -438,7 +439,7 @@ describe( 'app manager reducer', () => {
                 }
             };
             const nextStore = appManager( store, {
-                type: `${TYPES.UNINSTALL_APP}_PENDING`,
+                type: `${ALIAS_TYPES.ALIAS_UNINSTALL_APP}_PENDING`,
                 payload: {
                     appId
                 }
@@ -465,7 +466,7 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: `${TYPES.UNINSTALL_APP}_PENDING`,
+                    type: `${ALIAS_TYPES.ALIAS_UNINSTALL_APP}_PENDING`,
                     payload: {}
                 } )
             ).toEqual( store );
@@ -485,7 +486,7 @@ describe( 'app manager reducer', () => {
             };
 
             const nextStore = appManager( store, {
-                type: `${TYPES.UNINSTALL_APP}_SUCCESS`,
+                type: `${ALIAS_TYPES.ALIAS_UNINSTALL_APP}_SUCCESS`,
                 payload: {
                     appId
                 }
@@ -510,7 +511,7 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: `${TYPES.UNINSTALL_APP}_SUCCESS`,
+                    type: `${ALIAS_TYPES.ALIAS_UNINSTALL_APP}_SUCCESS`,
                     payload: {}
                 } )
             ).toEqual( store );
@@ -531,7 +532,7 @@ describe( 'app manager reducer', () => {
                 }
             };
             const nextStore = appManager( store, {
-                type: `${TYPES.UPDATE_APP}_PENDING`,
+                type: `${ALIAS_TYPES.ALIAS_UPDATE_APP}_PENDING`,
                 payload: {
                     appId,
                     progress
@@ -559,7 +560,7 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: `${TYPES.UPDATE_APP}_PENDING`,
+                    type: `${ALIAS_TYPES.ALIAS_UPDATE_APP}_PENDING`,
                     payload: {}
                 } )
             ).toEqual( store );
@@ -578,7 +579,7 @@ describe( 'app manager reducer', () => {
                 }
             };
             const nextStore = appManager( store, {
-                type: `${TYPES.UPDATE_APP}_SUCCESS`,
+                type: `${ALIAS_TYPES.ALIAS_UPDATE_APP}_SUCCESS`,
                 payload: {
                     appId,
                     progress
@@ -608,7 +609,7 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: `${TYPES.UPDATE_APP}_SUCCESS`,
+                    type: `${ALIAS_TYPES.ALIAS_UPDATE_APP}_SUCCESS`,
                     payload: {}
                 } )
             ).toEqual( store );
@@ -628,7 +629,7 @@ describe( 'app manager reducer', () => {
                 }
             };
             const nextStore = appManager( store, {
-                type: `${TYPES.UPDATE_APP}_FAILURE`,
+                type: `${ALIAS_TYPES.ALIAS_UPDATE_APP}_FAILURE`,
                 payload: {
                     appId,
                     progress,
@@ -660,7 +661,7 @@ describe( 'app manager reducer', () => {
                 }
             };
             const nextStore = appManager( store, {
-                type: TYPES.SKIP_APP_UPDATE,
+                type: `${ALIAS_TYPES.ALIAS_SKIP_APP_UPDATE}_PENDING`,
                 payload: {
                     appId,
                     version: newVersion
@@ -689,7 +690,7 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: TYPES.SKIP_APP_UPDATE,
+                    type: `${ALIAS_TYPES.ALIAS_SKIP_APP_UPDATE}_PENDING`,
                     payload: {
                         version: newVersion
                     }
@@ -707,7 +708,7 @@ describe( 'app manager reducer', () => {
             };
             expect( () =>
                 appManager( store, {
-                    type: TYPES.SKIP_APP_UPDATE,
+                    type: `${ALIAS_TYPES.ALIAS_SKIP_APP_UPDATE}_PENDING`,
                     payload: {
                         appId
                     }

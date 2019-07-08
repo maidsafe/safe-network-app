@@ -19,6 +19,9 @@ const shallowSetup = ( propOverrides? ) => {
                 warnOnAccessingClearnet: false
             },
             setUserPreferences: jest.fn(),
+            storeUserPreferences: jest.fn(),
+            pinToTray: jest.fn(),
+            autoLaunch: jest.fn(),
             history: {
                 push: jest.fn()
             }

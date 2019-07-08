@@ -16,7 +16,6 @@ const mapStateToProperties = ( state ) => {
 };
 
 const mapDispatchToProperties = ( dispatch ) => {
-    console.log( 'storeUserPreferences', storeUserPreferences );
     const actions = {
         setUserPreferences,
         storeUserPreferences,
