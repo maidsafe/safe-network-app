@@ -2,12 +2,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { BasicSettings } from '$Components/BasicSettings';
 
+import { setUserPreferences } from '$Actions/launchpad_actions';
 import {
-    setUserPreferences,
     storeUserPreferences,
     pinToTray,
     autoLaunch
-} from '$App/actions/launchpad_actions';
+} from '$Actions/alias/launchpad_actions';
 
 const mapStateToProperties = ( state ) => {
     return {

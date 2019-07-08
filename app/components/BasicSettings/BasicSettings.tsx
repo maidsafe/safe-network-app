@@ -15,62 +15,39 @@ interface Props {
     storeUserPreferences: Function;
 }
 
-export class BasicSettings extends Component<Props> {
-    componentWillUnmount() {
-        const {
-            userPreferences,
-            storeUserPreferences,
-            autoLaunch,
-            pinToTray
-        } = this.props;
-
-        // Enable auto launch if set
-        if ( userPreferences.launchOnStart ) {
-            autoLaunch( true );
-        }
-
-        // switch between standard or tray window
-        pinToTray( userPreferences.pinToMenuBar );
-
-        // Save user preference
-        storeUserPreferences( userPreferences );
-    }
-
-    render() {
-        const {
-            userPreferences,
-            setUserPreferences,
-            pinToTray,
-            autoLaunch
-        } = this.props;
-
-        const requiredItems = {
-            autoUpdate: true,
-            pinToMenuBar: true,
-            launchOnStart: true,
-            showDeveloperApps: true
-        };
-        return (
-            <Grid container>
-                <Grid item xs={12}>
-                    <Typography variant="h5" component="h5">
-                        Basic Settings
-                    </Typography>
-                    <Typography>
-                        Choose some basic settings. You can always change these
-                        later.
-                    </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Preferences
-                        userPreferences={userPreferences}
-                        requiredItems={requiredItems}
-                        onChange={setUserPreferences}
-                        onChangeLaunchOnStart={autoLaunch}
-                        onChangePinToMenu={pinToTray}
-                    />
-                </Grid>
+export const BasicSettings = ( props: Props ) => {
+    const {
+        userPreferences,
+        setUserPreferences,
+        pinToTray,
+        autoLaunch
+    } = props;
+    const requiredItems = {
+        autoUpdate: true,
+        pinToMenuBar: true,
+        launchOnStart: true,
+        showDeveloperApps: true
+    };
+    return (
+        <Grid container>
+            <Grid item xs={12}>
+                <Typography variant="h5" component="h5">
+                    Basic Settings
+                </Typography>
+                <Typography>
+                    Choose some basic settings. You can always change these
+                    later.
+                </Typography>
             </Grid>
-        );
-    }
-}
+            <Grid item xs={12}>
+                <Preferences
+                    userPreferences={userPreferences}
+                    requiredItems={requiredItems}
+                    onChange={setUserPreferences}
+                    onChangeLaunchOnStart={autoLaunch}
+                    onChangePinToMenu={pinToTray}
+                />
+            </Grid>
+        </Grid>
+    );
+};

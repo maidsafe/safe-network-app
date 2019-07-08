@@ -1,4 +1,5 @@
 import { TYPES } from '$App/actions/launchpad_actions';
+import { TYPES as ALIAS_TYPES } from '$Actions/alias/launchpad_actions';
 import { LaunchpadState, UserPreferences } from '../definitions/application.d';
 import { ERRORS } from '$Constants/index';
 
@@ -18,13 +19,6 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
     const { payload } = action;
 
     switch ( action.type ) {
-        case TYPES.SHOULD_ONBOARD: {
-            if ( typeof payload.shouldOnboard !== 'boolean' )
-                throw ERRORS.INVALID_TYPE;
-
-            return { ...state, shouldOnboard: payload.shouldOnboard };
-        }
-
         case TYPES.SET_USER_PREFERENCES: {
             const newUserPreferences: UserPreferences = {
                 ...state.userPreferences,
@@ -57,6 +51,13 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
 
             delete newNotifications[payload.notificationId];
             return { ...state, notifications: newNotifications };
+        }
+
+        case ALIAS_TYPES.ALIAS_SHOULD_ONBOARD: {
+            if ( typeof payload.shouldOnboard !== 'boolean' )
+                throw ERRORS.INVALID_TYPE;
+
+            return { ...state, shouldOnboard: payload.shouldOnboard };
         }
 
         default:

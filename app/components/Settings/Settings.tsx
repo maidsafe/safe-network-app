@@ -20,18 +20,20 @@ interface Props {
 }
 
 export class Settings extends Component<Props> {
-    componentWillUnmount() {
-        const { storeUserPreferences, userPreferences } = this.props;
+    handleBack = () => {
+        const { storeUserPreferences, userPreferences, history } = this.props;
         storeUserPreferences( userPreferences );
-    }
+
+        // go home
+        history.push( '/' );
+    };
 
     render() {
         const {
             userPreferences,
             setUserPreferences,
             pinToTray,
-            autoLaunch,
-            history
+            autoLaunch
         } = this.props;
 
         return (
@@ -42,9 +44,7 @@ export class Settings extends Component<Props> {
                             edge="start"
                             color="inherit"
                             aria-label="GoBack"
-                            onClick={() => {
-                                history.push( '/' );
-                            }}
+                            onClick={this.handleBack}
                         >
                             <ArrowBack fontSize="inherit" />
                         </IconButton>

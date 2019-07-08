@@ -2,12 +2,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Settings } from '$Components/Settings';
 
+import { setUserPreferences } from '$Actions/launchpad_actions';
 import {
-    setUserPreferences,
     storeUserPreferences,
     autoLaunch,
     pinToTray
-} from '$App/actions/launchpad_actions';
+} from '$Actions/alias/launchpad_actions';
 
 const mapStateToProperties = ( state ) => {
     return {
@@ -16,6 +16,7 @@ const mapStateToProperties = ( state ) => {
 };
 
 const mapDispatchToProperties = ( dispatch ) => {
+    console.log( 'storeUserPreferences', storeUserPreferences );
     const actions = {
         setUserPreferences,
         storeUserPreferences,

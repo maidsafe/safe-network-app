@@ -29,21 +29,6 @@ export class Preferences extends Component<Props> {
         onChangePinToMenu: () => {}
     };
 
-    // public static changeCompleted( userPreferences ) {
-    //     // Enable or disable auto launch
-    //     launchOnLogin( userPreferences.launchOnStart );
-
-    //     // switch between standard or tray window
-    //     if ( userPreferences.pinToMenuBar ) {
-    //         pinLaunchpadToMenu();
-    //     } else {
-    //         releaseLaunchpadFromMenu();
-    //     }
-
-    //     // Save user preference
-    //     storeUserPreferences( userPreferences );
-    // }
-
     private handleChange = ( name: string, changedStatus: boolean ) => {
         const {
             userPreferences,
@@ -64,9 +49,7 @@ export class Preferences extends Component<Props> {
         }
 
         userPreferences[name] = changedStatus;
-        if ( typeof onChange === 'function' ) {
-            onChange( userPreferences );
-        }
+        onChange( userPreferences );
     };
 
     render() {
