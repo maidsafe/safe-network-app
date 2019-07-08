@@ -1,17 +1,11 @@
 import { TYPES } from '$App/actions/launchpad_actions';
 import { TYPES as ALIAS_TYPES } from '$Actions/alias/launchpad_actions';
 import { LaunchpadState, UserPreferences } from '../definitions/application.d';
-import { ERRORS } from '$Constants/index';
+import { ERRORS, defaultPreferences } from '$Constants/index';
 
 export const initialState: LaunchpadState = {
     shouldOnboard: false,
-    userPreferences: {
-        autoUpdate: false,
-        pinToMenuBar: true,
-        launchOnStart: true,
-        showDeveloperApps: false,
-        warnOnAccessingClearnet: true
-    },
+    userPreferences: { ...defaultPreferences },
     notifications: {}
 };
 

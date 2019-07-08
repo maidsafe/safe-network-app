@@ -15,12 +15,10 @@ export const mockPromise = ( data = null ) =>
 export const fetchUserPreferencesLocally = () =>
     new Promise( async ( resolve, reject ) => {
         try {
-            let [userPreferences] = await userPreferenceDatabase.getAll();
-
-            if ( !userPreferences ) {
-                await userPreferenceDatabase.setup();
-                [userPreferences] = await userPreferenceDatabase.getAll();
+            if ( !userPreferenceDatabase.isReady() ) {
+                await userPreferenceDatabase.init();
             }
+            const [userPreferences] = await userPreferenceDatabase.getAll();
             delete userPreferences.id;
             return resolve( userPreferences );
         } catch ( error ) {
@@ -31,7 +29,7 @@ export const fetchUserPreferencesLocally = () =>
 export const storeUserPreferencesLocally = ( userPreferences: UserPreferences ) =>
     new Promise( async ( resolve, reject ) => {
         try {
-            if ( !userPreferenceDatabase.canUpdate() ) {
+            if ( !userPreferenceDatabase.isReady() ) {
                 await userPreferenceDatabase.init();
             }
             await userPreferenceDatabase.updatePreferences( userPreferences );
@@ -61,7 +59,6 @@ export const autoLaunchOnStart = ( enable ) =>
             return resolve();
         } catch ( error ) {
             // TODO: Show error notification
-            console.log( 'Unable to process the request', error );
             return resolve();
         }
     } );

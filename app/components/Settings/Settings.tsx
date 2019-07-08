@@ -13,6 +13,7 @@ import { UserPreferences } from '$Definitions/application.d';
 interface Props {
     userPreferences: UserPreferences;
     setUserPreferences: Function;
+    getUserPreferences: Function;
     storeUserPreferences: Function;
     pinToTray: Function;
     autoLaunch: Function;
@@ -20,6 +21,10 @@ interface Props {
 }
 
 export class Settings extends Component<Props> {
+    componentWillMount() {
+        this.props.getUserPreferences();
+    }
+
     handleBack = () => {
         const { storeUserPreferences, userPreferences, history } = this.props;
         storeUserPreferences( userPreferences );

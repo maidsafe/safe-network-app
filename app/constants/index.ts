@@ -308,3 +308,11 @@ export const ERRORS = {
     INVALID_PROP: new Error( 'Invalid properties found' ),
     NOTIFICATION_ID_NOT_FOUND: new Error( 'Notification ID required' )
 };
+
+export const defaultPreferences = {
+    autoUpdate: false,
+    pinToMenuBar: true,
+    launchOnStart: true,
+    showDeveloperApps: false,
+    warnOnAccessingClearnet: true
+};

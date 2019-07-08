@@ -1,6 +1,10 @@
 import fs from 'fs';
+import path from 'path';
 import db from 'electron-db';
+import pkg from '$Package';
+
 import { UserPreferences } from '$Definitions/application.d';
+import { defaultPreferences } from '$Constants/index';
 import { getAppFolderPath, databaseCallBackHandler } from '$Utils/app_utils';
 
 class UserPreferencesDatabase {
@@ -30,6 +34,13 @@ class UserPreferencesDatabase {
         } );
     }
 
+    private checkDatabaseExist() {
+        const appFolderPath = getAppFolderPath();
+        return fs.existsSync(
+            path.resolve( appFolderPath, pkg.name, `${this.tableName}.json` )
+        );
+    }
+
     private createTable() {
         return new Promise( async ( resolve, reject ) => {
             db.createTable(
@@ -41,15 +52,19 @@ class UserPreferencesDatabase {
 
     private storeInitialData( userPreferences: UserPreferences ) {
         return new Promise( async ( resolve, reject ) => {
-            db.insertTableContent(
-                this.tableName,
-                userPreferences,
-                databaseCallBackHandler( resolve, reject )
-            );
+            try {
+                db.insertTableContent(
+                    this.tableName,
+                    userPreferences,
+                    databaseCallBackHandler( resolve, reject )
+                );
+            } catch ( error ) {
+                reject( new Error( 'Database corrupted' ) );
+            }
         } );
     }
 
-    public setup() {
+    private setup() {
         return new Promise( async ( resolve, reject ) => {
             try {
                 // create application folder
@@ -58,11 +73,7 @@ class UserPreferencesDatabase {
                 await this.createTable();
                 // insert initial user preferences data
                 const initialUserPreferences: UserPreferences = {
-                    autoUpdate: false,
-                    pinToMenuBar: false,
-                    launchOnStart: false,
-                    showDeveloperApps: false,
-                    warnOnAccessingClearnet: false
+                    ...defaultPreferences
                 };
 
                 await this.storeInitialData( initialUserPreferences );
@@ -99,12 +110,15 @@ class UserPreferencesDatabase {
         } );
     }
 
-    public canUpdate() {
+    public isReady() {
         return !!this.userPreferenceId;
     }
 
     public init() {
         return new Promise( async ( resolve, reject ) => {
+            if ( !this.checkDatabaseExist() ) {
+                await this.setup();
+            }
             try {
                 const [userPreferences] = await this.getAll();
                 if ( userPreferences ) {

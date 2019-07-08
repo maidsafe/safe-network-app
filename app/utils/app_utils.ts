@@ -1,4 +1,4 @@
-import { app } from 'electron';
+import { remote } from 'electron';
 
 export const generateRandomString = (): string => {
     return (
@@ -11,7 +11,7 @@ export const generateRandomString = (): string => {
     );
 };
 
-export const getAppFolderPath = () => app.getPath( 'appData' );
+export const getAppFolderPath = () => remote.app.getPath( 'appData' );
 
 export const databaseCallBackHandler = ( resolve, reject ) => {
     return ( success, data ) => {
