@@ -24,3 +24,6 @@ export const camelToTitle = ( camelCase ) =>
         .replace( /([A-Z])/g, ( match ) => ` ${match}` )
         .replace( /^./, ( match ) => match.toUpperCase() )
         .trim();
+
+export const isTestEnvironment = () =>
+    process.env.TEST_CAFE || process.env.NODE_ENV === 'test';

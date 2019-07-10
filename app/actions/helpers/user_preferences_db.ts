@@ -4,8 +4,12 @@ import db from 'electron-db';
 import pkg from '$Package';
 
 import { UserPreferences } from '$Definitions/application.d';
-import { defaultPreferences } from '$Constants/index';
-import { getAppFolderPath, databaseCallBackHandler } from '$Utils/app_utils';
+import { defaultPreferences, preferenceDatabaseName } from '$Constants/index';
+import {
+    getAppFolderPath,
+    databaseCallBackHandler,
+    isTestEnvironment
+} from '$Utils/app_utils';
 
 class UserPreferencesDatabase {
     private userPreferenceId: UserPreferences | null;
@@ -14,7 +18,9 @@ class UserPreferencesDatabase {
 
     public constructor() {
         this.userPreferenceId = null;
-        this.tableName = 'userPreferences';
+        this.tableName = isTestEnvironment()
+            ? preferenceDatabaseName.test
+            : preferenceDatabaseName.production;
     }
 
     private static createApplicationFolder() {

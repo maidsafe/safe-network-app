@@ -316,3 +316,8 @@ export const defaultPreferences = {
     showDeveloperApps: false,
     warnOnAccessingClearnet: true
 };
+
+export const preferenceDatabaseName = {
+    production: 'userPreferences',
+    test: 'testUserPreferences'
+};

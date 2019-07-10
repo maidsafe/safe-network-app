@@ -44,6 +44,9 @@ test( 'can toggle switch buttons', async ( t ) => {
         .click( AutoUpdatePreference.find( 'input.MuiSwitch-input' ) )
         .expect( AutoUpdatePreference.find( 'input.MuiSwitch-input' ).checked )
         .ok();
+
+    // reset
+    await t.click( AutoUpdatePreference.find( 'input.MuiSwitch-input' ) );
 } );
 
 test( 'can toggle back switch button from on state', async ( t ) => {
@@ -63,6 +66,9 @@ test( 'can toggle back switch button from on state', async ( t ) => {
         .click( LaunchOnStartPreference.find( 'input.MuiSwitch-input' ) )
         .expect( LaunchOnStartPreference.find( 'input.MuiSwitch-input' ).checked )
         .notOk();
+
+    // reset
+    await t.click( LaunchOnStartPreference.find( 'input.MuiSwitch-input' ) );
 } );
 
 test( 'Go back from Settings page to Home', async ( t ) => {
@@ -91,7 +97,7 @@ test( 'Changing any preference should persist', async ( t ) => {
         )
         .eql( 'Auto Update' )
         .expect( LaunchOnStartPreference.find( 'input.MuiSwitch-input' ).checked )
-        .ok()
+        .notOk()
         .click( LaunchOnStartPreference.find( 'input.MuiSwitch-input' ) )
         .click( Selector( 'button' ).withAttribute( 'aria-label', 'GoBack' ) )
         .expect( getPageUrl() )
@@ -107,5 +113,8 @@ test( 'Changing any preference should persist', async ( t ) => {
         )
         .eql( 'Auto Update' )
         .expect( LaunchOnStartPreference.find( 'input.MuiSwitch-input' ).checked )
-        .notOk();
+        .ok();
+
+    // reset
+    await t.click( LaunchOnStartPreference.find( 'input.MuiSwitch-input' ) );
 } );
