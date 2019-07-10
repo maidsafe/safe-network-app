@@ -8,6 +8,11 @@ import {
 } from 'redux';
 import { createHashHistory, History } from 'history';
 import { routerMiddleware, routerActions } from 'connected-react-router';
+import {
+    loadTranslations,
+    setLocale,
+    syncTranslationWithStore
+} from 'react-redux-i18n';
 import { createLogger } from 'redux-logger';
 import {
     getInitialStateRenderer,
@@ -23,6 +28,11 @@ import {
 
 import { createRootReducer } from '../reducers';
 import { addMiddlewares } from '$Store/addMiddlewares';
+import en from '../locales/en.json';
+
+const translationsObject = {
+    en
+};
 
 const initialStateFromMain: {} = inRendererProcess
     ? getInitialStateRenderer()
@@ -106,6 +116,9 @@ export const configureStore = ( initialState: {} = initialStateFromMain ) => {
         replayActionMain( store );
     }
 
+    syncTranslationWithStore( store );
+    store.dispatch( loadTranslations( translationsObject ) );
+    store.dispatch( setLocale( 'en' ) );
     return store;
 };
 

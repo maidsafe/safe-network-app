@@ -1,0 +1,27 @@
+{
+    "notifications": {
+        "message": {
+            "disc_full": "Disk is full. Your install has been paused. Free up some space and resume.",
+            "admin_pass_req": "Your Administrator Password is required to finish installing SAFE Browser.",
+            "close_app": "Close %{appName} to complete installation",
+            "restart_system": "Restart your computer to finish installing SAFE Browser",
+            "server_timeout": "Download Server has timed out. Installation of SAFE Browser has been paused.",
+            "no_internet": "No Internet connection. Your install has been paused.",
+            "global_failure": "Global Failure",
+            "update_available": "Update Available! %{appName} %{version} is ready to install. What’s New…"
+        },
+        "acceptText": {
+            "resume": "RESUME",
+            "try_again": "TRY AGAIN",
+            "restart": "RESTART",
+            "retry": "RETRY",
+            "update_now": "UPDATE NOW"
+        },
+        "denyText": {
+            "skip": "SKIP",
+            "dismiss": "DISMISS",
+            "cancel_install": "CANCEL INSTALL",
+            "not_now": "NOT NOW"
+        }
+    }
+}
