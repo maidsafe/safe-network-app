@@ -63,6 +63,9 @@ export class Overview extends Component<Props> {
                 >
                     Switch
                 </button>
+                {!standardWindowIsVisible && (
+                    <span data-visible={standardWindowIsVisible} />
+                )}
                 {this.loadApps()}
             </div>
         );
