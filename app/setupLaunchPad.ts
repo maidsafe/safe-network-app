@@ -10,7 +10,8 @@ import {
     CONFIG,
     platform,
     WINDOWS,
-    LINUX
+    LINUX,
+    OSX
 } from '$Constants';
 
 let tray;
@@ -125,7 +126,8 @@ export const createTray = ( store: Store, app: App ): void => {
 };
 
 export const createSafeLaunchPadStandardWindow = (
-    store: Store
+    store: Store,
+    app: App
 ): Application.Window => {
     safeLaunchPadStandardWindow = new BrowserWindow( {
         width: 320,
@@ -148,6 +150,13 @@ export const createSafeLaunchPadStandardWindow = (
     safeLaunchPadStandardWindow.on( 'close', ( event ) => {
         event.preventDefault();
         changeWindowVisibility( currentlyVisibleWindow, store );
+    } );
+
+    safeLaunchPadStandardWindow.on( 'show', () => {
+        // macOS-specific: show dock icon when standard window is showing
+        if ( app.dock ) {
+            app.dock.show();
+        }
     } );
 
     safeLaunchPadStandardWindow.webContents.on( 'did-finish-load', () => {
@@ -174,7 +183,8 @@ export const createSafeLaunchPadStandardWindow = (
 };
 
 export const createSafeLaunchPadTrayWindow = (
-    store: Store
+    store: Store,
+    app: App
 ): Application.Window => {
     safeLaunchPadTrayWindow = new BrowserWindow( {
         width: 320,
@@ -193,9 +203,18 @@ export const createSafeLaunchPadTrayWindow = (
     } ) as Application.Window;
     safeLaunchPadTrayWindow.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
 
+    safeLaunchPadTrayWindow.on( 'show', () => {
+        // macOS-specific: hide dock icon when tray is showing
+        if ( app.dock ) {
+            app.dock.hide();
+        }
+    } );
+
     // Hide the safeLaunchPadTrayWindow when it loses focus
     safeLaunchPadTrayWindow.on( 'blur', () => {
-        changeWindowVisibility( currentlyVisibleWindow, store );
+        if ( platform !== OSX ) {
+            changeWindowVisibility( currentlyVisibleWindow, store );
+        }
     } );
 
     safeLaunchPadTrayWindow.webContents.on( 'did-finish-load', () => {

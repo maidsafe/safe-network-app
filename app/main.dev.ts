@@ -119,8 +119,8 @@ if ( !gotTheLock ) {
         }
 
         createTray( store, app );
-        mainWindow = createSafeLaunchPadStandardWindow( store );
-        trayWindow = createSafeLaunchPadTrayWindow( store );
+        mainWindow = createSafeLaunchPadStandardWindow( store, app );
+        trayWindow = createSafeLaunchPadTrayWindow( store, app );
         setupBackground( store, mainWindow );
 
         const menuBuilder = new MenuBuilder( mainWindow );
