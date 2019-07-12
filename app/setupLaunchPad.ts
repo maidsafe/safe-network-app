@@ -18,6 +18,7 @@ let tray;
 let safeLaunchPadStandardWindow: Application.Window;
 let safeLaunchPadTrayWindow: Application.Window;
 let currentlyVisibleWindow: Application.Window;
+let programmaticallyTriggeredHideEvent = false;
 
 const getWindowPosition = (
     window: Application.Window
@@ -71,6 +72,8 @@ const changeWindowVisibility = (
             window.webContents.id === safeLaunchPadStandardWindow.webContents.id
         ) {
             store.dispatch( setStandardWindowVisibility( false ) );
+        } else {
+            programmaticallyTriggeredHideEvent = true;
         }
         window.hide();
     } else {
@@ -207,6 +210,15 @@ export const createSafeLaunchPadTrayWindow = (
         // macOS-specific: hide dock icon when tray is showing
         if ( app.dock ) {
             app.dock.hide();
+        }
+    } );
+
+    safeLaunchPadTrayWindow.on( 'hide', () => {
+        if ( platform !== LINUX && !programmaticallyTriggeredHideEvent ) {
+            changeWindowVisibility( currentlyVisibleWindow, store );
+        }
+        if ( programmaticallyTriggeredHideEvent ) {
+            programmaticallyTriggeredHideEvent = false;
         }
     } );
 
