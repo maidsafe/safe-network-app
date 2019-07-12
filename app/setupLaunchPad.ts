@@ -72,9 +72,8 @@ const changeWindowVisibility = (
             window.webContents.id === safeLaunchPadStandardWindow.webContents.id
         ) {
             store.dispatch( setStandardWindowVisibility( false ) );
-        } else {
-            programmaticallyTriggeredHideEvent = true;
         }
+        programmaticallyTriggeredHideEvent = true;
         window.hide();
     } else {
         if (
@@ -159,6 +158,15 @@ export const createSafeLaunchPadStandardWindow = (
         // macOS-specific: show dock icon when standard window is showing
         if ( app.dock ) {
             app.dock.show();
+        }
+    } );
+
+    safeLaunchPadStandardWindow.on( 'hide', () => {
+        if ( platform !== LINUX && !programmaticallyTriggeredHideEvent ) {
+            changeWindowVisibility( currentlyVisibleWindow, store );
+        }
+        if ( programmaticallyTriggeredHideEvent ) {
+            programmaticallyTriggeredHideEvent = false;
         }
     } );
 
