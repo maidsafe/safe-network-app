@@ -72,9 +72,8 @@ const changeWindowVisibility = (
             window.webContents.id === safeLaunchPadStandardWindow.webContents.id
         ) {
             store.dispatch( setStandardWindowVisibility( false ) );
-        } else {
-            programmaticallyTriggeredHideEvent = true;
         }
+        programmaticallyTriggeredHideEvent = true;
         window.hide();
     } else {
         if (
@@ -148,6 +147,8 @@ export const createSafeLaunchPadStandardWindow = (
             nodeIntegration: true
         }
     } ) as Application.Window;
+    currentlyVisibleWindow = safeLaunchPadStandardWindow;
+
     safeLaunchPadStandardWindow.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
 
     safeLaunchPadStandardWindow.on( 'close', ( event ) => {
@@ -162,9 +163,16 @@ export const createSafeLaunchPadStandardWindow = (
         }
     } );
 
-    safeLaunchPadStandardWindow.webContents.on( 'did-finish-load', () => {
-        currentlyVisibleWindow = safeLaunchPadStandardWindow;
+    safeLaunchPadStandardWindow.on( 'hide', () => {
+        if ( platform !== LINUX && !programmaticallyTriggeredHideEvent ) {
+            changeWindowVisibility( currentlyVisibleWindow, store );
+        }
+        if ( programmaticallyTriggeredHideEvent ) {
+            programmaticallyTriggeredHideEvent = false;
+        }
+    } );
 
+    safeLaunchPadStandardWindow.webContents.on( 'did-finish-load', () => {
         logger.info( 'LAUNCH PAD Standard Window: Loaded' );
 
         if ( isRunningUnpacked ) {
