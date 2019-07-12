@@ -43,9 +43,9 @@ const getWindowPosition = (
     let y = Math.round( trayBounds.y + trayBounds.height + 4 );
 
     if ( platform === WINDOWS ) {
-        // TODO:
-        // make this minus window height
-        y = Math.round( screenBounds.y - safeLaunchPadWindowBounds.height + 20 );
+        y = Math.round(
+            screenBounds.height - safeLaunchPadWindowBounds.height - 40
+        );
     }
 
     return { x, y };
@@ -212,7 +212,7 @@ export const createSafeLaunchPadTrayWindow = (
 
     // Hide the safeLaunchPadTrayWindow when it loses focus
     safeLaunchPadTrayWindow.on( 'blur', () => {
-        if ( platform !== OSX ) {
+        if ( platform === LINUX ) {
             changeWindowVisibility( currentlyVisibleWindow, store );
         }
     } );
