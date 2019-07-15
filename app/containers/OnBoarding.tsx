@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { BasicSettings } from '$Components/BasicSettings';
+import { OnBoarding } from '$Components/OnBoarding';
 
 import { setUserPreferences } from '$Actions/launchpad_actions';
 import {
@@ -28,4 +28,4 @@ const mapDispatchToProperties = ( dispatch ) => {
 export const OnBoardingPage: React.ComponentClass = connect(
     mapStateToProperties,
     mapDispatchToProperties
-)( BasicSettings );
+)( OnBoarding );
