@@ -2,7 +2,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { OnBoarding } from '$Components/OnBoarding';
 
-import { setUserPreferences } from '$Actions/launchpad_actions';
+import {
+    setUserPreferences,
+    getUserPreferences,
+    setOnboardCompleted
+} from '$Actions/launchpad_actions';
 import {
     storeUserPreferences,
     pinToTray,
@@ -11,16 +15,18 @@ import {
 
 const mapStateToProperties = ( state ) => {
     return {
-        userPreferences: state.launchpad.userPreferences
+        launchpad: state.launchpad
     };
 };
 
 const mapDispatchToProperties = ( dispatch ) => {
     const actions = {
         setUserPreferences,
+        getUserPreferences,
         storeUserPreferences,
         pinToTray,
-        autoLaunch
+        autoLaunch,
+        setOnboardCompleted
     };
     return bindActionCreators( actions, dispatch );
 };

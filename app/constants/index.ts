@@ -318,7 +318,7 @@ export const defaultPreferences = {
         warnOnAccessingClearnet: true
     },
     appPreferences: {
-        shouldOnboard: false
+        shouldOnboard: true
     }
 };
 

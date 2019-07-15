@@ -1,4 +1,4 @@
-import { createActions } from 'redux-actions';
+import { createActions, createAction } from 'redux-actions';
 
 import { UserPreferences } from '$Definitions/application.d';
 import {
@@ -34,12 +34,12 @@ export const getUserPreferences = () => {
     };
 };
 
-export const checkShouldOnboard = () => ( {
-    type: TYPES.CHECK_SHOULD_ONBOARD,
-    payload: checkOnBoardingCompleted()
-} );
+export const checkShouldOnboard = createAction(
+    TYPES.CHECK_SHOULD_ONBOARD,
+    checkOnBoardingCompleted
+);
 
-export const setOnboardCompleted = () => ( {
-    type: TYPES.ONBOARD_COMPLETED,
-    payload: setOnBoardingCompleted()
-} );
+export const setOnboardCompleted = createAction(
+    TYPES.ONBOARD_COMPLETED,
+    setOnBoardingCompleted
+);

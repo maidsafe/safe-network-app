@@ -7,8 +7,6 @@ import { forwardToRenderer, forwardToMain, triggerAlias } from 'electron-redux';
 export const addMiddlewares = ( middlewares: Array<Function> ): void => {
     middlewares.push( thunk );
 
-    middlewares.unshift( promiseMiddleware );
-
     if ( inBgProcess ) {
         middlewares.push( triggerAlias );
     }
@@ -22,4 +20,6 @@ export const addMiddlewares = ( middlewares: Array<Function> ): void => {
         // must be last
         middlewares.push( forwardToRenderer );
     }
+
+    middlewares.unshift( promiseMiddleware );
 };

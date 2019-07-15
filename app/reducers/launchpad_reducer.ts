@@ -4,7 +4,7 @@ import { LaunchpadState, UserPreferences } from '../definitions/application.d';
 import { ERRORS, defaultPreferences } from '$Constants/index';
 
 export const initialState: LaunchpadState = {
-    shouldOnboard: false,
+    shouldOnboard: null,
     userPreferences: { ...defaultPreferences.userPreferences },
     notifications: {}
 };
@@ -51,15 +51,22 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
             if ( typeof payload.shouldOnboard !== 'boolean' )
                 throw ERRORS.INVALID_TYPE;
 
-            return { ...state, shouldOnboard: payload.shouldOnboard };
+            return {
+                ...state,
+                shouldOnboard: payload.shouldOnboard
+            };
+        }
+
+        case TYPES.ONBOARD_COMPLETED: {
+            return {
+                ...state,
+                shouldOnboard: false
+            };
         }
 
         case ALIAS_TYPES.ALIAS_AUTO_LAUNCH:
         case ALIAS_TYPES.ALIAS_PIN_TO_TRAY:
-        case ALIAS_TYPES.ALIAS_STORE_USER_PREFERENCES: {
-            return state;
-        }
-
+        case ALIAS_TYPES.ALIAS_STORE_USER_PREFERENCES:
         default:
             return state;
     }

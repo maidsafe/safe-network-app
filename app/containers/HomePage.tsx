@@ -2,20 +2,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { Home } from '$Components/Home';
-import {
-    getUserPreferences,
-    checkShouldOnboard
-} from '$Actions/launchpad_actions';
+import { checkShouldOnboard } from '$Actions/launchpad_actions';
 
 function mapStateToProperties( state ) {
     return {
-        shouldOnboard: state.launchpad.shouldOnboard
+        launchpad: state.launchpad
     };
 }
 function mapDispatchToProperties( dispatch ) {
     // until we have a reducer to add here.
     const actions = {
-        getUserPreferences,
         checkShouldOnboard
     };
 

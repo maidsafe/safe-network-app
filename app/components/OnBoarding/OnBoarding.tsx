@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
+import { History } from 'history';
 import Grid from '@material-ui/core/Grid';
 
-import { UserPreferences } from '$Definitions/application.d';
+import { LaunchpadState } from '$Definitions/application.d';
 import { Stepper } from './Stepper';
 import { GetStarted } from './GetStarted';
 import { Intro } from './Intro';
 import { BasicSettings } from './BasicSettings';
+import { HOME } from '$Constants/routes.json';
 
 import styles from './OnBoading.css';
 
 interface Props {
-    userPreferences: UserPreferences;
+    launchpad: LaunchpadState;
+    getUserPreferences: Function;
     setUserPreferences: Function;
     pinToTray: Function;
     autoLaunch: Function;
     storeUserPreferences: Function;
+    setOnboardCompleted: Function;
+    history: History;
 }
 
 export class OnBoarding extends Component<Props> {
@@ -24,8 +29,31 @@ export class OnBoarding extends Component<Props> {
 
     totalSteps = 3;
 
+    componentWillMount() {
+        this.goHomeOnCompleted();
+        this.props.getUserPreferences();
+    }
+
+    componentDidUpdate() {
+        this.goHomeOnCompleted();
+    }
+
+    goHomeOnCompleted = () => {
+        const { launchpad, history } = this.props;
+
+        if ( !launchpad.shouldOnboard ) {
+            history.push( HOME );
+        }
+    };
+
     completed = () => {
-        this.props.storeUserPreferences( this.props.userPreferences );
+        const {
+            storeUserPreferences,
+            setOnboardCompleted,
+            launchpad
+        } = this.props;
+        storeUserPreferences( launchpad.userPreferences );
+        setOnboardCompleted();
     };
 
     onNext = () => {
@@ -53,11 +81,13 @@ export class OnBoarding extends Component<Props> {
     render() {
         const { currentPosition } = this.state;
         const {
-            userPreferences,
+            launchpad,
             setUserPreferences,
             pinToTray,
             autoLaunch
         } = this.props;
+
+        const { userPreferences } = launchpad;
 
         let container;
         switch ( currentPosition ) {

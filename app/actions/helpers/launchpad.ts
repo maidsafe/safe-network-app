@@ -54,8 +54,11 @@ export const checkOnBoardingCompleted = () =>
 export const setOnBoardingCompleted = () =>
     new Promise( async ( resolve, reject ) => {
         try {
+            if ( !preferenceDatabase.isReady() ) {
+                await preferenceDatabase.init();
+            }
             const appPreferences: AppPreferences = {
-                shouldOnboard: true
+                shouldOnboard: false
             };
             await preferenceDatabase.updateAppPreferences( appPreferences );
             return resolve();
