@@ -48,6 +48,15 @@ export interface UserPreferences {
     warnOnAccessingClearnet: boolean;
 }
 
+export interface AppPreferences {
+    shouldOnboard: boolean;
+}
+
+export interface Preferences {
+    userPreferences: UserPreferences;
+    appPreferences: AppPreferences;
+}
+
 export interface App {
     id: string;
     name: string;

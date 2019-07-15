@@ -3,7 +3,11 @@ import path from 'path';
 import db from 'electron-db';
 import pkg from '$Package';
 
-import { UserPreferences } from '$Definitions/application.d';
+import {
+    Preferences,
+    UserPreferences,
+    AppPreferences
+} from '$Definitions/application.d';
 import {
     defaultPreferences,
     preferenceDatabaseName,
@@ -11,13 +15,13 @@ import {
 } from '$Constants/index';
 import { getAppFolderPath, databaseCallBackHandler } from '$Utils/app_utils';
 
-class UserPreferencesDatabase {
-    private userPreferenceId: UserPreferences | null;
+class PreferencesDatabase {
+    private preferenceId: string | null;
 
     private tableName: string;
 
     public constructor() {
-        this.userPreferenceId = null;
+        this.preferenceId = null;
         this.tableName = isRunningTestCafeProcess
             ? preferenceDatabaseName.test
             : preferenceDatabaseName.production;
@@ -61,12 +65,12 @@ class UserPreferencesDatabase {
         } );
     }
 
-    private storeInitialData( userPreferences: UserPreferences ) {
+    private storeInitialData( preferences: Preferences ) {
         return new Promise( async ( resolve, reject ) => {
             try {
                 db.insertTableContent(
                     this.tableName,
-                    userPreferences,
+                    preferences,
                     databaseCallBackHandler( resolve, reject )
                 );
             } catch ( error ) {
@@ -79,14 +83,14 @@ class UserPreferencesDatabase {
         return new Promise( async ( resolve, reject ) => {
             try {
                 // create application folder
-                await UserPreferencesDatabase.createApplicationFolder();
+                await PreferencesDatabase.createApplicationFolder();
                 // create user preferences table
                 await this.createTable();
                 // insert initial user preferences data
-                const initialUserPreferences: UserPreferences = {
+                const initialPreferences: Preferences = {
                     ...defaultPreferences
                 };
-                await this.storeInitialData( initialUserPreferences );
+                await this.storeInitialData( initialPreferences );
                 // initialize
                 await this.init();
                 return resolve();
@@ -96,32 +100,92 @@ class UserPreferencesDatabase {
         } );
     }
 
-    public updatePreferences( userPreferences: UserPreferences ) {
-        // eslint-disable-next-line consistent-return
-        return new Promise( async ( resolve, reject ) => {
-            if ( !this.userPreferenceId )
-                return reject( new Error( 'Unable to update user preferences' ) );
-            const where = {
-                id: this.userPreferenceId
-            };
-
-            db.updateRow(
-                this.tableName,
-                where,
-                userPreferences,
-                databaseCallBackHandler( resolve, reject )
-            );
-        } );
-    }
-
-    public getAll(): Promise<Array<any>> {
+    private getAll(): Promise<Array<any>> {
         return new Promise( async ( resolve, reject ) => {
             db.getAll( this.tableName, databaseCallBackHandler( resolve, reject ) );
         } );
     }
 
+    private updatePreferences( preferences: Preferences ) {
+        // eslint-disable-next-line consistent-return
+        return new Promise( async ( resolve, reject ) => {
+            if ( !this.preferenceId )
+                return reject( new Error( 'Unable to update preferences' ) );
+            const where = {
+                id: this.preferenceId
+            };
+
+            db.updateRow(
+                this.tableName,
+                where,
+                preferences,
+                databaseCallBackHandler( resolve, reject )
+            );
+        } );
+    }
+
+    public getUserPreferences() {
+        return new Promise( async ( resolve, reject ) => {
+            try {
+                const [preferences] = await this.getAll();
+                return resolve( preferences.userPreferences );
+            } catch ( error ) {
+                return reject( error );
+            }
+        } );
+    }
+
+    public getAppPreferences() {
+        return new Promise( async ( resolve, reject ) => {
+            try {
+                const [preferences] = await this.getAll();
+                return resolve( preferences.appPreferences );
+            } catch ( error ) {
+                return reject( error );
+            }
+        } );
+    }
+
+    public updateUserPreferences( userPreferences: UserPreferences ) {
+        return new Promise( async ( resolve, reject ) => {
+            try {
+                const [preferences] = await this.getAll();
+                if ( !preferences ) {
+                    return reject(
+                        new Error( 'Unable to update user preferences' )
+                    );
+                }
+                preferences.userPreferences = { ...userPreferences };
+
+                await this.updatePreferences( preferences );
+                return resolve();
+            } catch ( error ) {
+                return reject( error );
+            }
+        } );
+    }
+
+    public updateAppPreferences( appPreferences: AppPreferences ) {
+        return new Promise( async ( resolve, reject ) => {
+            try {
+                const [preferences] = await this.getAll();
+                if ( !preferences ) {
+                    return reject(
+                        new Error( 'Unable to update app preferences' )
+                    );
+                }
+                preferences.appPreferences = { ...appPreferences };
+
+                await this.updatePreferences( preferences );
+                return resolve();
+            } catch ( error ) {
+                return reject( error );
+            }
+        } );
+    }
+
     public isReady() {
-        return !!this.userPreferenceId;
+        return !!this.preferenceId;
     }
 
     public init() {
@@ -130,9 +194,9 @@ class UserPreferencesDatabase {
                 await this.setup();
             }
             try {
-                const [userPreferences] = await this.getAll();
-                if ( userPreferences ) {
-                    this.userPreferenceId = userPreferences.id;
+                const [preferences] = await this.getAll();
+                if ( preferences ) {
+                    this.preferenceId = preferences.id;
                 }
                 return resolve();
             } catch ( error ) {
@@ -142,4 +206,4 @@ class UserPreferencesDatabase {
     }
 }
 
-export const userPreferenceDatabase = new UserPreferencesDatabase();
+export const preferenceDatabase = new PreferencesDatabase();

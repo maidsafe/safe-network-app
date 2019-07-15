@@ -2,8 +2,8 @@ import { ipcRenderer } from 'electron';
 import AutoLaunch from 'auto-launch';
 
 import pkg from '$Package';
-import { UserPreferences } from '$Definitions/application.d';
-import { userPreferenceDatabase } from './user_preferences_db';
+import { UserPreferences, AppPreferences } from '$Definitions/application.d';
+import { preferenceDatabase } from './preferences_db';
 
 export const mockPromise = ( data = null ) =>
     new Promise( ( resolve ) => {
@@ -15,11 +15,10 @@ export const mockPromise = ( data = null ) =>
 export const fetchUserPreferencesLocally = () =>
     new Promise( async ( resolve, reject ) => {
         try {
-            if ( !userPreferenceDatabase.isReady() ) {
-                await userPreferenceDatabase.init();
+            if ( !preferenceDatabase.isReady() ) {
+                await preferenceDatabase.init();
             }
-            const [userPreferences] = await userPreferenceDatabase.getAll();
-            delete userPreferences.id;
+            const userPreferences = await preferenceDatabase.getUserPreferences();
             return resolve( userPreferences );
         } catch ( error ) {
             return reject( error );
@@ -29,17 +28,41 @@ export const fetchUserPreferencesLocally = () =>
 export const storeUserPreferencesLocally = ( userPreferences: UserPreferences ) =>
     new Promise( async ( resolve, reject ) => {
         try {
-            if ( !userPreferenceDatabase.isReady() ) {
-                await userPreferenceDatabase.init();
+            if ( !preferenceDatabase.isReady() ) {
+                await preferenceDatabase.init();
             }
-            await userPreferenceDatabase.updatePreferences( userPreferences );
+            await preferenceDatabase.updateUserPreferences( userPreferences );
             return resolve();
         } catch ( error ) {
             return reject( error );
         }
     } );
 
-export const checkOnBoardingCompleted = () => mockPromise( true );
+export const checkOnBoardingCompleted = () =>
+    new Promise( async ( resolve, reject ) => {
+        try {
+            if ( !preferenceDatabase.isReady() ) {
+                await preferenceDatabase.init();
+            }
+            const appPreferences = await preferenceDatabase.getAppPreferences();
+            return resolve( appPreferences );
+        } catch ( error ) {
+            return reject( error );
+        }
+    } );
+
+export const setOnBoardingCompleted = () =>
+    new Promise( async ( resolve, reject ) => {
+        try {
+            const appPreferences: AppPreferences = {
+                shouldOnboard: true
+            };
+            await preferenceDatabase.updateAppPreferences( appPreferences );
+            return resolve();
+        } catch ( error ) {
+            return reject( error );
+        }
+    } );
 
 export const autoLaunchOnStart = ( enable ) =>
     new Promise( async ( resolve ) => {

@@ -11,12 +11,15 @@ import { SETTINGS, ON_BOARDING } from '$Constants/routes.json';
 
 interface Props {
     getUserPreferences: Function;
+    checkShouldOnboard: Function;
+    shouldOnboard: boolean;
     history: History;
 }
 
 export class Home extends Component<Props> {
-    componentWillMount() {
+    componentDidMount() {
         this.props.getUserPreferences();
+        // this.props.checkShouldOnboard()
     }
 
     render() {

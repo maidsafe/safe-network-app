@@ -5,13 +5,6 @@ describe( 'Alias launchpad actions', () => {
         expect( launchpad.TYPES ).toBeDefined();
     } );
 
-    it( 'should check onboarding process completed', () => {
-        expect( launchpad.shouldOnboard ).toBeDefined();
-        expect( launchpad.shouldOnboard().meta.trigger ).toEqual(
-            launchpad.TYPES.ALIAS_SHOULD_ONBOARD
-        );
-    } );
-
     it( 'should store user preferences', () => {
         expect( launchpad.storeUserPreferences ).toBeDefined();
         expect( launchpad.storeUserPreferences().meta.trigger ).toEqual(

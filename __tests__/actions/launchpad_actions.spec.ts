@@ -47,4 +47,13 @@ describe( 'Launchpad actions', () => {
         };
         expect( launchpad.setUserPreferences( payload ) ).toEqual( expectAction );
     } );
+
+    it( 'should check onboarding process completed', () => {
+        const expectAction = {
+            type: launchpad.TYPES.CHECK_SHOULD_ONBOARD,
+            payload: Promise.resolve()
+        };
+        expect( launchpad.checkShouldOnboard ).toBeDefined();
+        expect( launchpad.checkShouldOnboard() ).toEqual( expectAction );
+    } );
 } );

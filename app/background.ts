@@ -19,5 +19,8 @@ const initBgProcess = () => {
 initBgProcess();
 
 window.addEventListener( 'error', function windowErrors( error ) {
-    logger.error( 'errorInBackgroundWindow', error );
+    logger.error(
+        'errorInBackgroundWindow',
+        JSON.stringify( error, ['message', 'arguments', 'type', 'name'] )
+    );
 } );

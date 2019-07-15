@@ -21,6 +21,12 @@ declare interface NodeError extends Error {
 // Enable import of css in typescript
 declare module '*.css' {
     const content: any;
-    /* eslint-disable-next-line import/no-default-export */
+    /* eslint-disable-next-line import/no-default-export, import/export */
+    export default content;
+}
+
+declare module '*.svg' {
+    const content: any;
+    /* eslint-disable-next-line import/no-default-export, import/export */
     export default content;
 }

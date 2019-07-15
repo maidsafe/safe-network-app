@@ -1,11 +1,11 @@
 import { TYPES } from '$App/actions/launchpad_actions';
-import { TYPES as ALIAS_TYPES } from '$Actions/alias/launchpad_actions';
+import { TYPES as ALIAS_TYPES } from '$App/actions/alias/launchpad_actions';
 import { LaunchpadState, UserPreferences } from '../definitions/application.d';
 import { ERRORS, defaultPreferences } from '$Constants/index';
 
 export const initialState: LaunchpadState = {
     shouldOnboard: false,
-    userPreferences: { ...defaultPreferences },
+    userPreferences: { ...defaultPreferences.userPreferences },
     notifications: {}
 };
 
@@ -47,11 +47,17 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
             return { ...state, notifications: newNotifications };
         }
 
-        case ALIAS_TYPES.ALIAS_SHOULD_ONBOARD: {
+        case TYPES.CHECK_SHOULD_ONBOARD: {
             if ( typeof payload.shouldOnboard !== 'boolean' )
                 throw ERRORS.INVALID_TYPE;
 
             return { ...state, shouldOnboard: payload.shouldOnboard };
+        }
+
+        case ALIAS_TYPES.ALIAS_AUTO_LAUNCH:
+        case ALIAS_TYPES.ALIAS_PIN_TO_TRAY:
+        case ALIAS_TYPES.ALIAS_STORE_USER_PREFERENCES: {
+            return state;
         }
 
         default:
