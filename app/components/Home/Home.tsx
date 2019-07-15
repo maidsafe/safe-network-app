@@ -7,12 +7,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Settings from '@material-ui/icons/Settings';
 import Star from '@material-ui/icons/Star';
 
+import { LaunchpadState } from '$Definitions/application.d';
 import { SETTINGS, ON_BOARDING } from '$Constants/routes.json';
 
 interface Props {
-    getUserPreferences: Function;
-    checkShouldOnboard: Function;
+    launchpad: LaunchpadState;
     history: History;
+    checkShouldOnboard: Function;
 }
 
 export class Home extends Component<Props> {
