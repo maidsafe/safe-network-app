@@ -3,6 +3,8 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Root } from './containers/Root';
 import { configureStore, history } from './store/configureStore';
+import { initialiseApp } from '$Actions/launchpad_actions';
+
 import 'typeface-roboto/index.css';
 import './app.global.css';
 
@@ -27,3 +29,5 @@ if ( module.hot ) {
         );
     } );
 }
+
+store.dispatch( initialiseApp() );

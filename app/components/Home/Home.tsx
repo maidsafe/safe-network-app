@@ -21,7 +21,7 @@ export class Home extends Component<Props> {
         this.props.checkShouldOnboard();
     }
 
-    componentDidUpdate( props ) {
+    componentDidUpdate() {
         const { launchpad, history } = this.props;
         if ( launchpad.shouldOnboard ) {
             history.push( ON_BOARDING );
@@ -45,16 +45,6 @@ export class Home extends Component<Props> {
                                 }}
                             >
                                 <Settings fontSize="inherit" />
-                            </IconButton>
-                            <IconButton
-                                edge="end"
-                                color="inherit"
-                                aria-label="OnBoarding"
-                                onClick={() => {
-                                    history.push( ON_BOARDING );
-                                }}
-                            >
-                                <Star fontSize="inherit" />
                             </IconButton>
                         </Toolbar>
                     </Box>

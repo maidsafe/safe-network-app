@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { History } from 'history';
 import Grid from '@material-ui/core/Grid';
+import { styled } from '@material-ui/core/styles';
 
 import { LaunchpadState } from '$Definitions/application.d';
 import { Stepper } from './Stepper';
@@ -8,8 +9,6 @@ import { GetStarted } from './GetStarted';
 import { Intro } from './Intro';
 import { BasicSettings } from './BasicSettings';
 import { HOME } from '$Constants/routes.json';
-
-import styles from './OnBoading.css';
 
 interface Props {
     launchpad: LaunchpadState;
@@ -21,6 +20,14 @@ interface Props {
     setOnboardCompleted: Function;
     history: History;
 }
+
+const Base = styled( Grid )( {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%'
+} );
 
 export class OnBoarding extends Component<Props> {
     state = {
@@ -113,7 +120,7 @@ export class OnBoarding extends Component<Props> {
 
         const isGetStarted = currentPosition === 0;
         return (
-            <Grid container className={styles.wrap}>
+            <Base container>
                 <Grid item xs={12}>
                     {container}
                 </Grid>
@@ -126,7 +133,7 @@ export class OnBoarding extends Component<Props> {
                     steps={this.totalSteps}
                     activeStep={this.state.currentPosition}
                 />
-            </Grid>
+            </Base>
         );
     }
 }

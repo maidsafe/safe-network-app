@@ -1,13 +1,15 @@
 import { createActions, createAction } from 'redux-actions';
 
-import { UserPreferences } from '$Definitions/application.d';
+import { UserPreferences, AppPreferences } from '$Definitions/application.d';
 import {
+    initiliseApplication,
     fetchUserPreferencesLocally,
-    checkOnBoardingCompleted,
-    setOnBoardingCompleted
+    storeAppPreferencesLocally,
+    checkOnBoardingCompleted
 } from './helpers/launchpad';
 
 export const TYPES = {
+    INITILISE_APP: 'INITILISE_APP',
     CHECK_SHOULD_ONBOARD: 'CHECK_SHOULD_ONBOARD',
     ONBOARD_COMPLETED: 'ONBOARD_COMPLETED',
     PUSH_NOTIFICATION: 'PUSH_NOTIFICATION',
@@ -34,12 +36,25 @@ export const getUserPreferences = () => {
     };
 };
 
+export const setOnboardCompleted = () => {
+    return ( dispatch ) => {
+        const appPreferences: AppPreferences = {
+            shouldOnboard: false
+        };
+        return storeAppPreferencesLocally( appPreferences ).then(
+            dispatch( {
+                type: TYPES.ONBOARD_COMPLETED
+            } )
+        );
+    };
+};
+
 export const checkShouldOnboard = createAction(
     TYPES.CHECK_SHOULD_ONBOARD,
     checkOnBoardingCompleted
 );
 
-export const setOnboardCompleted = createAction(
-    TYPES.ONBOARD_COMPLETED,
-    setOnBoardingCompleted
+export const initialiseApp = createAction(
+    TYPES.INITILISE_APP,
+    initiliseApplication
 );

@@ -100,9 +100,16 @@ class PreferencesDatabase {
         } );
     }
 
-    private getAll(): Promise<Array<any>> {
+    private getPreferences() {
         return new Promise( async ( resolve, reject ) => {
-            db.getAll( this.tableName, databaseCallBackHandler( resolve, reject ) );
+            const resolver = ( data ) => {
+                const [preferences] = data;
+                return resolve( preferences );
+            };
+            db.getAll(
+                this.tableName,
+                databaseCallBackHandler( resolver, reject )
+            );
         } );
     }
 
@@ -127,7 +134,7 @@ class PreferencesDatabase {
     public getUserPreferences() {
         return new Promise( async ( resolve, reject ) => {
             try {
-                const [preferences] = await this.getAll();
+                const preferences = await this.getPreferences();
                 return resolve( preferences.userPreferences );
             } catch ( error ) {
                 return reject( error );
@@ -138,7 +145,7 @@ class PreferencesDatabase {
     public getAppPreferences() {
         return new Promise( async ( resolve, reject ) => {
             try {
-                const [preferences] = await this.getAll();
+                const preferences = await this.getPreferences();
                 return resolve( preferences.appPreferences );
             } catch ( error ) {
                 return reject( error );
@@ -149,7 +156,7 @@ class PreferencesDatabase {
     public updateUserPreferences( userPreferences: UserPreferences ) {
         return new Promise( async ( resolve, reject ) => {
             try {
-                const [preferences] = await this.getAll();
+                const preferences = await this.getPreferences();
                 if ( !preferences ) {
                     return reject(
                         new Error( 'Unable to update user preferences' )
@@ -168,7 +175,7 @@ class PreferencesDatabase {
     public updateAppPreferences( appPreferences: AppPreferences ) {
         return new Promise( async ( resolve, reject ) => {
             try {
-                const [preferences] = await this.getAll();
+                const preferences = await this.getPreferences();
                 if ( !preferences ) {
                     return reject(
                         new Error( 'Unable to update app preferences' )
@@ -184,17 +191,17 @@ class PreferencesDatabase {
         } );
     }
 
-    public isReady() {
-        return !!this.preferenceId;
-    }
-
     public init() {
         return new Promise( async ( resolve, reject ) => {
-            if ( !this.checkDatabaseExist() ) {
-                await this.setup();
+            if ( this.preferenceId ) {
+                return resolve();
             }
             try {
-                const [preferences] = await this.getAll();
+                if ( !this.checkDatabaseExist() ) {
+                    await this.setup();
+                }
+
+                const preferences = await this.getPreferences();
                 if ( preferences ) {
                     this.preferenceId = preferences.id;
                 }

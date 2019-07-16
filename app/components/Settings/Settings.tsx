@@ -37,12 +37,7 @@ export class Settings extends Component<Props> {
     };
 
     render() {
-        const {
-            userPreferences,
-            setUserPreferences,
-            pinToTray,
-            autoLaunch
-        } = this.props;
+        const { userPreferences, pinToTray, autoLaunch } = this.props;
 
         return (
             <Grid container>

@@ -12,6 +12,13 @@ describe( 'Alias launchpad actions', () => {
         );
     } );
 
+    it( 'should store app preferences', () => {
+        expect( launchpad.storeAppPreferences ).toBeDefined();
+        expect( launchpad.storeAppPreferences().meta.trigger ).toEqual(
+            launchpad.TYPES.ALIAS_STORE_APP_PREFERENCES
+        );
+    } );
+
     it( 'should auto launch launchpad', () => {
         expect( launchpad.autoLaunch ).toBeDefined();
         expect( launchpad.autoLaunch().meta.trigger ).toEqual(

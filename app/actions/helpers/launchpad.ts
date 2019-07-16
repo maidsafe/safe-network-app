@@ -12,12 +12,19 @@ export const mockPromise = ( data = null ) =>
         }, 1000 );
     } );
 
+export const initiliseApplication = () =>
+    new Promise( async ( resolve ) => {
+        try {
+            await preferenceDatabase.init();
+            console.warn( 'Initialised database' );
+        } catch ( error ) {
+            console.warn( 'Unable to initialise application', error );
+        }
+    } );
+
 export const fetchUserPreferencesLocally = () =>
     new Promise( async ( resolve, reject ) => {
         try {
-            if ( !preferenceDatabase.isReady() ) {
-                await preferenceDatabase.init();
-            }
             const userPreferences = await preferenceDatabase.getUserPreferences();
             return resolve( userPreferences );
         } catch ( error ) {
@@ -28,10 +35,17 @@ export const fetchUserPreferencesLocally = () =>
 export const storeUserPreferencesLocally = ( userPreferences: UserPreferences ) =>
     new Promise( async ( resolve, reject ) => {
         try {
-            if ( !preferenceDatabase.isReady() ) {
-                await preferenceDatabase.init();
-            }
             await preferenceDatabase.updateUserPreferences( userPreferences );
+            return resolve();
+        } catch ( error ) {
+            return reject( error );
+        }
+    } );
+
+export const storeAppPreferencesLocally = ( appPreferences: AppPreferences ) =>
+    new Promise( async ( resolve, reject ) => {
+        try {
+            await preferenceDatabase.updateAppPreferences( appPreferences );
             return resolve();
         } catch ( error ) {
             return reject( error );
@@ -41,27 +55,8 @@ export const storeUserPreferencesLocally = ( userPreferences: UserPreferences ) 
 export const checkOnBoardingCompleted = () =>
     new Promise( async ( resolve, reject ) => {
         try {
-            if ( !preferenceDatabase.isReady() ) {
-                await preferenceDatabase.init();
-            }
             const appPreferences = await preferenceDatabase.getAppPreferences();
             return resolve( appPreferences );
-        } catch ( error ) {
-            return reject( error );
-        }
-    } );
-
-export const setOnBoardingCompleted = () =>
-    new Promise( async ( resolve, reject ) => {
-        try {
-            if ( !preferenceDatabase.isReady() ) {
-                await preferenceDatabase.init();
-            }
-            const appPreferences: AppPreferences = {
-                shouldOnboard: false
-            };
-            await preferenceDatabase.updateAppPreferences( appPreferences );
-            return resolve();
         } catch ( error ) {
             return reject( error );
         }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withStyles, styled } from '@material-ui/core/styles';
 import indigo from '@material-ui/core/colors/indigo';
 import Button from '@material-ui/core/Button';
@@ -49,30 +49,30 @@ export const Stepper = ( props: Props ) => {
         noElevation
     } = props;
 
-    const CustomButton = styled( Button )( {
+    const NavButton = styled( Button )( {
         color: indigo[800],
         visibility: showButtons ? 'visible' : 'hidden'
     } );
 
     const NextButton = (
-        <CustomButton
+        <NavButton
             size="small"
             onClick={() => {
                 onNext();
             }}
         >
             Next
-        </CustomButton>
+        </NavButton>
     );
     const BackButton = (
-        <CustomButton
+        <NavButton
             size="small"
             onClick={() => {
                 onBack();
             }}
         >
             Back
-        </CustomButton>
+        </NavButton>
     );
 
     const StyledStepper = withStyles(
