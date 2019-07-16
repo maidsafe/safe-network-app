@@ -55,6 +55,7 @@ export interface AppPreferences {
 export interface Preferences {
     userPreferences: UserPreferences;
     appPreferences: AppPreferences;
+    id?: number;
 }
 
 export interface App {

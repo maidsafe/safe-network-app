@@ -16,7 +16,7 @@ import {
 import { getAppFolderPath, databaseCallBackHandler } from '$Utils/app_utils';
 
 class PreferencesDatabase {
-    private preferenceId: string | null;
+    private preferenceId: number | null;
 
     private tableName: string;
 
@@ -100,7 +100,7 @@ class PreferencesDatabase {
         } );
     }
 
-    private getPreferences() {
+    private getPreferences(): Promise<Preferences> {
         return new Promise( async ( resolve, reject ) => {
             const resolver = ( data ) => {
                 const [preferences] = data;
@@ -134,7 +134,7 @@ class PreferencesDatabase {
     public getUserPreferences() {
         return new Promise( async ( resolve, reject ) => {
             try {
-                const preferences = await this.getPreferences();
+                const preferences: Preferences = await this.getPreferences();
                 return resolve( preferences.userPreferences );
             } catch ( error ) {
                 return reject( error );
