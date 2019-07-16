@@ -24,3 +24,11 @@ export const camelToTitle = ( camelCase ) =>
         .replace( /([A-Z])/g, ( match ) => ` ${match}` )
         .replace( /^./, ( match ) => match.toUpperCase() )
         .trim();
+
+export const shallowCompare = ( appObjectOne, appObjectTwo ) =>
+    Object.keys( appObjectOne ).length === Object.keys( appObjectTwo ).length &&
+    Object.keys( appObjectOne ).every(
+        ( key ) =>
+            appObjectTwo.hasOwnProperty( key ) &&
+            appObjectOne[key] === appObjectTwo[key]
+    );

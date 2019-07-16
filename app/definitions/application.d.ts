@@ -70,9 +70,12 @@ export interface App {
     isInstalling?: boolean;
     isUpdating?: boolean;
     isUninstalling?: boolean;
+    isDownloading?: boolean;
     hasUpdate?: boolean;
     lastSkippedVersion?: string;
     error?: Error | null;
+    isInstalled?: boolean;
+    installFailed?: boolean;
 }
 
 export interface LaunchpadState {

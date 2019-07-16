@@ -1,10 +1,10 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { Provider } from 'react-redux';
 
 import configureStore from 'redux-mock-store';
 
 import { ApplicationOverview } from '$App/components/ApplicationOverview';
+import { MeatballMenu } from '$App/components/MeatballMenu';
 
 jest.mock( '$Logger' );
 
@@ -71,12 +71,12 @@ describe( 'ApplicationOverview', () => {
     } );
 
     describe( 'render', () => {
-        it( 'one download button', () => {
-            expect( wrapper.find( 'button.download' ).exists ).toBeTruthy();
+        it( 'one install button', () => {
+            expect( wrapper.find( '.install' ).exists() ).toBeTruthy();
         } );
 
-        it( 'one uninstall button', () => {
-            expect( wrapper.find( 'button.uninstall' ).exists ).toBeTruthy();
+        it( 'meatball menu component', () => {
+            expect( wrapper.find( MeatballMenu ).exists() ).toBeTruthy();
         } );
     } );
 } );
