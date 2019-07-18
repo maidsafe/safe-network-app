@@ -41,7 +41,7 @@ export const setOnboardCompleted = () => {
         const appPreferences: AppPreferences = {
             shouldOnboard: false
         };
-        return storeAppPreferencesLocally( appPreferences ).then(
+        return storeAppPreferencesLocally( appPreferences ).finally(
             dispatch( {
                 type: TYPES.ONBOARD_COMPLETED
             } )

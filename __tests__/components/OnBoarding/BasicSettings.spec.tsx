@@ -1,7 +1,7 @@
 import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
 
-import { BasicSettings } from '$App/components/OnBoarding/BasicSettings';
+import { BasicSettings } from '$Components/OnBoarding/BasicSettings';
 import { Preferences } from '$Components/Preferences';
 
 const shallow = createShallow();
