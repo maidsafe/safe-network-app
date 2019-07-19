@@ -53,19 +53,23 @@ class UserPreferencesDatabase {
     }
 
     private createTable() {
+        const appFolderPath = getAppFolderPath();
         return new Promise( async ( resolve, reject ) => {
             db.createTable(
                 this.tableName,
+                path.resolve( appFolderPath, pkg.name ),
                 databaseCallBackHandler( resolve, reject )
             );
         } );
     }
 
     private storeInitialData( userPreferences: UserPreferences ) {
+        const appFolderPath = getAppFolderPath();
         return new Promise( async ( resolve, reject ) => {
             try {
                 db.insertTableContent(
                     this.tableName,
+                    path.resolve( appFolderPath, pkg.name ),
                     userPreferences,
                     databaseCallBackHandler( resolve, reject )
                 );
@@ -97,6 +101,7 @@ class UserPreferencesDatabase {
     }
 
     public updatePreferences( userPreferences: UserPreferences ) {
+        const appFolderPath = getAppFolderPath();
         // eslint-disable-next-line consistent-return
         return new Promise( async ( resolve, reject ) => {
             if ( !this.userPreferenceId )
@@ -107,6 +112,7 @@ class UserPreferencesDatabase {
 
             db.updateRow(
                 this.tableName,
+                path.resolve( appFolderPath, pkg.name ),
                 where,
                 userPreferences,
                 databaseCallBackHandler( resolve, reject )
@@ -115,8 +121,13 @@ class UserPreferencesDatabase {
     }
 
     public getAll(): Promise<Array<any>> {
+        const appFolderPath = getAppFolderPath();
         return new Promise( async ( resolve, reject ) => {
-            db.getAll( this.tableName, databaseCallBackHandler( resolve, reject ) );
+            db.getAll(
+                this.tableName,
+                path.resolve( appFolderPath, pkg.name ),
+                databaseCallBackHandler( resolve, reject )
+            );
         } );
     }
 
