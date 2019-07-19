@@ -21,7 +21,7 @@ fixture`Settings Page`
     .beforeEach( async () => {
         await waitForReact();
     } )
-    .before( async () => {
+    .afterEach( async () => {
         await updatePreferences( {
             appPreferences: {
                 shouldOnboard: false

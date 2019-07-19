@@ -28,7 +28,7 @@ fixture`On Boarding Page`
     .beforeEach( async () => {
         await waitForReact();
     } )
-    .before( async () => {
+    .afterEach( async () => {
         await updatePreferences( {
             appPreferences: {
                 shouldOnboard: true
