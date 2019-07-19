@@ -3,13 +3,23 @@ import { TYPES } from '$Actions/app_manager_actions';
 import { TYPES as ALIAS_TYPES } from '$Actions/alias/app_manager_actions';
 import { generateRandomString } from '$Utils/app_utils';
 import { ERRORS } from '$Constants/index';
+import {
+    App,
+    // TODO: Correctly configure eslint so that following disable isn't necessary
+    AppType // eslint-disable-line import/named
+} from '$Definitions/application.d';
 
-const getApp = () => ( {
+const getApp = (): App => ( {
     id: generateRandomString(),
     name: 'Safe Browser',
+    packageName: 'safe-browser',
+    type: 'userApplications' as AppType,
+    repository: 'https://github.com/joshuef/safe_browser',
+    latestVersion: '0.1.0',
     isInstalling: false,
     isUpdating: false,
     isUninstalling: false,
+    isOpen: false,
     hasUpdate: false,
     lastSkippedVersion: null,
     error: null,
@@ -21,8 +31,8 @@ describe( 'app manager reducer', () => {
         expect( appManager( undefined, {} ) ).toEqual( initialState );
     } );
 
-    describe( 'FETCH_APPS', () => {
-        it( 'Should add apps to store on fetch success', () => {
+    describe( 'SET_APPS', () => {
+        it( 'Should add apps to store', () => {
             const applicationList = [];
             const app1 = getApp();
             const app2 = getApp();
@@ -31,7 +41,7 @@ describe( 'app manager reducer', () => {
             applicationList.push( app2 );
 
             const nextStore = appManager( undefined, {
-                type: `${ALIAS_TYPES.ALIAS_FETCH_APPS}_SUCCESS`,
+                type: `${TYPES.SET_APPS}`,
                 payload: {
                     applicationList
                 }
@@ -51,7 +61,7 @@ describe( 'app manager reducer', () => {
 
             expect( () =>
                 appManager( undefined, {
-                    type: `${ALIAS_TYPES.ALIAS_FETCH_APPS}_SUCCESS`,
+                    type: `${TYPES.SET_APPS}`,
                     payload: {
                         applicationList
                     }
@@ -71,7 +81,7 @@ describe( 'app manager reducer', () => {
 
         beforeEach( () => {
             store = appManager( undefined, {
-                type: `${ALIAS_TYPES.ALIAS_FETCH_APPS}_SUCCESS`,
+                type: `${TYPES.SET_APPS}`,
                 payload: {
                     applicationList
                 }

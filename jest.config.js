@@ -13,6 +13,9 @@ module.exports = {
         '^.+\\.tsx?$': 'ts-jest',
         '\\.(jpg|jpeg|png|gif|webp|svg)$': 'jest-transform-file'
     },
+    moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
+    testPathIgnorePatterns: ['node_modules'],
+    moduleDirectories: ['app', 'test', 'node_modules'],
     moduleNameMapper: {
         ...tsConfigAlias,
         '\\.(css|less|scss|sss|styl)$':

@@ -189,4 +189,16 @@ describe( 'launchpad reducer', () => {
             ).toBeUndefined();
         } );
     } );
+
+    describe( 'SET_STANDARD_WINDOW_VISIBILITY', () => {
+        it( 'Should update standard-window-is-visible flag', () => {
+            expect( initialState.standardWindowIsVisible ).toBeTruthy();
+            expect(
+                launchpadReducer( initialState, {
+                    type: TYPES.SET_STANDARD_WINDOW_VISIBILITY,
+                    payload: false
+                } ).standardWindowIsVisible
+            ).toBeFalsy();
+        } );
+    } );
 } );

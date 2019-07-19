@@ -21,7 +21,11 @@ import { logger } from '$Logger';
 import { configureStore } from '$Store/configureStore';
 import { MenuBuilder } from './menu';
 import { Application } from './definitions/application.d';
-import { createSafeLaunchPadWindow, createTray } from './setupLaunchPad';
+import {
+    createSafeLaunchPadStandardWindow,
+    createSafeLaunchPadTrayWindow,
+    createTray
+} from './setupLaunchPad';
 import { setupBackground } from './setupBackground';
 
 import managedApplications from '$App/managedApplications.json';
@@ -74,6 +78,7 @@ const installExtensions = async () => {
 
 let store: Store;
 let mainWindow: Application.Window;
+let trayWindow: Application.Window;
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -113,9 +118,10 @@ if ( !gotTheLock ) {
             } );
         }
 
-        createTray();
-        mainWindow = createSafeLaunchPadWindow();
-        setupBackground( store );
+        createTray( store, app );
+        mainWindow = createSafeLaunchPadStandardWindow( store, app );
+        trayWindow = createSafeLaunchPadTrayWindow( store, app );
+        setupBackground( store, mainWindow );
 
         const menuBuilder = new MenuBuilder( mainWindow );
         menuBuilder.buildMenu();

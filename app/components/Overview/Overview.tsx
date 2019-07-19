@@ -2,46 +2,36 @@ import React, { Component } from 'react';
 import { logger } from '$Logger';
 
 import styles from './Overview.css';
-import { ManagedApplication } from '$Definitions/application.d';
+import { AppManagerState } from '$Definitions/application.d';
 import { ApplicationOverview } from '$Components/ApplicationOverview';
 
 interface Props {
     uninstallApp: Function;
     openApp: Function;
     installApp: Function;
-    userApplications: Array<ManagedApplication>;
-    developerApplications: Array<ManagedApplication>;
+    appManagerState: AppManagerState;
+    fetchApps: Function;
+    triggerSetStandardWindowVisibility: Function;
+    standardWindowIsVisible: boolean;
 }
 
 export class Overview extends Component<Props> {
-    handleDownload = ( application ) => {
-        const { installApp } = this.props;
+    constructor( props ) {
+        // eslint-disable-line unicorn/prevent-abbreviations
+        super( props );
+        const { fetchApps } = this.props;
+        fetchApps();
+    }
 
-        installApp( application );
-    };
-
-    handleOpen = ( application ) => {
-        const { openApp } = this.props;
-        openApp( application );
-    };
-
-    handleRemove = ( application ) => {
-        const { uninstallApp } = this.props;
-
-        uninstallApp( application );
-    };
-
-    render() {
+    loadApps = () => {
         const {
-            userApplications,
+            appManagerState,
             uninstallApp,
             installApp,
             openApp
         } = this.props;
-
-        const apps = [];
-        userApplications.forEach( ( theApplication ) => {
-            apps.push(
+        return Object.values( appManagerState.applicationList ).map(
+            ( theApplication ) => (
                 <ApplicationOverview
                     key={theApplication.name}
                     {...theApplication}
@@ -50,11 +40,33 @@ export class Overview extends Component<Props> {
                     uninstallApp={uninstallApp}
                     openApp={openApp}
                 />
-            );
-        } );
+            )
+        );
+    };
+
+    render() {
+        const {
+            triggerSetStandardWindowVisibility,
+            standardWindowIsVisible
+        } = this.props;
         return (
             <div className={styles.container} data-tid="container">
-                {apps}
+                <button
+                    type="button"
+                    className={styles['btn--upper-right']}
+                    key="overview__switch-button"
+                    onClick={() =>
+                        triggerSetStandardWindowVisibility(
+                            !standardWindowIsVisible
+                        )
+                    }
+                >
+                    Switch
+                </button>
+                {!standardWindowIsVisible && (
+                    <span data-visible={standardWindowIsVisible} />
+                )}
+                {this.loadApps()}
             </div>
         );
     }

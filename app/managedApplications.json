@@ -3,6 +3,7 @@
     "version": "1",
     "applications": {
         "SAFE Browser": {
+            "id": "safe.browser",
             "name": "SAFE Browser",
             "packageName": "safe-browser",
             "repository": "https://github.com/joshuef/safe_browser",
@@ -10,6 +11,7 @@
             "type": "userApplications"
         },
         "ElectronTypescriptBoiler": {
+            "id": "electron.ts.boiler",
             "name": "ElectronTypescriptBoiler",
             "packageName": "ElectronTypescriptBoiler",
             "repository": "https://github.com/joshuef/electron-typescript-react-boilerplate",

@@ -1,5 +1,6 @@
 import path from 'path';
 import os from 'os';
+import log from 'electron-log';
 
 import {
     currentWindowId,
@@ -17,7 +18,6 @@ import {
     isDryRun,
     isCI
 } from '$Constants';
-import log from 'electron-log';
 
 if ( log.transports ) {
     // Log level

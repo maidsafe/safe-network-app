@@ -1,8 +1,7 @@
 import thunk from 'redux-thunk';
-import { inRendererProcess, inBgProcess } from '$Constants';
 import promiseMiddleware from 'redux-promise';
-
 import { forwardToRenderer, forwardToMain, triggerAlias } from 'electron-redux';
+import { inRendererProcess, inBgProcess } from '$Constants';
 
 export const addMiddlewares = ( middlewares: Array<Function> ): void => {
     middlewares.push( thunk );

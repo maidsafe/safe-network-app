@@ -6,14 +6,22 @@ import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import Settings from '@material-ui/icons/Settings';
 import Star from '@material-ui/icons/Star';
+import { Overview } from '$Components/Overview';
 
-import { LaunchpadState } from '$Definitions/application.d';
+import { LaunchpadState, AppManagerState } from '$Definitions/application.d';
 import { SETTINGS, ON_BOARDING } from '$Constants/routes.json';
 
 interface Props {
     launchpad: LaunchpadState;
     history: History;
     checkShouldOnboard: Function;
+    uninstallApp: Function;
+    openApp: Function;
+    installApp: Function;
+    appManagerState: AppManagerState;
+    fetchApps: Function;
+    triggerSetStandardWindowVisibility: Function;
+    standardWindowIsVisible: boolean;
 }
 
 export class Home extends Component<Props> {
@@ -34,7 +42,7 @@ export class Home extends Component<Props> {
         return (
             <Grid container>
                 <Grid item xs={12}>
-                    <Box>
+                    <Box key="grid__box">
                         <Toolbar>
                             <IconButton
                                 edge="end"
@@ -48,6 +56,7 @@ export class Home extends Component<Props> {
                             </IconButton>
                         </Toolbar>
                     </Box>
+                    <Overview key="grid__overview" {...this.props} />
                 </Grid>
             </Grid>
         );

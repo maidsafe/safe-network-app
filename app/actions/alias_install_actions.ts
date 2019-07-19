@@ -1,8 +1,8 @@
 import { ipcRenderer } from 'electron';
 import open from 'open';
+import { createAliasedAction } from 'electron-redux';
 import { isDryRun } from '$Constants';
 // import { createActions } from 'redux-actions';
-import { createAliasedAction } from 'electron-redux';
 import { logger } from '$Logger';
 import { ManagedApplication } from '$Definitions/application.d';
 

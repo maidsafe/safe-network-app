@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import { remote } from 'electron';
 
-import pkg from '$Package';
 import getPort from 'get-port';
+import pkg from '$Package';
 
 export const { platform } = process;
 export const OSX = 'darwin';

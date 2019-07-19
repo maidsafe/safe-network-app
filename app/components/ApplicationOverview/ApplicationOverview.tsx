@@ -48,12 +48,20 @@ export class ApplicationOverview extends Component<Props> {
                     //         Open it (doesnt go yet)
                     //     </Button>
                     // )
-                    <Button variant="contained" onClick={this.handleDownload}>
+                    <Button
+                        className="download"
+                        variant="contained"
+                        onClick={this.handleDownload}
+                    >
                         {`Download ${name}`}
                     </Button>
                 )}
 
-                <Button variant="contained" onClick={this.handleUninstall}>
+                <Button
+                    className="uninstall"
+                    variant="contained"
+                    onClick={this.handleUninstall}
+                >
                     {`Uninstall ${name}`}
                 </Button>
             </div>
