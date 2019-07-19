@@ -27,7 +27,7 @@ const Title = styled( Typography )( {
 
 export const Intro = () => {
     return (
-        <Base elevation={0}>
+        <Base elevation={0} aria-label="IntroPage">
             <Container>
                 <Title variant="h5">One Place for All SAFE Apps</Title>
                 <Typography>

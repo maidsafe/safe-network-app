@@ -57,6 +57,7 @@ export const Stepper = ( props: Props ) => {
     const NextButton = (
         <NavButton
             size="small"
+            aria-label="NavNextButton"
             onClick={() => {
                 onNext();
             }}
@@ -67,6 +68,7 @@ export const Stepper = ( props: Props ) => {
     const BackButton = (
         <NavButton
             size="small"
+            aria-label="NavBackButton"
             onClick={() => {
                 onBack();
             }}

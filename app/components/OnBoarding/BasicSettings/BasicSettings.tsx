@@ -42,7 +42,7 @@ export const BasicSettings = ( props: Props ) => {
     };
 
     return (
-        <Base elevation={0}>
+        <Base elevation={0} aria-label="BasicSettings">
             <Container>
                 <Title variant="h5">Basic Settings</Title>
                 <Typography>

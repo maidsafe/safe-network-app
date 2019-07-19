@@ -56,7 +56,7 @@ interface Props {
 export const GetStarted = ( props: Props ) => {
     const { onClickGetStarted } = props;
     return (
-        <Base>
+        <Base aria-label="GetStarted">
             <LogoBase>
                 <img src={Logo} alt="Launchpad logo" />
             </LogoBase>
@@ -68,6 +68,7 @@ export const GetStarted = ( props: Props ) => {
                 <GetStartedButton
                     variant="extended"
                     size="medium"
+                    aria-label="GetStarted"
                     onClick={() => {
                         onClickGetStarted();
                     }}

@@ -2,7 +2,8 @@
 import { Selector } from 'testcafe';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { waitForReact } from 'testcafe-react-selectors';
-import { getPageUrl, getPageTitle } from './helpers';
+
+import { getPageUrl, getPageTitle, updatePreferences } from './helpers';
 
 const navigateToSettingsPage = async ( t ) =>
     t.click( Selector( 'button' ).withAttribute( 'aria-label', 'Settings' ) );
@@ -15,10 +16,18 @@ const getPreferenceItems = () => {
     return Preferences.child( 'li' );
 };
 
-fixture`Settings Page`.page( '../app/app.html' ).beforeEach( async () => {
-    await waitForReact();
-} );
-// .afterEach( assertNoConsoleErrors );
+fixture`Settings Page`
+    .page( '../app/app.html' )
+    .beforeEach( async () => {
+        await waitForReact();
+    } )
+    .before( async () => {
+        await updatePreferences( {
+            appPreferences: {
+                shouldOnboard: false
+            }
+        } );
+    } );
 
 test( 'e2e', async ( t ) => {
     await t.expect( getPageTitle() ).eql( 'SAFE Launchpad' );
@@ -46,7 +55,11 @@ test( 'can toggle switch buttons', async ( t ) => {
         .ok();
 
     // reset
-    await t.click( AutoUpdatePreference.find( 'input.MuiSwitch-input' ) );
+    await updatePreferences( {
+        userPreferences: {
+            autoUpdate: false
+        }
+    } );
 } );
 
 test( 'can toggle back switch button from on state', async ( t ) => {
@@ -68,7 +81,11 @@ test( 'can toggle back switch button from on state', async ( t ) => {
         .notOk();
 
     // reset
-    await t.click( LaunchOnStartPreference.find( 'input.MuiSwitch-input' ) );
+    await updatePreferences( {
+        userPreferences: {
+            launchOnStart: true
+        }
+    } );
 } );
 
 test( 'Go back from Settings page to Home', async ( t ) => {
@@ -116,5 +133,9 @@ test( 'Changing any preference should persist', async ( t ) => {
         .ok();
 
     // reset
-    await t.click( LaunchOnStartPreference.find( 'input.MuiSwitch-input' ) );
+    await updatePreferences( {
+        userPreferences: {
+            launchOnStart: true
+        }
+    } );
 } );
