@@ -32,6 +32,9 @@ fixture`On Boarding Page`
         await updatePreferences( {
             appPreferences: {
                 shouldOnboard: true
+            },
+            userPreferences: {
+                pinToMenuBar: false
             }
         } );
     } );

@@ -86,10 +86,9 @@ export interface App {
 }
 
 export interface LaunchpadState {
-    shouldOnboard: boolean;
+    appPreferences: AppPreferences;
     userPreferences: UserPreferences;
     notifications: { [s: string]: Notification };
-    standardWindowIsVisible: boolean;
 }
 
 export interface AppManagerState {

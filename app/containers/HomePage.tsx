@@ -11,28 +11,25 @@ import {
     uninstallApplication
 } from '$Actions/application_actions';
 import { fetchApps } from '$Actions/alias/app_manager_actions';
-import { triggerSetStandardWindowVisibility } from '$Actions/alias/launchpad_actions';
-import { checkShouldOnboard } from '$Actions/launchpad_actions';
+import { initialiseApp } from '$Actions/launchpad_actions';
 import { AppState } from '../definitions/application.d';
 
 function mapStateToProperties( state ) {
     return {
         launchpad: state.launchpad,
-        appManagerState: state.appManager,
-        standardWindowIsVisible: state.launchpad.standardWindowIsVisible
+        appManagerState: state.appManager
     };
 }
 function mapDispatchToProperties( dispatch ) {
     // until we have a reducer to add here.
     const actions = {
-        checkShouldOnboard,
+        initialiseApp,
         installApp,
         openApp,
         uninstallApp,
         updateInstallProgress,
         uninstallApplication,
-        fetchApps,
-        triggerSetStandardWindowVisibility
+        fetchApps
     };
 
     return bindActionCreators( actions, dispatch );

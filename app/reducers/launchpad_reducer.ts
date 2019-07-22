@@ -1,11 +1,14 @@
 import { TYPES } from '$App/actions/launchpad_actions';
 import { TYPES as ALIAS_TYPES } from '$App/actions/alias/launchpad_actions';
-import { LaunchpadState, UserPreferences } from '../definitions/application.d';
+import {
+    LaunchpadState,
+    UserPreferences,
+    AppPreferences
+} from '../definitions/application.d';
 import { ERRORS, defaultPreferences } from '$Constants/index';
 
 export const initialState: LaunchpadState = {
-    shouldOnboard: false,
-    userPreferences: { ...defaultPreferences.userPreferences },
+    ...defaultPreferences,
     notifications: {}
 };
 
@@ -28,6 +31,21 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
             return { ...state, userPreferences: newUserPreferences };
         }
 
+        case TYPES.SET_APP_PREFERENCES: {
+            const newAppPreferences: AppPreferences = {
+                ...state.appPreferences,
+                ...payload
+            };
+            if (
+                Object.keys( newAppPreferences ).length !==
+                Object.keys( initialState.appPreferences ).length
+            ) {
+                throw ERRORS.INVALID_PROP;
+            }
+
+            return { ...state, appPreferences: newAppPreferences };
+        }
+
         case TYPES.PUSH_NOTIFICATION: {
             const newNotifications = { ...state.notifications };
             if ( !payload.notification || !payload.notification.id )
@@ -47,23 +65,17 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
             return { ...state, notifications: newNotifications };
         }
 
-        case TYPES.CHECK_SHOULD_ONBOARD: {
-            if ( typeof payload.shouldOnboard !== 'boolean' )
-                throw ERRORS.INVALID_TYPE;
-
-            return {
-                ...state,
-                shouldOnboard: payload.shouldOnboard
-            };
-        }
-
         case TYPES.ONBOARD_COMPLETED: {
             return {
                 ...state,
-                shouldOnboard: false
+                appPreferences: {
+                    ...state.appPreferences,
+                    shouldOnboard: false
+                }
             };
         }
 
+        case TYPES.INITILISE_APP:
         case ALIAS_TYPES.ALIAS_AUTO_LAUNCH:
         case ALIAS_TYPES.ALIAS_PIN_TO_TRAY:
         case ALIAS_TYPES.ALIAS_STORE_USER_PREFERENCES:

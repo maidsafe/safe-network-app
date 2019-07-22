@@ -48,7 +48,7 @@ export class OnBoarding extends Component<Props> {
     goHomeOnCompleted = () => {
         const { launchpad, history } = this.props;
 
-        if ( !launchpad.shouldOnboard ) {
+        if ( !launchpad.appPreferences.shouldOnboard ) {
             history.push( HOME );
         }
     };
@@ -57,9 +57,20 @@ export class OnBoarding extends Component<Props> {
         const {
             storeUserPreferences,
             setOnboardCompleted,
-            launchpad
+            launchpad,
+            autoLaunch,
+            pinToTray
         } = this.props;
         storeUserPreferences( launchpad.userPreferences );
+
+        if ( launchpad.userPreferences.launchOnStart ) {
+            autoLaunch( true );
+        }
+
+        if ( launchpad.userPreferences.pinToMenuBar ) {
+            pinToTray( true );
+        }
+
         setOnboardCompleted();
     };
 

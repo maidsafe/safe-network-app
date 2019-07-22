@@ -55,8 +55,6 @@ export const BasicSettings = ( props: Props ) => {
                     userPreferences={userPreferences}
                     requiredItems={requiredItems}
                     onChange={setUserPreferences}
-                    onChangeLaunchOnStart={autoLaunch}
-                    onChangePinToMenu={pinToTray}
                 />
             </Box>
         </Base>

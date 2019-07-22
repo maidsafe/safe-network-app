@@ -3,7 +3,6 @@ import { Tray, BrowserWindow, ipcMain, screen, App, Menu } from 'electron';
 import { Store } from 'redux';
 import { logger } from '$Logger';
 import { Application } from './definitions/application.d';
-import { setStandardWindowVisibility } from '$Actions/launchpad_actions';
 
 import {
     isRunningUnpacked,
@@ -68,19 +67,9 @@ const changeWindowVisibility = (
     store: Store
 ): void => {
     if ( window.isVisible() ) {
-        if (
-            window.webContents.id === safeLaunchPadStandardWindow.webContents.id
-        ) {
-            store.dispatch( setStandardWindowVisibility( false ) );
-        }
         programmaticallyTriggeredHideEvent = true;
         window.hide();
     } else {
-        if (
-            window.webContents.id === safeLaunchPadStandardWindow.webContents.id
-        ) {
-            store.dispatch( setStandardWindowVisibility( true ) );
-        }
         showWindow( window );
     }
 };
@@ -97,34 +86,8 @@ export const createTray = ( store: Store, app: App ): void => {
     } );
     tray.on( 'click', ( event ) => {
         changeWindowVisibility( currentlyVisibleWindow, store );
-
-        // Show devtools when command clicked
-        if (
-            safeLaunchPadStandardWindow.isVisible() &&
-            process.defaultApp &&
-            event.metaKey
-        ) {
-            safeLaunchPadStandardWindow.openDevTools( { mode: 'undocked' } );
-        }
     } );
-    const contextMenu = Menu.buildFromTemplate( [
-        {
-            label: app.getName(),
-            type: 'normal',
-            click: () => {
-                changeWindowVisibility( currentlyVisibleWindow, store );
-            }
-        },
-        {
-            label: 'Exit',
-            type: 'normal',
-            click: () => {
-                app.exit();
-            }
-        }
-    ] );
     tray.setToolTip( app.getName() );
-    tray.setContextMenu( contextMenu );
 };
 
 export const createSafeLaunchPadStandardWindow = (
@@ -174,10 +137,6 @@ export const createSafeLaunchPadStandardWindow = (
 
     safeLaunchPadStandardWindow.webContents.on( 'did-finish-load', () => {
         logger.info( 'LAUNCH PAD Standard Window: Loaded' );
-
-        if ( isRunningUnpacked ) {
-            safeLaunchPadStandardWindow.openDevTools( { mode: 'undocked' } );
-        }
     } );
 
     ipcMain.on( 'pinToTray', ( _event, enable ) => {
@@ -239,10 +198,6 @@ export const createSafeLaunchPadTrayWindow = (
 
     safeLaunchPadTrayWindow.webContents.on( 'did-finish-load', () => {
         logger.info( 'LAUNCH PAD Tray Window: Loaded' );
-
-        if ( isRunningUnpacked ) {
-            safeLaunchPadTrayWindow.openDevTools( { mode: 'undocked' } );
-        }
     } );
 
     return safeLaunchPadTrayWindow;

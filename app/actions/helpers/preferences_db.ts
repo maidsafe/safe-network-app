@@ -116,8 +116,9 @@ class PreferencesDatabase {
     private updatePreferences( preferences: Preferences ) {
         // eslint-disable-next-line consistent-return
         return new Promise( async ( resolve, reject ) => {
-            if ( !this.preferenceId )
-                return reject( new Error( 'Unable to update preferences' ) );
+            if ( !this.preferenceId ) {
+                await this.init();
+            }
             const where = {
                 id: this.preferenceId
             };
@@ -131,7 +132,7 @@ class PreferencesDatabase {
         } );
     }
 
-    public getUserPreferences() {
+    public getUserPreferences(): Promise<UserPreferences> {
         return new Promise( async ( resolve, reject ) => {
             try {
                 const preferences: Preferences = await this.getPreferences();
@@ -142,7 +143,7 @@ class PreferencesDatabase {
         } );
     }
 
-    public getAppPreferences() {
+    public getAppPreferences(): Promise<AppPreferences> {
         return new Promise( async ( resolve, reject ) => {
             try {
                 const preferences = await this.getPreferences();

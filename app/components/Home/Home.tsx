@@ -5,7 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import Settings from '@material-ui/icons/Settings';
-import Star from '@material-ui/icons/Star';
 import { Overview } from '$Components/Overview';
 
 import { LaunchpadState, AppManagerState } from '$Definitions/application.d';
@@ -14,7 +13,7 @@ import { SETTINGS, ON_BOARDING } from '$Constants/routes.json';
 interface Props {
     launchpad: LaunchpadState;
     history: History;
-    checkShouldOnboard: Function;
+    initialiseApp: Function;
     uninstallApp: Function;
     openApp: Function;
     installApp: Function;
@@ -23,13 +22,13 @@ interface Props {
 }
 
 export class Home extends Component<Props> {
-    componentWillMount() {
-        this.props.checkShouldOnboard();
+    componentDidMount() {
+        this.props.initialiseApp();
     }
 
     componentDidUpdate() {
         const { launchpad, history } = this.props;
-        if ( launchpad.shouldOnboard ) {
+        if ( launchpad.appPreferences.shouldOnboard ) {
             history.push( ON_BOARDING );
         }
     }

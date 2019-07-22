@@ -29,5 +29,3 @@ if ( module.hot ) {
         );
     } );
 }
-
-store.dispatch( initialiseApp() );

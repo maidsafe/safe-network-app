@@ -17,15 +17,17 @@ export const initiliseApplication = () =>
         try {
             await preferenceDatabase.init();
             console.warn( 'Initialised database' );
+            resolve();
         } catch ( error ) {
             console.warn( 'Unable to initialise application', error );
+            resolve();
         }
     } );
 
-export const fetchUserPreferencesLocally = () =>
+export const fetchUserPreferencesLocally = (): Promise<UserPreferences> =>
     new Promise( async ( resolve, reject ) => {
         try {
-            const userPreferences = await preferenceDatabase.getUserPreferences();
+            const userPreferences: UserPreferences = await preferenceDatabase.getUserPreferences();
             return resolve( userPreferences );
         } catch ( error ) {
             return reject( error );
@@ -52,10 +54,10 @@ export const storeAppPreferencesLocally = ( appPreferences: AppPreferences ) =>
         }
     } );
 
-export const checkOnBoardingCompleted = () =>
+export const fetchAppPreferencesLocally = (): Promise<AppPreferences> =>
     new Promise( async ( resolve, reject ) => {
         try {
-            const appPreferences = await preferenceDatabase.getAppPreferences();
+            const appPreferences: AppPreferences = await preferenceDatabase.getAppPreferences();
             return resolve( appPreferences );
         } catch ( error ) {
             return reject( error );

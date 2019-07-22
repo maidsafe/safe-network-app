@@ -8,29 +8,6 @@ describe( 'launchpad reducer', () => {
         expect( launchpadReducer( undefined, {} ) ).toEqual( initialState );
     } );
 
-    describe( 'SHOULD_ONBOARD', () => {
-        it( 'Should update On-Boarding flag', () => {
-            expect(
-                launchpadReducer( undefined, {
-                    type: TYPES.CHECK_SHOULD_ONBOARD,
-                    payload: {
-                        shouldOnboard: true
-                    }
-                } ).shouldOnboard
-            ).toBeTruthy();
-        } );
-        it( 'Should throw if invalid value passed', () => {
-            expect( () =>
-                launchpadReducer( undefined, {
-                    type: TYPES.CHECK_SHOULD_ONBOARD,
-                    payload: {
-                        shouldOnboard: 'false'
-                    }
-                } )
-            ).toThrow( ERRORS.INVALID_TYPE );
-        } );
-    } );
-
     describe( 'SET_USER_PREFERENCES', () => {
         it( 'Should update user preferences', () => {
             const userPreferences = {
@@ -73,6 +50,35 @@ describe( 'launchpad reducer', () => {
                 launchpadReducer( undefined, {
                     type: TYPES.SET_USER_PREFERENCES,
                     payload: { ...userPreferences }
+                } )
+            ).toThrow( ERRORS.INVALID_PROP );
+        } );
+    } );
+
+    describe( 'SET_APP_PREFERENCES', () => {
+        it( 'Should update app preferences', () => {
+            const appPreferences = {
+                shouldOnboard: true
+            };
+            const nextStore = launchpadReducer( undefined, {
+                type: TYPES.SET_APP_PREFERENCES,
+                payload: { ...appPreferences }
+            } );
+            expect( nextStore.appPreferences.shouldOnboard ).toEqual(
+                appPreferences.shouldOnboard
+            );
+        } );
+
+        it( 'Should throw if userPreferences has extra property', () => {
+            const appPreferences = {
+                shouldOnboard: true,
+                pinToMenuBar: true
+            };
+
+            expect( () =>
+                launchpadReducer( undefined, {
+                    type: TYPES.SET_APP_PREFERENCES,
+                    payload: { ...appPreferences }
                 } )
             ).toThrow( ERRORS.INVALID_PROP );
         } );
@@ -187,18 +193,6 @@ describe( 'launchpad reducer', () => {
                     }
                 } ).notifications[notification.id]
             ).toBeUndefined();
-        } );
-    } );
-
-    describe( 'SET_STANDARD_WINDOW_VISIBILITY', () => {
-        it( 'Should update standard-window-is-visible flag', () => {
-            expect( initialState.standardWindowIsVisible ).toBeTruthy();
-            expect(
-                launchpadReducer( initialState, {
-                    type: TYPES.SET_STANDARD_WINDOW_VISIBILITY,
-                    payload: false
-                } ).standardWindowIsVisible
-            ).toBeFalsy();
         } );
     } );
 } );

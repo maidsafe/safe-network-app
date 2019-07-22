@@ -14,16 +14,24 @@ export const getPageTitle = ClientFunction( () => document.title );
 export const updatePreferences = ( overridePreferences ) => {
     return new Promise( ( resolve, reject ) => {
         const tableName = preferenceDatabaseName;
+
         const updatePreference = ( preferences ) => {
             const where = {
                 id: preferences.id
             };
-
-            const newPreferences = {
-                ...preferences,
-                ...overridePreferences
-            };
-
+            const newPreferences = Object.assign( {}, preferences );
+            if ( overridePreferences.userPreferences ) {
+                newPreferences.userPreferences = Object.assign(
+                    newPreferences.userPreferences,
+                    overridePreferences.userPreferences
+                );
+            }
+            if ( overridePreferences.appPreferences ) {
+                newPreferences.appPreferences = Object.assign(
+                    newPreferences.appPreferences,
+                    overridePreferences.appPreferences
+                );
+            }
             db.updateRow(
                 tableName,
                 where,

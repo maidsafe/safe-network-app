@@ -49,22 +49,17 @@ describe( 'Launchpad actions', () => {
         expect( launchpad.setUserPreferences( payload ) ).toEqual( expectAction );
     } );
 
-    it( 'should check onboarding process completed', () => {
-        const expectAction = {
-            type: launchpad.TYPES.CHECK_SHOULD_ONBOARD,
-            payload: Promise.resolve()
+    it( 'should set app preferences', () => {
+        const payload = {
+            appPreferences: {
+                shouldOnboard: true
+            }
         };
-        expect( launchpad.checkShouldOnboard ).toBeDefined();
-        expect( launchpad.checkShouldOnboard() ).toEqual( expectAction );
-    } );
-
-    it( 'should initilise application', () => {
         const expectAction = {
-            type: launchpad.TYPES.INITILISE_APP,
-            payload: Promise.resolve()
+            type: launchpad.TYPES.SET_APP_PREFERENCES,
+            payload
         };
-        expect( launchpad.initialiseApp ).toBeDefined();
-        expect( launchpad.initialiseApp() ).toEqual( expectAction );
+        expect( launchpad.setAppPreferences( payload ) ).toEqual( expectAction );
     } );
 
     it( 'should set on-boarding completed', async () => {
@@ -81,16 +76,14 @@ describe( 'Launchpad actions', () => {
         expect( dispatch ).toHaveBeenCalledWith( expectAction );
     } );
 
-    it( 'should create action to indicate window visibility', () => {
-        const payload = {
-            isVisible: true
-        };
+    it( 'should initilise application', async () => {
         const expectAction = {
-            type: launchpad.TYPES.SET_STANDARD_WINDOW_VISIBILITY,
-            payload
+            type: launchpad.TYPES.INITILISE_APP,
+            payload: Promise.resolve()
         };
-        expect( launchpad.setStandardWindowVisibility( payload ) ).toEqual(
-            expectAction
-        );
+        const dispatch = jest.fn();
+        expect( launchpad.initialiseApp ).toBeDefined();
+        await launchpad.initialiseApp()( dispatch );
+        expect( dispatch ).toHaveBeenCalledTimes( 4 );
     } );
 } );

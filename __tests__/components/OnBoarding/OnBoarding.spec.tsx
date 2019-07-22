@@ -14,7 +14,9 @@ const shallowSetup = ( propOverrides? ) => {
     const props = Object.assign(
         {
             launchpad: {
-                shouldOnboard: true,
+                appPreferences: {
+                    shouldOnboard: true
+                },
                 userPreferences: {
                     autoUpdate: false,
                     pinToMenuBar: false,

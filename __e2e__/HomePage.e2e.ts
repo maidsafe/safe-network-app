@@ -18,6 +18,9 @@ fixture`Home Page`
         await updatePreferences( {
             appPreferences: {
                 shouldOnboard: false
+            },
+            userPreferences: {
+                pinToMenuBar: false
             }
         } );
     } );

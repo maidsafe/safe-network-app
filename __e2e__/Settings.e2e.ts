@@ -25,6 +25,9 @@ fixture`Settings Page`
         await updatePreferences( {
             appPreferences: {
                 shouldOnboard: false
+            },
+            userPreferences: {
+                pinToMenuBar: false
             }
         } );
     } );
@@ -135,7 +138,7 @@ test( 'Changing any preference should persist', async ( t ) => {
     // reset
     await updatePreferences( {
         userPreferences: {
-            launchOnStart: true
+            autoUpdate: false
         }
     } );
 } );

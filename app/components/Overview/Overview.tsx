@@ -18,7 +18,7 @@ export class Overview extends Component<Props> {
         // eslint-disable-line unicorn/prevent-abbreviations
         super( props );
         const { fetchApps } = this.props;
-        fetchApps();
+        // fetchApps();
     }
 
     loadApps = () => {
