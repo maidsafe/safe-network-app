@@ -85,9 +85,5 @@ export const autoLaunchOnStart = ( enable ) =>
     } );
 
 export const pinLaunchpadToTray = ( enable ) => {
-    if ( enable ) {
-        ipcRenderer.send( 'pinToTray' );
-    } else {
-        ipcRenderer.send( 'releaseFromTray' );
-    }
+    ipcRenderer.send( 'pinToTray', enable );
 };

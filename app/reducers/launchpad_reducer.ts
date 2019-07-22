@@ -6,8 +6,7 @@ import { ERRORS, defaultPreferences } from '$Constants/index';
 export const initialState: LaunchpadState = {
     shouldOnboard: false,
     userPreferences: { ...defaultPreferences.userPreferences },
-    notifications: {},
-    standardWindowIsVisible: true
+    notifications: {}
 };
 
 export function launchpadReducer( state = initialState, action ): LaunchpadState {
@@ -63,10 +62,6 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
                 ...state,
                 shouldOnboard: false
             };
-        }
-
-        case TYPES.SET_STANDARD_WINDOW_VISIBILITY: {
-            return { ...state, standardWindowIsVisible: payload };
         }
 
         case ALIAS_TYPES.ALIAS_AUTO_LAUNCH:

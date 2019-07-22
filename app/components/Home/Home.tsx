@@ -20,8 +20,6 @@ interface Props {
     installApp: Function;
     appManagerState: AppManagerState;
     fetchApps: Function;
-    triggerSetStandardWindowVisibility: Function;
-    standardWindowIsVisible: boolean;
 }
 
 export class Home extends Component<Props> {

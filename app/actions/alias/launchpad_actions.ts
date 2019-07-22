@@ -49,13 +49,3 @@ export const pinToTray = createAliasedAction(
         payload: pinLaunchpadToTray( enable )
     } )
 );
-
-export const triggerSetStandardWindowVisibility = createAliasedAction(
-    TYPES.ALIAS_TO_SET_STANDARD_WINDOW_VISIBILITY,
-    ( isVisible: boolean ) => ( {
-        type: TYPES.ALIAS_TO_SET_STANDARD_WINDOW_VISIBILITY,
-        payload: ( () => {
-            ipcRenderer.send( 'set-standard-window-visibility', isVisible );
-        } )()
-    } )
-);

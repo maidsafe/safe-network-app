@@ -11,8 +11,6 @@ interface Props {
     installApp: Function;
     appManagerState: AppManagerState;
     fetchApps: Function;
-    triggerSetStandardWindowVisibility: Function;
-    standardWindowIsVisible: boolean;
 }
 
 export class Overview extends Component<Props> {
@@ -45,27 +43,8 @@ export class Overview extends Component<Props> {
     };
 
     render() {
-        const {
-            triggerSetStandardWindowVisibility,
-            standardWindowIsVisible
-        } = this.props;
         return (
             <div className={styles.container} data-tid="container">
-                <button
-                    type="button"
-                    className={styles['btn--upper-right']}
-                    key="overview__switch-button"
-                    onClick={() =>
-                        triggerSetStandardWindowVisibility(
-                            !standardWindowIsVisible
-                        )
-                    }
-                >
-                    Switch
-                </button>
-                {!standardWindowIsVisible && (
-                    <span data-visible={standardWindowIsVisible} />
-                )}
                 {this.loadApps()}
             </div>
         );

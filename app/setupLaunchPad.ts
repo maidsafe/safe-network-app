@@ -180,9 +180,9 @@ export const createSafeLaunchPadStandardWindow = (
         }
     } );
 
-    ipcMain.on( 'set-standard-window-visibility', ( _event, isVisible ) => {
+    ipcMain.on( 'pinToTray', ( _event, enable ) => {
         changeWindowVisibility( currentlyVisibleWindow, store );
-        if ( isVisible ) {
+        if ( !enable ) {
             currentlyVisibleWindow = safeLaunchPadStandardWindow;
         } else {
             currentlyVisibleWindow = safeLaunchPadTrayWindow;
