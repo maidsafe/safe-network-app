@@ -16,19 +16,19 @@ interface Props {
 export class ApplicationOverview extends Component<Props> {
     handleDownload = () => {
         const { application, installApp } = this.props;
-        logger.silly( 'clicked download', application );
+        logger.silly( 'ApplicationOverview: clicked download ', application );
         installApp( application );
     };
 
     handleOpen = () => {
         const { application, openApp } = this.props;
-        logger.silly( 'clicked open', application );
+        logger.silly( 'ApplicationOverview: clicked open', application );
         openApp( application );
     };
 
     handleUninstall = () => {
         const { application, uninstallApp } = this.props;
-        logger.silly( 'clicked uninstall', application );
+        logger.silly( 'ApplicationOverview: clicked uninstall', application );
         uninstallApp( application );
     };
 
