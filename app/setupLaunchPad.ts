@@ -14,10 +14,15 @@ import {
     OSX
 } from '$Constants';
 
+interface WindowMeta {
+    window: Application.Window;
+    type: 'tray' | 'standard';
+}
+
 let tray;
 let safeLaunchPadStandardWindow: Application.Window;
 let safeLaunchPadTrayWindow: Application.Window;
-let currentlyVisibleWindow: Application.Window;
+export let currentlyVisibleWindow: WindowMeta;
 let programmaticallyTriggeredHideEvent = false;
 
 const getWindowPosition = (
@@ -52,36 +57,33 @@ const getWindowPosition = (
     return { x, y };
 };
 
-const showWindow = ( window: Application.Window ): void => {
-    if ( window.webContents.id === safeLaunchPadStandardWindow.webContents.id ) {
-        window.center();
+const showWindow = ( windowMeta: WindowMeta ): void => {
+    if ( windowMeta.type === 'standard' ) {
+        windowMeta.window.center();
     } else {
-        const position = getWindowPosition( window );
-        window.setPosition( position.x, position.y, false );
+        const position = getWindowPosition( windowMeta.window );
+        windowMeta.window.setPosition( position.x, position.y, false );
     }
-    window.show();
-    window.focus();
+    windowMeta.window.show();
+    windowMeta.window.focus();
 };
 
-const changeWindowVisibility = (
-    window: Application.Window,
+export const changeWindowVisibility = (
+    windowMeta: WindowMeta, 
     store: Store
 ): void => {
-    if ( window.isVisible() ) {
-        if (
-            window.webContents.id === safeLaunchPadStandardWindow.webContents.id
-        ) {
+    if ( windowMeta.window.isVisible() ) {
+        if ( windowMeta.type === 'standard' ) {
             store.dispatch( setStandardWindowVisibility( false ) );
         }
         programmaticallyTriggeredHideEvent = true;
-        window.hide();
+        windowMeta.window.hide();
     } else {
-        if (
-            window.webContents.id === safeLaunchPadStandardWindow.webContents.id
-        ) {
+        console.log('I should see this log when standard window shows');
+        if ( windowMeta.type === 'standard' ) {
             store.dispatch( setStandardWindowVisibility( true ) );
         }
-        showWindow( window );
+        showWindow( windowMeta );
     }
 };
 
@@ -100,11 +102,11 @@ export const createTray = ( store: Store, app: App ): void => {
 
         // Show devtools when command clicked
         if (
-            safeLaunchPadStandardWindow.isVisible() &&
+            currentlyVisibleWindow.type === 'standard' && currentlyVisibleWindow.isVisible() &&
             process.defaultApp &&
             event.metaKey
         ) {
-            safeLaunchPadStandardWindow.openDevTools( { mode: 'undocked' } );
+            currentlyVisibleWindow.window.openDevTools( { mode: 'undocked' } );
         }
     } );
     const contextMenu = Menu.buildFromTemplate( [
@@ -130,8 +132,8 @@ export const createTray = ( store: Store, app: App ): void => {
 export const createSafeLaunchPadStandardWindow = (
     store: Store,
     app: App
-): Application.Window => {
-    safeLaunchPadStandardWindow = new BrowserWindow( {
+): void => {
+    const safeLaunchPadStandardWindow = new BrowserWindow( {
         width: 320,
         height: 600,
         show: true,
@@ -147,23 +149,23 @@ export const createSafeLaunchPadStandardWindow = (
             nodeIntegration: true
         }
     } ) as Application.Window;
-    currentlyVisibleWindow = safeLaunchPadStandardWindow;
+    currentlyVisibleWindow = { window: safeLaunchPadStandardWindow, type: 'standard' };
 
-    safeLaunchPadStandardWindow.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
+    currentlyVisibleWindow.window.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
 
-    safeLaunchPadStandardWindow.on( 'close', ( event ) => {
+    currentlyVisibleWindow.window.on( 'close', ( event ) => {
         event.preventDefault();
         changeWindowVisibility( currentlyVisibleWindow, store );
     } );
 
-    safeLaunchPadStandardWindow.on( 'show', () => {
+    currentlyVisibleWindow.window.on( 'show', () => {
         // macOS-specific: show dock icon when standard window is showing
         if ( app.dock ) {
             app.dock.show();
         }
     } );
 
-    safeLaunchPadStandardWindow.on( 'hide', () => {
+    currentlyVisibleWindow.window.on( 'hide', () => {
         if ( platform !== LINUX && !programmaticallyTriggeredHideEvent ) {
             changeWindowVisibility( currentlyVisibleWindow, store );
         }
@@ -172,32 +174,20 @@ export const createSafeLaunchPadStandardWindow = (
         }
     } );
 
-    safeLaunchPadStandardWindow.webContents.on( 'did-finish-load', () => {
+    currentlyVisibleWindow.window.webContents.on( 'did-finish-load', () => {
         logger.info( 'LAUNCH PAD Standard Window: Loaded' );
 
         if ( isRunningUnpacked ) {
-            safeLaunchPadStandardWindow.openDevTools( { mode: 'undocked' } );
+            currentlyVisibleWindow.window.openDevTools( { mode: 'undocked' } );
         }
     } );
-
-    ipcMain.on( 'set-standard-window-visibility', ( _event, isVisible ) => {
-        changeWindowVisibility( currentlyVisibleWindow, store );
-        if ( isVisible ) {
-            currentlyVisibleWindow = safeLaunchPadStandardWindow;
-        } else {
-            currentlyVisibleWindow = safeLaunchPadTrayWindow;
-        }
-        changeWindowVisibility( currentlyVisibleWindow, store );
-    } );
-
-    return safeLaunchPadStandardWindow;
 };
 
 export const createSafeLaunchPadTrayWindow = (
     store: Store,
     app: App
-): Application.Window => {
-    safeLaunchPadTrayWindow = new BrowserWindow( {
+): void => {
+    const safeLaunchPadTrayWindow = new BrowserWindow( {
         width: 320,
         height: 600,
         show: false,
@@ -212,16 +202,17 @@ export const createSafeLaunchPadTrayWindow = (
             nodeIntegration: true
         }
     } ) as Application.Window;
-    safeLaunchPadTrayWindow.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
+    currentlyVisibleWindow = { window: safeLaunchPadTrayWindow, type: 'tray' };
+    currentlyVisibleWindow.window.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
 
-    safeLaunchPadTrayWindow.on( 'show', () => {
+    currentlyVisibleWindow.window.on( 'show', () => {
         // macOS-specific: hide dock icon when tray is showing
         if ( app.dock ) {
             app.dock.hide();
         }
     } );
 
-    safeLaunchPadTrayWindow.on( 'hide', () => {
+    currentlyVisibleWindow.window.on( 'hide', () => {
         if ( platform !== LINUX && !programmaticallyTriggeredHideEvent ) {
             changeWindowVisibility( currentlyVisibleWindow, store );
         }
@@ -231,19 +222,17 @@ export const createSafeLaunchPadTrayWindow = (
     } );
 
     // Hide the safeLaunchPadTrayWindow when it loses focus
-    safeLaunchPadTrayWindow.on( 'blur', () => {
+    currentlyVisibleWindow.window.on( 'blur', () => {
         if ( platform === LINUX ) {
             changeWindowVisibility( currentlyVisibleWindow, store );
         }
     } );
 
-    safeLaunchPadTrayWindow.webContents.on( 'did-finish-load', () => {
+    currentlyVisibleWindow.window.webContents.on( 'did-finish-load', () => {
         logger.info( 'LAUNCH PAD Tray Window: Loaded' );
 
         if ( isRunningUnpacked ) {
-            safeLaunchPadTrayWindow.openDevTools( { mode: 'undocked' } );
+            currentlyVisibleWindow.window.openDevTools( { mode: 'undocked' } );
         }
     } );
-
-    return safeLaunchPadTrayWindow;
 };

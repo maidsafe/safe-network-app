@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app } from 'electron';
+import { app, ipcMain } from 'electron';
 import path from 'path';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -24,7 +24,9 @@ import { Application } from './definitions/application.d';
 import {
     createSafeLaunchPadStandardWindow,
     createSafeLaunchPadTrayWindow,
-    createTray
+    createTray,
+    changeWindowVisibility,
+    currentlyVisibleWindow
 } from './setupLaunchPad';
 import { setupBackground } from './setupBackground';
 
@@ -77,8 +79,6 @@ const installExtensions = async () => {
 // const loadMiddlewarePackages = [];
 
 let store: Store;
-let mainWindow: Application.Window;
-let trayWindow: Application.Window;
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -90,9 +90,9 @@ if ( !gotTheLock ) {
 } else {
     app.on( 'second-instance', ( event, commandLine, workingDirectory ) => {
         // Someone tried to run a second instance, we should focus our window.
-        if ( mainWindow ) {
-            if ( mainWindow.isMinimized() ) mainWindow.restore();
-            mainWindow.focus();
+        if ( currentlyVisibleWindow ) {
+            if ( currentlyVisibleWindow.window.isMinimized() ) currentlyVisibleWindow.window.restore();
+            currentlyVisibleWindow.window.focus();
         }
     } );
 
@@ -118,12 +118,23 @@ if ( !gotTheLock ) {
             } );
         }
 
-        createTray( store, app );
-        mainWindow = createSafeLaunchPadStandardWindow( store, app );
-        trayWindow = createSafeLaunchPadTrayWindow( store, app );
-        setupBackground( store, mainWindow );
+        ipcMain.on( 'set-standard-window-visibility', ( _event, isVisible ) => {
+            changeWindowVisibility( currentlyVisibleWindow, store );
+            if ( isVisible ) {
+                currentlyVisibleWindow.window.destroy();
+                createSafeLaunchPadStandardWindow( store, app );
+            } else {
+                currentlyVisibleWindow.window.destroy();
+                createSafeLaunchPadTrayWindow( store, app );
+            }
+            changeWindowVisibility( currentlyVisibleWindow, store );
+        } );
 
-        const menuBuilder = new MenuBuilder( mainWindow );
+        createTray( store, app );
+        createSafeLaunchPadStandardWindow( store, app );
+        setupBackground( store, currentlyVisibleWindow );
+
+        const menuBuilder = new MenuBuilder( currentlyVisibleWindow.window );
         menuBuilder.buildMenu();
 
         // Remove this if your app does not use auto updates
@@ -146,7 +157,7 @@ app.on( 'window-all-closed', () => {
 
 app.on( 'open-url', ( _, url ) => {
     try {
-        mainWindow.show();
+        currentlyVisibleWindow.show();
     } catch ( error ) {
         console.error(
             ' Issue opening a window. It did not exist for this app... Check that the correct app version is opening.'
