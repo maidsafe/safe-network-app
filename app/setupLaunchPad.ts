@@ -133,7 +133,6 @@ export const createSafeLaunchPadStandardWindow = (
 ): Application.Window => {
     safeLaunchPadStandardWindow = new BrowserWindow( {
         width: 320,
-        height: 600,
         show: true,
         frame: true,
         fullscreenable: false,
@@ -199,7 +198,6 @@ export const createSafeLaunchPadTrayWindow = (
 ): Application.Window => {
     safeLaunchPadTrayWindow = new BrowserWindow( {
         width: 320,
-        height: 600,
         show: false,
         frame: false,
         fullscreenable: false,

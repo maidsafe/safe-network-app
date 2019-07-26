@@ -1,11 +1,3 @@
-.container {
-    position: absolute;
-    top: 30%;
-    left: 10px;
-    text-align: center;
-    overflow: hidden;
-}
-
 .container h2 {
     font-size: 5rem;
 }

@@ -6,12 +6,7 @@
 /* @import "~@fortawesome/fontawesome-free/css/all.css"; */
 
 body {
-    position: relative;
-    height: 100vh;
     font-family: Arial, Helvetica, Helvetica Neue, serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
 }
 
 h2 {

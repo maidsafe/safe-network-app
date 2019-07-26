@@ -38,7 +38,7 @@ describe( 'MeatballMenu', () => {
     describe( 'handleClick', () => {
         it( 'updates component state', () => {
             instance.handleClick( { currentTarget: 'mock' } );
-            expect( instance.state ).toEqual( { anchorElement: 'mock' } );
+            expect( instance.state ).toEqual( { menuAnchorElement: 'mock' } );
         } );
     } );
 
@@ -46,7 +46,7 @@ describe( 'MeatballMenu', () => {
         it( 'updates component state', () => {
             instance.handleClick( { currentTarget: 'mock' } );
             instance.handleClose();
-            expect( instance.state ).toEqual( { anchorElement: null } );
+            expect( instance.state ).toEqual( { menuAnchorElement: null } );
         } );
     } );
 

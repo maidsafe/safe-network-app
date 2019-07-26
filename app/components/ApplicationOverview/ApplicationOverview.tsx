@@ -36,7 +36,7 @@ export class ApplicationOverview extends Component<Props> {
         const { application } = this.props;
 
         return (
-            <div>
+            <React.Fragment>
                 <Grid container spacing={3}>
                     {/* progress ? (
                         <div>{`Progress! ${progress}`}</div>
@@ -56,7 +56,7 @@ export class ApplicationOverview extends Component<Props> {
                         </Button>
                     ) */}
 
-                    <Grid item xs={7}>
+                    <Grid item xs={6}>
                         {application.name}
                     </Grid>
                     <Grid item xs={3}>
@@ -70,11 +70,11 @@ export class ApplicationOverview extends Component<Props> {
                             Install
                         </Button>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         <MeatballMenu {...this.props} />
                     </Grid>
                 </Grid>
-            </div>
+            </React.Fragment>
         );
     }
 }

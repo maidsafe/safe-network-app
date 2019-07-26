@@ -72,15 +72,15 @@ describe( 'MenuItems', () => {
         it( 'Default "About" menu option', () => {
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__0` )
+                    .find( `.${props.application.packageName}__menu-item__0` )
                     .text()
-            ).toBe( 'About' );
+            ).toBe( 'About this App...' );
         } );
 
         it( '"Install" menu option, when application not installed', () => {
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__1` )
+                    .find( `.${props.application.packageName}__menu-item__1` )
                     .text()
             ).toBe( 'Install' );
         } );
@@ -97,12 +97,12 @@ describe( 'MenuItems', () => {
             wrapper = shallow( <MenuItems {...properties} /> );
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__1` )
+                    .find( `.${props.application.packageName}__menu-item__1` )
                     .text()
             ).toBe( 'Uninstall' );
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__2` )
+                    .find( `.${props.application.packageName}__menu-item__2` )
                     .text()
             ).toBe( 'Check for updates' );
         } );
@@ -119,12 +119,12 @@ describe( 'MenuItems', () => {
             wrapper = shallow( <MenuItems {...properties} /> );
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__1` )
+                    .find( `.${props.application.packageName}__menu-item__1` )
                     .text()
             ).toBe( 'Cancel Install' );
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__2` )
+                    .find( `.${props.application.packageName}__menu-item__2` )
                     .text()
             ).toBe( 'Pause Download' );
         } );
@@ -141,7 +141,7 @@ describe( 'MenuItems', () => {
             wrapper = shallow( <MenuItems {...properties} /> );
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__1` )
+                    .find( `.${props.application.packageName}__menu-item__1` )
                     .text()
             ).toBe( 'Cancel Install' );
         } );
@@ -158,12 +158,12 @@ describe( 'MenuItems', () => {
             wrapper = shallow( <MenuItems {...properties} /> );
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__1` )
+                    .find( `.${props.application.packageName}__menu-item__1` )
                     .text()
             ).toBe( 'Cancel Install' );
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__2` )
+                    .find( `.${props.application.packageName}__menu-item__2` )
                     .text()
             ).toBe( 'Re-try install' );
         } );
@@ -181,17 +181,17 @@ describe( 'MenuItems', () => {
             wrapper = shallow( <MenuItems {...properties} /> );
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__1` )
+                    .find( `.${props.application.packageName}__menu-item__1` )
                     .text()
             ).toBe( 'Open' );
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__2` )
+                    .find( `.${props.application.packageName}__menu-item__2` )
                     .text()
             ).toBe( 'Skip this update' );
             expect(
                 wrapper
-                    .find( `#${props.application.packageName}__menu-item__3` )
+                    .find( `.${props.application.packageName}__menu-item__3` )
                     .text()
             ).toBe( 'Uninstall' );
         } );

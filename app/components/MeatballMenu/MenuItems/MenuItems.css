@@ -1,0 +1,7 @@
+.menu-item {
+    border-bottom: 1px solid #bdbdbd !important;
+}
+
+.menu-item:last-child {
+    border-bottom: 0 !important;
+}

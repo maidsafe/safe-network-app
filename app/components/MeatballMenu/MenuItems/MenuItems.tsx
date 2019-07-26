@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { MenuItem } from '@material-ui/core';
 import { App } from '$Definitions/application.d';
 import { logger } from '$Logger';
+import styles from './MenuItems.css';
 
 interface MenuItemsProps {
     uninstallApp: Function;
@@ -35,7 +36,7 @@ export class MenuItems extends Component<MenuItemsProps> {
 
     generateMenuItems = () => {
         const { application } = this.props;
-        const menuItemList = [{ text: 'About', onClick: () => {} }];
+        const menuItemList = [{ text: 'About this App...', onClick: () => {} }];
         const {
             progress,
             isInstalling,
@@ -93,8 +94,11 @@ export class MenuItems extends Component<MenuItemsProps> {
             <React.Fragment>
                 {menuItemList.map( ( item, index ) => (
                     <MenuItem
+                        dense
                         key={`${application.packageName}__${index}`} // eslint-disable-line react/no-array-index-key
-                        id={`${application.packageName}__menu-item__${index}`}
+                        className={`${styles['menu-item']} ${
+                            application.packageName
+                        }__menu-item__${index}`}
                         onClick={() => item.onClick()}
                     >
                         {item.text}
