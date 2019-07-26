@@ -29,3 +29,10 @@ test(
 //     await t.click( Selector( 'button.Overview__btn--upper-right' ) );
 //     await t.expect( Selector( 'span' ).withAttribute( 'data-visible', 'false' ).exists ).ok();
 // } );
+
+test( 'clicking on a vert icon in application overview shows menu items', async ( t ) => {
+    await t
+        .click( Selector( '.MeatballMenu__vert-icon' ) )
+        .expect( Selector( '.safe-browser__menu-item__0' ).exists )
+        .ok();
+} );
