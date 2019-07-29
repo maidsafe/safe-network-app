@@ -52,6 +52,11 @@ export class MeatballMenu extends Component<
                     <MoreVert />
                 </IconButton>
                 <Menu
+                    getContentAnchorEl={null}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center'
+                    }}
                     anchorEl={menuAnchorElement}
                     keepMounted
                     onClose={this.handleClose}
