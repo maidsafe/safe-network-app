@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
+import { MenuItem } from '@material-ui/core';
 import { MenuItems } from '$Components/MeatballMenu/MenuItems/MenuItems';
 
 jest.mock( '$Logger' );
@@ -72,7 +73,8 @@ describe( 'MenuItems', () => {
         it( 'Default "About" menu option', () => {
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__0` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'About this App...' )
                     .text()
             ).toBe( 'About this App...' );
         } );
@@ -80,7 +82,8 @@ describe( 'MenuItems', () => {
         it( '"Install" menu option, when application not installed', () => {
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__1` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Install' )
                     .text()
             ).toBe( 'Install' );
         } );
@@ -97,12 +100,14 @@ describe( 'MenuItems', () => {
             wrapper = shallow( <MenuItems {...properties} /> );
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__1` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Uninstall' )
                     .text()
             ).toBe( 'Uninstall' );
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__2` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Check for updates' )
                     .text()
             ).toBe( 'Check for updates' );
         } );
@@ -119,12 +124,14 @@ describe( 'MenuItems', () => {
             wrapper = shallow( <MenuItems {...properties} /> );
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__1` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Cancel Install' )
                     .text()
             ).toBe( 'Cancel Install' );
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__2` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Pause Download' )
                     .text()
             ).toBe( 'Pause Download' );
         } );
@@ -141,7 +148,8 @@ describe( 'MenuItems', () => {
             wrapper = shallow( <MenuItems {...properties} /> );
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__1` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Cancel Install' )
                     .text()
             ).toBe( 'Cancel Install' );
         } );
@@ -158,12 +166,14 @@ describe( 'MenuItems', () => {
             wrapper = shallow( <MenuItems {...properties} /> );
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__1` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Cancel Install' )
                     .text()
             ).toBe( 'Cancel Install' );
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__2` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Re-try install' )
                     .text()
             ).toBe( 'Re-try install' );
         } );
@@ -181,17 +191,20 @@ describe( 'MenuItems', () => {
             wrapper = shallow( <MenuItems {...properties} /> );
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__1` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Open' )
                     .text()
             ).toBe( 'Open' );
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__2` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Skip this update' )
                     .text()
             ).toBe( 'Skip this update' );
             expect(
                 wrapper
-                    .find( `.${props.application.packageName}__menu-item__3` )
+                    .find( MenuItem )
+                    .filterWhere( ( n ) => n.text() === 'Uninstall' )
                     .text()
             ).toBe( 'Uninstall' );
         } );

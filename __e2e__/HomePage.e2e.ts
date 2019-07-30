@@ -33,6 +33,6 @@ test(
 test( 'clicking on a vert icon in application overview shows menu items', async ( t ) => {
     await t
         .click( Selector( '.MeatballMenu__vert-icon' ) )
-        .expect( Selector( '.safe-browser__menu-item__0' ).exists )
+        .expect( Selector( '.MuiMenu-list' ).exists )
         .ok();
 } );

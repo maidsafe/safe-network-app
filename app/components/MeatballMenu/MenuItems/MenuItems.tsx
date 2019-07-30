@@ -55,7 +55,7 @@ export class MenuItems extends Component<MenuItemsProps> {
         } else {
             menuItemList.splice(
                 1,
-                0,
+                2,
                 { text: 'Uninstall', onClick: this.handleUninstall },
                 { text: 'Check for updates', onClick: this.handleDownload }
             );
@@ -64,51 +64,51 @@ export class MenuItems extends Component<MenuItemsProps> {
         if ( isDownloading ) {
             menuItemList.splice(
                 1,
-                0,
+                2,
                 { text: 'Cancel Install', onClick: () => {} },
                 { text: 'Pause Download', onClick: () => {} }
             );
         } else if ( isInstalling ) {
-            menuItemList.splice( 1, 0, {
+            menuItemList.splice( 1, 1, {
                 text: 'Cancel Install',
                 onClick: () => {}
             } );
         } else if ( installFailed ) {
             menuItemList.splice(
                 1,
-                0,
+                2,
                 { text: 'Cancel Install', onClick: () => {} },
                 { text: 'Re-try install', onClick: () => {} }
             );
         } else if ( hasUpdate ) {
             menuItemList.splice(
                 1,
-                0,
+                3,
                 { text: 'Open', onClick: () => {} },
                 { text: 'Skip this update', onClick: () => {} },
                 { text: 'Uninstall', onClick: this.handleUninstall }
             );
         }
-
-        return (
-            <React.Fragment>
-                {menuItemList.map( ( item, index ) => (
-                    <MenuItem
-                        dense
-                        key={`${application.packageName}__${index}`} // eslint-disable-line react/no-array-index-key
-                        className={`${styles['menu-item']} ${
-                            application.packageName
-                        }__menu-item__${index}`}
-                        onClick={() => item.onClick()}
-                    >
-                        {item.text}
-                    </MenuItem>
-                ) )}
-            </React.Fragment>
-        );
+        return menuItemList;
     };
 
     render() {
-        return this.generateMenuItems();
+        return (
+            <React.Fragment>
+                {this.generateMenuItems().map( ( item, index ) => {
+                    const randomKey = Math.random().toString( 32 );
+                    return (
+                        <MenuItem
+                            dense
+                            key={randomKey}
+                            className={styles['menu-item']}
+                            onClick={() => item.onClick()}
+                        >
+                            {item.text}
+                        </MenuItem>
+                    );
+                } )}
+            </React.Fragment>
+        );
     }
 }
