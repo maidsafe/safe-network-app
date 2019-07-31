@@ -101,7 +101,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                         <MenuItem
                             dense
                             key={randomKey}
-                            className={styles['menu-item']}
+                            id={styles['menu-item']}
                             onClick={() => item.onClick()}
                         >
                             {item.text}

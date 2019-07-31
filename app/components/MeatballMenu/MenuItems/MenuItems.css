@@ -1,9 +1,9 @@
-.menu-item {
-    width: -webkit-fill-available !important;
-    min-height: 35px !important;
-    border-bottom: 1px solid #bdbdbd !important;
+#menu-item {
+    width: -webkit-fill-available;
+    min-height: 35px;
+    border-bottom: 1px solid #bdbdbd;
 }
 
-.menu-item:last-child {
-    border-bottom: 0 !important;
+#menu-item:last-child {
+    border-bottom: 0;
 }
