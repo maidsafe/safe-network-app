@@ -1,11 +1,13 @@
 import { createActions } from 'redux-actions';
-
-import { UserPreferences, AppPreferences } from '$Definitions/application.d';
+import {
+    UserPreferences,
+    AppPreferences,
+    Preferences
+} from '$Definitions/application.d';
 import {
     initiliseApplication,
-    fetchUserPreferencesLocally,
-    storeAppPreferencesLocally,
-    fetchAppPreferencesLocally
+    fetchPreferencesLocally,
+    storePreferencesLocally
 } from './helpers/launchpad';
 
 import { pinToTray } from './alias/launchpad_actions';
@@ -21,35 +23,22 @@ export const TYPES = {
 
 export const {
     pushNotification,
+    onboardCompleted,
     dismissNotification,
     setUserPreferences,
     setAppPreferences
 } = createActions(
     TYPES.PUSH_NOTIFICATION,
+    TYPES.ONBOARD_COMPLETED,
     TYPES.DISMISS_NOTIFICATION,
     TYPES.SET_USER_PREFERENCES,
     TYPES.SET_APP_PREFERENCES
 );
 
 export const getUserPreferences = () => {
-    return ( dispatch ) => {
-        return fetchUserPreferencesLocally().then(
-            ( userPreferences: UserPreferences ) =>
-                dispatch( setUserPreferences( userPreferences ) )
-        );
-    };
-};
-
-export const setOnboardCompleted = () => {
-    return ( dispatch ) => {
-        const appPreferences: AppPreferences = {
-            shouldOnboard: false
-        };
-        return storeAppPreferencesLocally( appPreferences ).finally(
-            dispatch( {
-                type: TYPES.ONBOARD_COMPLETED
-            } )
-        );
+    return async ( dispatch ) => {
+        const { userPreferences } = await fetchPreferencesLocally();
+        dispatch( setUserPreferences( userPreferences ) );
     };
 };
 
@@ -58,10 +47,12 @@ export const initialiseApp = () => {
         await initiliseApplication();
         dispatch( { type: TYPES.INITILISE_APP } );
 
-        const appPreferences: AppPreferences = await fetchAppPreferencesLocally();
+        const {
+            userPreferences,
+            appPreferences
+        } = await fetchPreferencesLocally();
         dispatch( setAppPreferences( appPreferences ) );
 
-        const userPreferences: UserPreferences = await fetchUserPreferencesLocally();
         dispatch( setUserPreferences( userPreferences ) );
         if ( !appPreferences.shouldOnboard && userPreferences.pinToMenuBar ) {
             dispatch( pinToTray( true ) );

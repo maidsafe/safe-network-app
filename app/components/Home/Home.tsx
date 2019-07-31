@@ -34,7 +34,7 @@ export class Home extends Component<Props> {
     }
 
     render() {
-        const { history } = this.props;
+        const { history, launchpad } = this.props;
 
         return (
             <Grid container>

@@ -8,13 +8,14 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import { Preferences } from '$Components/Preferences';
-import { UserPreferences } from '$Definitions/application.d';
+import { UserPreferences, AppPreferences } from '$Definitions/application.d';
 
 interface Props {
     userPreferences: UserPreferences;
+    appPreferences: AppPreferences;
     setUserPreferences: Function;
     getUserPreferences: Function;
-    storeUserPreferences: Function;
+    storePreferences: Function;
     pinToTray: Function;
     autoLaunch: Function;
     history?: History;
@@ -31,8 +32,18 @@ export class Settings extends Component<Props> {
     };
 
     handlePreferenceChange = ( userPreferences: UserPreferences ) => {
-        const { storeUserPreferences, setUserPreferences } = this.props;
-        storeUserPreferences( userPreferences );
+        const {
+            storePreferences,
+            setUserPreferences,
+            appPreferences
+        } = this.props;
+
+        const preferences = {
+            userPreferences,
+            appPreferences
+        };
+
+        storePreferences( preferences );
         setUserPreferences( userPreferences );
     };
 

@@ -1,36 +1,26 @@
 import { createAliasedAction } from 'electron-redux';
 import { ipcRenderer } from 'electron';
 
-import { UserPreferences, AppPreferences } from '$Definitions/application.d';
+import { Preferences } from '$Definitions/application.d';
 import {
-    storeUserPreferencesLocally,
-    storeAppPreferencesLocally,
+    storePreferencesLocally,
     autoLaunchOnStart,
     pinLaunchpadToTray
 } from '../helpers/launchpad';
 
 export const TYPES = {
-    ALIAS_STORE_USER_PREFERENCES: 'ALIAS_STORE_USER_PREFERENCES',
-    ALIAS_STORE_APP_PREFERENCES: 'ALIAS_STORE_APP_PREFERENCES',
+    ALIAS_STORE_PREFERENCES: 'ALIAS_STORE_PREFERENCES',
     ALIAS_AUTO_LAUNCH: 'ALIAS_AUTO_LAUNCH',
     ALIAS_PIN_TO_TRAY: 'ALIAS_PIN_TO_TRAY',
     ALIAS_TO_SET_STANDARD_WINDOW_VISIBILITY:
         'ALIAS_TO_SET_STANDARD_WINDOW_VISIBILITY'
 };
 
-export const storeUserPreferences = createAliasedAction(
-    TYPES.ALIAS_STORE_USER_PREFERENCES,
-    ( userPreferences: UserPreferences ) => ( {
-        type: TYPES.ALIAS_STORE_USER_PREFERENCES,
-        payload: storeUserPreferencesLocally( userPreferences )
-    } )
-);
-
-export const storeAppPreferences = createAliasedAction(
-    TYPES.ALIAS_STORE_APP_PREFERENCES,
-    ( appPreferences: AppPreferences ) => ( {
-        type: TYPES.ALIAS_STORE_APP_PREFERENCES,
-        payload: storeAppPreferencesLocally( appPreferences )
+export const storePreferences = createAliasedAction(
+    TYPES.ALIAS_STORE_PREFERENCES,
+    ( preferences: Preferences ) => ( {
+        type: TYPES.ALIAS_STORE_PREFERENCES,
+        payload: storePreferencesLocally( preferences )
     } )
 );
 

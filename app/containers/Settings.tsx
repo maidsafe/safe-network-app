@@ -7,14 +7,15 @@ import {
     getUserPreferences
 } from '$Actions/launchpad_actions';
 import {
-    storeUserPreferences,
+    storePreferences,
     autoLaunch,
     pinToTray
 } from '$Actions/alias/launchpad_actions';
 
 const mapStateToProperties = ( state ) => {
     return {
-        userPreferences: state.launchpad.userPreferences
+        userPreferences: state.launchpad.userPreferences,
+        appPreferences: state.launchpad.appPreferences
     };
 };
 
@@ -22,7 +23,7 @@ const mapDispatchToProperties = ( dispatch ) => {
     const actions = {
         setUserPreferences,
         getUserPreferences,
-        storeUserPreferences,
+        storePreferences,
         autoLaunch,
         pinToTray
     };

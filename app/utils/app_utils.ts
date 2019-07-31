@@ -18,12 +18,6 @@ export const getAppFolderPath = () => {
     return null;
 };
 
-export const databaseCallBackHandler = ( resolve, reject ) => {
-    return ( success, data ) => {
-        return success ? resolve( data ) : reject( data );
-    };
-};
-
 export const camelToTitle = ( camelCase ) =>
     camelCase
         .replace( /([A-Z])/g, ( match ) => ` ${match}` )

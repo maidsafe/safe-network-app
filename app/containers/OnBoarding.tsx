@@ -5,10 +5,10 @@ import { OnBoarding } from '$Components/OnBoarding';
 import {
     setUserPreferences,
     getUserPreferences,
-    setOnboardCompleted
+    onboardCompleted
 } from '$Actions/launchpad_actions';
 import {
-    storeUserPreferences,
+    storePreferences,
     pinToTray,
     autoLaunch
 } from '$Actions/alias/launchpad_actions';
@@ -23,10 +23,10 @@ const mapDispatchToProperties = ( dispatch ) => {
     const actions = {
         setUserPreferences,
         getUserPreferences,
-        storeUserPreferences,
+        storePreferences,
         pinToTray,
         autoLaunch,
-        setOnboardCompleted
+        onboardCompleted
     };
     return bindActionCreators( actions, dispatch );
 };

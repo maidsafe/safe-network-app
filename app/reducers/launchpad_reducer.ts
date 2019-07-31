@@ -78,7 +78,7 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
         case TYPES.INITILISE_APP:
         case ALIAS_TYPES.ALIAS_AUTO_LAUNCH:
         case ALIAS_TYPES.ALIAS_PIN_TO_TRAY:
-        case ALIAS_TYPES.ALIAS_STORE_USER_PREFERENCES:
+        case ALIAS_TYPES.ALIAS_STORE_PREFERENCES:
         default:
             return state;
     }

@@ -2,13 +2,20 @@ import React, { Component } from 'react';
 import { History } from 'history';
 import Grid from '@material-ui/core/Grid';
 import { styled } from '@material-ui/core/styles';
+import { Switch, Route } from 'react-router';
+// eslint-disable-next-line import/no-unresolved
+import { ON_BOARDING, INTRO, BASIC_SETTINGS, HOME } from '$Constants/routes';
+import {
+    Preferences,
+    AppPreferences,
+    UserPreferences,
+    LaunchpadState
+} from '$Definitions/application.d';
 
-import { LaunchpadState } from '$Definitions/application.d';
 import { Stepper } from './Stepper';
 import { GetStarted } from './GetStarted';
 import { Intro } from './Intro';
 import { BasicSettings } from './BasicSettings';
-import { HOME } from '$Constants/routes.json';
 
 interface Props {
     launchpad: LaunchpadState;
@@ -16,8 +23,8 @@ interface Props {
     setUserPreferences: Function;
     pinToTray: Function;
     autoLaunch: Function;
-    storeUserPreferences: Function;
-    setOnboardCompleted: Function;
+    storePreferences: Function;
+    onboardCompleted: Function;
     history: History;
 }
 
@@ -47,7 +54,6 @@ export class OnBoarding extends Component<Props> {
 
     goHomeOnCompleted = () => {
         const { launchpad, history } = this.props;
-
         if ( !launchpad.appPreferences.shouldOnboard ) {
             history.push( HOME );
         }
@@ -55,13 +61,27 @@ export class OnBoarding extends Component<Props> {
 
     completed = () => {
         const {
-            storeUserPreferences,
-            setOnboardCompleted,
+            storePreferences,
+            onboardCompleted,
             launchpad,
             autoLaunch,
             pinToTray
         } = this.props;
-        storeUserPreferences( launchpad.userPreferences );
+
+        const appPreferences: AppPreferences = {
+            shouldOnboard: false
+        };
+
+        const userPreferences: UserPreferences = {
+            ...launchpad.userPreferences
+        };
+
+        const preferences: Preferences = {
+            userPreferences,
+            appPreferences
+        };
+
+        storePreferences( preferences );
 
         if ( launchpad.userPreferences.launchOnStart ) {
             autoLaunch( true );
@@ -71,16 +91,39 @@ export class OnBoarding extends Component<Props> {
             pinToTray( true );
         }
 
-        setOnboardCompleted();
+        onboardCompleted();
+    };
+
+    onCurrentPosition = ( position ) => {
+        const { history } = this.props;
+
+        switch ( position ) {
+            case 0:
+                history.push( ON_BOARDING );
+                break;
+            case 1:
+                history.push( INTRO );
+                break;
+            case 2:
+                history.push( BASIC_SETTINGS );
+                break;
+            default:
+                history.push( HOME );
+        }
     };
 
     onNext = () => {
         const { currentPosition } = this.state;
+        let position = currentPosition;
+        const { history } = this.props;
 
         if ( currentPosition < this.totalSteps - 1 ) {
             this.setState( {
                 currentPosition: currentPosition + 1
             } );
+
+            position += 1;
+            this.onCurrentPosition( position );
         } else {
             this.completed();
         }
@@ -88,12 +131,15 @@ export class OnBoarding extends Component<Props> {
 
     onBack = () => {
         const { currentPosition } = this.state;
+        let position = currentPosition;
 
         if ( currentPosition > 0 ) {
             this.setState( {
                 currentPosition: currentPosition - 1
             } );
         }
+        position -= 1;
+        this.onCurrentPosition( position );
     };
 
     render() {
@@ -102,38 +148,38 @@ export class OnBoarding extends Component<Props> {
             launchpad,
             setUserPreferences,
             pinToTray,
-            autoLaunch
+            autoLaunch,
+            history
         } = this.props;
 
         const { userPreferences } = launchpad;
 
-        let container;
-        switch ( currentPosition ) {
-            case 0:
-                container = <GetStarted onClickGetStarted={this.onNext} />;
-                break;
-            case 1:
-                container = <Intro />;
-                break;
-            case 2:
-                container = (
-                    <BasicSettings
-                        userPreferences={userPreferences}
-                        setUserPreferences={setUserPreferences}
-                        pinToTray={pinToTray}
-                        autoLaunch={autoLaunch}
-                    />
-                );
-                break;
-            default:
-                break;
-        }
-
         const isGetStarted = currentPosition === 0;
+
         return (
             <Base container>
                 <Grid item xs={12}>
-                    {container}
+                    <Switch>
+                        <Route
+                            exact
+                            path={ON_BOARDING}
+                            component={() => (
+                                <GetStarted onClickGetStarted={this.onNext} />
+                            )}
+                        />
+                        <Route path={INTRO} component={() => <Intro />} />
+                        <Route
+                            path={BASIC_SETTINGS}
+                            component={() => (
+                                <BasicSettings
+                                    userPreferences={userPreferences}
+                                    setUserPreferences={setUserPreferences}
+                                    pinToTray={pinToTray}
+                                    autoLaunch={autoLaunch}
+                                />
+                            )}
+                        />
+                    </Switch>
                 </Grid>
                 <Stepper
                     theme={isGetStarted ? 'white' : 'default'}

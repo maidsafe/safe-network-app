@@ -1,5 +1,7 @@
 {
     "HOME": "/",
     "SETTINGS": "/settings",
-    "ON_BOARDING": "/onBoarding"
+    "ON_BOARDING": "/onBoarding",
+    "INTRO": "/onBoarding/intro",
+    "BASIC_SETTINGS": "/onBoarding/basic_Settings"
 }

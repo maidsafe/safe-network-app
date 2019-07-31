@@ -2,7 +2,7 @@ import { ipcRenderer } from 'electron';
 import AutoLaunch from 'auto-launch';
 
 import pkg from '$Package';
-import { UserPreferences, AppPreferences } from '$Definitions/application.d';
+import { Preferences } from '$Definitions/application.d';
 import { preferenceDatabase } from './preferences_db';
 
 export const mockPromise = ( data = null ) =>
@@ -24,41 +24,21 @@ export const initiliseApplication = () =>
         }
     } );
 
-export const fetchUserPreferencesLocally = (): Promise<UserPreferences> =>
+export const fetchPreferencesLocally = (): Promise<Preferences> =>
     new Promise( async ( resolve, reject ) => {
         try {
-            const userPreferences: UserPreferences = await preferenceDatabase.getUserPreferences();
-            return resolve( userPreferences );
+            const preferences = await preferenceDatabase.getPreferences();
+            return resolve( preferences );
         } catch ( error ) {
             return reject( error );
         }
     } );
 
-export const storeUserPreferencesLocally = ( userPreferences: UserPreferences ) =>
+export const storePreferencesLocally = ( preferences: Preferences ) =>
     new Promise( async ( resolve, reject ) => {
         try {
-            await preferenceDatabase.updateUserPreferences( userPreferences );
+            await preferenceDatabase.updatePreferences( preferences );
             return resolve();
-        } catch ( error ) {
-            return reject( error );
-        }
-    } );
-
-export const storeAppPreferencesLocally = ( appPreferences: AppPreferences ) =>
-    new Promise( async ( resolve, reject ) => {
-        try {
-            await preferenceDatabase.updateAppPreferences( appPreferences );
-            return resolve();
-        } catch ( error ) {
-            return reject( error );
-        }
-    } );
-
-export const fetchAppPreferencesLocally = (): Promise<AppPreferences> =>
-    new Promise( async ( resolve, reject ) => {
-        try {
-            const appPreferences: AppPreferences = await preferenceDatabase.getAppPreferences();
-            return resolve( appPreferences );
         } catch ( error ) {
             return reject( error );
         }
