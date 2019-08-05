@@ -29,7 +29,7 @@ export class Preferences extends Component<Props> {
         onChangePinToMenu: () => {}
     };
 
-    private handleChange = ( name: string, changedStatus: boolean ) => {
+    private handleChange = (name: string, changedStatus: boolean) => {
         const {
             userPreferences,
             onChange,
@@ -37,29 +37,29 @@ export class Preferences extends Component<Props> {
             onChangePinToMenu
         } = this.props;
 
-        switch ( name ) {
+        switch (name) {
             case 'pinToMenuBar':
-                onChangePinToMenu( changedStatus );
+                onChangePinToMenu(changedStatus);
                 break;
             case 'launchOnStart':
-                onChangeLaunchOnStart( changedStatus );
+                onChangeLaunchOnStart(changedStatus);
                 break;
             default:
                 break;
         }
 
         userPreferences[name] = changedStatus;
-        onChange( userPreferences );
+        onChange(userPreferences);
     };
 
     render() {
         const { userPreferences, requiredItems } = this.props;
-        const requiredItemArray = Object.keys( requiredItems );
+        const requiredItemArray = Object.keys(requiredItems);
 
         return (
             <List aria-label="Preferences">
-                {Object.keys( userPreferences ).map( ( userPreference ) => {
-                    if ( !requiredItemArray.includes( userPreference ) )
+                {Object.keys(userPreferences).map((userPreference) => {
+                    if (!requiredItemArray.includes(userPreference))
                         return null;
 
                     return (
@@ -71,7 +71,7 @@ export class Preferences extends Component<Props> {
                             disabled={!requiredItems[userPreference]}
                         />
                     );
-                } )}
+                })}
             </List>
         );
     }

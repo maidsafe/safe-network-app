@@ -1,7 +1,7 @@
 import { I18n } from 'react-redux-i18n';
 
-const prepareNotification = ( title, acceptText, denyText, otherProperties ) => {
-    const id: string = Math.random().toString( 36 );
+const prepareNotification = (title, acceptText, denyText, otherProperties) => {
+    const id: string = Math.random().toString(36);
 
     return {
         id,
@@ -13,10 +13,10 @@ const prepareNotification = ( title, acceptText, denyText, otherProperties ) => 
 };
 
 export const notificationTypes = {
-    NO_INTERNET: ( appId ) => {
-        const title = I18n.t( 'notifications.title.no_internet' );
-        const acceptText = I18n.t( 'notifications.buttons.acceptText.resume' );
-        const denyText = I18n.t( 'notifications.buttons.denyText.dismiss' );
+    NO_INTERNET: (appId) => {
+        const title = I18n.t('notifications.title.no_internet');
+        const acceptText = I18n.t('notifications.buttons.acceptText.resume');
+        const denyText = I18n.t('notifications.buttons.denyText.dismiss');
         const otherProperties = {
             type: 'NO_INTERNET',
             icon: 'SignalWifiOffIcon',
@@ -32,14 +32,14 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    CLOSE_APP: ( appId, appName, application ) => {
-        const title = I18n.t( 'notifications.title.close_app', { appName } );
-        const acceptText = I18n.t( 'notifications.buttons.acceptText.try_again' );
+    CLOSE_APP: (appId, appName, application) => {
+        const title = I18n.t('notifications.title.close_app', { appName });
+        const acceptText = I18n.t('notifications.buttons.acceptText.try_again');
         const denyText = I18n.t(
             'notifications.buttons.denyText.cancel_install'
         );
-        if ( application === null ) {
-            throw new Error( 'Need To Pass application' );
+        if (application === null) {
+            throw new Error('Need To Pass application');
         }
 
         const otherProperties = {
@@ -58,16 +58,16 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    CLOSE_APP_ALERT: ( appId, appName, application ) => {
-        const title = I18n.t( 'notifications.title.close_app', { appName } );
-        const message = I18n.t( 'notifications.message.close_app', { appName } );
-        const acceptText = I18n.t( 'notifications.buttons.acceptText.try_again' );
+    CLOSE_APP_ALERT: (appId, appName, application) => {
+        const title = I18n.t('notifications.title.close_app', { appName });
+        const message = I18n.t('notifications.message.close_app', { appName });
+        const acceptText = I18n.t('notifications.buttons.acceptText.try_again');
         const denyText = I18n.t(
             'notifications.buttons.denyText.cancel_install'
         );
         const buttons = [denyText, acceptText];
-        if ( application !== null ) {
-            throw new Error( 'Need To Pass application' );
+        if (application !== null) {
+            throw new Error('Need To Pass application');
         }
 
         const otherProperties = {
@@ -87,9 +87,9 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    SERVER_TIMED_OUT: ( appId, appName ) => {
-        const title = I18n.t( 'notifications.title.server_timeout', { appName } );
-        const acceptText = I18n.t( 'notifications.buttons.acceptText.retry' );
+    SERVER_TIMED_OUT: (appId, appName) => {
+        const title = I18n.t('notifications.title.server_timeout', { appName });
+        const acceptText = I18n.t('notifications.buttons.acceptText.retry');
         const denyText = I18n.t(
             'notifications.buttons.denyText.cancel_install'
         );
@@ -109,15 +109,15 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    UPDATE_AVAILABLE: ( appId, appName, version ) => {
-        const title = I18n.t( 'notifications.title.update_available', {
+    UPDATE_AVAILABLE: (appId, appName, version) => {
+        const title = I18n.t('notifications.title.update_available', {
             appName,
             version
-        } );
+        });
         const acceptText = I18n.t(
             'notifications.buttons.acceptText.update_now'
         );
-        const denyText = I18n.t( 'notifications.buttons.denyText.skip' );
+        const denyText = I18n.t('notifications.buttons.denyText.skip');
 
         const otherProperties = {
             type: 'UPDATE_AVAILABLE',
@@ -134,20 +134,20 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    UPDATE_AVAILABLE_ALERT: ( appId, appName, version ) => {
-        const title = I18n.t( 'notifications.title.update_available', {
+    UPDATE_AVAILABLE_ALERT: (appId, appName, version) => {
+        const title = I18n.t('notifications.title.update_available', {
             appName,
             version
-        } );
-        const message = I18n.t( 'notifications.message.update_available', {
+        });
+        const message = I18n.t('notifications.message.update_available', {
             appName,
             version
-        } );
+        });
         const acceptText = I18n.t(
             'notifications.buttons.acceptText.update_now'
         );
-        const denyText = I18n.t( 'notifications.buttons.denyText.skip' );
-        const learnMore = I18n.t( 'notifications.buttons.other.learn_more' );
+        const denyText = I18n.t('notifications.buttons.denyText.skip');
+        const learnMore = I18n.t('notifications.buttons.other.learn_more');
 
         const buttons = [learnMore, denyText, acceptText];
 
@@ -167,9 +167,9 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    ADMIN_PASS_REQ: ( appId, appName ) => {
-        const title = I18n.t( 'notifications.title.admin_pass_req', { appName } );
-        const acceptText = I18n.t( 'notifications.buttons.acceptText.try_again' );
+    ADMIN_PASS_REQ: (appId, appName) => {
+        const title = I18n.t('notifications.title.admin_pass_req', { appName });
+        const acceptText = I18n.t('notifications.buttons.acceptText.try_again');
         const denyText = I18n.t(
             'notifications.buttons.denyText.cancel_install'
         );
@@ -189,10 +189,10 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    RESTART_SYSTEM: ( appName ) => {
-        const title = I18n.t( 'notifications.title.restart_system', { appName } );
-        const acceptText = I18n.t( 'notifications.buttons.acceptText.restart' );
-        const denyText = I18n.t( 'notifications.buttons.denyText.not_now' );
+    RESTART_SYSTEM: (appName) => {
+        const title = I18n.t('notifications.title.restart_system', { appName });
+        const acceptText = I18n.t('notifications.buttons.acceptText.restart');
+        const denyText = I18n.t('notifications.buttons.denyText.not_now');
 
         const otherProperties = {
             type: 'RESTART_SYSTEM',
@@ -208,13 +208,13 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    RESTART_SYSTEM_ALERT: ( appName ) => {
-        const title = I18n.t( 'notifications.title.restart_system', { appName } );
-        const message = I18n.t( 'notifications.message.restart_system', {
+    RESTART_SYSTEM_ALERT: (appName) => {
+        const title = I18n.t('notifications.title.restart_system', { appName });
+        const message = I18n.t('notifications.message.restart_system', {
             appName
-        } );
-        const acceptText = I18n.t( 'notifications.buttons.acceptText.restart' );
-        const denyText = I18n.t( 'notifications.buttons.denyText.not_now' );
+        });
+        const acceptText = I18n.t('notifications.buttons.acceptText.restart');
+        const denyText = I18n.t('notifications.buttons.denyText.not_now');
         const buttons = [denyText, acceptText];
 
         const otherProperties = {
@@ -232,10 +232,10 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    GLOBAL_FAILURE: ( appId ) => {
-        const title = I18n.t( 'notifications.title.global_failure' );
-        const acceptText = I18n.t( 'notifications.buttons.acceptText.retry' );
-        const denyText = I18n.t( 'notifications.buttons.denyText.dismiss' );
+    GLOBAL_FAILURE: (appId) => {
+        const title = I18n.t('notifications.title.global_failure');
+        const acceptText = I18n.t('notifications.buttons.acceptText.retry');
+        const denyText = I18n.t('notifications.buttons.denyText.dismiss');
 
         const otherProperties = {
             type: 'GLOBAL_FAILURE',
@@ -252,10 +252,10 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    DISC_FULL: ( appId ) => {
-        const title = I18n.t( 'notifications.title.disc_full' );
-        const acceptText = I18n.t( 'notifications.buttons.acceptText.resume' );
-        const denyText = I18n.t( 'notifications.buttons.denyText.dismiss' );
+    DISC_FULL: (appId) => {
+        const title = I18n.t('notifications.title.disc_full');
+        const acceptText = I18n.t('notifications.buttons.acceptText.resume');
+        const denyText = I18n.t('notifications.buttons.denyText.dismiss');
 
         const otherProperties = {
             type: 'DISC_FULL',
@@ -272,15 +272,15 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    UNINSTALL_APP_ALERT: ( appId, appName ) => {
-        const title = I18n.t( 'notifications.title.uninstall_app', { appName } );
-        const message = I18n.t( 'notifications.message.uninstall_app', {
+    UNINSTALL_APP_ALERT: (appId, appName) => {
+        const title = I18n.t('notifications.title.uninstall_app', { appName });
+        const message = I18n.t('notifications.message.uninstall_app', {
             appName
-        } );
+        });
         const acceptText = I18n.t(
             'notifications.buttons.acceptText.uninstall_app'
         );
-        const denyText = I18n.t( 'notifications.buttons.denyText.cancel' );
+        const denyText = I18n.t('notifications.buttons.denyText.cancel');
         const buttons = [denyText, acceptText];
 
         const otherProperties = {
@@ -300,11 +300,11 @@ export const notificationTypes = {
         );
     },
     CLEARNET_WARNING_ALERT: () => {
-        const checkboxLabel = I18n.t( 'notifications.warning.not_again' );
-        const title = I18n.t( 'notifications.title.clearnet_warning' );
-        const message = I18n.t( 'notifications.message.clearnet_warning' );
-        const acceptText = I18n.t( 'notifications.buttons.acceptText.continue' );
-        const denyText = I18n.t( 'notifications.buttons.denyText.cancel' );
+        const checkboxLabel = I18n.t('notifications.warning.not_again');
+        const title = I18n.t('notifications.title.clearnet_warning');
+        const message = I18n.t('notifications.message.clearnet_warning');
+        const acceptText = I18n.t('notifications.buttons.acceptText.continue');
+        const denyText = I18n.t('notifications.buttons.denyText.cancel');
         const buttons = [denyText, acceptText];
 
         const otherProperties = {

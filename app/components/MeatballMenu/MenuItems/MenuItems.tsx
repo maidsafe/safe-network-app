@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { MenuItem } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { App } from '$Definitions/application.d';
 import { logger } from '$Logger';
 import styles from './MenuItems.css';
@@ -15,29 +16,29 @@ interface MenuItemsProps {
 export class MenuItems extends Component<MenuItemsProps> {
     handleDownload = () => {
         const { application, installApp, handleClose } = this.props;
-        logger.silly( 'MeatballMenu: clicked download ', application );
-        installApp( application );
+        logger.silly('MeatballMenu: clicked download ', application);
+        installApp(application);
         handleClose();
     };
 
     handleOpen = () => {
         const { application, openApp, handleClose } = this.props;
-        logger.silly( 'MeatballMenu: clicked open ', application );
-        openApp( application );
+        logger.silly('MeatballMenu: clicked open ', application);
+        openApp(application);
         handleClose();
     };
 
     handleUninstall = () => {
         const { application, uninstallApp, handleClose } = this.props;
-        logger.silly( 'MeatballMenu: clicked uninstall: ', application );
-        uninstallApp( application );
+        logger.silly('MeatballMenu: clicked uninstall: ', application);
+        uninstallApp(application);
         handleClose();
     };
 
-    generateMenuItems = () => {
-        const { application } = this.props;
-        const menuItemList = [{ text: 'About this App...', onClick: () => {} }];
+    render() {
         const {
+            name,
+            id,
             progress,
             isInstalling,
             isUninstalling,
@@ -46,68 +47,47 @@ export class MenuItems extends Component<MenuItemsProps> {
             hasUpdate,
             isInstalled,
             installFailed
-        } = application;
-        if ( !isInstalled ) {
-            menuItemList.splice( 1, 0, {
-                text: 'Install',
-                onClick: this.handleDownload
-            } );
-        } else {
-            menuItemList.splice(
-                1,
-                2,
-                { text: 'Uninstall', onClick: this.handleUninstall },
-                { text: 'Check for updates', onClick: this.handleDownload }
-            );
-        }
+        } = this.props.application;
 
-        if ( isDownloading ) {
-            menuItemList.splice(
-                1,
-                2,
-                { text: 'Cancel Install', onClick: () => {} },
-                { text: 'Pause Download', onClick: () => {} }
-            );
-        } else if ( isInstalling ) {
-            menuItemList.splice( 1, 1, {
-                text: 'Cancel Install',
-                onClick: () => {}
-            } );
-        } else if ( installFailed ) {
-            menuItemList.splice(
-                1,
-                2,
-                { text: 'Cancel Install', onClick: () => {} },
-                { text: 'Re-try install', onClick: () => {} }
-            );
-        } else if ( hasUpdate ) {
-            menuItemList.splice(
-                1,
-                3,
-                { text: 'Open', onClick: () => {} },
-                { text: 'Skip this update', onClick: () => {} },
-                { text: 'Uninstall', onClick: this.handleUninstall }
-            );
-        }
-        return menuItemList;
-    };
-
-    render() {
         return (
             <React.Fragment>
-                {this.generateMenuItems().map( ( item, index ) => {
-                    const randomKey = Math.random().toString( 32 );
-                    return (
-                        <MenuItem
-                            dense
-                            key={randomKey}
-                            id={styles['menu-item']}
-                            onClick={() => item.onClick()}
-                        >
-                            {item.text}
+                <MenuItem dense className={styles['menu-item']}>
+                    <Link to={`/application/${id}`}>{`About ${name}`}</Link>
+                </MenuItem>
+                <MenuItem
+                    dense
+                    className={styles['menu-item']}
+                    onClick={
+                        isInstalled ? this.handleUninstall : this.handleDownload
+                    }
+                >
+                    {isInstalled ? 'Uninstall' : 'Install'}
+                </MenuItem>
+                {isDownloading && (
+                    <React.Fragment>
+                        <MenuItem dense className={styles['menu-item']}>
+                            Cancel Download
                         </MenuItem>
-                    );
-                } )}
+                        <MenuItem dense className={styles['menu-item']}>
+                            Pause Download
+                        </MenuItem>
+                    </React.Fragment>
+                )}
+                {isInstalling && (
+                    <MenuItem dense className={styles['menu-item']}>
+                        Cancel Install
+                    </MenuItem>
+                )}
+                {installFailed && (
+                    <MenuItem dense className={styles['menu-item']}>
+                        Retry Install
+                    </MenuItem>
+                )}
+                {hasUpdate && (
+                    <MenuItem dense className={styles['menu-item']}>
+                        Skip This Update
+                    </MenuItem>
+                )}
             </React.Fragment>
         );
     }

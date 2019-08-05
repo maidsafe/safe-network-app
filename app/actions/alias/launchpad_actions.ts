@@ -19,44 +19,44 @@ export const TYPES = {
 
 export const storeUserPreferences = createAliasedAction(
     TYPES.ALIAS_STORE_USER_PREFERENCES,
-    ( userPreferences: UserPreferences ) => ( {
+    (userPreferences: UserPreferences) => ({
         type: TYPES.ALIAS_STORE_USER_PREFERENCES,
-        payload: storeUserPreferencesLocally( userPreferences )
-    } )
+        payload: storeUserPreferencesLocally(userPreferences)
+    })
 );
 
 export const shouldOnboard = createAliasedAction(
     TYPES.ALIAS_SHOULD_ONBOARD,
-    () => ( {
+    () => ({
         type: TYPES.ALIAS_SHOULD_ONBOARD,
-        payload: checkOnBoardingCompleted().then( ( response: boolean ) => ( {
+        payload: checkOnBoardingCompleted().then((response: boolean) => ({
             shouldOnboard: response
-        } ) )
-    } )
+        }))
+    })
 );
 
 export const autoLaunch = createAliasedAction(
     TYPES.ALIAS_AUTO_LAUNCH,
-    ( enable ) => ( {
+    (enable) => ({
         type: TYPES.ALIAS_AUTO_LAUNCH,
-        payload: autoLaunchOnStart( enable )
-    } )
+        payload: autoLaunchOnStart(enable)
+    })
 );
 
 export const pinToTray = createAliasedAction(
     TYPES.ALIAS_PIN_TO_TRAY,
-    ( enable ) => ( {
+    (enable) => ({
         type: TYPES.ALIAS_PIN_TO_TRAY,
-        payload: pinLaunchpadToTray( enable )
-    } )
+        payload: pinLaunchpadToTray(enable)
+    })
 );
 
 export const triggerSetAsTrayWindow = createAliasedAction(
     TYPES.ALIAS_SET_AS_TRAY_WINDOW,
-    ( setAsTray: boolean ) => ( {
+    (setAsTray: boolean) => ({
         type: TYPES.ALIAS_SET_AS_TRAY_WINDOW,
-        payload: ( () => {
-            ipcRenderer.send( 'set-as-tray-window', setAsTray );
-        } )()
-    } )
+        payload: (() => {
+            ipcRenderer.send('set-as-tray-window', setAsTray);
+        })()
+    })
 );

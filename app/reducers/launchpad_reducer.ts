@@ -9,21 +9,21 @@ export const initialState: LaunchpadState = {
     userPreferences: { ...defaultPreferences },
     notifications: {},
     notificationCheckBox: false,
-    isTrayWindow: true
+    isTrayWindow: false
 };
 
-export function launchpadReducer( state = initialState, action ): LaunchpadState {
+export function launchpadReducer(state = initialState, action): LaunchpadState {
     const { payload } = action;
 
-    switch ( action.type ) {
+    switch (action.type) {
         case TYPES.SET_USER_PREFERENCES: {
             const newUserPreferences: UserPreferences = {
                 ...state.userPreferences,
                 ...payload
             };
             if (
-                Object.keys( newUserPreferences ).length !==
-                Object.keys( initialState.userPreferences ).length
+                Object.keys(newUserPreferences).length !==
+                Object.keys(initialState.userPreferences).length
             ) {
                 throw ERRORS.INVALID_PROP;
             }
@@ -33,7 +33,7 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
 
         case TYPES.PUSH_NOTIFICATION: {
             const newNotifications = { ...state.notifications };
-            if ( !payload.notification || !payload.notification.id )
+            if (!payload.notification || !payload.notification.id)
                 throw ERRORS.NOTIFICATION_ID_NOT_FOUND;
 
             newNotifications[payload.notification.id] = {
@@ -44,14 +44,14 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
 
         case TYPES.DISMISS_NOTIFICATION: {
             const newNotifications = { ...state.notifications };
-            if ( !payload.notificationId ) throw ERRORS.NOTIFICATION_ID_NOT_FOUND;
+            if (!payload.notificationId) throw ERRORS.NOTIFICATION_ID_NOT_FOUND;
 
             delete newNotifications[payload.notificationId];
             return { ...state, notifications: newNotifications };
         }
 
         case ALIAS_TYPES.ALIAS_SHOULD_ONBOARD: {
-            if ( typeof payload.shouldOnboard !== 'boolean' )
+            if (typeof payload.shouldOnboard !== 'boolean')
                 throw ERRORS.INVALID_TYPE;
 
             return { ...state, shouldOnboard: payload.shouldOnboard };

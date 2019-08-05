@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { logger } from '$Logger';
-
 import styles from './Overview.css';
 import { AppManagerState } from '$Definitions/application.d';
 import { ApplicationOverview } from '$Components/ApplicationOverview';
@@ -16,9 +15,9 @@ interface Props {
 }
 
 export class Overview extends Component<Props> {
-    constructor( props ) {
+    constructor(props) {
         // eslint-disable-line unicorn/prevent-abbreviations
-        super( props );
+        super(props);
         const { fetchApps } = this.props;
         fetchApps();
     }
@@ -30,8 +29,8 @@ export class Overview extends Component<Props> {
             installApp,
             openApp
         } = this.props;
-        return Object.values( appManagerState.applicationList ).map(
-            ( theApplication ) => (
+        return Object.values(appManagerState.applicationList).map(
+            (theApplication) => (
                 <ApplicationOverview
                     key={theApplication.name}
                     {...theApplication}
@@ -52,7 +51,7 @@ export class Overview extends Component<Props> {
                     type="button"
                     className={styles['btn--upper-right']}
                     key="overview__switch-button"
-                    onClick={() => triggerSetAsTrayWindow( !isTrayWindow )}
+                    onClick={() => triggerSetAsTrayWindow(!isTrayWindow)}
                 >
                     Switch
                 </button>

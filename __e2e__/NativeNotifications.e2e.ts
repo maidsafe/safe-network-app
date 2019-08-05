@@ -35,47 +35,47 @@ const Notifications = {
     }
 };
 
-const numberOfNotification = Object.keys( Notifications );
+const numberOfNotification = Object.keys(Notifications);
 
-fixture`Check App Notification`.page( '../app/app.html' ).beforeEach( async () => {
+fixture`Check App Notification`.page('../app/app.html').beforeEach(async () => {
     await waitForReact();
-} );
+});
 
 // eslint-disable-next-line array-callback-return
-numberOfNotification.map( ( type ) => {
-    test( `Check ${Notifications[type].name} notification`, async ( t ) => {
+numberOfNotification.map((type) => {
+    test(`Check ${Notifications[type].name} notification`, async (t) => {
         // @ts-ignore
-        await clickOnMainMenuItem( [
+        await clickOnMainMenuItem([
             'Tests',
             `Add a ${Notifications[type].name} Notification`
-        ] );
+        ]);
 
-        await t.expect( Selector( `.MuiPaper-root` ).exists ).ok();
+        await t.expect(Selector(`.MuiPaper-root`).exists).ok();
 
         await t
             .expect(
-                Selector( 'div' ).withAttribute( 'aria-label', 'NotificationIcon' )
+                Selector('div').withAttribute('aria-label', 'NotificationIcon')
                     .exists
             )
             .ok();
 
         await t
             .expect(
-                Selector( 'p' ).withAttribute( 'aria-label', 'NotificationTitle' )
+                Selector('p').withAttribute('aria-label', 'NotificationTitle')
                     .exists
             )
             .ok();
 
-        const notificationTitle = await Selector( 'p' ).withAttribute(
+        const notificationTitle = await Selector('p').withAttribute(
             'aria-label',
             'NotificationTitle'
         ).innerText;
 
-        await t.expect( notificationTitle ).eql( Notifications[type].title );
+        await t.expect(notificationTitle).eql(Notifications[type].title);
 
         await t
             .expect(
-                Selector( 'button' ).withAttribute(
+                Selector('button').withAttribute(
                     'aria-label',
                     'AcceptNotification'
                 ).exists
@@ -84,7 +84,7 @@ numberOfNotification.map( ( type ) => {
 
         await t
             .expect(
-                Selector( 'button' ).withAttribute(
+                Selector('button').withAttribute(
                     'aria-label',
                     'DenyNotification'
                 ).exists
@@ -93,7 +93,7 @@ numberOfNotification.map( ( type ) => {
 
         await t
             .expect(
-                Selector( 'button' ).withAttribute(
+                Selector('button').withAttribute(
                     'aria-label',
                     'AcceptNotification'
                 ).exists
@@ -101,18 +101,18 @@ numberOfNotification.map( ( type ) => {
             .ok();
 
         // @ts-ignore
-        await clickOnMainMenuItem( [
+        await clickOnMainMenuItem([
             'Tests',
             `Add a ${Notifications[type].name} Notification`
-        ] );
+        ]);
 
         await t
             .expect(
-                Selector( 'button' ).withAttribute(
+                Selector('button').withAttribute(
                     'aria-label',
                     'DenyNotification'
                 ).exists
             )
             .ok();
-    } );
-} );
+    });
+});

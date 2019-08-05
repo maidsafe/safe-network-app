@@ -9,23 +9,23 @@ import {
     autoLaunch
 } from '$Actions/alias/launchpad_actions';
 
-const mapStateToProperties = ( state ) => {
+const mapStateToProperties = (state) => {
     return {
         userPreferences: state.launchpad.userPreferences
     };
 };
 
-const mapDispatchToProperties = ( dispatch ) => {
+const mapDispatchToProperties = (dispatch) => {
     const actions = {
         setUserPreferences,
         storeUserPreferences,
         pinToTray,
         autoLaunch
     };
-    return bindActionCreators( actions, dispatch );
+    return bindActionCreators(actions, dispatch);
 };
 
 export const OnBoardingPage: React.ComponentClass = connect(
     mapStateToProperties,
     mapDispatchToProperties
-)( BasicSettings );
+)(BasicSettings);
