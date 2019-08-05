@@ -12,13 +12,13 @@ import {
     pinToTray
 } from '$Actions/alias/launchpad_actions';
 
-const mapStateToProperties = (state) => {
+const mapStateToProperties = ( state ) => {
     return {
         userPreferences: state.launchpad.userPreferences
     };
 };
 
-const mapDispatchToProperties = (dispatch) => {
+const mapDispatchToProperties = ( dispatch ) => {
     const actions = {
         setUserPreferences,
         getUserPreferences,
@@ -26,10 +26,10 @@ const mapDispatchToProperties = (dispatch) => {
         autoLaunch,
         pinToTray
     };
-    return bindActionCreators(actions, dispatch);
+    return bindActionCreators( actions, dispatch );
 };
 
 export const SettingsPage: React.ComponentClass = connect(
     mapStateToProperties,
     mapDispatchToProperties
-)(Settings);
+)( Settings );

@@ -23,10 +23,10 @@ export const {
 );
 
 export const getUserPreferences = () => {
-    return (dispatch) => {
+    return ( dispatch ) => {
         return fetchUserPreferencesLocally().then(
-            (userPreferences: UserPreferences) =>
-                dispatch(setUserPreferences(userPreferences))
+            ( userPreferences: UserPreferences ) =>
+                dispatch( setUserPreferences( userPreferences ) )
         );
     };
 };

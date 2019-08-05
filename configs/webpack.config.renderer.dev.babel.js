@@ -15,12 +15,12 @@ import merge from 'webpack-merge';
 import { spawn, execSync } from 'child_process';
 import baseConfig from './webpack.config.base';
 
-const CircularDependencyPlugin = require('circular-dependency-plugin');
+const CircularDependencyPlugin = require( 'circular-dependency-plugin' );
 
 const port = process.env.PORT || 1232;
 const publicPath = `http://localhost:${port}/dist`;
-const dll = path.join(__dirname, '..', 'dll');
-const manifest = path.resolve(dll, 'renderer.json');
+const dll = path.join( __dirname, '..', 'dll' );
+const manifest = path.resolve( dll, 'renderer.json' );
 const requiredByDLLConfig = module.parent.filename.includes(
     'webpack.config.renderer.dev.dll'
 );
@@ -28,16 +28,16 @@ const requiredByDLLConfig = module.parent.filename.includes(
 /**
  * Warn if the DLL is not built
  */
-if (!requiredByDLLConfig && !(fs.existsSync(dll) && fs.existsSync(manifest))) {
+if ( !requiredByDLLConfig && !( fs.existsSync( dll ) && fs.existsSync( manifest ) ) ) {
     console.info(
         chalk.black.bgYellow.bold(
             'The DLL files are missing. Sit back while we build them for you with "yarn build-dll"'
         )
     );
-    execSync('yarn build-dll');
+    execSync( 'yarn build-dll' );
 }
 
-export default merge.smart(baseConfig, {
+export default merge.smart( baseConfig, {
     devtool: 'inline-source-map',
 
     mode: 'development',
@@ -48,8 +48,8 @@ export default merge.smart(baseConfig, {
         patch: 'react-hot-loader/patch',
         devserver: `webpack-dev-server/client?http://localhost:${port}/`,
         only: 'webpack/hot/only-dev-server',
-        renderer: require.resolve('../app/index.tsx'),
-        background: require.resolve('../app/background.ts')
+        renderer: require.resolve( '../app/index.tsx' ),
+        background: require.resolve( '../app/background.ts' )
     },
 
     output: {
@@ -210,15 +210,15 @@ export default merge.smart(baseConfig, {
     plugins: [
         requiredByDLLConfig
             ? null
-            : new webpack.DllReferencePlugin({
-                  context: path.join(__dirname, '..', 'dll'),
-                  manifest: require(manifest),
-                  sourceType: 'var'
-              }),
+            : new webpack.DllReferencePlugin( {
+                context: path.join( __dirname, '..', 'dll' ),
+                manifest: require( manifest ),
+                sourceType: 'var'
+            } ),
 
-        new webpack.HotModuleReplacementPlugin({
+        new webpack.HotModuleReplacementPlugin( {
             multiStep: true
-        }),
+        } ),
 
         new webpack.NoEmitOnErrorsPlugin(),
 
@@ -234,16 +234,16 @@ export default merge.smart(baseConfig, {
          * By default, use 'development' as NODE_ENV. This can be overriden with
          * 'staging', for example, by changing the ENV variables in the npm scripts
          */
-        new webpack.EnvironmentPlugin({
+        new webpack.EnvironmentPlugin( {
             NODE_ENV: 'development',
             IS_UNPACKED: true
-        }),
+        } ),
 
-        new webpack.LoaderOptionsPlugin({
+        new webpack.LoaderOptionsPlugin( {
             debug: true
-        }),
+        } ),
 
-        new CircularDependencyPlugin({
+        new CircularDependencyPlugin( {
             // exclude detection of files based on a RegExp
             // exclude          : /a\.js|node_modules/,
             // add errors to webpack instead of warnings
@@ -253,7 +253,7 @@ export default merge.smart(baseConfig, {
             allowAsyncCycles: false,
             // set the current working directory for displaying module paths
             cwd: process.cwd()
-        })
+        } )
     ],
 
     node: {
@@ -271,7 +271,7 @@ export default merge.smart(baseConfig, {
         lazy: false,
         hot: true,
         headers: { 'Access-Control-Allow-Origin': '*' },
-        contentBase: path.join(__dirname, 'dist'),
+        contentBase: path.join( __dirname, 'dist' ),
         watchOptions: {
             aggregateTimeout: 300,
             ignored: /node_modules/,
@@ -282,20 +282,20 @@ export default merge.smart(baseConfig, {
             disableDotRule: false
         },
         before() {
-            if (process.env.START_HOT) {
+            if ( process.env.START_HOT ) {
                 console.info(
                     'Starting Main Process... nodeenv',
                     process.env.NODE_ENV
                 );
-                spawn('npm', ['run', 'start-main-dev'], {
+                spawn( 'npm', ['run', 'start-main-dev'], {
                     shell: true,
                     env: process.env,
                     stdio: 'inherit'
-                })
+                } )
                     // eslint-disable-next-line unicorn/no-process-exit
-                    .on('close', (code) => process.exit(code))
-                    .on('error', (spawnError) => console.error(spawnError));
+                    .on( 'close', ( code ) => process.exit( code ) )
+                    .on( 'error', ( spawnError ) => console.error( spawnError ) );
             }
         }
     }
-});
+} );

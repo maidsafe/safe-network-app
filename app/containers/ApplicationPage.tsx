@@ -15,14 +15,14 @@ import { triggerSetAsTrayWindow } from '$Actions/alias/launchpad_actions';
 import { getUserPreferences } from '$Actions/launchpad_actions';
 import { AppState } from '../definitions/application.d';
 
-function mapStateToProperties(state: AppState) {
+function mapStateToProperties( state: AppState ) {
     return {
         // TODO: Why this unnecessary nesting?
         appList: state.appManager.applicationList,
         isTrayWindow: state.launchpad.isTrayWindow
     };
 }
-function mapDispatchToProperties(dispatch) {
+function mapDispatchToProperties( dispatch ) {
     // until we have a reducer to add here.
     const actions = {
         // getUserPreferences,
@@ -38,10 +38,10 @@ function mapDispatchToProperties(dispatch) {
         triggerSetAsTrayWindow
     };
 
-    return bindActionCreators(actions, dispatch);
+    return bindActionCreators( actions, dispatch );
 }
 
 export const ApplicationPage: React.ComponentClass = connect(
     mapStateToProperties,
     mapDispatchToProperties
-)(ApplicationDetail);
+)( ApplicationDetail );

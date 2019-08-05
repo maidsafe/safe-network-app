@@ -7,9 +7,9 @@ import { logger } from '$Logger';
 
 const shallow = createShallow();
 
-const shallowSetup = (propOverrides?) => {
-    const appId: string = Math.random().toString(36);
-    const id: string = Math.random().toString(36);
+const shallowSetup = ( propOverrides? ) => {
+    const appId: string = Math.random().toString( 36 );
+    const id: string = Math.random().toString( 36 );
 
     const props = Object.assign(
         {
@@ -33,7 +33,7 @@ const shallowSetup = (propOverrides?) => {
         propOverrides
     );
 
-    const wrapper = shallow(<NotificationNative {...props} />);
+    const wrapper = shallow( <NotificationNative {...props} /> );
 
     return {
         props,
@@ -41,31 +41,31 @@ const shallowSetup = (propOverrides?) => {
     };
 };
 
-describe('Notifications', () => {
-    it('render', () => {
+describe( 'Notifications', () => {
+    it( 'render', () => {
         const { wrapper, props } = shallowSetup();
-        expect(wrapper).toMatchSnapshot();
-    });
+        expect( wrapper ).toMatchSnapshot();
+    } );
 
-    it('accept notification button click', () => {
+    it( 'accept notification button click', () => {
         const { wrapper, props } = shallowSetup();
         wrapper
-            .find(Button)
+            .find( Button )
             .filterWhere(
-                (node) => node.props()['aria-label'] === 'AcceptNotification'
+                ( node ) => node.props()['aria-label'] === 'AcceptNotification'
             )
-            .simulate('click', { preventDefault() {} });
-        expect(props.acceptNotification).toHaveBeenCalled();
-    });
+            .simulate( 'click', { preventDefault() {} } );
+        expect( props.acceptNotification ).toHaveBeenCalled();
+    } );
 
-    it('deny notification button click', () => {
+    it( 'deny notification button click', () => {
         const { wrapper, props } = shallowSetup();
         wrapper
-            .find(Button)
+            .find( Button )
             .filterWhere(
-                (node) => node.props()['aria-label'] === 'DenyNotification'
+                ( node ) => node.props()['aria-label'] === 'DenyNotification'
             )
-            .simulate('click', { preventDefault() {} });
-        expect(props.denyNotification).toHaveBeenCalled();
-    });
-});
+            .simulate( 'click', { preventDefault() {} } );
+        expect( props.denyNotification ).toHaveBeenCalled();
+    } );
+} );

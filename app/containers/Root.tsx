@@ -7,7 +7,7 @@ interface RootProps {
     store: Store;
     history: any;
 }
-export const Root: React.FunctionComponent<RootProps> = (properties) => {
+export const Root: React.FunctionComponent<RootProps> = ( properties ) => {
     const { store, history } = properties;
     return (
         <Provider store={store}>
