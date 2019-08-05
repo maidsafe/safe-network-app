@@ -67,23 +67,24 @@ export class ApplicationDetail extends React.PureComponent<Props> {
                     <Typography aria-label="title" variant="h3">
                         {name}
                     </Typography>
-                    <Typography aria-label="title" variant="h4">
+                    <Typography aria-label="author" variant="h4">
                         {author}
                     </Typography>
                     <Grid container>
                         <Grid item xs={6}>
-                            {!isInstalled &&
-                                !isDownloading &&
-                                !isInstalling && (
-                                <Button onClick={this.handleDownload}>
-                                        Install
+                            {!isInstalled && !isDownloading && !isInstalling && (
+                                <Button
+                                    onClick={this.handleDownload}
+                                    aria-label={`Install ${name}`}
+                                >
+                                    Install
                                 </Button>
                             )}
                         </Grid>
                         <Grid item xs={6}>
                             {application.size}
                         </Grid>
-                        <Typography aria-label="title">
+                        <Typography aria-label="description">
                             {application.description}
                         </Typography>
                     </Grid>

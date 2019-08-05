@@ -16,22 +16,22 @@ interface MenuItemsProps {
 export class MenuItems extends Component<MenuItemsProps> {
     handleDownload = () => {
         const { application, installApp, handleClose } = this.props;
-        logger.silly('MeatballMenu: clicked download ', application);
-        installApp(application);
+        logger.silly( 'MeatballMenu: clicked download ', application );
+        installApp( application );
         handleClose();
     };
 
     handleOpen = () => {
         const { application, openApp, handleClose } = this.props;
-        logger.silly('MeatballMenu: clicked open ', application);
-        openApp(application);
+        logger.silly( 'MeatballMenu: clicked open ', application );
+        openApp( application );
         handleClose();
     };
 
     handleUninstall = () => {
         const { application, uninstallApp, handleClose } = this.props;
-        logger.silly('MeatballMenu: clicked uninstall: ', application);
-        uninstallApp(application);
+        logger.silly( 'MeatballMenu: clicked uninstall: ', application );
+        uninstallApp( application );
         handleClose();
     };
 
@@ -51,7 +51,11 @@ export class MenuItems extends Component<MenuItemsProps> {
 
         return (
             <React.Fragment>
-                <MenuItem dense className={styles['menu-item']}>
+                <MenuItem
+                    dense
+                    className={styles['menu-item']}
+                    aria-label="about the application"
+                >
                     <Link to={`/application/${id}`}>{`About ${name}`}</Link>
                 </MenuItem>
                 <MenuItem
@@ -63,10 +67,32 @@ export class MenuItems extends Component<MenuItemsProps> {
                 >
                     {isInstalled ? 'Uninstall' : 'Install'}
                 </MenuItem>
+                {isInstalled && (
+                    <React.Fragment>
+                        <MenuItem
+                            dense
+                            className={styles['menu-item']}
+                            onClick={() =>
+                                logger.warn(
+                                    'No method setup for checking for updates as yet.'
+                                )
+                            }
+                        >
+                            Check For Updates
+                        </MenuItem>
+                        <MenuItem
+                            dense
+                            className={styles['menu-item']}
+                            onClick={this.handleOpen}
+                        >
+                            Open
+                        </MenuItem>
+                    </React.Fragment>
+                )}
                 {isDownloading && (
                     <React.Fragment>
                         <MenuItem dense className={styles['menu-item']}>
-                            Cancel Download
+                            Cancel Install
                         </MenuItem>
                         <MenuItem dense className={styles['menu-item']}>
                             Pause Download

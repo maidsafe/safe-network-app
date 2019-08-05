@@ -17,7 +17,7 @@ import { AppState } from '../definitions/application.d';
 
 function mapStateToProperties( state: AppState ) {
     return {
-        appManagerState: state.appManager,
+        appList: state.appManager.applicationList,
         isTrayWindow: state.launchpad.isTrayWindow
     };
 }

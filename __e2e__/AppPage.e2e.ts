@@ -7,7 +7,7 @@ const assertNoConsoleErrors = async ( t ): Promise<void> => {
     await t.expect( error ).eql( [] );
 };
 
-fixture`Overview Page`.page( '../app/app.html' ).beforeEach( async () => {
+fixture`Application Page`.page( '../app/app.html' ).beforeEach( async () => {
     await waitForReact();
 } );
 // .afterEach( assertNoConsoleErrors );
@@ -22,18 +22,20 @@ test(
 );
 
 // we start as a tray window right now
-test( 'clicking on window-switch button switches to normal window', async ( t ) => {
-    await t.click( Selector( 'button.Overview__btn--upper-right' ) );
+test( 'can navigate to the application page.', async ( t ) => {
+    await t.click(
+        Selector( 'a' ).withAttribute( 'href', '#/application/safe.browser' )
+    );
+    await t.expect( Selector( 'h3' ).withText( 'SAFE Browser' ).exists ).ok();
+
+    await t.expect( Selector( 'h4' ).withText( 'Maidsafe Ltd.' ).exists ).ok();
+
     await t
         .expect(
-            Selector( 'span' ).withAttribute( 'data-istraywindow', 'true' ).exists
+            Selector( 'button' ).withAttribute(
+                'aria-label',
+                'Install SAFE Browser'
+            ).exists
         )
-        .ok();
-} );
-
-test( 'clicking on a vert icon in application overview shows menu items', async ( t ) => {
-    await t
-        .click( Selector( '.MeatballMenu__vertIcon' ) )
-        .expect( Selector( '.MuiMenu-list' ).exists )
         .ok();
 } );

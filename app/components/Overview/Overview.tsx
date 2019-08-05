@@ -3,14 +3,19 @@ import { Grid } from '@material-ui/core';
 
 import { logger } from '$Logger';
 import styles from './Overview.css';
-import { AppManagerState } from '$Definitions/application.d';
+import {
+    ManagedApplication,
+    AppManagerState
+} from '$Definitions/application.d';
 import { ApplicationOverview } from '$Components/ApplicationOverview';
 
 interface Props {
     uninstallApp: Function;
     openApp: Function;
     installApp: Function;
-    appManagerState: AppManagerState;
+    appList: {
+        app: ManagedApplication;
+    };
     fetchApps: Function;
     triggerSetAsTrayWindow: Function;
     isTrayWindow: boolean;
@@ -25,24 +30,17 @@ export class Overview extends Component<Props> {
     }
 
     loadApps = () => {
-        const {
-            appManagerState,
-            uninstallApp,
-            installApp,
-            openApp
-        } = this.props;
-        return Object.values( appManagerState.applicationList ).map(
-            ( theApplication ) => (
-                <ApplicationOverview
-                    key={theApplication.name}
-                    {...theApplication}
-                    application={theApplication}
-                    installApp={installApp}
-                    uninstallApp={uninstallApp}
-                    openApp={openApp}
-                />
-            )
-        );
+        const { appList, uninstallApp, installApp, openApp } = this.props;
+        return Object.values( appList ).map( ( theApplication ) => (
+            <ApplicationOverview
+                key={theApplication.name}
+                {...theApplication}
+                application={theApplication}
+                installApp={installApp}
+                uninstallApp={uninstallApp}
+                openApp={openApp}
+            />
+        ) );
     };
 
     render() {
@@ -57,7 +55,7 @@ export class Overview extends Component<Props> {
                 >
                     Switch
                 </button>
-                {!isTrayWindow && <span data-istraywindow={isTrayWindow} />}
+                <span data-istraywindow={isTrayWindow} />
                 {this.loadApps()}
             </div>
         );

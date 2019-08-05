@@ -8,7 +8,7 @@ import { Preferences } from '$Components/Preferences';
 
 const shallow = createShallow();
 
-const shallowSetup = (propOverrides?) => {
+const shallowSetup = ( propOverrides? ) => {
     const props = Object.assign(
         {
             userPreferences: {
@@ -30,7 +30,7 @@ const shallowSetup = (propOverrides?) => {
         propOverrides
     );
 
-    const wrapper = shallow(<Settings {...props} />);
+    const wrapper = shallow( <Settings {...props} /> );
 
     return {
         props,
@@ -38,30 +38,14 @@ const shallowSetup = (propOverrides?) => {
     };
 };
 
-describe('Settings Page', () => {
-    it('render', () => {
+describe( 'Settings Page', () => {
+    it( 'render', () => {
         const { wrapper } = shallowSetup();
-        expect(wrapper).toMatchSnapshot();
-    });
+        expect( wrapper ).toMatchSnapshot();
+    } );
 
-    it('should have title `Settings`', () => {
-        const expectedTitle = 'Settings';
+    it( 'should load preferences once', () => {
         const { wrapper } = shallowSetup();
-        const titleElement = wrapper
-            .find(Typography)
-            .filterWhere((n) => n.prop('aria-label') === 'title');
-        expect(titleElement.text()).toEqual(expectedTitle);
-    });
-
-    it('should load preferences once', () => {
-        const { wrapper } = shallowSetup();
-        expect(wrapper.find(Preferences)).toHaveLength(1);
-    });
-
-    it('should go to home on clicking back button', () => {
-        const { wrapper, props } = shallowSetup();
-        wrapper.find(IconButton).simulate('click');
-        expect(props.history.push).toHaveBeenCalled();
-        expect(props.history.push).toHaveBeenCalledWith('/');
-    });
-});
+        expect( wrapper.find( Preferences ) ).toHaveLength( 1 );
+    } );
+} );

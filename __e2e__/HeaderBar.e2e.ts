@@ -7,7 +7,7 @@ const assertNoConsoleErrors = async ( t ): Promise<void> => {
     await t.expect( error ).eql( [] );
 };
 
-fixture`Overview Page`.page( '../app/app.html' ).beforeEach( async () => {
+fixture`HeaderBar`.page( '../app/app.html' ).beforeEach( async () => {
     await waitForReact();
 } );
 // .afterEach( assertNoConsoleErrors );
@@ -22,18 +22,18 @@ test(
 );
 
 // we start as a tray window right now
-test( 'clicking on window-switch button switches to normal window', async ( t ) => {
-    await t.click( Selector( 'button.Overview__btn--upper-right' ) );
+test( 'can navigate back from another page.', async ( t ) => {
+    await t.click(
+        Selector( 'button' ).withAttribute( 'aria-label', 'Go to settings' )
+    );
+    await t.click( Selector( 'h5' ).withText( 'Settings' ) );
+    await t.click(
+        Selector( 'button' ).withAttribute( 'aria-label', 'Go Backwards' )
+    );
     await t
         .expect(
-            Selector( 'span' ).withAttribute( 'data-istraywindow', 'true' ).exists
+            Selector( 'button' ).withAttribute( 'aria-label', 'Go Backwards' )
+                .exists
         )
-        .ok();
-} );
-
-test( 'clicking on a vert icon in application overview shows menu items', async ( t ) => {
-    await t
-        .click( Selector( '.MeatballMenu__vertIcon' ) )
-        .expect( Selector( '.MuiMenu-list' ).exists )
-        .ok();
+        .notOk();
 } );

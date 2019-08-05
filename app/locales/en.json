@@ -17,11 +17,11 @@
             "clearnet_warning": "Opening webpage in Clearnet"
         },
         "message": {
-            "close_app": "SAFE Launchpad requires %{appName} to be closed to complete updating.",
+            "close_app": "SAFE Network App requires %{appName} to be closed to complete updating.",
             "update_available": "%{appName} %{version} is ready to install. What’s New?",
             "uninstall_app": "Click Uninstall to continue and remove %{appName} from your computer.",
-            "restart_system": "SAFE Launchpad needs your computer to restart in to finish installing %{appName}.",
-            "clearnet_warning": "SAFE Launchpad is about to open a webpage on the clearnet, where your privacy is not guaranteed."
+            "restart_system": "SAFE Network App needs your computer to restart in to finish installing %{appName}.",
+            "clearnet_warning": "SAFE Network App is about to open a webpage on the clearnet, where your privacy is not guaranteed."
         },
         "warning": {
             "not_again": "Do not warn me again"

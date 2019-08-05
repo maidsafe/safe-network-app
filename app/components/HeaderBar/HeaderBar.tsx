@@ -13,13 +13,6 @@ import { SETTINGS, ON_BOARDING } from '$Constants/routes.json';
 import styles from './HeaderBar.css';
 
 interface Props {
-    children: React.ReactChild;
-    notifications: object;
-    notificationCheckBox: boolean;
-    acceptNotification: any;
-    denyNotification: any;
-    pushNotification: any;
-    notificationToggleCheckBox: any;
     currentPath: string;
 }
 

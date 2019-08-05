@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Grid, Button } from '@material-ui/core';
 import { MeatballMenu } from '$Components/MeatballMenu';
 import { logger } from '$Logger';
@@ -57,7 +58,9 @@ export class ApplicationOverview extends Component<Props> {
 
                 <Grid container alignItems="center">
                     <Grid item xs={7} className={styles.name}>
-                        {application.name}
+                        <Link to={`/application/${application.id}`}>
+                            {application.name}
+                        </Link>
                     </Grid>
                     <Grid item xs={3}>
                         <Button
