@@ -139,7 +139,7 @@ export const createSafeLaunchPadTrayWindow = (
     safeLaunchPadTrayWindow.on( 'blur', () => {
         const { isTrayWindow } = store.getState().launchpad;
 
-        if ( isRunningOnLinux && isTrayWindow ) {
+        if ( ( isRunningOnWindows || isRunningOnLinux ) && isTrayWindow ) {
             setWindowAsVisible( false );
         }
     } );
