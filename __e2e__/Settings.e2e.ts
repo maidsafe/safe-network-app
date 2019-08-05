@@ -75,7 +75,7 @@ test('Go back from Settings page to Home', async (t) => {
     await t
         .expect(getPageUrl())
         .contains('#/settings')
-        .click(Selector('button').withAttribute('aria-label', 'GoBack'))
+        .click(Selector('button').withAttribute('aria-label', 'Go Backwards'))
         .expect(getPageUrl())
         .contains('#/');
 });
@@ -97,7 +97,7 @@ test('Changing any preference should persist', async (t) => {
         .expect(LaunchOnStartPreference.find('input.MuiSwitch-input').checked)
         .notOk()
         .click(LaunchOnStartPreference.find('input.MuiSwitch-input'))
-        .click(Selector('button').withAttribute('aria-label', 'GoBack'))
+        .click(Selector('button').withAttribute('aria-label', 'Go Backwards'))
         .expect(getPageUrl())
         .contains('#/');
 

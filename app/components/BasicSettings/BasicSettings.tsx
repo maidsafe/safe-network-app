@@ -31,9 +31,6 @@ export const BasicSettings = ( props: Props ) => {
     return (
         <Grid container>
             <Grid item xs={12}>
-                <Typography variant="h5" component="h5">
-                    Basic Settings
-                </Typography>
                 <Typography>
                     Choose some basic settings. You can always change these
                     later.

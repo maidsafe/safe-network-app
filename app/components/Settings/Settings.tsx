@@ -45,28 +45,13 @@ export class Settings extends Component<Props> {
         } = this.props;
 
         return (
-            <Grid container>
-                <Box>
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="GoBack"
-                            onClick={this.handleBack}
-                        >
-                            <ArrowBack fontSize="inherit" />
-                        </IconButton>
-                        <Typography aria-label="title">Settings</Typography>
-                    </Toolbar>
-                </Box>
-                <Grid item xs={12}>
-                    <Preferences
-                        userPreferences={userPreferences}
-                        onChange={this.handlePreferenceChange}
-                        onChangeLaunchOnStart={autoLaunch}
-                        onChangePinToMenu={pinToTray}
-                    />
-                </Grid>
+            <Grid item xs={12}>
+                <Preferences
+                    userPreferences={userPreferences}
+                    onChange={this.handlePreferenceChange}
+                    onChangeLaunchOnStart={autoLaunch}
+                    onChangePinToMenu={pinToTray}
+                />
             </Grid>
         );
     }

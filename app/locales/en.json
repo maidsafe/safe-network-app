@@ -1,4 +1,9 @@
 {
+    "pages": {
+        "settings": "Settings",
+        "application": "About",
+        "on-boarding": "Basic Settings"
+    },
     "notifications": {
         "title": {
             "disc_full": "Disk is full. Your install has been paused. Free up some space and resume.",

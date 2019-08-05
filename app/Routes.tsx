@@ -8,7 +8,7 @@ import {
     ON_BOARDING
 } from './constants/routes.json';
 import { AppWindow } from './containers/AppWindow';
-import { HomePage } from './containers/HomePage';
+import { OverviewPage } from './containers/OverviewPage';
 import { OnBoardingPage } from './containers/OnBoarding';
 import { SettingsPage } from './containers/Settings';
 import { ApplicationPage } from './containers/ApplicationPage';
@@ -16,7 +16,7 @@ import { ApplicationPage } from './containers/ApplicationPage';
 export const Routes = () => (
     <AppWindow>
         <Switch>
-            <Route exact path={HOME} component={HomePage} />
+            <Route exact path={HOME} component={OverviewPage} />
             <Route path={ON_BOARDING} component={OnBoardingPage} />
             <Route path={SETTINGS} component={SettingsPage} />
             <Route path={APPLICATION_DETAIL} component={ApplicationPage} />

@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Home } from '$Components/Home';
+import { Overview } from '$Components/Overview';
 import {
     installApp,
     openApp,
@@ -40,7 +40,7 @@ function mapDispatchToProperties( dispatch ) {
     return bindActionCreators( actions, dispatch );
 }
 
-export const HomePage: React.ComponentClass = connect(
+export const OverviewPage: React.ComponentClass = connect(
     mapStateToProperties,
     mapDispatchToProperties
-)( Home );
+)( Overview );

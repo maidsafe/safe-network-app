@@ -16,7 +16,8 @@ import { logger } from '$Logger';
 function mapStateToProperties( state ) {
     return {
         notifications: state.launchpad.notifications,
-        notificationCheckBox: state.launchpad.notificationCheckBox
+        notificationCheckBox: state.launchpad.notificationCheckBox,
+        router: state.router
     };
 }
 function mapDispatchToProperties( dispatch ) {

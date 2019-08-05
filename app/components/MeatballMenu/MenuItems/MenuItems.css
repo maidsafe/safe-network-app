@@ -2,10 +2,6 @@ li.menu-item {
     width: -webkit-fill-available;
     min-height: 35px;
     border-bottom: 1px solid #bdbdbd;
-
-    a {
-        color: rgba( 0, 0, 0, 1);
-    }
 }
 
 li.menu-item:last-child {

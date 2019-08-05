@@ -1,6 +1,6 @@
 {
     "HOME": "/",
     "SETTINGS": "/settings",
-    "ON_BOARDING": "/onBoarding",
+    "ON_BOARDING": "/on-boarding",
     "APPLICATION_DETAIL": "/application/:id"
 }
