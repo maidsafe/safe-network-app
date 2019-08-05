@@ -49,7 +49,7 @@ export class HeaderBar extends React.PureComponent<Props> {
         const title = I18n.t( `pages.${targetTitle}` );
 
         return (
-            <div className={styles.navigator}>
+            <div className={styles.headerBar}>
                 <Box>
                     <Toolbar>
                         {

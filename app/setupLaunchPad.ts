@@ -34,14 +34,14 @@ const getTrayWindowPosition = (
             safeLaunchPadWindowBounds.width / 2
     );
 
-    if (isRunningOnLinux) {
-        x = Math.round(screenBounds.width - safeLaunchPadWindowBounds.width);
+    if ( isRunningOnLinux ) {
+        x = Math.round( screenBounds.width - safeLaunchPadWindowBounds.width );
     }
 
     // Position safeLaunchPadWindow 4 pixels vertically below the tray icon
-    let y = Math.round(trayBounds.y + trayBounds.height + 4);
+    let y = Math.round( trayBounds.y + trayBounds.height + 4 );
 
-    if (isRunningOnWindows) {
+    if ( isRunningOnWindows ) {
         y = Math.round(
             screenBounds.height - safeLaunchPadWindowBounds.height - 40
         );
@@ -51,37 +51,37 @@ const getTrayWindowPosition = (
 };
 
 const showAsTrayWindow = (): void => {
-    logger.info('Setting as tray');
-    const position = getTrayWindowPosition(theWindow);
-    theWindow.setPosition(position.x, position.y, false);
+    logger.info( 'Setting as tray' );
+    const position = getTrayWindowPosition( theWindow );
+    theWindow.setPosition( position.x, position.y, false );
 
-    theWindow.setMovable(false);
-    theWindow.setResizable(false);
+    theWindow.setMovable( false );
+    theWindow.setResizable( false );
     theWindow.show();
     theWindow.focus();
 
-    if (isRunningOnMac) {
-        theWindow.setWindowButtonVisibility(false);
+    if ( isRunningOnMac ) {
+        theWindow.setWindowButtonVisibility( false );
         app.dock.hide();
     }
 };
 
 const showAsRegularWindow = (): void => {
-    logger.info('Setting as window');
+    logger.info( 'Setting as window' );
     theWindow.center();
     theWindow.show();
     theWindow.focus();
-    theWindow.setResizable(true);
-    theWindow.setMovable(true);
+    theWindow.setResizable( true );
+    theWindow.setMovable( true );
 
-    if (isRunningOnMac) {
+    if ( isRunningOnMac ) {
         app.dock.show();
-        theWindow.setWindowButtonVisibility(true);
+        theWindow.setWindowButtonVisibility( true );
     }
 };
 
-const setWindowAsVisible = (setVisible: boolean): void => {
-    if (!setVisible) {
+const setWindowAsVisible = ( setVisible: boolean ): void => {
+    if ( !setVisible ) {
         theWindow.hide();
     } else {
         theWindow.show();
@@ -89,16 +89,16 @@ const setWindowAsVisible = (setVisible: boolean): void => {
     }
 };
 
-export const createTray = (store: Store): void => {
-    const iconPathtray = path.resolve(__dirname, 'tray-icon.png');
+export const createTray = ( store: Store ): void => {
+    const iconPathtray = path.resolve( __dirname, 'tray-icon.png' );
 
-    tray = new Tray(iconPathtray);
+    tray = new Tray( iconPathtray );
 
-    tray.on('double-click', () => {
-        setWindowAsVisible(true);
-    });
-    tray.on('click', (event) => {
-        setWindowAsVisible(true);
+    tray.on( 'double-click', () => {
+        setWindowAsVisible( true );
+    } );
+    tray.on( 'click', ( event ) => {
+        setWindowAsVisible( true );
 
         // Show devtools when command clicked
         if (
@@ -107,17 +107,17 @@ export const createTray = (store: Store): void => {
             process.defaultApp &&
             event.metaKey
         ) {
-            safeLaunchPadStandardWindow.openDevTools({ mode: 'undocked' });
+            safeLaunchPadStandardWindow.openDevTools( { mode: 'undocked' } );
         }
-    });
-    tray.setToolTip(app.getName());
+    } );
+    tray.setToolTip( app.getName() );
 };
 
 export const createSafeLaunchPadTrayWindow = (
     store: Store
 ): Application.Window => {
-    safeLaunchPadTrayWindow = new BrowserWindow({
-        width: 320,
+    safeLaunchPadTrayWindow = new BrowserWindow( {
+        width: 495,
         show: false,
         frame: false,
         fullscreenable: false,
@@ -129,48 +129,48 @@ export const createSafeLaunchPadTrayWindow = (
             backgroundThrottling: false,
             nodeIntegration: true
         }
-    }) as Application.Window;
+    } ) as Application.Window;
 
     theWindow = safeLaunchPadTrayWindow;
 
-    safeLaunchPadTrayWindow.loadURL(`file://${CONFIG.APP_HTML_PATH}`);
+    safeLaunchPadTrayWindow.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
 
     // Hide the safeLaunchPadTrayWindow when it loses focus
-    safeLaunchPadTrayWindow.on('blur', () => {
+    safeLaunchPadTrayWindow.on( 'blur', () => {
         const { isTrayWindow } = store.getState().launchpad;
 
-        if ((isRunningOnWindows || isRunningOnLinux) && isTrayWindow) {
-            setWindowAsVisible(false);
+        if ( ( isRunningOnWindows || isRunningOnLinux ) && isTrayWindow ) {
+            setWindowAsVisible( false );
         }
-    });
+    } );
 
-    safeLaunchPadTrayWindow.webContents.on('did-finish-load', () => {
-        logger.info('Tray Window: Loaded');
+    safeLaunchPadTrayWindow.webContents.on( 'did-finish-load', () => {
+        logger.info( 'Tray Window: Loaded' );
 
         const { isTrayWindow } = store.getState().launchpad;
 
-        if (isTrayWindow) {
+        if ( isTrayWindow ) {
             showAsTrayWindow();
         } else {
             showAsRegularWindow();
         }
 
-        if (isRunningUnpacked) {
-            safeLaunchPadTrayWindow.openDevTools({ mode: 'undocked' });
+        if ( isRunningUnpacked ) {
+            safeLaunchPadTrayWindow.openDevTools( { mode: 'undocked' } );
         }
-    });
+    } );
 
-    ipcMain.on('set-as-tray-window', (_event, shouldBeTray: boolean) => {
-        if (shouldBeTray) {
+    ipcMain.on( 'set-as-tray-window', ( _event, shouldBeTray: boolean ) => {
+        if ( shouldBeTray ) {
             // must be first for dock icon changes
-            store.dispatch(setAsTrayWindow(true));
+            store.dispatch( setAsTrayWindow( true ) );
             showAsTrayWindow();
         } else {
             // must be first for dock icon changes
-            store.dispatch(setAsTrayWindow(false));
+            store.dispatch( setAsTrayWindow( false ) );
             showAsRegularWindow();
         }
-    });
+    } );
 
     return safeLaunchPadTrayWindow;
 };

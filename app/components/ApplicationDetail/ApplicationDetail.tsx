@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Grid, Button } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import { MeatballMenu } from '$Components/MeatballMenu';
 import { logger } from '$Logger';
 
@@ -8,7 +9,9 @@ import { App } from '$Definitions/application.d';
 
 interface Props {
     match: {
-        params: {};
+        params: {
+            id: string;
+        };
     };
     appList: {};
     uninstallApp: Function;
@@ -17,24 +20,24 @@ interface Props {
     application: App;
 }
 
-export class ApplicationDetail extends Component<Props> {
-    // handleDownload = () => {
-    //     const { application, installApp } = this.props;
-    //     logger.silly( 'ApplicationDetail: clicked download ', application );
-    //     installApp( application );
-    // };
-    //
-    // handleOpen = () => {
-    //     const { application, openApp } = this.props;
-    //     logger.silly( 'ApplicationDetail: clicked open', application );
-    //     openApp( application );
-    // };
-    //
-    // handleUninstall = () => {
-    //     const { application, uninstallApp } = this.props;
-    //     logger.silly( 'ApplicationDetail: clicked uninstall', application );
-    //     uninstallApp( application );
-    // };
+export class ApplicationDetail extends React.PureComponent<Props> {
+    handleDownload = () => {
+        const { application, installApp } = this.props;
+        logger.silly( 'ApplicationDetail: clicked download ', application );
+        installApp( application );
+    };
+
+    handleOpen = () => {
+        const { application, openApp } = this.props;
+        logger.silly( 'ApplicationDetail: clicked open', application );
+        openApp( application );
+    };
+
+    handleUninstall = () => {
+        const { application, uninstallApp } = this.props;
+        logger.silly( 'ApplicationDetail: clicked uninstall', application );
+        uninstallApp( application );
+    };
 
     render() {
         const { match } = this.props;
@@ -44,31 +47,50 @@ export class ApplicationDetail extends Component<Props> {
         const applicationId = match.params.id;
         const application = appList[applicationId];
 
-        console.log('aaaa', appList, applicationId, application);
+        const {
+            name,
+            author,
+            id,
+            progress,
+            isInstalling,
+            isUninstalling,
+            isUpdating,
+            isDownloading,
+            hasUpdate,
+            isInstalled,
+            installFailed
+        } = application;
+
         return (
             <React.Fragment>
-                <Grid container spacing={3}>
-                    {/* progress ? (
-                        <div>{`Progress! ${progress}`}</div>
-                    ) : (
-                        // progress < 1 ? (
-                        // ) : (
-                        //     <Button onClick={handleOpen}>
-                        //         Open it (doesnt go yet)
-                        //     </Button>
-                        // )
-                        <Button
-                            className="download"
-                            variant="contained"
-                            onClick={handleDownload}
-                        >
-                            {`Download ${name}`}
-                        </Button>
-                    ) */}
-
-                    <Grid item xs={6}>
-                        {application.name}
+                <Grid item xs={8}>
+                    <Typography aria-label="title" variant="h3">
+                        {name}
+                    </Typography>
+                    <Typography aria-label="title" variant="h4">
+                        {author}
+                    </Typography>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            {!isInstalled &&
+                                !isDownloading &&
+                                !isInstalling && (
+                                <Button onClick={this.handleDownload}>
+                                        Install
+                                </Button>
+                            )}
+                        </Grid>
+                        <Grid item xs={6}>
+                            {application.size}
+                        </Grid>
+                        <Typography aria-label="title">
+                            {application.description}
+                        </Typography>
                     </Grid>
+                </Grid>
+
+                <Grid item xs={4}>
+                    App Icon
                 </Grid>
             </React.Fragment>
         );

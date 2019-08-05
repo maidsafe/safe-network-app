@@ -1,3 +1,7 @@
+.container {
+    width: -webkit-fill-available;
+}
+
 .container h2 {
     font-size: 5rem;
 }

@@ -22,22 +22,22 @@ export class MeatballMenu extends Component<
     MeatballMenuProps,
     MeatballMenuState
 > {
-    constructor(props) {
-        super(props);
+    constructor( props ) {
+        super( props );
         this.state = { menuAnchorElement: null };
     }
 
-    handleClick = (event) => {
+    handleClick = ( event ) => {
         const previousState = this.state;
-        this.setState({
+        this.setState( {
             ...previousState,
             menuAnchorElement: event.currentTarget
-        });
+        } );
     };
 
     handleClose = (): void => {
         const previousState = this.state;
-        this.setState({ ...previousState, menuAnchorElement: null });
+        this.setState( { ...previousState, menuAnchorElement: null } );
     };
 
     render() {
@@ -46,7 +46,7 @@ export class MeatballMenu extends Component<
         return (
             <React.Fragment>
                 <IconButton
-                    className={styles['vert-icon']}
+                    className={styles.vertIcon}
                     onClick={this.handleClick}
                 >
                     <MoreVert />
@@ -60,7 +60,7 @@ export class MeatballMenu extends Component<
                     anchorEl={menuAnchorElement}
                     keepMounted
                     onClose={this.handleClose}
-                    open={Boolean(menuAnchorElement)}
+                    open={Boolean( menuAnchorElement )}
                 >
                     <MenuItems {...this.props} handleClose={this.handleClose} />
                 </Menu>

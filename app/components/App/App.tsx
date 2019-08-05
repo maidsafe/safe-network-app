@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Grid } from '@material-ui/core';
 import { notificationTypes } from '$Constants/notifications';
 import { Notification } from '$Components/Notifications/Notifications';
 import { HeaderBar } from '$Components/HeaderBar';
@@ -42,7 +43,7 @@ export class App extends React.PureComponent<Props> {
                     notificationCheckBox={notificationCheckBox}
                 />
                 <HeaderBar currentPath={currentPath} />
-                {children}
+                <Grid container>{children}</Grid>
             </React.Fragment>
         );
     }

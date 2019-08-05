@@ -1,7 +1,7 @@
 {
     "pages": {
         "settings": "Settings",
-        "application": "About",
+        "application": "Manage App",
         "on-boarding": "Basic Settings"
     },
     "notifications": {
