@@ -99,15 +99,6 @@ if ( !gotTheLock ) {
         const initialState = {};
         store = configureStore( initialState );
 
-        // initialSetup of apps,
-        const allApplications = managedApplications.applications;
-        if ( managedApplications.version === '1' ) {
-            Object.keys( allApplications ).forEach( ( application ) => {
-                console.log( 'Managing:', application );
-                store.dispatch( addApplication( allApplications[application] ) );
-            } );
-        }
-
         setupBackground( store );
         trayWindow = createSafeLaunchPadTrayWindow( store );
         createTray( store );

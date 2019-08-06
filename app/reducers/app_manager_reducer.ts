@@ -1,7 +1,10 @@
 import { TYPES } from '$Actions/app_manager_actions';
 import { TYPES as ALIAS_TYPES } from '$App/actions/alias/app_manager_actions';
 
-import { AppManagerState } from '../definitions/application.d';
+import {
+    AppManagerState,
+    ManagedApplication
+} from '../definitions/application.d';
 import { ERRORS } from '$Constants/index';
 
 export const initialState: AppManagerState = {
@@ -10,7 +13,8 @@ export const initialState: AppManagerState = {
 
 const setApplicationList = ( state, applicationList ) => {
     const newApplicationList = {};
-    applicationList.forEach( ( app ) => {
+
+    Object.values( applicationList ).forEach( ( app: ManagedApplication ) => {
         if ( !app.id ) throw ERRORS.APP_ID_NOT_FOUND;
         newApplicationList[app.id] = { ...app };
     } );
@@ -40,7 +44,7 @@ export function appManager( state = initialState, action ): AppManagerState {
 
     switch ( action.type ) {
         case `${TYPES.SET_APPS}`: {
-            return setApplicationList( state, payload.applicationList );
+            return setApplicationList( state, payload );
         }
 
         case TYPES.RESET_APP_STATE: {

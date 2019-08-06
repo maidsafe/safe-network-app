@@ -9,6 +9,7 @@ import {
     isRunningDevelopment,
     isCI
 } from '$Constants';
+import { fetchTheApplicationList } from '$Actions/alias/app_manager_actions';
 
 const BACKGROUND_PROCESS = `file://${__dirname}/bg.html`;
 
@@ -53,6 +54,9 @@ export const setupBackground = async ( store ): Promise<BrowserWindow> =>
                             mode: 'undocked'
                         } );
                     }
+
+                    // lets update the application list
+                    store.dispatch( fetchTheApplicationList() );
                     return resolve( backgroundProcessWindow );
                 }
             );

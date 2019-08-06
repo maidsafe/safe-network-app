@@ -16,19 +16,11 @@ interface Props {
     appList: {
         app: ManagedApplication;
     };
-    fetchApps: Function;
     triggerSetAsTrayWindow: Function;
     isTrayWindow: boolean;
 }
 
 export class Overview extends Component<Props> {
-    constructor( props ) {
-        // eslint-disable-line unicorn/prevent-abbreviations
-        super( props );
-        const { fetchApps } = this.props;
-        fetchApps();
-    }
-
     loadApps = () => {
         const { appList, uninstallApp, installApp, openApp } = this.props;
         return Object.values( appList ).map( ( theApplication ) => (

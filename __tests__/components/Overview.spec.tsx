@@ -41,7 +41,7 @@ describe( 'Overview', () => {
                     type: 'userApplications'
                 }
             },
-            fetchApps: jest.fn(),
+            fetchTheApplicationList: jest.fn(),
             triggerSetWindowVisibility: jest.fn()
         };
 
@@ -73,8 +73,8 @@ describe( 'Overview', () => {
     } );
 
     describe( 'behavior', () => {
-        it( 'calls fetchApps in constructor', () => {
-            expect( props.fetchApps.mock.calls.length ).toEqual( 1 );
+        it( 'calls fetchTheApplicationList in constructor', () => {
+            expect( props.fetchTheApplicationList.mock.calls.length ).toEqual( 1 );
         } );
     } );
 } );

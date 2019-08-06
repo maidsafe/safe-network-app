@@ -1,9 +1,12 @@
 import { createAliasedAction } from 'electron-redux';
-import { LAUNCHPAD_APP_ID } from '$Constants/index';
+import request from 'request-promise-native';
+
+import { LAUNCHPAD_APP_ID, APPLICATION_LIST_SOURCE } from '$Constants/index';
 import { setApps } from '$Actions/app_manager_actions';
 import { getCurrentStore } from '$Actions/application_actions';
 import { mockPromise } from '$Actions/helpers/launchpad';
-import appData from '../../managedApplications.json';
+import appData from '$App/managedApplications.json';
+import { logger } from '$Logger';
 
 import {
     installApplicationById,
@@ -22,22 +25,27 @@ export const TYPES = {
     ALIAS_SKIP_APP_UPDATE: 'ALIAS_SKIP_APP_UPDATE'
 };
 
-const fetchAppsFromGithub = async ( data ): Promise<void> => {
+const fetchAppListFromServer = async (): Promise<void> => {
+    logger.debug( 'Attempting to fetch application list' );
     try {
         const store = getCurrentStore();
-        const response = await mockPromise( data );
-        store.dispatch( setApps( response ) );
+        const response = await request( APPLICATION_LIST_SOURCE );
+        const apps = JSON.parse( response );
+        logger.debug( 'Application list retrieved sucessfully' );
+        store.dispatch( setApps( apps.applications ) );
     } catch ( error ) {
-        console.error( error );
+        logger.error( error );
+        throw error;
     }
 };
 
-export const fetchApps = createAliasedAction( TYPES.ALIAS_FETCH_APPS, () => ( {
-    type: TYPES.ALIAS_FETCH_APPS,
-    payload: fetchAppsFromGithub( {
-        applicationList: Object.values( appData.applications )
+export const fetchTheApplicationList = createAliasedAction(
+    TYPES.ALIAS_FETCH_APPS,
+    () => ( {
+        type: TYPES.ALIAS_FETCH_APPS,
+        payload: fetchAppListFromServer()
     } )
-} ) );
+);
 
 export const installApp = createAliasedAction(
     TYPES.ALIAS_INSTALL_APP,

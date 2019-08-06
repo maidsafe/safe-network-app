@@ -16,7 +16,8 @@ import {
     isRunningTestCafeProcess,
     inMainProcess,
     isDryRun,
-    isCI
+    isCI,
+    LOG_FILE_NAME
 } from '$Constants';
 
 if ( log.transports ) {
@@ -35,7 +36,7 @@ if ( log.transports ) {
         log.transports.console.level = 'warn';
     }
 
-    log.transports.file.file = path.resolve( os.tmpdir(), 'safe-launch-pad.log' );
+    log.transports.file.file = path.resolve( os.tmpdir(), LOG_FILE_NAME );
 
     log.transports.console.format = '[{label} {h}:{i}:{s}.{ms}] › {text}';
     if ( currentWindowId ) {
