@@ -3,8 +3,9 @@ import path from 'path';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { Store } from 'redux';
-
 import * as cp from 'child_process';
+import { setApps } from '$Actions/app_manager_actions';
+import hardCodedApps from './managedApplications.json';
 import { addApplication } from '$Actions/application_actions';
 import { logger } from '$Logger';
 import { configureStore } from '$Store/configureStore';
@@ -13,10 +14,7 @@ import { Application } from './definitions/application.d';
 import { createSafeLaunchPadTrayWindow, createTray } from './setupLaunchPad';
 import { setupBackground } from './setupBackground';
 
-import managedApplications from '$App/managedApplications.json';
 import { platform } from '$Constants';
-import { pushNotification } from '$Actions/launchpad_actions';
-import { notificationTypes } from '$Constants/notifications';
 import { addNotification } from '$App/env-handling';
 
 logger.info( 'User data exists: ', app.getPath( 'userData' ) );
@@ -98,6 +96,9 @@ if ( !gotTheLock ) {
 
         const initialState = {};
         store = configureStore( initialState );
+
+        // start with hardcoded list of apps.
+        store.dispatch( setApps( hardCodedApps.applications ) );
 
         setupBackground( store );
         trayWindow = createSafeLaunchPadTrayWindow( store );

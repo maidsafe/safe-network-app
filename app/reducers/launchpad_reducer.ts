@@ -36,6 +36,8 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
             const newNotifications = { ...state.notifications };
             if ( !payload.notification || !payload.notification.id )
                 throw new Error( ERRORS.NOTIFICATION_ID_NOT_FOUND );
+            if ( !payload.notification.notificationType )
+                throw new Error( ERRORS.NOTIFICATION_TYPE_NOT_FOUND );
 
             newNotifications[payload.notification.id] = {
                 ...payload.notification

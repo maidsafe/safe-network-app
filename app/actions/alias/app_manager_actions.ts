@@ -7,6 +7,7 @@ import { getCurrentStore } from '$Actions/application_actions';
 import { mockPromise } from '$Actions/helpers/launchpad';
 import appData from '$App/managedApplications.json';
 import { logger } from '$Logger';
+import { pushNotification } from '$Actions/launchpad_actions';
 
 import {
     installApplicationById,
@@ -27,15 +28,22 @@ export const TYPES = {
 
 const fetchAppListFromServer = async (): Promise<void> => {
     logger.debug( 'Attempting to fetch application list' );
+    const store = getCurrentStore();
     try {
-        const store = getCurrentStore();
         const response = await request( APPLICATION_LIST_SOURCE );
         const apps = JSON.parse( response );
         logger.debug( 'Application list retrieved sucessfully' );
         store.dispatch( setApps( apps.applications ) );
     } catch ( error ) {
-        logger.error( error );
-        throw error;
+        logger.error( error.message );
+        const id: string = Math.random().toString( 36 );
+
+        const errorNotification = {
+            id,
+            title: 'Remote application list could not be retrieved.',
+            notificationType: 'Native'
+        };
+        store.dispatch( pushNotification( { notification: errorNotification } ) );
     }
 };
 

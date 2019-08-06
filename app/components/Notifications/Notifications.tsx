@@ -22,14 +22,18 @@ export class Notification extends React.PureComponent<Props> {
         } = this.props;
 
         const notificationKeys = Object.keys( notifications );
-        let l = notificationKeys.length - 1;
-        if ( l >= 0 ) {
-            let latestNotificationId: string = notificationKeys[l];
+        let lastNotificationIndex = notificationKeys.length - 1;
+        if ( lastNotificationIndex >= 0 ) {
+            let latestNotificationId: string =
+                notificationKeys[lastNotificationIndex];
             let latestNotification: Record<string, any> =
                 notifications[latestNotificationId];
-            // eslint-disable-next-line no-plusplus
-            while ( l-- && latestNotification.priority === 'LOW' ) {
-                latestNotificationId = notificationKeys[l];
+            while (
+                // eslint-disable-next-line no-plusplus
+                lastNotificationIndex-- &&
+                latestNotification.priority === 'LOW'
+            ) {
+                latestNotificationId = notificationKeys[lastNotificationIndex];
                 latestNotification = notifications[latestNotificationId];
             }
 

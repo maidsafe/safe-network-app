@@ -86,6 +86,7 @@ describe( 'launchpad reducer', () => {
                 id: generateRandomString(),
                 type: 'ALERT',
                 priority: 'HIGH',
+                notificationType: 'Native',
                 appId: generateRandomString()
             };
 
@@ -112,6 +113,7 @@ describe( 'launchpad reducer', () => {
             const newNotification = {
                 id: generateRandomString(),
                 type: 'ALERT',
+                notificationType: 'Native',
                 priority: 'HIGH'
             };
 
@@ -138,6 +140,7 @@ describe( 'launchpad reducer', () => {
             const newNotification = {
                 type: 'ALERT',
                 priority: 'HIGH',
+                notificationType: 'Native',
                 appId: generateRandomString()
             };
             expect( () =>
@@ -156,6 +159,7 @@ describe( 'launchpad reducer', () => {
         const notification = {
             type: 'ALERT',
             priority: 'HIGH',
+            notificationType: 'Native',
             appId: generateRandomString(),
             id: generateRandomString()
         };
