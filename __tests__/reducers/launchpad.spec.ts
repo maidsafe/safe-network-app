@@ -2,7 +2,7 @@ import { launchpadReducer, initialState } from '$Reducers/launchpad_reducer';
 import { TYPES } from '$Actions/launchpad_actions';
 import { TYPES as ALIAS_TYPES } from '$Actions/alias/launchpad_actions';
 import { generateRandomString } from '$Utils/app_utils';
-import { ERRORS } from '$App/constants';
+import { ERRORS } from '$Constants/errors';
 
 describe( 'launchpad reducer', () => {
     it( 'should return the initial state', () => {

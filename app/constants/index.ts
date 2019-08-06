@@ -230,33 +230,6 @@ interface AppInfo {
         _public: Array<string>;
     };
 }
-// const appInfo: AppInfo = {
-//     info: {
-//         id: pkg.identifier,
-//         scope: null,
-//         name: pkg.productName,
-//         vendor: pkg.author.name,
-//         customExecPath: safeNodeAppPath()
-//     },
-//     // eslint-disable-next-line unicorn/prevent-abbreviations
-//     opts: {
-//         /* eslint-disable-next-line @typescript-eslint/camelcase */
-//         own_container: true
-//     },
-//     permissions: {
-//         _public: ['Read', 'Insert', 'Update', 'Delete']
-//         // _publicNames : ['Read', 'Insert', 'Update', 'Delete']
-//     }
-// };
-
-// MAC_OS: Add bundle for electron in dev mode
-// if (  isRunningUnpacked && process.platform === 'darwin'  ) {
-//     appInfo.info.bundle = 'com.github.electron';
-// } else if (  process.platform === 'darwin'  ) {
-//     appInfo.info.bundle = 'com.electron.safe-browser';
-// }
-
-// export const APP_INFO = appInfo;
 
 // TODO. Unify with test lib/constants browser UI?
 export const CLASSES = {
@@ -306,14 +279,6 @@ const getDomClasses = () => {
 export const GET_DOM_EL_CLASS = getDomClasses();
 
 export const LAUNCHPAD_APP_ID = '__LAUNCHPAD_APP_ID__';
-
-export const ERRORS = {
-    APP_ID_NOT_FOUND: new Error( 'Application ID not found' ),
-    VERSION_NOT_FOUND: new Error( 'Application not found' ),
-    INVALID_TYPE: new Error( 'Invalid type of value passed' ),
-    INVALID_PROP: new Error( 'Invalid properties found' ),
-    NOTIFICATION_ID_NOT_FOUND: new Error( 'Notification ID required' )
-};
 
 export const defaultPreferences = {
     autoUpdate: false,

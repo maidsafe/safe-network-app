@@ -2,7 +2,7 @@ import { appManager, initialState } from '$Reducers/app_manager_reducer';
 import { TYPES } from '$Actions/app_manager_actions';
 import { TYPES as ALIAS_TYPES } from '$Actions/alias/app_manager_actions';
 import { generateRandomString } from '$Utils/app_utils';
-import { ERRORS } from '$Constants/index';
+import { ERRORS } from '$Constants/errors';
 import {
     App,
     // TODO: Correctly configure eslint so that following disable isn't necessary
@@ -26,25 +26,35 @@ const getApp = (): App => ( {
     progress: null
 } );
 
+let app1 = getApp();
+let app2 = getApp();
+
+let applicationList = {
+    app1,
+    app2
+};
+
 describe( 'app manager reducer', () => {
+    beforeEach( () => {
+        app1 = getApp();
+        app2 = getApp();
+        app2.name = 'Safe Wallet';
+
+        applicationList = {
+            app1,
+            app2
+        };
+    } );
+
     it( 'should return the initial state', () => {
         expect( appManager( undefined, {} ) ).toEqual( initialState );
     } );
 
     describe( 'SET_APPS', () => {
         it( 'Should add apps to store', () => {
-            const applicationList = [];
-            const app1 = getApp();
-            const app2 = getApp();
-            app2.name = 'Safe Wallet';
-            applicationList.push( app1 );
-            applicationList.push( app2 );
-
             const nextStore = appManager( undefined, {
                 type: `${TYPES.SET_APPS}`,
-                payload: {
-                    applicationList
-                }
+                payload: applicationList
             } );
 
             expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
@@ -53,49 +63,34 @@ describe( 'app manager reducer', () => {
         } );
 
         it( 'Should throw if application has no ID', () => {
-            const applicationList = [];
-            const app1 = getApp();
-            app1.name = 'Safe Browser';
-            delete app1.id;
-            applicationList.push( app1 );
+            applicationList.app1.name = 'Safe Browser';
+            delete applicationList.app1.id;
 
             expect( () =>
                 appManager( undefined, {
                     type: `${TYPES.SET_APPS}`,
-                    payload: {
-                        applicationList
-                    }
+                    payload: applicationList
                 } )
             ).toThrow( ERRORS.APP_ID_NOT_FOUND );
         } );
     } );
 
     describe( 'INSTALL_APP', () => {
-        const applicationList = [];
-        const app1 = getApp();
-        const app2 = getApp();
-        app2.name = 'Safe Wallet';
-        applicationList.push( app1 );
-        applicationList.push( app2 );
         let store = null;
 
         beforeEach( () => {
             store = appManager( undefined, {
                 type: `${TYPES.SET_APPS}`,
-                payload: {
-                    applicationList
-                }
+                payload: applicationList
             } );
         } );
 
         it( 'Should set application to installing', () => {
-            const appId = applicationList[0].id;
-            const otherAppId = applicationList[1].id;
+            const appId = app1.id;
+            const otherAppId = app2.id;
             const nextStore = appManager( store, {
                 type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
-                payload: {
-                    appId
-                }
+                payload: { appId }
             } );
             expect( nextStore.applicationList[appId].name ).toEqual(
                 store.applicationList[appId].name
@@ -118,8 +113,8 @@ describe( 'app manager reducer', () => {
         } );
 
         it( 'Should update progress on installation', () => {
-            const appId = applicationList[0].id;
-            const otherAppId = applicationList[1].id;
+            const appId = app1.id;
+            const otherAppId = app2.id;
             const progress = 89;
             const nextStore = appManager( store, {
                 type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
@@ -138,8 +133,8 @@ describe( 'app manager reducer', () => {
         } );
 
         it( 'Should reset app installation on success', () => {
-            const appId = applicationList[0].id;
-            const otherAppId = applicationList[1].id;
+            const appId = app1.id;
+            const otherAppId = app2.id;
 
             store.applicationList[appId].isUninstalling = true;
             store.applicationList[appId].isUpdating = true;
@@ -172,7 +167,7 @@ describe( 'app manager reducer', () => {
         } );
 
         it( "Should return previous store if couldn't find app on app installation success", () => {
-            const appId = applicationList[0].id;
+            const appId = app1.id;
             const nextStore = appManager( store, {
                 type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
                 payload: {
@@ -188,8 +183,8 @@ describe( 'app manager reducer', () => {
         } );
 
         it( 'Should stop installation on failure', () => {
-            const appId = applicationList[0].id;
-            const otherAppId = applicationList[1].id;
+            const appId = app1.id;
+            const otherAppId = app2.id;
             const installationError = new Error( 'Unable to install' );
 
             let nextStore = appManager( store, {
@@ -215,7 +210,7 @@ describe( 'app manager reducer', () => {
         } );
 
         it( "Should return previous store if couldn't find app on app installation failure", () => {
-            const appId = applicationList[0].id;
+            const appId = app1.id;
             const installationError = new Error( 'Unable to install' );
 
             const nextStore = appManager( store, {

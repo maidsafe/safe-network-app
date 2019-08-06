@@ -71,10 +71,4 @@ describe( 'Overview', () => {
             expect( wrapper.find( ApplicationOverview ).length ).toEqual( 2 );
         } );
     } );
-
-    describe( 'behavior', () => {
-        it( 'calls fetchTheApplicationList in constructor', () => {
-            expect( props.fetchTheApplicationList.mock.calls.length ).toEqual( 1 );
-        } );
-    } );
 } );

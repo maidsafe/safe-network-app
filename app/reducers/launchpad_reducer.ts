@@ -2,7 +2,8 @@ import { TYPES } from '$App/actions/launchpad_actions';
 import { TYPES as NOTIFICATION_TYPES } from '$Actions/alias/notification_actions';
 import { TYPES as ALIAS_TYPES } from '$Actions/alias/launchpad_actions';
 import { LaunchpadState, UserPreferences } from '../definitions/application.d';
-import { ERRORS, defaultPreferences } from '$Constants/index';
+import { defaultPreferences } from '$Constants/index';
+import { ERRORS } from '$Constants/errors';
 
 export const initialState: LaunchpadState = {
     shouldOnboard: false,
@@ -25,7 +26,7 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
                 Object.keys( newUserPreferences ).length !==
                 Object.keys( initialState.userPreferences ).length
             ) {
-                throw ERRORS.INVALID_PROP;
+                throw new Error( ERRORS.INVALID_PROP );
             }
 
             return { ...state, userPreferences: newUserPreferences };
@@ -34,7 +35,7 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
         case TYPES.PUSH_NOTIFICATION: {
             const newNotifications = { ...state.notifications };
             if ( !payload.notification || !payload.notification.id )
-                throw ERRORS.NOTIFICATION_ID_NOT_FOUND;
+                throw new Error( ERRORS.NOTIFICATION_ID_NOT_FOUND );
 
             newNotifications[payload.notification.id] = {
                 ...payload.notification
@@ -44,7 +45,8 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
 
         case TYPES.DISMISS_NOTIFICATION: {
             const newNotifications = { ...state.notifications };
-            if ( !payload.notificationId ) throw ERRORS.NOTIFICATION_ID_NOT_FOUND;
+            if ( !payload.notificationId )
+                throw new Error( ERRORS.NOTIFICATION_ID_NOT_FOUND );
 
             delete newNotifications[payload.notificationId];
             return { ...state, notifications: newNotifications };
@@ -52,7 +54,7 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
 
         case ALIAS_TYPES.ALIAS_SHOULD_ONBOARD: {
             if ( typeof payload.shouldOnboard !== 'boolean' )
-                throw ERRORS.INVALID_TYPE;
+                throw new Error( ERRORS.INVALID_TYPE );
 
             return { ...state, shouldOnboard: payload.shouldOnboard };
         }
