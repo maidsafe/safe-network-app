@@ -2,7 +2,6 @@ import path from 'path';
 import fs from 'fs-extra';
 import { app, remote } from 'electron';
 
-import getPort from 'get-port';
 import pkg from '$Package';
 
 export const LOG_FILE_NAME = 'safe-network-app.log';
@@ -69,6 +68,7 @@ if ( allPassedArguments.includes( '--port' ) ) {
     forcedPort = Number( allPassedArguments[index + 1] );
 }
 
+// Still needed if we want to pass this on to apps we open up...
 export const shouldStartAsMockFromFlagsOrPackage: boolean = shouldRunMockNetwork;
 
 export const environment = shouldStartAsMockFromFlagsOrPackage
@@ -106,50 +106,10 @@ export const currentWindowId =
 // Adds app folder for asar packaging ( space before app is important ).
 const preloadLocation = isRunningUnpacked ? '' : '../';
 
-let safeNodeAppPathModifier = '..';
-
-if ( isRunningPackaged && !isRunningNodeEnvironmentTest ) {
-    safeNodeAppPathModifier = '../../app.asar.unpacked/';
-}
-
-/**
- * retrieve the safe node lib path, either as a relative path in the main process,
- * or from the main process global
- * @return {[type]} [description]
- */
-const safeNodeLibraryPath = () => {
-    // only exists in render processes
-    if ( remote && remote.getGlobal && !isRunningNodeEnvironmentTest ) {
-        return remote.getGlobal( 'SAFE_NODE_LIB_PATH' );
-    }
-
-    return path.resolve(
-        __dirname,
-        safeNodeAppPathModifier,
-        'node_modules/@maidsafe/safe-node-app/src/native'
-    );
-};
-
-// HACK: Prevent jest dying due to no electron globals
-const safeNodeAppPath = () => {
-    if ( !remote || !remote.app ) {
-        return '';
-    }
-    const nodeAppPath: Array<string> = isRunningUnpacked
-        ? [
-            remote.process.execPath,
-            `${remote.getGlobal( 'appDirectory' )}/main.prod.js`
-        ]
-        : [remote.app.getPath( 'exe' )];
-
-    return nodeAppPath;
-};
-
 export const getAppFolderPath = () => {
     if ( remote && remote.app ) return remote.app.getPath( 'appData' );
     return app.getPath( 'appData' );
 };
-
 export const I18N_CONFIG = {
     locales: ['en'],
     directory: path.resolve( __dirname, 'locales' ),
@@ -163,34 +123,10 @@ export const PROTOCOLS = {
     INTERNAL_PAGES: 'safe-browser'
 };
 
-export const INTERNAL_PAGES = {
-    HISTORY: 'history',
-    BOOKMARKS: 'bookmarks'
-};
-
-const getRandomPort = async ( portOverride: number ) => {
-    let portToUse: number;
-    if ( portOverride ) {
-        portToUse = portOverride;
-    } else {
-        portToUse = await getPort();
-    }
-
-    global.port = portToUse;
-
-    return portToUse;
-};
-
 export const CONFIG = {
-    PORT: remote ? remote.getGlobal( 'port' ) : getRandomPort( forcedPort ),
-    SAFE_PARTITION: 'persist:safe-tab',
-    SAFE_NODE_LIB_PATH: safeNodeLibraryPath(),
     APP_HTML_PATH: path.resolve( __dirname, '..', './app.html' ),
     DATE_FORMAT: 'h:MM-mmm dd',
-    NET_STATUS_CONNECTED: 'Connected',
-    STATE_KEY: 'safeBrowserState',
-    BROWSER_TYPE_TAG: 8467,
-    PRELOADED_MOCK_VAULT_PATH: path.join( __dirname, '..', 'PreloadDevVault' )
+    NET_STATUS_CONNECTED: 'Connected'
 };
 
 if ( inMainProcess ) {
@@ -206,79 +142,9 @@ if ( inMainProcess ) {
     global.SAFE_NODE_LIB_PATH = CONFIG.SAFE_NODE_LIB_PATH;
 }
 
-// if(  isRunningUnpacked  )
-// {
-//     CONFIG.CONFIG_PATH = path.resolve(  __dirname, '../resources'  );
-// }
-
-interface AppInfo {
-    info: {
-        id: string;
-        scope: null | string;
-        name: string;
-        vendor: string;
-        customExecPath: string | Array<string>;
-        bundle?: string;
-    };
-
-    opts: {
-        /* eslint-disable-next-line @typescript-eslint/camelcase */
-        own_container: boolean;
-    };
-    permissions: {
-        _public: Array<string>;
-    };
-}
-
-// TODO. Unify with test lib/constants browser UI?
-export const CLASSES = {
-    ADDRESS_BAR: 'js-address',
-    ACTIVE_TAB: 'js-tabBar__active-tab',
-    TAB: 'js-tab',
-    ADD_TAB: 'js-tabBar__add-tab',
-    CLOSE_TAB: 'js-tabBar__close-tab',
-    SAFE_BROWSER_PAGE: 'js-safeBrowser__page',
-    SPECTRON_AREA: 'js-spectron-area',
-    SPECTRON_AREA__SPOOF_SAVE: 'js-spectron-area__spoof-save',
-    SPECTRON_AREA__SPOOF_LOAD: 'js-spectron-area__spoof-read',
-    NOTIFIER_TEXT: 'js-notifier__text',
-    BOOKMARK_PAGE: 'js-bookmark-page',
-    FORWARDS: 'js-address__forwards',
-    BACKWARDS: 'js-address__backwards',
-    REFRESH: 'js-address__refresh',
-    ADDRESS_INPUT: 'js-address__input',
-    MENU: 'js-address__menu',
-
-    NOTIFICATION__ACCEPT: 'js-notification__accept',
-    NOTIFICATION__REJECT: 'js-notification__reject',
-    NOTIFICATION__IGNORE: 'js-notification__ignore',
-
-    SETTINGS_MENU: 'js-settingsMenu',
-    SETTINGS_MENU__BUTTON: 'js-settingsMenu_button',
-    SETTINGS_MENU__BOOKMARKS: 'js-settingsMenu_bookmarks',
-    SETTINGS_MENU__HISTORY: 'js-settingsMenu_history',
-    SETTINGS_MENU__TOGGLE: 'js-settingsMenu_toggle',
-    SETTINGS_MENU__TOGGLE_BUTTON: 'js-settingsMenu_toggleButton',
-    SETTINGS_MENU__TOGGLE_TEXT: 'js-settingsMenu_toggleText',
-    MOCK_TAG: 'js-addressBar_mockTag'
-};
-
-const getDomClasses = () => {
-    const domClasses = {};
-
-    Object.keys( CLASSES ).forEach(
-        ( theClass ): void => {
-            domClasses[theClass] = `.${CLASSES[theClass]}`;
-        }
-    );
-
-    return domClasses;
-};
-
-export const GET_DOM_EL_CLASS = getDomClasses();
-
 export const LAUNCHPAD_APP_ID = '__LAUNCHPAD_APP_ID__';
 
+// TODO: remove this from here...
 export const defaultPreferences = {
     userPreferences: {
         autoUpdate: false,

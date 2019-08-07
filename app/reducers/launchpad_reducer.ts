@@ -6,11 +6,18 @@ import {
     UserPreferences,
     AppPreferences
 } from '../definitions/application.d';
-import { defaultPreferences } from '$Constants/index';
+
 import { ERRORS } from '$Constants/errors';
 
 export const initialState: LaunchpadState = {
-    ...defaultPreferences,
+    shouldOnboard: false,
+    userPreferences: {
+        autoUpdate: false,
+        pinToMenuBar: true,
+        launchOnStart: true,
+        showDeveloperApps: false,
+        warnOnAccessingClearnet: true
+    },
     notifications: {},
     notificationCheckBox: false,
     isTrayWindow: false

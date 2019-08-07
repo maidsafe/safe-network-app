@@ -221,7 +221,7 @@ const downloadAndInstall = async (
     application: ManagedApplication
 ): Promise<void> => {
     const url: string = getDowloadUrlForApplication( application );
-
+    logger.info( 'Downloading, ', application.name );
     if ( isDryRun ) {
         logger.info(
             `DRY RUN: Would have downloaded ${
@@ -358,6 +358,7 @@ const uninstallApplication = async ( application: ManagedApplication ) => {
 };
 
 export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
+    logger.info( 'Setting up IPC to manage downloads' );
     // setup event
     ipcMain.on( 'initiateDownload', ( event, application: ManagedApplication ) =>
         downloadAndInstall( store, targetWindow, application )
