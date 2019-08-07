@@ -22,7 +22,7 @@ import {
 
 import {
     inRendererProcess,
-    isRunningSpectronTestProcess,
+    isRunningTestCafeProcess,
     inMainProcess
 } from '$Constants';
 
@@ -81,7 +81,7 @@ export const configureStore = ( initialState: {} = initialStateFromMain ) => {
 
     let composeEnhancers;
 
-    if ( !isRunningSpectronTestProcess && inRendererProcess ) {
+    if ( !isRunningTestCafeProcess && inRendererProcess ) {
         // If Redux DevTools Extension is installed use it, otherwise use Redux compose
         /* eslint-disable no-underscore-dangle */
         composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

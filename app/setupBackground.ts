@@ -5,7 +5,7 @@ import { logger } from '$Logger';
 import {
     isRunningUnpacked,
     isRunningDebug,
-    isRunningSpectronTestProcess,
+    isRunningTestCafeProcess,
     isRunningDevelopment,
     isCI
 } from '$Constants';
@@ -42,7 +42,7 @@ export const setupBackground = async ( store ): Promise<BrowserWindow> =>
                 (): void => {
                     logger.verbose( 'Background process renderer loaded.' );
 
-                    if ( isRunningSpectronTestProcess || isCI )
+                    if ( isRunningTestCafeProcess || isCI )
                         return resolve( backgroundProcessWindow );
 
                     if (
@@ -55,8 +55,11 @@ export const setupBackground = async ( store ): Promise<BrowserWindow> =>
                         } );
                     }
 
-                    // lets update the application list
-                    store.dispatch( fetchTheApplicationList() );
+                    if ( !isRunningTestCafeProcess || isCI ) {
+                        // lets update the application list
+                        store.dispatch( fetchTheApplicationList() );
+                    }
+
                     return resolve( backgroundProcessWindow );
                 }
             );

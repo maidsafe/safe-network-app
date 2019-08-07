@@ -5,9 +5,9 @@ declare namespace NodeJS {
         appDirectory: string;
         isCI: boolean;
         isRunningTestCafeProcess: boolean;
+        isRunningTestCafeProcessingPackagedApp: boolean;
         startedRunningMock: boolean;
         shouldStartAsMockFromFlagsOrPackage: boolean;
-        isRunningSpectronTestProcessingPackagedApp: boolean;
         SAFE_NODE_LIB_PATH: string;
         SPECTRON_TEST: boolean;
     }

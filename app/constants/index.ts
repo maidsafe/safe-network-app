@@ -28,26 +28,21 @@ let shouldRunMockNetwork: boolean = fs.existsSync(
 let hasDebugFlag = false;
 let hasDryRunFlag = false;
 
-export const isRunningSpectronTestProcess =
-    !!process.env.SPECTRON_TEST || false;
-export const isRunningUnpacked = process.env.IS_UNPACKED;
-export const isRunningPackaged = !isRunningUnpacked;
-export const isRunningSpectronTestProcessingPackagedApp =
-    isRunningSpectronTestProcess && isRunningPackaged;
-
 export const isRunningTestCafeProcess =
     remote && remote.getGlobal
         ? remote.getGlobal( 'isRunningTestCafeProcess' )
         : process.env.TEST_CAFE || false;
 
+export const isRunningUnpacked = process.env.IS_UNPACKED;
+export const isRunningPackaged = !isRunningUnpacked;
+export const isRunningTestCafeProcessingPackagedApp =
+    isRunningTestCafeProcess && isRunningPackaged;
+
 export const inBgProcess = !!(
     typeof document !== 'undefined' && document.title.startsWith( 'Background' )
 );
 // override for spectron dev mode
-if (
-    isRunningSpectronTestProcess &&
-    !isRunningSpectronTestProcessingPackagedApp
-) {
+if ( isRunningTestCafeProcess && !isRunningTestCafeProcessingPackagedApp ) {
     shouldRunMockNetwork = true;
 }
 
@@ -97,8 +92,8 @@ export const startedRunningMock: boolean =
         : startAsMockNetwork || isRunningDevelopment;
 export const startedRunningProduction = !startedRunningMock;
 export const isRunningNodeEnvironmentTest = environment.startsWith( 'test' );
-export const isRunningDebug = hasDebugFlag || isRunningSpectronTestProcess;
-export const isDryRun = hasDryRunFlag || isRunningSpectronTestProcess;
+export const isRunningDebug = hasDebugFlag || isRunningTestCafeProcess;
+export const isDryRun = hasDryRunFlag || isRunningTestCafeProcess;
 export const inRendererProcess = typeof window !== 'undefined';
 export const inMainProcess = typeof remote === 'undefined';
 
@@ -201,10 +196,9 @@ if ( inMainProcess ) {
     global.isCI = isCI;
     global.startedRunningMock = startedRunningMock;
     global.isRunningTestCafeProcess = isRunningTestCafeProcess;
+    global.isRunningTestCafeProcessingPackagedApp = isRunningTestCafeProcessingPackagedApp;
     global.shouldStartAsMockFromFlagsOrPackage = shouldStartAsMockFromFlagsOrPackage;
     global.SAFE_NODE_LIB_PATH = CONFIG.SAFE_NODE_LIB_PATH;
-    global.isRunningSpectronTestProcessingPackagedApp = isRunningSpectronTestProcessingPackagedApp;
-    global.SPECTRON_TEST = isRunningSpectronTestProcess;
 }
 
 // if(  isRunningUnpacked  )

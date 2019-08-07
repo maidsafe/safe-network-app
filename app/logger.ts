@@ -11,8 +11,7 @@ import {
     inBgProcess,
     startedRunningProduction,
     startedRunningMock,
-    isRunningSpectronTestProcess,
-    isRunningSpectronTestProcessingPackagedApp,
+    isRunningTestCafeProcessingPackagedApp,
     isRunningTestCafeProcess,
     inMainProcess,
     isDryRun,
@@ -28,7 +27,7 @@ if ( log.transports ) {
     log.transports.console.level = 'silly';
 
     if (
-        isRunningSpectronTestProcess ||
+        isRunningTestCafeProcess ||
         process.env.NODE_ENV === 'test' ||
         ( !isRunningDebug && isRunningPackaged )
     ) {
@@ -59,7 +58,7 @@ if ( log.transports ) {
 if (
     // ( inMainProcess && isRunningUnpacked ) ||
     isRunningDebug &&
-    !isRunningSpectronTestProcess
+    !isRunningTestCafeProcess
 ) {
     // TODO: add buld ID if prod. Incase you're opening up, NOT THIS BUILD.
     log.info( '' );
@@ -80,11 +79,10 @@ if (
     log.info( 'inMainProcess?', inMainProcess );
     log.info( 'startedRunningProduction?', startedRunningProduction );
     log.info( 'startedRunningMock?', startedRunningMock );
-    log.info( 'isRunningSpectronTestProcess?', isRunningSpectronTestProcess );
     log.info( 'isRunningTestCafeProcess?', isRunningTestCafeProcess );
     log.info(
-        'isRunningSpectronTestProcessingPackagedApp?',
-        isRunningSpectronTestProcessingPackagedApp
+        'isRunningTestCafeProcessingPackagedApp?',
+        isRunningTestCafeProcessingPackagedApp
     );
     log.info( '' );
     log.info( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>' );
