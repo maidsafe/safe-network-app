@@ -272,7 +272,6 @@
     "electron-updater": "^4.0.6",
     "enum": "2.5.0",
     "fs-extra": "7.0.1",
-    "get-port": "4.2.0",
     "history": "^4.9.0",
     "open": "6.0.0",
     "postcss": "7.0.14",
