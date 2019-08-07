@@ -1,6 +1,7 @@
 import path from 'path';
 import { app, Tray, BrowserWindow, ipcMain, screen, App, Menu } from 'electron';
 import { Store } from 'redux';
+import open from 'open';
 import { logger } from '$Logger';
 import { Application } from './definitions/application.d';
 import { setAsTrayWindow } from '$Actions/launchpad_actions';
@@ -170,6 +171,13 @@ export const createSafeLaunchPadTrayWindow = (
             store.dispatch( setAsTrayWindow( false ) );
             showAsRegularWindow();
         }
+    } );
+
+    // prevent links in pulled updates to trigger window opening. Use default
+    // OS browser...
+    safeLaunchPadTrayWindow.webContents.on( 'new-window', function( event, url ) {
+        event.preventDefault();
+        open( url );
     } );
 
     return safeLaunchPadTrayWindow;

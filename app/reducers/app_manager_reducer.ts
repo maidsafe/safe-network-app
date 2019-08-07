@@ -1,5 +1,6 @@
 import { TYPES } from '$Actions/app_manager_actions';
 import { TYPES as ALIAS_TYPES } from '$App/actions/alias/app_manager_actions';
+import { TYPES as APP_TYPES } from '$App/actions/application_actions';
 
 import {
     AppManagerState,
@@ -25,7 +26,6 @@ const setApplicationList = ( state, applicationList ) => {
 };
 
 const updateAppInApplicationList = ( state, targetApp ) => {
-    // console.log("HEREHEHHEREEEE", targetApp)
     const updatedState = {
         ...state,
         applicationList: { ...state.applicationList }
@@ -145,6 +145,14 @@ export function appManager( state = initialState, action ): AppManagerState {
             if ( !payload.version ) throw new Error( ERRORS.VERSION_NOT_FOUND );
             targetApp.hasUpdate = false;
             targetApp.lastSkippedVersion = payload.version;
+            return updateAppInApplicationList( state, targetApp );
+        }
+
+        case APP_TYPES.SET_NEXT_RELEASE_DESCRIPTION: {
+            if ( !targetApp ) return state;
+
+            targetApp.updateDescription = payload.updateDescription;
+
             return updateAppInApplicationList( state, targetApp );
         }
 

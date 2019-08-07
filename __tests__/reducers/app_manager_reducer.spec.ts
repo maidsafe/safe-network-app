@@ -1,5 +1,6 @@
 import { appManager, initialState } from '$Reducers/app_manager_reducer';
 import { TYPES } from '$Actions/app_manager_actions';
+import { TYPES as APP_TYPES } from '$Actions/application_actions';
 import { TYPES as ALIAS_TYPES } from '$Actions/alias/app_manager_actions';
 import { generateRandomString } from '$Utils/app_utils';
 import { ERRORS } from '$Constants/errors';
@@ -14,7 +15,8 @@ const getApp = (): App => ( {
     name: 'Safe Browser',
     packageName: 'safe-browser',
     type: 'userApplications' as AppType,
-    repository: 'https://github.com/joshuef/safe_browser',
+    repositoryOwner: 'joshuef',
+    repositorySlug: 'safe_browser',
     latestVersion: '0.1.0',
     isInstalling: false,
     isUpdating: false,
@@ -59,6 +61,39 @@ describe( 'app manager reducer', () => {
 
             expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
             expect( nextStore.applicationList[app1.id] ).toEqual( app1 );
+            expect( nextStore.applicationList[app2.id] ).toEqual( app2 );
+        } );
+
+        it( 'Should throw if application has no ID', () => {
+            applicationList.app1.name = 'Safe Browser';
+            delete applicationList.app1.id;
+
+            expect( () =>
+                appManager( undefined, {
+                    type: `${TYPES.SET_APPS}`,
+                    payload: applicationList
+                } )
+            ).toThrow( ERRORS.APP_ID_NOT_FOUND );
+        } );
+    } );
+
+    describe( 'SET_NEXT_RELEASE_DESCRIPTION', () => {
+        it( 'Should update app next release description', () => {
+            const startStore = appManager( undefined, {
+                type: `${TYPES.SET_APPS}`,
+                payload: applicationList
+            } );
+
+            const nextStore = appManager( startStore, {
+                type: `${APP_TYPES.SET_NEXT_RELEASE_DESCRIPTION}`,
+                payload: {
+                    appId: app1.id,
+                    updateDescription: 'Woooo new things!'
+                }
+            } );
+
+            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
+            expect( nextStore.applicationList[app1.id] ).not.toEqual( app1 );
             expect( nextStore.applicationList[app2.id] ).toEqual( app2 );
         } );
 

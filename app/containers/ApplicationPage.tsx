@@ -10,7 +10,10 @@ import {
     updateInstallProgress,
     uninstallApplication
 } from '$Actions/application_actions';
-import { fetchTheApplicationList } from '$Actions/alias/app_manager_actions';
+import {
+    fetchTheApplicationList,
+    fetchUpdateInfo
+} from '$Actions/alias/app_manager_actions';
 import { triggerSetAsTrayWindow } from '$Actions/alias/launchpad_actions';
 import { getUserPreferences } from '$Actions/launchpad_actions';
 import { AppState } from '../definitions/application.d';
@@ -34,6 +37,7 @@ function mapDispatchToProperties( dispatch ) {
         uninstallApplication,
 
         fetchTheApplicationList,
+        fetchUpdateInfo,
 
         triggerSetAsTrayWindow
     };

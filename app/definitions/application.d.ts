@@ -14,7 +14,8 @@ export interface ManagedApplication {
     name: string;
     packageName: string;
     type: 'userApplications' | 'developmentApplications';
-    repository: string;
+    repositoryOwner: string;
+    repositorySlug: string;
     latestVersion?: string;
     isOpen?: boolean;
     progress?: number;
@@ -63,7 +64,8 @@ export interface App {
     name: string;
     packageName: string;
     type: AppType;
-    repository: string;
+    repositoryOwner: string;
+    repositorySlug: string;
     latestVersion?: string;
     isOpen?: boolean;
     progress?: number;

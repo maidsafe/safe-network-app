@@ -21,10 +21,12 @@ const getDowloadUrlForApplication = (
 ): string => {
     // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/tag/v0.1.0
     // TODO ensure name conformity with download, or if different, note how.
+    // TODO: perhaps use github API here...
     const version = application.latestVersion;
-    const baseUrl: string = `${
-        // TODO: Sanitize URLs here? strip slashes etc
-        application.repository
+    const baseUrl: string = `https://github.com/${
+        application.repositoryOwner
+    }/${
+        application.repositorySlug
     }/releases/download/v${version}/${application.packageName ||
         application.name}-${version}`;
     let targetUrl: string;

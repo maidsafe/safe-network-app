@@ -1,9 +1,9 @@
 import React from 'react';
+import Markdown from 'markdown-to-jsx';
 import { Grid, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { MeatballMenu } from '$Components/MeatballMenu';
 import { logger } from '$Logger';
-
 import styles from './ApplicationDetail.css';
 import { App } from '$Definitions/application.d';
 
@@ -16,11 +16,20 @@ interface Props {
     appList: {};
     uninstallApp: Function;
     openApp: Function;
+    fetchUpdateInfo: Function;
     installApp: Function;
     application: App;
 }
 
-export class ApplicationDetail extends React.PureComponent<Props> {
+export class ApplicationDetail extends React.Component<Props> {
+    componentDidMount() {
+        const { appList, match, fetchUpdateInfo } = this.props;
+        const applicationId = match.params.id;
+        const application = appList[applicationId];
+
+        fetchUpdateInfo( application );
+    }
+
     handleDownload = () => {
         const { application, installApp } = this.props;
         logger.silly( 'ApplicationDetail: clicked download ', application );
@@ -41,9 +50,7 @@ export class ApplicationDetail extends React.PureComponent<Props> {
 
     render() {
         const { match } = this.props;
-
         const { appList } = this.props;
-
         const applicationId = match.params.id;
         const application = appList[applicationId];
 
@@ -92,6 +99,49 @@ export class ApplicationDetail extends React.PureComponent<Props> {
 
                 <Grid item xs={4}>
                     App Icon
+                </Grid>
+                <Grid item xs={12}>
+                    {application.updateDescription && (
+                        <Markdown
+                            aria-label="latest release description"
+                            options={{
+                                overrides: {
+                                    h1: {
+                                        component: Typography,
+                                        props: {
+                                            variant: 'h3'
+                                        }
+                                    },
+                                    h2: {
+                                        component: Typography,
+                                        props: {
+                                            variant: 'h4'
+                                        }
+                                    },
+                                    h3: {
+                                        component: Typography,
+                                        props: {
+                                            variant: 'h5'
+                                        }
+                                    },
+                                    h4: {
+                                        component: Typography,
+                                        props: {
+                                            variant: 'h6'
+                                        }
+                                    },
+                                    a: {
+                                        component: 'a',
+                                        props: {
+                                            target: '_blank'
+                                        }
+                                    }
+                                }
+                            }}
+                        >
+                            {application.updateDescription}
+                        </Markdown>
+                    )}
                 </Grid>
             </React.Fragment>
         );

@@ -1,4 +1,5 @@
 import * as appManager from '$Actions/app_manager_actions';
+import * as appActions from '$Actions/application_actions';
 import { generateRandomString } from '$Utils/app_utils';
 
 describe( 'Application Manager actions', () => {
@@ -53,5 +54,18 @@ describe( 'Application Manager actions', () => {
             payload
         };
         expect( appManager.resetAppState( payload ) ).toEqual( expectAction );
+    } );
+
+    it( 'should update application description', () => {
+        const payload = {
+            appId: generateRandomString()
+        };
+        const expectAction = {
+            type: appActions.TYPES.SET_NEXT_RELEASE_DESCRIPTION,
+            payload
+        };
+        expect( appActions.setNextReleaseDescription( payload ) ).toEqual(
+            expectAction
+        );
     } );
 } );

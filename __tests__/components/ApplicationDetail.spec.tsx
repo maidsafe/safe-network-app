@@ -30,13 +30,16 @@ describe( 'ApplicationDetail', () => {
                     descrption: 'blablabla',
                     author: 'maidsafe',
                     packageName: 'safe-browser',
-                    repository: 'https://github.com/joshuef/safe_browser',
+                    repositoryOwner: 'joshuef',
+                    repositorySlug: 'safe_browser',
+                    updateDescription: '',
                     latestVersion: '0.1.0',
                     type: 'userApplications'
                 }
             },
             uninstallApp: jest.fn(),
             openApp: jest.fn(),
+            fetchUpdateInfo: jest.fn(),
             installApp: jest.fn()
         };
 

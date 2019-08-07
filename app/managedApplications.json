@@ -8,20 +8,11 @@
             "size": "2MB",
             "author": "Maidsafe Ltd.",
             "packageName": "safe-browser",
-            "repository": "https://github.com/joshuef/safe_browser",
+            "repositoryOwner": "maidsafe",
+            "repositorySlug": "safe_browser",
             "latestVersion": "0.1.0",
             "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            "type": "userApplications"
-        },
-        "ElectronTypescriptBoiler": {
-            "id": "electron.ts.boiler",
-            "size": "2MB",
-            "author": "Maidsafe Ltd.",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            "name": "Local boiler plate",
-            "packageName": "ElectronTypescriptBoiler",
-            "repository": "https://github.com/joshuef/electron-typescript-react-boilerplate",
-            "latestVersion": "0.1.0",
+            "updateDescription": "",
             "type": "userApplications"
         }
     }
