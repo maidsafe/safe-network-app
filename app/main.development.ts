@@ -15,12 +15,8 @@ import { createSafeLaunchPadTrayWindow, createTray } from './setupLaunchPad';
 import { setupBackground } from './setupBackground';
 import { installExtensions, preferencesJsonSetup } from '$Utils/main_utils';
 
-import {
-    getAppFolderPath,
-    platform,
-    settingsHandlerName,
-    defaultPreferences
-} from '$Constants';
+import { getAppFolderPath, platform, settingsHandlerName } from '$Constants';
+
 import { addNotification } from '$App/env-handling';
 
 require( '$Utils/ipcMainListners' );

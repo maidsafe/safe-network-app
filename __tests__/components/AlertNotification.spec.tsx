@@ -10,6 +10,9 @@ jest.mock( 'electron', () => ( {
             showMessageBox: jest.fn()
         },
         getGlobal: jest.fn()
+    },
+    nativeImage: {
+        createFromPath: jest.fn()
     }
 } ) );
 

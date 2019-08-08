@@ -33,7 +33,7 @@ ipcMain.on( 'restart', () => {
     } );
 } );
 
-ipcMain.on( 'close-app', ( application ) => {
+ipcMain.on( 'close-app', ( _event, application ) => {
     console.log( 'close-app' );
     if (
         process.platform !== 'linux' &&
