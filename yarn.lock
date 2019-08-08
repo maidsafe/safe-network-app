@@ -13684,9 +13684,10 @@ test-exclude@^5.2.3:
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
 
-"testcafe-browser-provider-electron@https://github.com/joshuef/testcafe-browser-provider-electron.git#OSXFixed":
-  version "0.0.8"
-  resolved "https://github.com/joshuef/testcafe-browser-provider-electron.git#8b64a0f283530429d0f47547ef9f0a89e22de382"
+testcafe-browser-provider-electron@0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/testcafe-browser-provider-electron/-/testcafe-browser-provider-electron-0.0.10.tgz#2153c5f9b145bf417b79dc8c41496e0b8b394be6"
+  integrity sha512-Vhi9+ZzSCbsM41bXgfmhT17W0mEwQt0mfac6RJhu5pYaUR/478YEasVJVaCeiHGoIEbJ7QFDgegYYm05ceY6cg==
   dependencies:
     babel-runtime "^6.25.0"
     chrome-remote-interface "^0.27.0"
