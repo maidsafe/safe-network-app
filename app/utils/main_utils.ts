@@ -24,6 +24,9 @@ const setPreferences = ( store, preferences ) => {
 
 export const installExtensions = async () => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+    require( 'electron-debug' )();
+
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
     const installer = require( 'electron-devtools-installer' );
     const forceDownload = true;
     // const forceDownload = !!process.env.UPGRADE_EXTENSIONS;

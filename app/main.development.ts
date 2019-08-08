@@ -48,16 +48,6 @@ if ( process.env.NODE_ENV === 'production' ) {
     sourceMapSupport.install();
 }
 
-if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.DEBUG_PROD === 'true'
-) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
-    require( 'electron-debug' )();
-}
-
-// const loadMiddlewarePackages = [];
-
 let store: Store;
 let mainWindow: Application.Window;
 let trayWindow: Application.Window;
