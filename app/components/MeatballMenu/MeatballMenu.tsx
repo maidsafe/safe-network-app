@@ -19,8 +19,8 @@ interface MeatballMenuState {
 }
 
 export class MeatballMenu extends Component<
-    MeatballMenuProps,
-    MeatballMenuState
+MeatballMenuProps,
+MeatballMenuState
 > {
     constructor( props ) {
         super( props );

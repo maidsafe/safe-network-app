@@ -63,9 +63,7 @@ const fetchLatestUpdateDescription = async ( app ): Promise<void> => {
     const store = getCurrentStore();
     try {
         const response = await userAgentRequest(
-            `https://api.github.com/repos/${app.repositoryOwner}/${
-                app.repositorySlug
-            }/releases/latest`
+            `https://api.github.com/repos/${app.repositoryOwner}/${app.repositorySlug}/releases/latest`
         );
         const release = JSON.parse( response );
 

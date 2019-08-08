@@ -23,9 +23,7 @@ const getDowloadUrlForApplication = (
     // TODO ensure name conformity with download, or if different, note how.
     // TODO: perhaps use github API here...
     const version = application.latestVersion;
-    const baseUrl: string = `https://github.com/${
-        application.repositoryOwner
-    }/${
+    const baseUrl = `https://github.com/${application.repositoryOwner}/${
         application.repositorySlug
     }/releases/download/v${version}/${application.packageName ||
         application.name}-${version}`;
@@ -224,9 +222,7 @@ const downloadAndInstall = async (
     logger.info( 'Downloading, ', application.name );
     if ( isDryRun ) {
         logger.info(
-            `DRY RUN: Would have downloaded ${
-                application.name
-            } to ${DOWNLOAD_TARGET_DIR}`
+            `DRY RUN: Would have downloaded ${application.name} to ${DOWNLOAD_TARGET_DIR}`
         );
 
         store.dispatch(
@@ -302,9 +298,7 @@ const uninstallApplication = async ( application: ManagedApplication ) => {
         application.name
     );
 
-    const windowsUninstallLocation = `${INSTALL_TARGET_DIR}/${
-        application.packageName
-    } Uninstall.exe`;
+    const windowsUninstallLocation = `${INSTALL_TARGET_DIR}/${application.packageName} Uninstall.exe`;
 
     logger.verbose( `Attempting to remove ${installedPath}` );
     logger.verbose( `Attempting to remove ${applicationUserDataPath}` );

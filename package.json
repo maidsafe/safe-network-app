@@ -27,7 +27,7 @@
     "prelint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{*{js,ts,tsx,jsx,json},babelrc,eslintrc,prettierrc,stylelintrc}'",
     "postlint-styles-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{css,scss}'",
     "precommit": "lint-staged",
-    "prepush": "yarn test && yarn check-types",
+    "prepush": "yarn check-types && yarn lint && yarn test",
     "prestart": "yarn build",
     "start": "cross-env NODE_ENV=production electron ./app/main.prod.js",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register-ts ./app/main.development.ts",

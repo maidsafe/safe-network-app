@@ -27,6 +27,7 @@ module.exports = {
         codeFrame: true
     },
     rules: {
+        'arrow-parens': ['error', 'always'],
         'no-use-before-define': 'off',
         'unicorn/catch-error-name': 'off',
         'unicorn/filename-case': 'off',
@@ -70,7 +71,8 @@ module.exports = {
                 whitelist: {
                     propOverrides: true,
                     props: true
-                }
+                },
+                checkFilenames: false
             }
         ]
     },
