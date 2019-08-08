@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { remote, nativeImage } from 'electron';
 import { logger } from '$Logger';
 
-const { dialog } = require( 'electron' ).remote;
+const { dialog } = remote;
 
 interface Props {
     notificationCheckBox: boolean;
@@ -37,7 +38,7 @@ export class NotificationAlert extends React.PureComponent<Props> {
         };
 
         const options = {
-            icon: './resources/icons/32x32.png',
+            icon: nativeImage.createFromPath( './resources/icons/32x32.png' ),
             title: latestNotification.title,
             message: latestNotification.message,
             buttons: latestNotification.buttons,
@@ -46,7 +47,10 @@ export class NotificationAlert extends React.PureComponent<Props> {
                 : null
         };
 
-        const responseHandler = ( response, checkboxChecked ) => {
+        const responseHandler = (
+            response: number,
+            checkboxChecked: boolean
+        ) => {
             const buttonLength = options.buttons.length - 1;
 
             switch ( response ) {
@@ -72,13 +76,16 @@ export class NotificationAlert extends React.PureComponent<Props> {
             }
         };
 
-        const alert = dialog.showMessageBox(
-            null,
-            // @ts-ignore
-            options,
-            ( response, checkboxChecked ) =>
-                responseHandler( response, checkboxChecked )
-        );
+        const showNotification = async () => {
+            const { response, checkboxChecked } = await dialog.showMessageBox(
+                null,
+                options
+            );
+            responseHandler( response, checkboxChecked );
+        };
+
+        showNotification();
+
         return <div />;
     }
 }

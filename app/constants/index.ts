@@ -139,7 +139,6 @@ if ( inMainProcess ) {
     global.isRunningTestCafeProcess = isRunningTestCafeProcess;
     global.isRunningTestCafeProcessingPackagedApp = isRunningTestCafeProcessingPackagedApp;
     global.shouldStartAsMockFromFlagsOrPackage = shouldStartAsMockFromFlagsOrPackage;
-    global.SAFE_NODE_LIB_PATH = CONFIG.SAFE_NODE_LIB_PATH;
 }
 
 export const LAUNCHPAD_APP_ID = '__LAUNCHPAD_APP_ID__';

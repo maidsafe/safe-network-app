@@ -10,7 +10,7 @@ import { addApplication } from '$Actions/application_actions';
 import { logger } from '$Logger';
 import { configureStore } from '$Store/configureStore';
 import { MenuBuilder } from './menu';
-import { Application } from './definitions/application.d';
+import { Application, ManagedApplication } from './definitions/application.d';
 import { createSafeLaunchPadTrayWindow, createTray } from './setupLaunchPad';
 import { setupBackground } from './setupBackground';
 import { installExtensions, preferencesJsonSetup } from '$Utils/main_utils';
