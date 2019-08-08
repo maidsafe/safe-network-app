@@ -4,6 +4,13 @@
         "application": "Manage App",
         "on-boarding": "Basic Settings"
     },
+    "buttons": {
+        "install": "Install",
+        "cancelInstall": "Cancel Install",
+        "cancelUpdate": "Cancel Update",
+        "uninstalling": "Uninstalling",
+        "open": "Open"
+    },
     "notifications": {
         "title": {
             "disc_full": "Disk is full. Your install has been paused. Free up some space and resume.",
@@ -28,19 +35,19 @@
         },
         "buttons": {
             "acceptText": {
-                "resume": "RESUME",
-                "try_again": "TRY AGAIN",
-                "restart": "RESTART",
-                "retry": "RETRY",
-                "update_now": "UPDATE NOW",
+                "resume": "Resume",
+                "try_again": "Try Again",
+                "restart": "Restart",
+                "retry": "Retry",
+                "update_now": "Update now",
                 "uninstall_app": "Uninstall",
                 "continue": "Continue"
             },
             "denyText": {
-                "skip": "SKIP",
-                "dismiss": "DISMISS",
-                "cancel_install": "CANCEL INSTALL",
-                "not_now": "NOT NOW",
+                "skip": "Skip",
+                "dismiss": "Dismiss",
+                "cancel_install": "Cancel Install",
+                "not_now": "Not Now",
                 "cancel": "Cancel"
             },
             "other": {

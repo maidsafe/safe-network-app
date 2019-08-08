@@ -3,13 +3,16 @@ import { Store } from 'redux';
 
 export const TYPES = {
     ADD_APPLICATION: 'ADD_APPLICATION',
+
     CANCEL_INSTALL: 'CANCEL_INSTALL',
+    INSTALL_APP_PENDING: 'INSTALL_APP_PENDING',
+    INSTALL_APP_SUCCESS: 'INSTALL_APP_SUCCESS',
+    INSTALL_APP_FAILURE: 'INSTALL_APP_FAILURE',
+
     CHECK_FOR_UPDATE_FOR: 'CHECK_FOR_UPDATE_FOR',
-    OPEN_APPLICATION: 'OPEN_APPLICATION',
     SET_CURRENT_VERSION: 'SET_CURRENT_VERSION',
     SET_NEXT_VERSION: 'SET_NEXT_VERSION',
     SET_NEXT_RELEASE_DESCRIPTION: 'SET_NEXT_RELEASE_DESCRIPTION',
-    UNINSTALL_APPLICATION: 'UNINSTALL_APPLICATION',
     UPDATE_INSTALL_PROGRESS: 'UPDATE_INSTALL_PROGRESS'
 };
 
@@ -22,22 +25,29 @@ export const setCurrentStore = ( passedStore: Store ): void => {
 
 export const {
     addApplication,
+
     cancelInstall,
+
+    installAppPending,
+    installAppSuccess,
+    installAppFailure,
+
     checkForUpdateFor,
-    openApplication,
     setCurrentVersion,
     setNextVersion,
     setNextReleaseDescription,
-    uninstallApplication,
     updateInstallProgress
 } = createActions(
     TYPES.ADD_APPLICATION,
     TYPES.CANCEL_INSTALL,
+
+    TYPES.INSTALL_APP_PENDING,
+    TYPES.INSTALL_APP_SUCCESS,
+    TYPES.INSTALL_APP_FAILURE,
+
     TYPES.CHECK_FOR_UPDATE_FOR,
-    TYPES.OPEN_APPLICATION,
     TYPES.SET_CURRENT_VERSION,
     TYPES.SET_NEXT_VERSION,
     TYPES.SET_NEXT_RELEASE_DESCRIPTION,
-    TYPES.UNINSTALL_APPLICATION,
     TYPES.UPDATE_INSTALL_PROGRESS
 );

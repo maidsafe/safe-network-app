@@ -1,21 +1,34 @@
 import { TYPES } from '$Actions/app_manager_actions';
 import { TYPES as ALIAS_TYPES } from '$App/actions/alias/app_manager_actions';
 import { TYPES as APP_TYPES } from '$App/actions/application_actions';
+import { logger } from '$Logger';
 
-import {
-    AppManagerState,
-    ManagedApplication
-} from '../definitions/application.d';
+import { AppManagerState, App } from '../definitions/application.d';
 import { ERRORS } from '$Constants/errors';
 
 export const initialState: AppManagerState = {
-    applicationList: {}
+    applicationList: {
+        'safe.browser': {
+            id: 'safe.browser',
+            name: 'SAFE Browser',
+            size: '2MB',
+            author: 'Maidsafe Ltd.',
+            packageName: 'safe-browser',
+            repositoryOwner: 'maidsafe',
+            repositorySlug: 'safe_browser',
+            latestVersion: '0.1.0',
+            description:
+                'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+            updateDescription: '',
+            type: 'userApplications'
+        }
+    }
 };
 
 const setApplicationList = ( state, applicationList ) => {
     const newApplicationList = {};
 
-    Object.values( applicationList ).forEach( ( app: ManagedApplication ) => {
+    Object.values( applicationList ).forEach( ( app: App ) => {
         if ( !app.id ) throw new Error( ERRORS.APP_ID_NOT_FOUND );
         newApplicationList[app.id] = { ...app };
     } );
@@ -39,9 +52,15 @@ export function appManager( state = initialState, action ): AppManagerState {
     const { payload } = action;
 
     let targetApp;
-    if ( payload && payload.appId ) {
-        targetApp = { ...state.applicationList[payload.appId] };
+
+    // either we pass a FULL application object, with ID.
+    if ( payload && payload.id ) {
+        targetApp = { ...state.applicationList[payload.id] };
     }
+    // else
+    // {
+    //     logger.warn("Store received application without an \"id\" field.", action )
+    // }
 
     switch ( action.type ) {
         case `${TYPES.SET_APPS}`: {
@@ -58,9 +77,11 @@ export function appManager( state = initialState, action ): AppManagerState {
             return updateAppInApplicationList( state, targetApp );
         }
 
+        // INSTALL
         case TYPES.CANCEL_APP_INSTALLATION: {
             if ( !targetApp || !targetApp.isInstalling ) return state;
             targetApp.isInstalling = false;
+            targetApp.isDownloading = false;
             targetApp.progress = 0;
             return updateAppInApplicationList( state, targetApp );
         }
@@ -74,31 +95,45 @@ export function appManager( state = initialState, action ): AppManagerState {
         case TYPES.RETRY_APP_INSTALLATION: {
             if ( !targetApp || targetApp.isInstalling ) return state;
             targetApp.isInstalling = true;
+            targetApp.isDownloading = true;
+
             return updateAppInApplicationList( state, targetApp );
         }
 
-        case `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`: {
+        case APP_TYPES.INSTALL_APP_PENDING: {
+            logger.info( 'Pending in the state....' );
             if ( !targetApp ) return state;
             targetApp.isInstalling = true;
+            // these things are 99% the same....... kets do away with one?
+            targetApp.isDownloading = true;
             targetApp.progress = payload.progress || 0;
             return updateAppInApplicationList( state, targetApp );
         }
 
-        case `${ALIAS_TYPES.ALIAS_INSTALL_APP}_SUCCESS`: {
+        case APP_TYPES.INSTALL_APP_SUCCESS: {
             if ( !targetApp || !targetApp.isInstalling ) return state;
+
+            // TODO: this data needs to be saved to local.
             targetApp.isInstalling = false;
+            targetApp.isInstalled = true;
             targetApp.progress = 100;
+            targetApp.isDownloading = false;
+
             return updateAppInApplicationList( state, targetApp );
         }
 
-        case `${ALIAS_TYPES.ALIAS_INSTALL_APP}_FAILURE`: {
+        case APP_TYPES.INSTALL_APP_FAILURE: {
             if ( !targetApp || !targetApp.isInstalling ) return state;
             targetApp.isInstalling = false;
+            targetApp.installFailed = true;
             targetApp.progress = 0;
             targetApp.error = payload.error;
+            targetApp.isDownloading = false;
+
             return updateAppInApplicationList( state, targetApp );
         }
 
+        // UNISTALL APP
         case `${ALIAS_TYPES.ALIAS_UNINSTALL_APP}_PENDING`: {
             if ( !targetApp ) return state;
             targetApp.isUninstalling = true;

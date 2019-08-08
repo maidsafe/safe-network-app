@@ -11,8 +11,7 @@ describe( 'Launchpad actions', () => {
         const payload = {
             id: generateRandomString(),
             type: 'UPDATE_AVAILABLE',
-            priority: 'HIGH',
-            appId: generateRandomString()
+            priority: 'HIGH'
         };
         const expectAction = {
             type: launchpad.TYPES.PUSH_NOTIFICATION,

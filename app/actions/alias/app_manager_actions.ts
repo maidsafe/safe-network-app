@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import { createAliasedAction } from 'electron-redux';
 import request from 'request-promise-native';
 
@@ -5,16 +6,17 @@ import { LAUNCHPAD_APP_ID, APPLICATION_LIST_SOURCE } from '$Constants/index';
 import { setApps } from '$Actions/app_manager_actions';
 import {
     getCurrentStore,
-    setNextReleaseDescription
+    setNextReleaseDescription,
+    installAppPending
 } from '$Actions/application_actions';
 import { mockPromise } from '$Actions/helpers/launchpad';
 import appData from '$App/managedApplications.json';
 import { logger } from '$Logger';
 import { pushNotification } from '$Actions/launchpad_actions';
-import { ManagedApplication } from '$Definitions/application.d';
+import { App } from '$Definitions/application.d';
 
 import {
-    installApplicationById,
+    // installApplicationById,
     uninstallApplicationById,
     checkForApplicationUpdateById,
     updateApplicationById,
@@ -29,6 +31,7 @@ const userAgentRequest = request.defaults( {
 
 export const TYPES = {
     ALIAS_FETCH_APPS: 'ALIAS_FETCH_APPS',
+    ALIAS_OPEN_APP: 'ALIAS_OPEN_APP',
     ALIAS_FETCH_UPDATE_INFO: 'ALIAS_FETCH_UPDATE_INFO',
     ALIAS_INSTALL_APP: 'ALIAS_INSTALL_APP',
     ALIAS_CHECK_APP_HAS_UPDATE: 'ALIAS_CHECK_APP_HAS_UPDATE',
@@ -71,7 +74,7 @@ const fetchLatestUpdateDescription = async ( app ): Promise<void> => {
         logger.debug( 'Application update description retrieved sucessfully' );
         store.dispatch(
             setNextReleaseDescription( {
-                appId: app.id,
+                application: app.id,
                 updateDescription
             } )
         );
@@ -80,7 +83,7 @@ const fetchLatestUpdateDescription = async ( app ): Promise<void> => {
 
         store.dispatch(
             setNextReleaseDescription( {
-                appId: app.id,
+                application: app.id,
                 updateDescription: 'No update description available.'
             } )
         );
@@ -89,56 +92,72 @@ const fetchLatestUpdateDescription = async ( app ): Promise<void> => {
 
 export const fetchTheApplicationList = createAliasedAction(
     TYPES.ALIAS_FETCH_APPS,
-    () => ( {
-        type: TYPES.ALIAS_FETCH_APPS,
-        payload: fetchAppListFromServer()
-    } )
+    () => {
+        return {
+            type: TYPES.ALIAS_FETCH_APPS,
+            payload: fetchAppListFromServer()
+        };
+    }
 );
 export const fetchUpdateInfo = createAliasedAction(
     TYPES.ALIAS_FETCH_UPDATE_INFO,
-    ( app: ManagedApplication ) => ( {
+    ( app: App ) => ( {
         type: TYPES.ALIAS_FETCH_UPDATE_INFO,
         payload: fetchLatestUpdateDescription( app )
     } )
 );
 
+const installThatApp = ( application ) => {
+    const store = getCurrentStore();
+    store.dispatch( installAppPending( application ) );
+    ipcRenderer.send( 'initiateDownload', application );
+};
+
 export const installApp = createAliasedAction(
     TYPES.ALIAS_INSTALL_APP,
-    ( appId: string ) => ( {
+    ( application: App ) => ( {
         type: TYPES.ALIAS_INSTALL_APP,
-        payload: installApplicationById( appId )
+        payload: installThatApp( application )
     } )
 );
 
 export const uninstallApp = createAliasedAction(
     TYPES.ALIAS_UNINSTALL_APP,
-    ( appId: string ) => ( {
+    ( application: App ) => ( {
         type: TYPES.ALIAS_UNINSTALL_APP,
-        payload: uninstallApplicationById( appId )
+        payload: uninstallApplicationById( application )
     } )
 );
 
 export const checkAppHasUpdate = createAliasedAction(
     TYPES.ALIAS_CHECK_APP_HAS_UPDATE,
-    ( appId: string ) => ( {
+    ( application: App ) => ( {
         type: TYPES.ALIAS_CHECK_APP_HAS_UPDATE,
-        payload: checkForApplicationUpdateById( appId )
+        payload: checkForApplicationUpdateById( application )
     } )
 );
 
 export const updateApp = createAliasedAction(
     TYPES.ALIAS_UPDATE_APP,
-    ( appId: string ) => ( {
+    ( application: App ) => ( {
         type: TYPES.ALIAS_UPDATE_APP,
-        payload: updateApplicationById( appId )
+        payload: updateApplicationById( application )
     } )
 );
 
 export const skipAppUpdate = createAliasedAction(
     TYPES.ALIAS_SKIP_APP_UPDATE,
-    ( appId: string ) => ( {
+    ( application: App ) => ( {
         type: TYPES.ALIAS_SKIP_APP_UPDATE,
-        payload: storeApplicationSkipVersion( appId )
+        payload: storeApplicationSkipVersion( application )
+    } )
+);
+
+export const openApp = createAliasedAction(
+    TYPES.ALIAS_OPEN_APP,
+    ( application: App ) => ( {
+        type: TYPES.ALIAS_OPEN_APP,
+        payload: {}
     } )
 );
 

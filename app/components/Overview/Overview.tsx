@@ -3,10 +3,7 @@ import { Grid } from '@material-ui/core';
 
 import { logger } from '$Logger';
 import styles from './Overview.css';
-import {
-    ManagedApplication,
-    AppManagerState
-} from '$Definitions/application.d';
+import { App, AppManagerState } from '$Definitions/application.d';
 import { ApplicationOverview } from '$Components/ApplicationOverview';
 
 interface Props {
@@ -14,7 +11,7 @@ interface Props {
     openApp: Function;
     installApp: Function;
     appList: {
-        app: ManagedApplication;
+        app: App;
     };
     triggerSetAsTrayWindow: Function;
     isTrayWindow: boolean;

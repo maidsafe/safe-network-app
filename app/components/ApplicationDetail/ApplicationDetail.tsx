@@ -1,11 +1,12 @@
 import React from 'react';
 import Markdown from 'markdown-to-jsx';
-import { Grid, Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { MeatballMenu } from '$Components/MeatballMenu';
 import { logger } from '$Logger';
 import styles from './ApplicationDetail.css';
 import { App } from '$Definitions/application.d';
+import { AppStateButton } from '$Components/AppStateButton';
 
 interface Props {
     match: {
@@ -54,19 +55,7 @@ export class ApplicationDetail extends React.Component<Props> {
         const applicationId = match.params.id;
         const application = appList[applicationId];
 
-        const {
-            name,
-            author,
-            id,
-            progress,
-            isInstalling,
-            isUninstalling,
-            isUpdating,
-            isDownloading,
-            hasUpdate,
-            isInstalled,
-            installFailed
-        } = application;
+        const { name, author } = application;
 
         return (
             <React.Fragment>
@@ -79,14 +68,10 @@ export class ApplicationDetail extends React.Component<Props> {
                     </Typography>
                     <Grid container>
                         <Grid item xs={6}>
-                            {!isInstalled && !isDownloading && !isInstalling && (
-                                <Button
-                                    onClick={this.handleDownload}
-                                    aria-label={`Install ${name}`}
-                                >
-                                    Install
-                                </Button>
-                            )}
+                            <AppStateButton
+                                {...this.props}
+                                application={application}
+                            />
                         </Grid>
                         <Grid item xs={6}>
                             {application.size}

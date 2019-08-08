@@ -19,7 +19,6 @@ jest.mock( 'electron', () => ( {
 const shallow = createShallow();
 
 const shallowSetup = ( propOverrides? ) => {
-    const appId: string = Math.random().toString( 36 );
     const id: string = Math.random().toString( 36 );
 
     const props = Object.assign(
@@ -34,8 +33,7 @@ const shallowSetup = ( propOverrides? ) => {
                     title:
                         'No Internet connection. Your install has been paused.',
                     acceptText: 'resume',
-                    denyText: 'dismiss',
-                    appId
+                    denyText: 'dismiss'
                 }
             },
             acceptNotification: jest.fn(),

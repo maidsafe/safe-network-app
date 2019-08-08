@@ -11,8 +11,8 @@ import {
     skipAppUpdate,
     updateApp,
     uninstallApp
-} from '$Actions/alias/app_manager_actions';
-import { installApplicationById } from '$Actions/helpers/app_manager';
+    , installApp } from '$Actions/alias/app_manager_actions';
+
 
 export const TYPES = {
     ACCEPT_NOTIFICATION: 'ACCEPT_NOTIFICATION',
@@ -41,10 +41,11 @@ const acceptNotify = ( props ) => {
     const store = getCurrentStore();
     switch ( props.type ) {
         case 'NO_INTERNET':
-            store.dispatch(
+            store
+                .dispatch
                 // @ts-ignore
-                installApplicationById( { appId: props.appId } )
-            );
+                // installApp( appId: props.appId )
+                ();
             store.dispatch( dismissNotification( { notificationId: props.id } ) );
             break;
         case 'SERVER_TIMED_OUT':
@@ -93,7 +94,7 @@ const acceptNotify = ( props ) => {
         case 'DISC_FULL':
             store.dispatch(
                 // @ts-ignore
-                installApplicationById( { appId: props.appId } )
+                installApp( props.appId )
             );
             store.dispatch( dismissNotification( { notificationId: props.id } ) );
             break;

@@ -4,9 +4,9 @@ import { notificationTypes } from '$Constants/notifications';
 
 export const addNotification = ( store: Store ) => {
     if ( process.env.NODE_ENV !== 'production' && process.env.NOTIFICATION ) {
-        const appId: string = Math.random().toString( 36 );
+        const randomAppId: string = Math.random().toString( 36 );
         const application = {
-            appId,
+            randomAppId,
             name: 'SAFE Browser',
             version: 'v1.0'
         };
@@ -14,7 +14,7 @@ export const addNotification = ( store: Store ) => {
         store.dispatch(
             pushNotification( {
                 notification: notificationTypes[process.env.NOTIFICATION](
-                    appId,
+                    randomAppId,
                     application.name,
                     application.version,
                     application

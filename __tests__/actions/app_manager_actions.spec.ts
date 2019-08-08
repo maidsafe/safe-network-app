@@ -14,7 +14,7 @@ describe( 'Application Manager actions', () => {
 
     it( 'should cancel application installation', () => {
         const payload = {
-            appId: generateRandomString()
+            id: generateRandomString()
         };
         const expectAction = {
             type: appManager.TYPES.CANCEL_APP_INSTALLATION,
@@ -25,7 +25,7 @@ describe( 'Application Manager actions', () => {
 
     it( 'should pause application installation', () => {
         const payload = {
-            appId: generateRandomString()
+            id: generateRandomString()
         };
         const expectAction = {
             type: appManager.TYPES.PAUSE_APP_INSTALLATION,
@@ -36,7 +36,7 @@ describe( 'Application Manager actions', () => {
 
     it( 'should retry application installation', () => {
         const payload = {
-            appId: generateRandomString()
+            id: generateRandomString()
         };
         const expectAction = {
             type: appManager.TYPES.RETRY_APP_INSTALLATION,
@@ -47,7 +47,7 @@ describe( 'Application Manager actions', () => {
 
     it( 'should reset application store', () => {
         const payload = {
-            appId: generateRandomString()
+            id: generateRandomString()
         };
         const expectAction = {
             type: appManager.TYPES.RESET_APP_STATE,
@@ -58,7 +58,7 @@ describe( 'Application Manager actions', () => {
 
     it( 'should update application description', () => {
         const payload = {
-            appId: generateRandomString()
+            id: generateRandomString()
         };
         const expectAction = {
             type: appActions.TYPES.SET_NEXT_RELEASE_DESCRIPTION,

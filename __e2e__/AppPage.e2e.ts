@@ -34,7 +34,7 @@ test( 'can navigate to the application page.', async ( t ) => {
         .expect(
             Selector( 'button' ).withAttribute(
                 'aria-label',
-                'Install SAFE Browser'
+                'Application Action Button'
             ).exists
         )
         .ok();

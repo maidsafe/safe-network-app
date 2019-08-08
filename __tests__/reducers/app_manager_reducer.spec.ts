@@ -13,6 +13,12 @@ import {
 const getApp = (): App => ( {
     id: generateRandomString(),
     name: 'Safe Browser',
+    author: 'Maidsafe',
+    size: '2MB',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    updateDescription:
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     packageName: 'safe-browser',
     type: 'userApplications' as AppType,
     repositoryOwner: 'joshuef',
@@ -87,7 +93,7 @@ describe( 'app manager reducer', () => {
             const nextStore = appManager( startStore, {
                 type: `${APP_TYPES.SET_NEXT_RELEASE_DESCRIPTION}`,
                 payload: {
-                    appId: app1.id,
+                    id: app1.id,
                     updateDescription: 'Woooo new things!'
                 }
             } );
@@ -121,18 +127,18 @@ describe( 'app manager reducer', () => {
         } );
 
         it( 'Should set application to installing', () => {
-            const appId = app1.id;
+            const { id } = app1;
             const otherAppId = app2.id;
             const nextStore = appManager( store, {
-                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
-                payload: { appId }
+                type: APP_TYPES.INSTALL_APP_PENDING,
+                payload: { id }
             } );
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].isInstalling ).toBeTruthy();
-            expect( nextStore.applicationList[appId].isUninstalling ).toBeFalsy();
-            expect( nextStore.applicationList[appId].isUpdating ).toBeFalsy();
+            expect( nextStore.applicationList[id].isInstalling ).toBeTruthy();
+            expect( nextStore.applicationList[id].isUninstalling ).toBeFalsy();
+            expect( nextStore.applicationList[id].isUpdating ).toBeFalsy();
             expect( nextStore.applicationList[otherAppId] ).toEqual(
                 store.applicationList[otherAppId]
             );
@@ -141,123 +147,121 @@ describe( 'app manager reducer', () => {
         it( 'Should return previous store if application not found', () => {
             expect(
                 appManager( store, {
-                    type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
+                    type: APP_TYPES.INSTALL_APP_PENDING,
                     payload: {}
                 } )
             ).toEqual( store );
         } );
 
         it( 'Should update progress on installation', () => {
-            const appId = app1.id;
+            const { id } = app1;
             const otherAppId = app2.id;
             const progress = 89;
             const nextStore = appManager( store, {
-                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
+                type: APP_TYPES.INSTALL_APP_PENDING,
                 payload: {
-                    appId,
+                    id,
                     progress
                 }
             } );
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].progress ).toEqual( progress );
+            expect( nextStore.applicationList[id].progress ).toEqual( progress );
             expect( nextStore.applicationList[otherAppId] ).toEqual(
                 store.applicationList[otherAppId]
             );
         } );
 
         it( 'Should reset app installation on success', () => {
-            const appId = app1.id;
+            const { id } = app1;
             const otherAppId = app2.id;
 
-            store.applicationList[appId].isUninstalling = true;
-            store.applicationList[appId].isUpdating = true;
+            store.applicationList[id].isUninstalling = true;
+            store.applicationList[id].isUpdating = true;
 
             let nextStore = appManager( store, {
-                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
+                type: APP_TYPES.INSTALL_APP_PENDING,
                 payload: {
-                    appId
+                    id
                 }
             } );
 
             nextStore = appManager( nextStore, {
-                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_SUCCESS`,
+                type: APP_TYPES.INSTALL_APP_SUCCESS,
                 payload: {
-                    appId
+                    id
                 }
             } );
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].isInstalling ).toBeFalsy();
-            expect(
-                nextStore.applicationList[appId].isUninstalling
-            ).toBeTruthy();
-            expect( nextStore.applicationList[appId].isUpdating ).toBeTruthy();
-            expect( nextStore.applicationList[appId].progress ).toEqual( 100 );
+            expect( nextStore.applicationList[id].isInstalling ).toBeFalsy();
+            expect( nextStore.applicationList[id].isUninstalling ).toBeTruthy();
+            expect( nextStore.applicationList[id].isUpdating ).toBeTruthy();
+            expect( nextStore.applicationList[id].progress ).toEqual( 100 );
             expect( nextStore.applicationList[otherAppId] ).toEqual(
                 store.applicationList[otherAppId]
             );
         } );
 
         it( "Should return previous store if couldn't find app on app installation success", () => {
-            const appId = app1.id;
+            const { id } = app1;
             const nextStore = appManager( store, {
-                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
+                type: APP_TYPES.INSTALL_APP_PENDING,
                 payload: {
-                    appId
+                    id
                 }
             } );
             expect(
                 appManager( nextStore, {
-                    type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_SUCCESS`,
+                    type: APP_TYPES.INSTALL_APP_SUCCESS,
                     payload: {}
                 } )
             ).toEqual( nextStore );
         } );
 
         it( 'Should stop installation on failure', () => {
-            const appId = app1.id;
+            const { id } = app1;
             const otherAppId = app2.id;
             const installationError = new Error( 'Unable to install' );
 
             let nextStore = appManager( store, {
-                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
+                type: APP_TYPES.INSTALL_APP_PENDING,
                 payload: {
-                    appId,
+                    id,
                     progress: 86
                 }
             } );
             nextStore = appManager( nextStore, {
-                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_FAILURE`,
+                type: APP_TYPES.INSTALL_APP_FAILURE,
                 payload: {
-                    appId,
+                    id,
                     error: installationError
                 }
             } );
-            expect( nextStore.applicationList[appId].isInstalling ).toBeFalsy();
-            expect( nextStore.applicationList[appId].progress ).toEqual( 0 );
-            expect( nextStore.applicationList[appId].error ).not.toBeNull();
+            expect( nextStore.applicationList[id].isInstalling ).toBeFalsy();
+            expect( nextStore.applicationList[id].progress ).toEqual( 0 );
+            expect( nextStore.applicationList[id].error ).not.toBeNull();
             expect( nextStore.applicationList[otherAppId] ).toEqual(
                 store.applicationList[otherAppId]
             );
         } );
 
         it( "Should return previous store if couldn't find app on app installation failure", () => {
-            const appId = app1.id;
+            const { id } = app1;
             const installationError = new Error( 'Unable to install' );
 
             const nextStore = appManager( store, {
-                type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_PENDING`,
+                type: APP_TYPES.INSTALL_APP_PENDING,
                 payload: {
-                    appId,
+                    id,
                     progress: 86
                 }
             } );
             expect(
                 appManager( nextStore, {
-                    type: `${ALIAS_TYPES.ALIAS_INSTALL_APP}_FAILURE`,
+                    type: APP_TYPES.INSTALL_APP_FAILURE,
                     payload: {}
                 } )
             ).toEqual( nextStore );
@@ -268,25 +272,25 @@ describe( 'app manager reducer', () => {
         it( 'Should cancel app installation', () => {
             const app = getApp();
             const otherApp = getApp();
-            const appId = app.id;
+            const { id } = app;
             app.isInstalling = true;
             const store = {
                 applicationList: {
-                    [appId]: { ...app },
+                    [id]: { ...app },
                     [otherApp.id]: { ...otherApp }
                 }
             };
             const nextStore = appManager( store, {
                 type: TYPES.CANCEL_APP_INSTALLATION,
                 payload: {
-                    appId
+                    id
                 }
             } );
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].isInstalling ).toBeFalsy();
-            expect( nextStore.applicationList[appId].progress ).toEqual( 0 );
+            expect( nextStore.applicationList[id].isInstalling ).toBeFalsy();
+            expect( nextStore.applicationList[id].progress ).toEqual( 0 );
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
             );
@@ -295,10 +299,10 @@ describe( 'app manager reducer', () => {
         it( "Should return previous store if couldn't find app on app install cancellation", () => {
             const app = getApp();
             app.isInstalling = true;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
@@ -312,19 +316,19 @@ describe( 'app manager reducer', () => {
             const progress = 76;
             const app = getApp();
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
                 appManager( store, {
                     type: TYPES.CANCEL_APP_INSTALLATION,
                     payload: {
-                        appId
+                        id
                     }
-                } ).applicationList[appId].isInstalling
+                } ).applicationList[id].isInstalling
             ).toBeFalsy();
         } );
     } );
@@ -336,24 +340,24 @@ describe( 'app manager reducer', () => {
             const otherApp = getApp();
             app.isInstalling = true;
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app },
+                    [id]: { ...app },
                     [otherApp.id]: { ...otherApp }
                 }
             };
             const nextStore = appManager( store, {
                 type: TYPES.PAUSE_APP_INSTALLATION,
                 payload: {
-                    appId
+                    id
                 }
             } );
 
-            expect( nextStore.applicationList[appId].isInstalling ).toBeFalsy();
-            expect( nextStore.applicationList[appId].progress ).toEqual( progress );
-            expect( nextStore.applicationList[appId] ).not.toEqual(
-                store.applicationList[appId]
+            expect( nextStore.applicationList[id].isInstalling ).toBeFalsy();
+            expect( nextStore.applicationList[id].progress ).toEqual( progress );
+            expect( nextStore.applicationList[id] ).not.toEqual(
+                store.applicationList[id]
             );
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
@@ -365,10 +369,10 @@ describe( 'app manager reducer', () => {
             const app = getApp();
             app.isInstalling = true;
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
@@ -382,19 +386,19 @@ describe( 'app manager reducer', () => {
             const progress = 76;
             const app = getApp();
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
                 appManager( store, {
                     type: TYPES.PAUSE_APP_INSTALLATION,
                     payload: {
-                        appId
+                        id
                     }
-                } ).applicationList[appId].isInstalling
+                } ).applicationList[id].isInstalling
             ).toBeFalsy();
         } );
     } );
@@ -405,23 +409,23 @@ describe( 'app manager reducer', () => {
             const app = getApp();
             const otherApp = getApp();
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app },
+                    [id]: { ...app },
                     [otherApp.id]: { ...otherApp }
                 }
             };
             const nextStore = appManager( store, {
                 type: TYPES.RETRY_APP_INSTALLATION,
                 payload: {
-                    appId
+                    id
                 }
             } );
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].isInstalling ).toBeTruthy();
+            expect( nextStore.applicationList[id].isInstalling ).toBeTruthy();
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
             );
@@ -430,10 +434,10 @@ describe( 'app manager reducer', () => {
             const progress = 76;
             const app = getApp();
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
@@ -448,19 +452,19 @@ describe( 'app manager reducer', () => {
             const app = getApp();
             app.isInstalling = true;
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
                 appManager( store, {
                     type: TYPES.RETRY_APP_INSTALLATION,
                     payload: {
-                        appId
+                        id
                     }
-                } ).applicationList[appId].isInstalling
+                } ).applicationList[id].isInstalling
             ).toBeTruthy();
         } );
     } );
@@ -471,25 +475,23 @@ describe( 'app manager reducer', () => {
             const app = getApp();
             const otherApp = getApp();
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app },
+                    [id]: { ...app },
                     [otherApp.id]: { ...otherApp }
                 }
             };
             const nextStore = appManager( store, {
                 type: `${ALIAS_TYPES.ALIAS_UNINSTALL_APP}_PENDING`,
                 payload: {
-                    appId
+                    id
                 }
             } );
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect(
-                nextStore.applicationList[appId].isUninstalling
-            ).toBeTruthy();
+            expect( nextStore.applicationList[id].isUninstalling ).toBeTruthy();
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
             );
@@ -498,10 +500,10 @@ describe( 'app manager reducer', () => {
             const progress = 76;
             const app = getApp();
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
@@ -517,10 +519,10 @@ describe( 'app manager reducer', () => {
             const otherApp = getApp();
             app.progress = progress;
             app.isUninstalling = true;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app },
+                    [id]: { ...app },
                     [otherApp.id]: { ...otherApp }
                 }
             };
@@ -528,13 +530,13 @@ describe( 'app manager reducer', () => {
             const nextStore = appManager( store, {
                 type: `${ALIAS_TYPES.ALIAS_UNINSTALL_APP}_SUCCESS`,
                 payload: {
-                    appId
+                    id
                 }
             } );
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].isUninstalling ).toBeFalsy();
+            expect( nextStore.applicationList[id].isUninstalling ).toBeFalsy();
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
             );
@@ -543,10 +545,10 @@ describe( 'app manager reducer', () => {
             const progress = 76;
             const app = getApp();
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
@@ -564,26 +566,26 @@ describe( 'app manager reducer', () => {
             const app = getApp();
             const otherApp = getApp();
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app },
+                    [id]: { ...app },
                     [otherApp.id]: { ...otherApp }
                 }
             };
             const nextStore = appManager( store, {
                 type: `${ALIAS_TYPES.ALIAS_UPDATE_APP}_PENDING`,
                 payload: {
-                    appId,
+                    id,
                     progress
                 }
             } );
 
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].isUpdating ).toBeTruthy();
-            expect( nextStore.applicationList[appId].progress ).toEqual( progress );
+            expect( nextStore.applicationList[id].isUpdating ).toBeTruthy();
+            expect( nextStore.applicationList[id].progress ).toEqual( progress );
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
             );
@@ -592,10 +594,10 @@ describe( 'app manager reducer', () => {
             const progress = 20;
             const app = getApp();
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
@@ -611,26 +613,26 @@ describe( 'app manager reducer', () => {
             const otherApp = getApp();
             app.isUpdating = true;
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app },
+                    [id]: { ...app },
                     [otherApp.id]: { ...otherApp }
                 }
             };
             const nextStore = appManager( store, {
                 type: `${ALIAS_TYPES.ALIAS_UPDATE_APP}_SUCCESS`,
                 payload: {
-                    appId,
+                    id,
                     progress
                 }
             } );
 
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].isUpdating ).toBeFalsy();
-            expect( nextStore.applicationList[appId].progress ).toEqual( 100 );
+            expect( nextStore.applicationList[id].isUpdating ).toBeFalsy();
+            expect( nextStore.applicationList[id].progress ).toEqual( 100 );
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
             );
@@ -641,10 +643,10 @@ describe( 'app manager reducer', () => {
             const app = getApp();
             app.progress = progress;
             app.isUpdating = true;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
@@ -661,27 +663,27 @@ describe( 'app manager reducer', () => {
             const otherApp = getApp();
             app.isUpdating = true;
             app.progress = progress;
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app },
+                    [id]: { ...app },
                     [otherApp.id]: { ...otherApp }
                 }
             };
             const nextStore = appManager( store, {
                 type: `${ALIAS_TYPES.ALIAS_UPDATE_APP}_FAILURE`,
                 payload: {
-                    appId,
+                    id,
                     progress,
                     error: new Error( 'Failed to update' )
                 }
             } );
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].isUpdating ).toBeFalsy();
-            expect( nextStore.applicationList[appId].progress ).toEqual( 0 );
-            expect( nextStore.applicationList[appId].error ).not.toBeNull();
+            expect( nextStore.applicationList[id].isUpdating ).toBeFalsy();
+            expect( nextStore.applicationList[id].progress ).toEqual( 0 );
+            expect( nextStore.applicationList[id].error ).not.toBeNull();
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
             );
@@ -693,25 +695,25 @@ describe( 'app manager reducer', () => {
             const newVersion = '0.12.0';
             const app = getApp();
             const otherApp = getApp();
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app },
+                    [id]: { ...app },
                     [otherApp.id]: { ...otherApp }
                 }
             };
             const nextStore = appManager( store, {
                 type: `${ALIAS_TYPES.ALIAS_SKIP_APP_UPDATE}_PENDING`,
                 payload: {
-                    appId,
+                    id,
                     version: newVersion
                 }
             } );
 
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].lastSkippedVersion ).toEqual(
+            expect( nextStore.applicationList[id].lastSkippedVersion ).toEqual(
                 newVersion
             );
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
@@ -722,10 +724,10 @@ describe( 'app manager reducer', () => {
         it( "Should return previous store if couldn't find app on skipping update", () => {
             const newVersion = '0.12.0';
             const app = getApp();
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(
@@ -740,17 +742,17 @@ describe( 'app manager reducer', () => {
         it( 'Should throw if version to skip not found', () => {
             const newVersion = '0.12.0';
             const app = getApp();
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect( () =>
                 appManager( store, {
                     type: `${ALIAS_TYPES.ALIAS_SKIP_APP_UPDATE}_PENDING`,
                     payload: {
-                        appId
+                        id
                     }
                 } )
             ).toThrow( ERRORS.VERSION_NOT_FOUND );
@@ -761,7 +763,7 @@ describe( 'app manager reducer', () => {
         it( 'Should reset app state', () => {
             const app = getApp();
             const otherApp = getApp();
-            const appId = app.id;
+            const { id } = app;
             app.isUpdating = true;
             app.isInstalling = true;
             otherApp.isInstalling = true;
@@ -771,25 +773,25 @@ describe( 'app manager reducer', () => {
             app.error = new Error( 'Invalid property' );
             const store = {
                 applicationList: {
-                    [appId]: { ...app },
+                    [id]: { ...app },
                     [otherApp.id]: { ...otherApp }
                 }
             };
             const nextStore = appManager( store, {
                 type: TYPES.RESET_APP_STATE,
                 payload: {
-                    appId
+                    id
                 }
             } );
 
-            expect( nextStore.applicationList[appId].name ).toEqual(
-                store.applicationList[appId].name
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
             );
-            expect( nextStore.applicationList[appId].isInstalling ).toBeFalsy();
-            expect( nextStore.applicationList[appId].isUninstalling ).toBeFalsy();
-            expect( nextStore.applicationList[appId].isUpdating ).toBeFalsy();
-            expect( nextStore.applicationList[appId].error ).toEqual( null );
-            expect( nextStore.applicationList[appId].progress ).toEqual( null );
+            expect( nextStore.applicationList[id].isInstalling ).toBeFalsy();
+            expect( nextStore.applicationList[id].isUninstalling ).toBeFalsy();
+            expect( nextStore.applicationList[id].isUpdating ).toBeFalsy();
+            expect( nextStore.applicationList[id].error ).toEqual( null );
+            expect( nextStore.applicationList[id].progress ).toEqual( null );
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
             );
@@ -797,10 +799,10 @@ describe( 'app manager reducer', () => {
 
         it( "Should return previous store if couldn't find app on skipping update", () => {
             const app = getApp();
-            const appId = app.id;
+            const { id } = app;
             const store = {
                 applicationList: {
-                    [appId]: { ...app }
+                    [id]: { ...app }
                 }
             };
             expect(

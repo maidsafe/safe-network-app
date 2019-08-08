@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store';
 
 import { ApplicationOverview } from '$App/components/ApplicationOverview';
 import { MeatballMenu } from '$App/components/MeatballMenu';
+import { AppStateButton } from '$App/components/AppStateButton';
 
 jest.mock( '$Logger' );
 
@@ -72,7 +73,7 @@ describe( 'ApplicationOverview', () => {
 
     describe( 'render', () => {
         it( 'one install button', () => {
-            expect( wrapper.find( '.install' ).exists() ).toBeTruthy();
+            expect( wrapper.find( AppStateButton ).exists() ).toBeTruthy();
         } );
 
         it( 'meatball menu component', () => {

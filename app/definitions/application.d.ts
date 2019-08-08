@@ -9,27 +9,9 @@ export namespace Application {
     }
 }
 
-export interface ManagedApplication {
-    id: string;
-    name: string;
-    packageName: string;
-    type: 'userApplications' | 'developmentApplications';
-    repositoryOwner: string;
-    repositorySlug: string;
-    latestVersion?: string;
-    isOpen?: boolean;
-    progress?: number;
-    isInstalling?: boolean;
-    isUpdating?: boolean;
-    isUninstalling?: boolean;
-    hasUpdate?: boolean;
-    lastSkippedVersion?: string;
-    error?: Error | null;
-}
-
 export interface ApplicationsState {
-    userApplications: Array<ManagedApplication>;
-    developmentApplications: Array<ManagedApplication>;
+    userApplications: Array<App>;
+    developmentApplications: Array<App>;
 }
 
 export interface TheState {
@@ -37,7 +19,7 @@ export interface TheState {
 }
 
 export interface ApplicationsAction {
-    payload: ManagedApplication;
+    payload: App;
     meta: {};
     type: string;
 }
@@ -72,20 +54,29 @@ export type AppType = 'userApplications' | 'developmentApplications';
 export interface App {
     id: string;
     name: string;
+    author: string;
+    size: string;
+    description: string;
+    updateDescription: string;
     packageName: string;
-    type: AppType;
     repositoryOwner: string;
     repositorySlug: string;
+
+    type: AppType;
     latestVersion?: string;
-    isOpen?: boolean;
+
+    isOpen?: boolean; // ?why...
     progress?: number;
     isInstalling?: boolean;
     isUpdating?: boolean;
     isUninstalling?: boolean;
+
     isDownloading?: boolean;
+
     hasUpdate?: boolean;
     lastSkippedVersion?: string;
     error?: Error | null;
+
     isInstalled?: boolean;
     installFailed?: boolean;
 }
@@ -99,7 +90,7 @@ export interface LaunchpadState {
 }
 
 export interface AppManagerState {
-    applicationList: { [appId: string]: App };
+    applicationList: { [id: string]: App };
 }
 
 export interface AppState {
