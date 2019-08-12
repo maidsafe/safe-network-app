@@ -19,9 +19,9 @@ describe( 'Overview', () => {
 
     beforeEach( () => {
         props = {
-            uninstallApp: jest.fn(),
+            unInstallApp: jest.fn(),
             openApp: jest.fn(),
-            installApp: jest.fn(),
+            downloadAndInstallApp: jest.fn(),
             appList: {
                 'safe.browser': {
                     id: 'safe.browser',

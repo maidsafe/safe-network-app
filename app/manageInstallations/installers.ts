@@ -4,8 +4,8 @@ import { spawnSync } from 'child_process';
 import dmg from 'dmg';
 import path from 'path';
 import {
-    installAppSuccess,
-    installAppFailure
+    downloadAndInstallAppSuccess,
+    downloadAndInstallAppFailure
 } from '$Actions/application_actions';
 import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
 
@@ -25,7 +25,7 @@ const silentInstallMacOS = (
             `DRY RUN: Would have then installed to, ${INSTALL_TARGET_DIR}/${executablePath}`
         );
 
-        store.dispatch( installAppSuccess( application ) );
+        store.dispatch( downloadAndInstallAppSuccess( application ) );
         return;
     }
 
@@ -47,7 +47,10 @@ const silentInstallMacOS = (
         if ( done.error ) {
             logger.error( 'Error during copy', done.error );
             store.dispatch(
-                installAppFailure( { ...application, error: done.error } )
+                downloadAndInstallAppFailure( {
+                    ...application,
+                    error: done.error
+                } )
             );
         }
 
@@ -60,7 +63,7 @@ const silentInstallMacOS = (
 
             // TODO Remove Dlded version?
             logger.info( 'Install complete.' );
-            store.dispatch( installAppSuccess( application ) );
+            store.dispatch( downloadAndInstallAppSuccess( application ) );
         } );
     } );
 };
@@ -77,7 +80,7 @@ const silentInstallLinux = (
     if ( isDryRun ) {
         logger.info( `DRY RUN: Would have then installed to, ${installPath}` );
 
-        store.dispatch( installAppSuccess( application ) );
+        store.dispatch( downloadAndInstallAppSuccess( application ) );
         return;
     }
 
@@ -94,13 +97,16 @@ const silentInstallLinux = (
     if ( makeExecutable.error ) {
         logger.error( 'Error during permissions update', makeExecutable.error );
         store.dispatch(
-            installAppFailure( { ...application, error: makeExecutable.error } )
+            downloadAndInstallAppFailure( {
+                ...application,
+                error: makeExecutable.error
+            } )
         );
     }
     logger.info( 'Copying complete.' );
     logger.info( 'Install complete.' );
 
-    store.dispatch( installAppSuccess( application ) );
+    store.dispatch( downloadAndInstallAppSuccess( application ) );
 };
 
 // https://nsis.sourceforge.io/Docs/Chapter4.html#silent
@@ -117,7 +123,7 @@ const silentInstallWindows = (
     if ( isDryRun ) {
         logger.info( `DRY RUN: Would have then installed to, ${installPath}` );
         logger.info( `DRY RUN: via command: $ ${installAppPath}` );
-        store.dispatch( installAppSuccess( application ) );
+        store.dispatch( downloadAndInstallAppSuccess( application ) );
         return;
     }
 
@@ -135,12 +141,15 @@ const silentInstallWindows = (
     if ( installer.error ) {
         logger.error( 'Error during install', installer.error );
         store.dispatch(
-            installAppFailure( { ...application, error: installer.error } )
+            downloadAndInstallAppFailure( {
+                ...application,
+                error: installer.error
+            } )
         );
     }
 
     logger.info( 'Install complete.' );
-    store.dispatch( installAppSuccess( application ) );
+    store.dispatch( downloadAndInstallAppSuccess( application ) );
 };
 
 export const silentInstall = (

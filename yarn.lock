@@ -13583,7 +13583,7 @@ test-exclude@^5.2.3:
 
 "testcafe-browser-provider-electron@https://github.com/joshuef/testcafe-browser-provider-electron.git#AnotherE6":
   version "0.0.11"
-  resolved "https://github.com/joshuef/testcafe-browser-provider-electron.git#4a8b48553debbf574d1ef07489a4105933bf98c4"
+  resolved "https://github.com/joshuef/testcafe-browser-provider-electron.git#c3c9305dd6b73cb1717395b921e249780b32d1ce"
   dependencies:
     babel-runtime "^6.25.0"
     chrome-remote-interface "^0.27.0"

@@ -2,11 +2,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Overview } from '$Components/Overview';
 import {
-    installApp,
+    downloadAndInstallApp,
+    pauseDownload,
+    cancelDownload,
+    resumeDownload,
     openApp,
-    uninstallApp
+    unInstallApp
 } from '$Actions/alias/app_manager_actions';
-import { updateInstallProgress } from '$Actions/application_actions';
+import { updateDownloadProgress } from '$Actions/application_actions';
 import { triggerSetAsTrayWindow } from '$Actions/alias/launchpad_actions';
 import { getUserPreferences } from '$Actions/launchpad_actions';
 import { AppState } from '../definitions/application.d';
@@ -22,11 +25,15 @@ function mapDispatchToProperties( dispatch ) {
     const actions = {
         getUserPreferences,
 
-        installApp,
-        openApp,
-        uninstallApp,
+        downloadAndInstallApp,
+        pauseDownload,
+        cancelDownload,
+        resumeDownload,
 
-        updateInstallProgress,
+        openApp,
+        unInstallApp,
+
+        updateDownloadProgress,
 
         triggerSetAsTrayWindow
     };

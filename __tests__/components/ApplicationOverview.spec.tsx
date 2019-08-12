@@ -19,9 +19,9 @@ describe( 'ApplicationOverview', () => {
 
     beforeEach( () => {
         props = {
-            uninstallApp: jest.fn(),
+            unInstallApp: jest.fn(),
             openApp: jest.fn(),
-            installApp: jest.fn(),
+            downloadAndInstallApp: jest.fn(),
             application: {
                 id: 'safe.browser',
                 name: 'SAFE Browser',
@@ -36,39 +36,6 @@ describe( 'ApplicationOverview', () => {
 
         wrapper = shallow( <ApplicationOverview {...props} /> );
         instance = wrapper.instance();
-    } );
-
-    describe( 'handleDownload', () => {
-        it( 'exists', () => {
-            expect( instance.handleDownload ).toBeTruthy();
-        } );
-
-        it( 'calls installApp', () => {
-            instance.handleDownload();
-            expect( props.installApp.mock.calls.length ).toEqual( 1 );
-        } );
-    } );
-
-    describe( 'handleOpen', () => {
-        it( 'exists', () => {
-            expect( instance.handleOpen ).toBeTruthy();
-        } );
-
-        it( 'calls openApp', () => {
-            instance.handleOpen();
-            expect( props.openApp.mock.calls.length ).toEqual( 1 );
-        } );
-    } );
-
-    describe( 'handleUninstall', () => {
-        it( 'exists', () => {
-            expect( instance.handleUninstall ).toBeTruthy();
-        } );
-
-        it( 'calls uninstallApp', () => {
-            instance.handleUninstall();
-            expect( props.uninstallApp.mock.calls.length ).toEqual( 1 );
-        } );
     } );
 
     describe( 'render', () => {

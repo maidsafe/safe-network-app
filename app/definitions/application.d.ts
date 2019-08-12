@@ -67,8 +67,9 @@ export interface App {
 
     isOpen?: boolean; // ?why...
     progress?: number;
+    isPaused?: boolean;
     isDownloadingAndInstalling?: boolean;
-    isUpdating?: boolean;
+    isDownloadingAndUpdating?: boolean;
     isUninstalling?: boolean;
 
     hasUpdate?: boolean;

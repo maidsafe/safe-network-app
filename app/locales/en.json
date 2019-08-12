@@ -7,6 +7,8 @@
     "buttons": {
         "install": "Install",
         "cancelInstall": "Cancel Install",
+        "pause": "Pause Download",
+        "resume": "Resume Download",
         "cancelUpdate": "Cancel Update",
         "uninstalling": "Uninstalling",
         "open": "Open"

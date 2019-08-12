@@ -6,18 +6,24 @@ import { logger } from '$Logger';
 import styles from './MenuItems.css';
 
 interface MenuItemsProps {
-    uninstallApp: Function;
+    unInstallApp: Function;
     openApp: Function;
-    installApp: Function;
+
+    downloadAndInstallApp: Function;
+    pauseDownload: Function;
+    cancelDownload: Function;
+    resumeDownload: Function;
+
     application: App;
+
     handleClose: Function;
 }
 
 export class MenuItems extends Component<MenuItemsProps> {
     handleDownload = () => {
-        const { application, installApp, handleClose } = this.props;
+        const { application, downloadAndInstallApp, handleClose } = this.props;
         logger.silly( 'MeatballMenu: clicked download ', application );
-        installApp( application );
+        downloadAndInstallApp( application );
         handleClose();
     };
 
@@ -29,9 +35,30 @@ export class MenuItems extends Component<MenuItemsProps> {
     };
 
     handleUninstall = () => {
-        const { application, uninstallApp, handleClose } = this.props;
+        const { application, unInstallApp, handleClose } = this.props;
         logger.silly( 'MeatballMenu: clicked uninstall: ', application );
-        uninstallApp( application );
+        unInstallApp( application );
+        handleClose();
+    };
+
+    handleCancelDownload = () => {
+        const { application, cancelDownload, handleClose } = this.props;
+        logger.silly( 'MeatballMenu: clicked cancel', application );
+        cancelDownload( application );
+        handleClose();
+    };
+
+    handleResumeDownload = () => {
+        const { application, resumeDownload, handleClose } = this.props;
+        logger.silly( 'MeatballMenu: clicked resume download', application );
+        resumeDownload( application );
+        handleClose();
+    };
+
+    handlePauseDownload = () => {
+        const { application, pauseDownload, handleClose } = this.props;
+        logger.silly( 'MeatballMenu: clicked pause download', application );
+        pauseDownload( application );
         handleClose();
     };
 
@@ -42,7 +69,7 @@ export class MenuItems extends Component<MenuItemsProps> {
             progress,
             isDownloadingAndInstalling,
             isUninstalling,
-            isUpdating,
+            isDownloadingAndUpdating,
             hasUpdate,
             isInstalled,
             installFailed

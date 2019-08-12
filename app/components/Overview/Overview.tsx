@@ -7,9 +7,12 @@ import { App, AppManagerState } from '$Definitions/application.d';
 import { ApplicationOverview } from '$Components/ApplicationOverview';
 
 interface Props {
-    uninstallApp: Function;
+    unInstallApp: Function;
     openApp: Function;
-    installApp: Function;
+    pauseDownload: Function;
+    cancelDownload: Function;
+    resumeDownload: Function;
+    downloadAndInstallApp: Function;
     appList: {
         app: App;
     };
@@ -19,15 +22,26 @@ interface Props {
 
 export class Overview extends Component<Props> {
     loadApps = () => {
-        const { appList, uninstallApp, installApp, openApp } = this.props;
+        const {
+            appList,
+            unInstallApp,
+            downloadAndInstallApp,
+            pauseDownload,
+            cancelDownload,
+            resumeDownload,
+            openApp
+        } = this.props;
         return Object.values( appList ).map( ( theApplication ) => (
             <ApplicationOverview
                 key={theApplication.name}
                 {...theApplication}
                 application={theApplication}
-                installApp={installApp}
-                uninstallApp={uninstallApp}
+                downloadAndInstallApp={downloadAndInstallApp}
+                unInstallApp={unInstallApp}
                 openApp={openApp}
+                pauseDownload={pauseDownload}
+                cancelDownload={cancelDownload}
+                resumeDownload={resumeDownload}
             />
         ) );
     };

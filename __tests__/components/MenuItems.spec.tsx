@@ -17,9 +17,9 @@ describe( 'MenuItems', () => {
 
     beforeEach( () => {
         props = {
-            uninstallApp: jest.fn(),
+            unInstallApp: jest.fn(),
             openApp: jest.fn(),
-            installApp: jest.fn(),
+            downloadAndInstallApp: jest.fn(),
             application: {
                 id: 'safe.browser',
                 name: 'SAFE Browser',
@@ -47,9 +47,9 @@ describe( 'MenuItems', () => {
     //         expect( instance.handleDownload ).toBeTruthy();
     //     } );
     //
-    //     it( 'calls installApp', () => {
+    //     it( 'calls downloadAndInstallApp', () => {
     //         instance.handleDownload();
-    //         expect( props.installApp.mock.calls.length ).toEqual( 1 );
+    //         expect( props.downloadAndInstallApp.mock.calls.length ).toEqual( 1 );
     //     } );
     // } );
     //
@@ -69,9 +69,9 @@ describe( 'MenuItems', () => {
     //         expect( instance.handleUninstall ).toBeTruthy();
     //     } );
     //
-    //     it( 'calls uninstallApp', () => {
+    //     it( 'calls unInstallApp', () => {
     //         instance.handleUninstall();
-    //         expect( props.uninstallApp.mock.calls.length ).toEqual( 1 );
+    //         expect( props.unInstallApp.mock.calls.length ).toEqual( 1 );
     //     } );
     // } );
 

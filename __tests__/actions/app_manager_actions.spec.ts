@@ -5,6 +5,7 @@ import { generateRandomString } from '$Utils/app_utils';
 describe( 'Application Manager actions', () => {
     it( 'should have types', () => {
         expect( appManager.TYPES ).toBeDefined();
+        expect( appActions.TYPES ).toBeDefined();
     } );
 
     it( 'should set applications', () => {
@@ -17,10 +18,10 @@ describe( 'Application Manager actions', () => {
             id: generateRandomString()
         };
         const expectAction = {
-            type: appManager.TYPES.CANCEL_APP_DOWNLOAD_AND_INSTALLATION,
+            type: appActions.TYPES.CANCEL_APP_DOWNLOAD_AND_INSTALLATION,
             payload
         };
-        expect( appManager.cancelAppDownloadAndInstallation( payload ) ).toEqual(
+        expect( appActions.cancelAppDownloadAndInstallation( payload ) ).toEqual(
             expectAction
         );
     } );
@@ -30,10 +31,10 @@ describe( 'Application Manager actions', () => {
             id: generateRandomString()
         };
         const expectAction = {
-            type: appManager.TYPES.PAUSE_APP_DOWNLOAD_AND_INSTALLATION,
+            type: appActions.TYPES.PAUSE_APP_DOWNLOAD_AND_INSTALLATION,
             payload
         };
-        expect( appManager.pauseAppDownloadAndInstallation( payload ) ).toEqual(
+        expect( appActions.pauseAppDownloadAndInstallation( payload ) ).toEqual(
             expectAction
         );
     } );
@@ -43,10 +44,10 @@ describe( 'Application Manager actions', () => {
             id: generateRandomString()
         };
         const expectAction = {
-            type: appManager.TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
+            type: appActions.TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
             payload
         };
-        expect( appManager.retryAppDownloadAndInstallation( payload ) ).toEqual(
+        expect( appActions.retryAppDownloadAndInstallation( payload ) ).toEqual(
             expectAction
         );
     } );

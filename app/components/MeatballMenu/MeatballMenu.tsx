@@ -8,9 +8,12 @@ import styles from './MeatballMenu.css';
 import { App } from '$Definitions/application.d';
 
 interface MeatballMenuProps {
-    uninstallApp: Function;
+    unInstallApp: Function;
     openApp: Function;
-    installApp: Function;
+    downloadAndInstallApp: Function;
+    pauseDownload: Function;
+    cancelDownload: Function;
+    resumeDownload: Function;
     application: App;
 }
 

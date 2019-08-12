@@ -1,24 +1,11 @@
 import { createActions } from 'redux-actions';
 
 export const TYPES = {
-    CANCEL_APP_DOWNLOAD_AND_INSTALLATION:
-        'CANCEL_APP_DOWNLOAD_AND_INSTALLATION',
-    PAUSE_APP_DOWNLOAD_AND_INSTALLATION: 'PAUSE_APP_DOWNLOAD_AND_INSTALLATION',
-    RETRY_APP_DOWNLOAD_AND_INSTALLATION: 'RETRY_APP_DOWNLOAD_AND_INSTALLATION',
     RESET_APP_STATE: 'RESET_APP_STATE',
     SET_APPS: 'SET_APPS'
 };
 
-export const {
-    cancelAppDownloadAndInstallation,
-    pauseAppDownloadAndInstallation,
-    retryAppDownloadAndInstallation,
-    resetAppState,
-    setApps
-} = createActions(
-    TYPES.CANCEL_APP_DOWNLOAD_AND_INSTALLATION,
-    TYPES.PAUSE_APP_DOWNLOAD_AND_INSTALLATION,
-    TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
+export const { resetAppState, setApps } = createActions(
     TYPES.RESET_APP_STATE,
     TYPES.SET_APPS
 );

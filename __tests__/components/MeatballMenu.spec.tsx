@@ -16,9 +16,9 @@ describe( 'MeatballMenu', () => {
 
     beforeEach( () => {
         props = {
-            uninstallApp: jest.fn(),
+            unInstallApp: jest.fn(),
             openApp: jest.fn(),
-            installApp: jest.fn(),
+            downloadAndInstallApp: jest.fn(),
             application: {
                 id: 'safe.browser',
                 name: 'SAFE Browser',

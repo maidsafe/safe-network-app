@@ -272,7 +272,7 @@ export const notificationTypes = {
             otherProperties
         );
     },
-    UNINSTALL_APP_ALERT: ( appId, appName ) => {
+    UNDOWNLOAD_AND_INSTALL_APP_ALERT: ( appId, appName ) => {
         const title = I18n.t( 'notifications.title.uninstall_app', { appName } );
         const message = I18n.t( 'notifications.message.uninstall_app', {
             appName

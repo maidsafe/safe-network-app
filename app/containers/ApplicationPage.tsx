@@ -2,13 +2,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { ApplicationDetail } from '$Components/ApplicationDetail';
 
-import { updateInstallProgress } from '$Actions/application_actions';
+import { updateDownloadProgress } from '$Actions/application_actions';
 import {
-    installApp,
+    downloadAndInstallApp,
+    pauseDownload,
+    cancelDownload,
+    resumeDownload,
     openApp,
-    uninstallApp,
-    fetchTheApplicationList,
-    fetchUpdateInfo
+    unInstallApp,
+    fetchTheApplicationList
 } from '$Actions/alias/app_manager_actions';
 import { triggerSetAsTrayWindow } from '$Actions/alias/launchpad_actions';
 import { AppState } from '../definitions/application.d';
@@ -23,14 +25,19 @@ function mapStateToProperties( state: AppState ) {
 function mapDispatchToProperties( dispatch ) {
     // until we have a reducer to add here.
     const actions = {
-        installApp,
+        downloadAndInstallApp,
         openApp,
-        uninstallApp,
+        unInstallApp,
 
-        updateInstallProgress,
+        // TODO: update overview menu with these new wonderful options.
+        // TRY THEM OUT
+        pauseDownload,
+        cancelDownload,
+        resumeDownload,
+
+        updateDownloadProgress,
 
         fetchTheApplicationList,
-        fetchUpdateInfo,
 
         triggerSetAsTrayWindow
     };

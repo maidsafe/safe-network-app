@@ -12,7 +12,7 @@ import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 import { INSTALL_TARGET_DIR } from '$Constants/installConstants';
 
-export const uninstallApplication = async ( application: App ): Promise<void> => {
+export const unInstallApplication = async ( application: App ): Promise<void> => {
     // TODO, check app exists first.
     logger.info( 'Starting uninstall of', application.name );
 

@@ -15,40 +15,16 @@ interface Props {
         };
     };
     appList: {};
-    uninstallApp: Function;
+    unInstallApp: Function;
     openApp: Function;
-    fetchUpdateInfo: Function;
-    installApp: Function;
+    pauseDownload: Function;
+    cancelDownload: Function;
+    resumeDownload: Function;
+    downloadAndInstallApp: Function;
     application: App;
 }
 
-export class ApplicationDetail extends React.Component<Props> {
-    componentDidMount() {
-        const { appList, match, fetchUpdateInfo } = this.props;
-        const applicationId = match.params.id;
-        const application = appList[applicationId];
-
-        fetchUpdateInfo( application );
-    }
-
-    handleDownload = () => {
-        const { application, installApp } = this.props;
-        logger.silly( 'ApplicationDetail: clicked download ', application );
-        installApp( application );
-    };
-
-    handleOpen = () => {
-        const { application, openApp } = this.props;
-        logger.silly( 'ApplicationDetail: clicked open', application );
-        openApp( application );
-    };
-
-    handleUninstall = () => {
-        const { application, uninstallApp } = this.props;
-        logger.silly( 'ApplicationDetail: clicked uninstall', application );
-        uninstallApp( application );
-    };
-
+export class ApplicationDetail extends React.PureComponent<Props> {
     render() {
         const { match } = this.props;
         const { appList } = this.props;

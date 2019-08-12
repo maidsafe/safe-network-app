@@ -13,15 +13,15 @@ describe( 'Alias application Manager actions', () => {
     } );
 
     it( 'should install application', () => {
-        expect( appManager.installApp ).toBeDefined();
-        expect( appManager.installApp().meta.trigger ).toEqual(
-            appManager.TYPES.ALIAS_INSTALL_APP
+        expect( appManager.downloadAndInstallApp ).toBeDefined();
+        expect( appManager.downloadAndInstallApp().meta.trigger ).toEqual(
+            appManager.TYPES.ALIAS_DOWNLOAD_AND_INSTALL_APP
         );
     } );
 
     it( 'should uninstall application', () => {
-        expect( appManager.uninstallApp ).toBeDefined();
-        expect( appManager.uninstallApp().meta.trigger ).toEqual(
+        expect( appManager.unInstallApp ).toBeDefined();
+        expect( appManager.unInstallApp().meta.trigger ).toEqual(
             appManager.TYPES.ALIAS_UNINSTALL_APP
         );
     } );

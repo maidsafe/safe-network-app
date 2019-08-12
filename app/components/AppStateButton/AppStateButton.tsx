@@ -5,51 +5,56 @@ import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 
 interface Props {
-    uninstallApp: Function;
+    unInstallApp: Function;
     openApp: Function;
-    installApp: Function;
+    downloadAndInstallApp: Function;
+    pauseDownload: Function;
+    cancelDownload: Function;
+    resumeDownload: Function;
     application: App;
 }
 
 export class AppStateButton extends React.Component<Props> {
     handleDownload = () => {
-        const { application, installApp } = this.props;
-        logger.silly(
-            'ApplicationOverview: clicked download ',
-            application.name
-        );
-        installApp( application );
+        const { application, downloadAndInstallApp } = this.props;
+        logger.warn( 'ApplicationOverview: clicked download ', application.name );
+        downloadAndInstallApp( application );
     };
 
     handleOpen = () => {
         const { application, openApp } = this.props;
-        logger.silly( 'ApplicationOverview: clicked open', application );
+        logger.warn( 'ApplicationOverview: clicked open', application );
         openApp( application );
     };
 
     handleUninstall = () => {
-        const { application, uninstallApp } = this.props;
-        logger.silly( 'ApplicationOverview: clicked uninstall', application );
-        uninstallApp( application );
+        const { application, unInstallApp } = this.props;
+        logger.warn( 'ApplicationOverview: clicked uninstall', application );
+        unInstallApp( application );
     };
 
-    handleClick = () => {
-        const { application } = this.props;
-        logger.silly( 'Choosing appropriate app action...' );
+    handleCancelDownload = () => {
+        const { application, cancelDownload } = this.props;
+        logger.warn( 'ApplicationOverview: clicked cancel', application );
+        cancelDownload( application );
+    };
 
-        const {
-            isDownloadingAndInstalling,
-            isInstalled,
-            isOpen, // ?
-            isUpdating, // does this entail installing?
-            isUninstalling,
-            hasUpdate,
-            installFailed
-        } = application;
+    handleResumeDownload = () => {
+        const { application, resumeDownload } = this.props;
+        logger.warn(
+            'ApplicationOverview: clicked resume download',
+            application
+        );
+        resumeDownload( application );
+    };
 
-        if ( !isInstalled ) this.handleDownload();
-
-        if ( isInstalled ) this.handleOpen();
+    handlePauseDownload = () => {
+        const { application, pauseDownload } = this.props;
+        logger.silly(
+            'ApplicationOverview: clicked pause download',
+            application
+        );
+        pauseDownload( application );
     };
 
     render() {
@@ -59,8 +64,9 @@ export class AppStateButton extends React.Component<Props> {
             isDownloadingAndInstalling,
             isInstalled,
             isOpen, // ?
-            isUpdating, // does this entail installing?
+            isDownloadingAndUpdating, // does this entail installing?
             isUninstalling,
+            isPaused,
             hasUpdate,
             installFailed
         } = application;
@@ -68,26 +74,58 @@ export class AppStateButton extends React.Component<Props> {
         let buttonText = isInstalled
             ? I18n.t( `buttons.open` )
             : I18n.t( `buttons.install` );
+        let secondButtonText = I18n.t( `buttons.cancelInstall` );
+        let showSecondButton =
+            isDownloadingAndInstalling || isDownloadingAndUpdating;
+
+        let handleClick = isInstalled ? this.handleOpen : this.handleDownload;
+        let handleSecondButtonClick = () => {}; // otherwise nothing
 
         if ( isDownloadingAndInstalling ) {
-            buttonText = I18n.t( `buttons.cancelInstall` );
+            buttonText = I18n.t( `buttons.pause` );
+            secondButtonText = I18n.t( `buttons.cancelInstall` );
+
+            handleClick = this.handlePauseDownload;
+            handleSecondButtonClick = this.handleCancelDownload;
         }
 
-        if ( isUpdating ) {
-            buttonText = I18n.t( `buttons.cancelUpdate` );
+        if ( isDownloadingAndUpdating ) {
+            buttonText = I18n.t( `buttons.pause` );
+            secondButtonText = I18n.t( `buttons.cancelUpdate` );
+
+            handleClick = this.handlePauseDownload;
+            handleSecondButtonClick = this.handleCancelDownload;
+        }
+
+        if ( isPaused ) {
+            buttonText = I18n.t( `buttons.resume` );
+            secondButtonText = I18n.t( `buttons.cancelInstall` );
+            handleClick = this.handleResumeDownload;
+            handleSecondButtonClick = this.handleCancelDownload;
         }
 
         if ( isUninstalling ) {
             buttonText = I18n.t( `buttons.uninstalling` );
+            showSecondButton = false;
         }
 
         return (
-            <Button
-                onClick={this.handleClick}
-                aria-label="Application Action Button"
-            >
-                {buttonText}
-            </Button>
+            <React.Fragment>
+                <Button
+                    onClick={handleClick}
+                    aria-label="Application Action Button"
+                >
+                    {buttonText}
+                </Button>
+                {showSecondButton && (
+                    <Button
+                        onClick={handleSecondButtonClick}
+                        aria-label="Application Secondary Action Button"
+                    >
+                        {secondButtonText}
+                    </Button>
+                )}
+            </React.Fragment>
         );
     }
 }

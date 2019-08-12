@@ -4,11 +4,16 @@ import { download } from 'electron-dl';
 import { spawnSync } from 'child_process';
 import del from 'del';
 import path from 'path';
-import { updateInstallProgress } from '$Actions/application_actions';
+import {
+    cancelAppDownloadAndInstallation,
+    pauseAppDownloadAndInstallation,
+    retryAppDownloadAndInstallation,
+    updateDownloadProgress
+} from '$Actions/application_actions';
 import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
 
 import { silentInstall } from '$App/manageInstallations/installers';
-import { uninstallApplication } from '$App/manageInstallations/uninstall';
+import { unInstallApplication } from '$App/manageInstallations/uninstall';
 
 import { logger } from '$Logger';
 
@@ -20,10 +25,68 @@ import {
 
 const currentDownloads = {};
 
+const pauseDownload = ( store: Store, application: App ) => {
+    logger.info( 'Pausing download...' );
+    if ( !application.id ) {
+        throw new Error(
+            `No pending download found for application,  ${application.name}`
+        );
+    }
+
+    const theCurrentDl: DownloadItem = currentDownloads[application.id];
+    if ( theCurrentDl && !theCurrentDl.isPaused() ) {
+        theCurrentDl.pause();
+    }
+
+    store.dispatch( pauseAppDownloadAndInstallation( application ) );
+};
+
+const resumeDownload = ( store: Store, application: App ) => {
+    logger.info( 'Resuming download' );
+    if ( !application.id ) {
+        throw new Error(
+            `No pending download found for application,  ${application.name}`
+        );
+    }
+
+    const theCurrentDl: DownloadItem = currentDownloads[application.id];
+
+    if ( theCurrentDl && theCurrentDl.canResume() ) {
+        theCurrentDl.resume();
+    } else {
+        // TODO throw some notificaiton
+        theCurrentDl.cancel();
+        store.dispatch( cancelAppDownloadAndInstallation( application ) );
+    }
+};
+
+const cancelDownload = ( store: Store, application: App ) => {
+    logger.info( 'Cancelling download' );
+    if ( !application.id ) {
+        throw new Error(
+            `No pending download found for application,  ${application.name}`
+        );
+    }
+
+    const theCurrentDl: DownloadItem = currentDownloads[application.id];
+
+    if ( theCurrentDl ) {
+        theCurrentDl.cancel();
+    }
+
+    store.dispatch( cancelAppDownloadAndInstallation( application ) );
+};
+
 const getDowloadUrlForApplication = ( application: App ): string => {
     // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/tag/v0.1.0
     // TODO ensure name conformity with download, or if different, note how.
     // TODO: perhaps use github API here...
+
+    // should be:
+    // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/download/v0.1.0/ElectronTypescriptBoiler-0.1.0.dmg
+    // https://github.com/maidsafe/safe_browser/releases/download/v0.14.1/safe-browser-v0.14.1-linux-x64-dev.zip
+
+    // we have: https://github.com/maidsafe/safe_browser/releases/download/v0.1.0/safe-browser-0.1.0.dmg
     const version = application.latestVersion;
     const baseUrl = `https://github.com/${application.repositoryOwner}/${
         application.repositorySlug
@@ -72,7 +135,7 @@ const downloadAndInstall = async (
         );
 
         store.dispatch(
-            updateInstallProgress( {
+            updateDownloadProgress( {
                 ...application,
                 progress: 1
             } )
@@ -87,18 +150,32 @@ const downloadAndInstall = async (
 
     const downloaderOptions = {
         directory: DOWNLOAD_TARGET_DIR,
+        errorTitle: `Error Downloading ${application.name}`,
         // filename,
         onStarted: ( downloadingFile: DownloadItem ) => {
             logger.info( 'Started downloading ', application.name );
 
             theDownload = downloadingFile;
 
+            // save for later
+            currentDownloads[application.id] = theDownload;
+
             theDownload.on( 'done', ( event, state ) => {
                 if ( state !== 'completed' ) {
-                    logger.info(
-                        'Download done but not finished. Downlaod state:',
+                    logger.error(
+                        'Download done but not finished. Download state:',
                         state
                     );
+
+                    store.dispatch(
+                        cancelAppDownloadAndInstallation( application )
+                    );
+
+                    if ( currentDownloads[application.id] ) {
+                        // remove tracked download item
+                        delete currentDownloads[application.id];
+                    }
+
                     return;
                 }
 
@@ -107,11 +184,15 @@ const downloadAndInstall = async (
                 const downloadLocation = theDownload.getSavePath();
 
                 silentInstall( store, application );
+
+                // remove tracked download item
+                delete currentDownloads[application.id];
             } );
         },
         onProgress: ( progress ) => {
+            logger.silly( 'progress....', progress );
             store.dispatch(
-                updateInstallProgress( {
+                updateDownloadProgress( {
                     ...application,
                     progress
                 } )
@@ -129,13 +210,24 @@ const downloadAndInstall = async (
 
 export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
     console.log( 'Setting up IPC to manage downloads' );
-    // setup event
+
     ipcMain.on( 'initiateDownload', ( event, application: App ) =>
         downloadAndInstall( store, targetWindow, application )
     );
 
-    // TODO: Specify full app / type
-    ipcMain.on( 'uninstallApplication', ( event, application: App ) =>
-        uninstallApplication( application )
+    ipcMain.on( 'pauseDownload', ( event, application: App ) =>
+        pauseDownload( store, application )
+    );
+
+    ipcMain.on( 'resumeDownload', ( event, application: App ) =>
+        resumeDownload( store, application )
+    );
+
+    ipcMain.on( 'cancelDownload', ( event, application: App ) =>
+        cancelDownload( store, application )
+    );
+
+    ipcMain.on( 'unInstallApplication', ( event, application: App ) =>
+        unInstallApplication( application )
     );
 }
