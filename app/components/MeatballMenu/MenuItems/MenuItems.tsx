@@ -40,10 +40,9 @@ export class MenuItems extends Component<MenuItemsProps> {
             name,
             id,
             progress,
-            isInstalling,
+            isDownloadingAndInstalling,
             isUninstalling,
             isUpdating,
-            isDownloading,
             hasUpdate,
             isInstalled,
             installFailed
@@ -89,7 +88,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                         </MenuItem>
                     </React.Fragment>
                 )}
-                {isDownloading && (
+                {isDownloadingAndInstalling && (
                     <React.Fragment>
                         <MenuItem dense className={styles['menu-item']}>
                             Cancel Install
@@ -98,11 +97,6 @@ export class MenuItems extends Component<MenuItemsProps> {
                             Pause Download
                         </MenuItem>
                     </React.Fragment>
-                )}
-                {isInstalling && (
-                    <MenuItem dense className={styles['menu-item']}>
-                        Cancel Install
-                    </MenuItem>
                 )}
                 {installFailed && (
                     <MenuItem dense className={styles['menu-item']}>

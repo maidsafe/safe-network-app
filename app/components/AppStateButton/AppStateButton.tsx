@@ -38,9 +38,8 @@ export class AppStateButton extends React.Component<Props> {
         logger.silly( 'Choosing appropriate app action...' );
 
         const {
-            isInstalling,
+            isDownloadingAndInstalling,
             isInstalled,
-            isDownloading, // same as isInstalling
             isOpen, // ?
             isUpdating, // does this entail installing?
             isUninstalling,
@@ -57,9 +56,8 @@ export class AppStateButton extends React.Component<Props> {
         const { application } = this.props;
 
         const {
-            isInstalling,
+            isDownloadingAndInstalling,
             isInstalled,
-            isDownloading, // same as isInstalling
             isOpen, // ?
             isUpdating, // does this entail installing?
             isUninstalling,
@@ -71,7 +69,7 @@ export class AppStateButton extends React.Component<Props> {
             ? I18n.t( `buttons.open` )
             : I18n.t( `buttons.install` );
 
-        if ( isInstalling ) {
+        if ( isDownloadingAndInstalling ) {
             buttonText = I18n.t( `buttons.cancelInstall` );
         }
 

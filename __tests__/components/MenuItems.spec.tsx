@@ -106,7 +106,7 @@ describe( 'MenuItems', () => {
         it( '"Cancel Install" and "Pause Download" menu options, when application is downloading', () => {
             const applicationProperties = {
                 ...props.application,
-                isDownloading: true
+                isDownloadingAndInstalling: true
             };
             const properties = {
                 ...props,
@@ -125,7 +125,7 @@ describe( 'MenuItems', () => {
         it( '"Cancel Install" menu option, when application is installing', () => {
             const applicationProperties = {
                 ...props.application,
-                isInstalling: true
+                isDownloadingAndInstalling: true
             };
             const properties = {
                 ...props,

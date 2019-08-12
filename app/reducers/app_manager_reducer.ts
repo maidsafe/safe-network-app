@@ -69,7 +69,7 @@ export function appManager( state = initialState, action ): AppManagerState {
 
         case TYPES.RESET_APP_STATE: {
             if ( !targetApp ) return state;
-            targetApp.isInstalling = false;
+            targetApp.isDownloadingAndInstalling = false;
             targetApp.isUninstalling = false;
             targetApp.isUpdating = false;
             targetApp.progress = null;
@@ -78,24 +78,25 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         // INSTALL
-        case TYPES.CANCEL_APP_INSTALLATION: {
-            if ( !targetApp || !targetApp.isInstalling ) return state;
-            targetApp.isInstalling = false;
-            targetApp.isDownloading = false;
+        case TYPES.CANCEL_APP_DOWNLOAD_AND_INSTALLATION: {
+            if ( !targetApp || !targetApp.isDownloadingAndInstalling )
+                return state;
+            targetApp.isDownloadingAndInstalling = false;
             targetApp.progress = 0;
             return updateAppInApplicationList( state, targetApp );
         }
 
-        case TYPES.PAUSE_APP_INSTALLATION: {
-            if ( !targetApp || !targetApp.isInstalling ) return state;
-            targetApp.isInstalling = false;
+        case TYPES.PAUSE_APP_DOWNLOAD_AND_INSTALLATION: {
+            if ( !targetApp || !targetApp.isDownloadingAndInstalling )
+                return state;
+            targetApp.isDownloadingAndInstalling = false;
             return updateAppInApplicationList( state, targetApp );
         }
 
-        case TYPES.RETRY_APP_INSTALLATION: {
-            if ( !targetApp || targetApp.isInstalling ) return state;
-            targetApp.isInstalling = true;
-            targetApp.isDownloading = true;
+        case TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION: {
+            if ( !targetApp || targetApp.isDownloadingAndInstalling )
+                return state;
+            targetApp.isDownloadingAndInstalling = true;
 
             return updateAppInApplicationList( state, targetApp );
         }
@@ -103,32 +104,30 @@ export function appManager( state = initialState, action ): AppManagerState {
         case APP_TYPES.INSTALL_APP_PENDING: {
             logger.info( 'Pending in the state....' );
             if ( !targetApp ) return state;
-            targetApp.isInstalling = true;
-            // these things are 99% the same....... kets do away with one?
-            targetApp.isDownloading = true;
+            targetApp.isDownloadingAndInstalling = true;
             targetApp.progress = payload.progress || 0;
             return updateAppInApplicationList( state, targetApp );
         }
 
         case APP_TYPES.INSTALL_APP_SUCCESS: {
-            if ( !targetApp || !targetApp.isInstalling ) return state;
+            if ( !targetApp || !targetApp.isDownloadingAndInstalling )
+                return state;
 
             // TODO: this data needs to be saved to local.
-            targetApp.isInstalling = false;
+            targetApp.isDownloadingAndInstalling = false;
             targetApp.isInstalled = true;
             targetApp.progress = 100;
-            targetApp.isDownloading = false;
 
             return updateAppInApplicationList( state, targetApp );
         }
 
         case APP_TYPES.INSTALL_APP_FAILURE: {
-            if ( !targetApp || !targetApp.isInstalling ) return state;
-            targetApp.isInstalling = false;
+            if ( !targetApp || !targetApp.isDownloadingAndInstalling )
+                return state;
+            targetApp.isDownloadingAndInstalling = false;
             targetApp.installFailed = true;
             targetApp.progress = 0;
             targetApp.error = payload.error;
-            targetApp.isDownloading = false;
 
             return updateAppInApplicationList( state, targetApp );
         }

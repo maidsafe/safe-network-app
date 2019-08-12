@@ -17,10 +17,12 @@ describe( 'Application Manager actions', () => {
             id: generateRandomString()
         };
         const expectAction = {
-            type: appManager.TYPES.CANCEL_APP_INSTALLATION,
+            type: appManager.TYPES.CANCEL_APP_DOWNLOAD_AND_INSTALLATION,
             payload
         };
-        expect( appManager.cancelAppInstallation( payload ) ).toEqual( expectAction );
+        expect( appManager.cancelAppDownloadAndInstallation( payload ) ).toEqual(
+            expectAction
+        );
     } );
 
     it( 'should pause application installation', () => {
@@ -28,10 +30,12 @@ describe( 'Application Manager actions', () => {
             id: generateRandomString()
         };
         const expectAction = {
-            type: appManager.TYPES.PAUSE_APP_INSTALLATION,
+            type: appManager.TYPES.PAUSE_APP_DOWNLOAD_AND_INSTALLATION,
             payload
         };
-        expect( appManager.pauseAppInstallation( payload ) ).toEqual( expectAction );
+        expect( appManager.pauseAppDownloadAndInstallation( payload ) ).toEqual(
+            expectAction
+        );
     } );
 
     it( 'should retry application installation', () => {
@@ -39,10 +43,12 @@ describe( 'Application Manager actions', () => {
             id: generateRandomString()
         };
         const expectAction = {
-            type: appManager.TYPES.RETRY_APP_INSTALLATION,
+            type: appManager.TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
             payload
         };
-        expect( appManager.retryAppInstallation( payload ) ).toEqual( expectAction );
+        expect( appManager.retryAppDownloadAndInstallation( payload ) ).toEqual(
+            expectAction
+        );
     } );
 
     it( 'should reset application store', () => {

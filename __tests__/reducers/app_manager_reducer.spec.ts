@@ -24,7 +24,7 @@ const getApp = (): App => ( {
     repositoryOwner: 'joshuef',
     repositorySlug: 'safe_browser',
     latestVersion: '0.1.0',
-    isInstalling: false,
+    isDownloadingAndInstalling: false,
     isUpdating: false,
     isUninstalling: false,
     isOpen: false,
@@ -136,7 +136,9 @@ describe( 'app manager reducer', () => {
             expect( nextStore.applicationList[id].name ).toEqual(
                 store.applicationList[id].name
             );
-            expect( nextStore.applicationList[id].isInstalling ).toBeTruthy();
+            expect(
+                nextStore.applicationList[id].isDownloadingAndInstalling
+            ).toBeTruthy();
             expect( nextStore.applicationList[id].isUninstalling ).toBeFalsy();
             expect( nextStore.applicationList[id].isUpdating ).toBeFalsy();
             expect( nextStore.applicationList[otherAppId] ).toEqual(
@@ -196,7 +198,9 @@ describe( 'app manager reducer', () => {
             expect( nextStore.applicationList[id].name ).toEqual(
                 store.applicationList[id].name
             );
-            expect( nextStore.applicationList[id].isInstalling ).toBeFalsy();
+            expect(
+                nextStore.applicationList[id].isDownloadingAndInstalling
+            ).toBeFalsy();
             expect( nextStore.applicationList[id].isUninstalling ).toBeTruthy();
             expect( nextStore.applicationList[id].isUpdating ).toBeTruthy();
             expect( nextStore.applicationList[id].progress ).toEqual( 100 );
@@ -240,7 +244,9 @@ describe( 'app manager reducer', () => {
                     error: installationError
                 }
             } );
-            expect( nextStore.applicationList[id].isInstalling ).toBeFalsy();
+            expect(
+                nextStore.applicationList[id].isDownloadingAndInstalling
+            ).toBeFalsy();
             expect( nextStore.applicationList[id].progress ).toEqual( 0 );
             expect( nextStore.applicationList[id].error ).not.toBeNull();
             expect( nextStore.applicationList[otherAppId] ).toEqual(
@@ -268,12 +274,12 @@ describe( 'app manager reducer', () => {
         } );
     } );
 
-    describe( 'CANCEL_APP_INSTALLATION', () => {
+    describe( 'CANCEL_APP_DOWNLOAD_AND_INSTALLATION', () => {
         it( 'Should cancel app installation', () => {
             const app = getApp();
             const otherApp = getApp();
             const { id } = app;
-            app.isInstalling = true;
+            app.isDownloadingAndInstalling = true;
             const store = {
                 applicationList: {
                     [id]: { ...app },
@@ -281,7 +287,7 @@ describe( 'app manager reducer', () => {
                 }
             };
             const nextStore = appManager( store, {
-                type: TYPES.CANCEL_APP_INSTALLATION,
+                type: TYPES.CANCEL_APP_DOWNLOAD_AND_INSTALLATION,
                 payload: {
                     id
                 }
@@ -289,7 +295,9 @@ describe( 'app manager reducer', () => {
             expect( nextStore.applicationList[id].name ).toEqual(
                 store.applicationList[id].name
             );
-            expect( nextStore.applicationList[id].isInstalling ).toBeFalsy();
+            expect(
+                nextStore.applicationList[id].isDownloadingAndInstalling
+            ).toBeFalsy();
             expect( nextStore.applicationList[id].progress ).toEqual( 0 );
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
@@ -298,7 +306,7 @@ describe( 'app manager reducer', () => {
 
         it( "Should return previous store if couldn't find app on app install cancellation", () => {
             const app = getApp();
-            app.isInstalling = true;
+            app.isDownloadingAndInstalling = true;
             const { id } = app;
             const store = {
                 applicationList: {
@@ -307,7 +315,7 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: TYPES.CANCEL_APP_INSTALLATION,
+                    type: TYPES.CANCEL_APP_DOWNLOAD_AND_INSTALLATION,
                     payload: {}
                 } )
             ).toEqual( store );
@@ -324,21 +332,21 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: TYPES.CANCEL_APP_INSTALLATION,
+                    type: TYPES.CANCEL_APP_DOWNLOAD_AND_INSTALLATION,
                     payload: {
                         id
                     }
-                } ).applicationList[id].isInstalling
+                } ).applicationList[id].isDownloadingAndInstalling
             ).toBeFalsy();
         } );
     } );
 
-    describe( 'PAUSE_APP_INSTALLATION', () => {
+    describe( 'PAUSE_APP_DOWNLOAD_AND_INSTALLATION', () => {
         it( 'Should pause app installation', () => {
             const progress = 76;
             const app = getApp();
             const otherApp = getApp();
-            app.isInstalling = true;
+            app.isDownloadingAndInstalling = true;
             app.progress = progress;
             const { id } = app;
             const store = {
@@ -348,13 +356,15 @@ describe( 'app manager reducer', () => {
                 }
             };
             const nextStore = appManager( store, {
-                type: TYPES.PAUSE_APP_INSTALLATION,
+                type: TYPES.PAUSE_APP_DOWNLOAD_AND_INSTALLATION,
                 payload: {
                     id
                 }
             } );
 
-            expect( nextStore.applicationList[id].isInstalling ).toBeFalsy();
+            expect(
+                nextStore.applicationList[id].isDownloadingAndInstalling
+            ).toBeFalsy();
             expect( nextStore.applicationList[id].progress ).toEqual( progress );
             expect( nextStore.applicationList[id] ).not.toEqual(
                 store.applicationList[id]
@@ -367,7 +377,7 @@ describe( 'app manager reducer', () => {
         it( "Should return previous store if couldn't find app on pausing app install", () => {
             const progress = 76;
             const app = getApp();
-            app.isInstalling = true;
+            app.isDownloadingAndInstalling = true;
             app.progress = progress;
             const { id } = app;
             const store = {
@@ -377,7 +387,7 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: TYPES.PAUSE_APP_INSTALLATION,
+                    type: TYPES.PAUSE_APP_DOWNLOAD_AND_INSTALLATION,
                     payload: {}
                 } )
             ).toEqual( store );
@@ -394,16 +404,16 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: TYPES.PAUSE_APP_INSTALLATION,
+                    type: TYPES.PAUSE_APP_DOWNLOAD_AND_INSTALLATION,
                     payload: {
                         id
                     }
-                } ).applicationList[id].isInstalling
+                } ).applicationList[id].isDownloadingAndInstalling
             ).toBeFalsy();
         } );
     } );
 
-    describe( 'RETRY_APP_INSTALLATION', () => {
+    describe( 'RETRY_APP_DOWNLOAD_AND_INSTALLATION', () => {
         it( 'Should retry app installation', () => {
             const progress = 76;
             const app = getApp();
@@ -417,7 +427,7 @@ describe( 'app manager reducer', () => {
                 }
             };
             const nextStore = appManager( store, {
-                type: TYPES.RETRY_APP_INSTALLATION,
+                type: TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
                 payload: {
                     id
                 }
@@ -425,7 +435,9 @@ describe( 'app manager reducer', () => {
             expect( nextStore.applicationList[id].name ).toEqual(
                 store.applicationList[id].name
             );
-            expect( nextStore.applicationList[id].isInstalling ).toBeTruthy();
+            expect(
+                nextStore.applicationList[id].isDownloadingAndInstalling
+            ).toBeTruthy();
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
             );
@@ -442,7 +454,7 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: TYPES.RETRY_APP_INSTALLATION,
+                    type: TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
                     payload: {}
                 } )
             ).toEqual( store );
@@ -450,7 +462,7 @@ describe( 'app manager reducer', () => {
         it( 'Should return previous store if app already in installation', () => {
             const progress = 76;
             const app = getApp();
-            app.isInstalling = true;
+            app.isDownloadingAndInstalling = true;
             app.progress = progress;
             const { id } = app;
             const store = {
@@ -460,11 +472,11 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: TYPES.RETRY_APP_INSTALLATION,
+                    type: TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
                     payload: {
                         id
                     }
-                } ).applicationList[id].isInstalling
+                } ).applicationList[id].isDownloadingAndInstalling
             ).toBeTruthy();
         } );
     } );
@@ -765,8 +777,8 @@ describe( 'app manager reducer', () => {
             const otherApp = getApp();
             const { id } = app;
             app.isUpdating = true;
-            app.isInstalling = true;
-            otherApp.isInstalling = true;
+            app.isDownloadingAndInstalling = true;
+            otherApp.isDownloadingAndInstalling = true;
             app.isUninstalling = true;
             app.progress = 89;
             otherApp.progress = 20;
@@ -787,7 +799,9 @@ describe( 'app manager reducer', () => {
             expect( nextStore.applicationList[id].name ).toEqual(
                 store.applicationList[id].name
             );
-            expect( nextStore.applicationList[id].isInstalling ).toBeFalsy();
+            expect(
+                nextStore.applicationList[id].isDownloadingAndInstalling
+            ).toBeFalsy();
             expect( nextStore.applicationList[id].isUninstalling ).toBeFalsy();
             expect( nextStore.applicationList[id].isUpdating ).toBeFalsy();
             expect( nextStore.applicationList[id].error ).toEqual( null );
