@@ -2,12 +2,13 @@
 
 Desktop app for managing the your SAFE Network applications.
 
-|Linux/OS X|Windows|Issues|Lines of Code|
-|:--------:|:-----:|:----:|:----:|
-|[![Build Status](https://travis-ci.com/maidsafe/safe_launchpad_app.svg?branch=master)](https://travis-ci.com/maidsafe/safe_launchpad_app)|||[![LoC](https://tokei.rs/b1/github/maidsafe/safe_client_libs)](https://github.com/maidsafe/safe_client_libs)|
+|                                                                Linux/OS X                                                                 | Windows | Issues |                                                  Lines of Code                                                   |
+| :---------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :----: | :--------------------------------------------------------------------------------------------------------------: |
+| [![Build Status](https://travis-ci.com/maidsafe/safe_launchpad_app.svg?branch=master)](https://travis-ci.com/maidsafe/safe_launchpad_app) |         |        | [![LoC](https://tokei.rs/b1/github/maidsafe/safe_launchpad_app)](https://github.com/maidsafe/safe_launchpad_app) |
 
 | [MaidSafe website](https://maidsafe.net) | [SAFE Dev Forum](https://forum.safedev.org) | [SAFE Network Forum](https://safenetforum.org) |
-|:----------------------------------------:|:-------------------------------------------:|:----------------------------------------------:|
+| :--------------------------------------: | :-----------------------------------------: | :--------------------------------------------: |
+
 
 ## Building
 
