@@ -33,20 +33,20 @@
     "notifications": {
         "title": {
             "disc_full": "Disk is full. Your install has been paused. Free up some space and resume.",
-            "admin_pass_req": "Your Administrator Password is required to finish installing %{appName}.",
-            "close_app": "Close %{appName} to complete installation",
-            "restart_system": "Restart your computer to finish installing %{appName}",
-            "server_timeout": "Download Server has timed out. Installation of %{appName} has been paused.",
+            "admin_pass_req": "Your Administrator Password is required to finish installing %{name}.",
+            "close_app": "Close %{name} to complete installation",
+            "restart_system": "Restart your computer to finish installing %{name}",
+            "server_timeout": "Download Server has timed out. Installation of %{name} has been paused.",
             "no_internet": "No Internet connection. Your install has been paused.",
             "global_failure": "Global Failure",
-            "update_available": "Update Available! %{appName} %{version} is ready to install. What’s New…",
+            "update_available": "Update Available! %{name} %{version} is ready to install. What’s New…",
             "clearnet_warning": "Opening webpage in Clearnet"
         },
         "message": {
-            "close_app": "SAFE Network App requires %{appName} to be closed to complete updating.",
-            "update_available": "%{appName} %{version} is ready to install. What’s New?",
-            "uninstall_app": "Click Uninstall to continue and remove %{appName} from your computer.",
-            "restart_system": "SAFE Network App needs your computer to restart in to finish installing %{appName}.",
+            "close_app": "SAFE Network App requires %{name} to be closed to complete updating.",
+            "update_available": "%{name} %{version} is ready to install. What’s New?",
+            "uninstall_app": "Click Uninstall to continue and remove %{name} from your computer.",
+            "restart_system": "SAFE Network App needs your computer to restart in to finish installing %{name}.",
             "clearnet_warning": "SAFE Network App is about to open a webpage on the clearnet, where your privacy is not guaranteed."
         },
         "warning": {

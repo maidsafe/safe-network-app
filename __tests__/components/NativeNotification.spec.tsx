@@ -1,7 +1,7 @@
 import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
 import { Button } from '@material-ui/core';
-import { NotificationNative } from '$Components/Notifications/Notification_Native';
+import { Notification } from '$Components/Notifications/Notification';
 import { notificationTypes } from '$Constants/notifications';
 import { logger } from '$Logger';
 
@@ -18,7 +18,7 @@ const shallowSetup = ( propOverrides? ) => {
                     type: 'NO_INTERNET',
                     icon: 'SignalWifiOffIcon',
                     priority: 'HIGH',
-                    notificationType: 'Native',
+                    notificationType: 'standard',
                     title:
                         'No Internet connection. Your install has been paused.',
                     acceptText: 'resume',
@@ -31,7 +31,7 @@ const shallowSetup = ( propOverrides? ) => {
         propOverrides
     );
 
-    const wrapper = shallow( <NotificationNative {...props} /> );
+    const wrapper = shallow( <Notification {...props} /> );
 
     return {
         props,

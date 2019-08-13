@@ -28,7 +28,7 @@ export interface Notification {
     id: string;
     type: string;
     priority: 'HIGH' | 'MEDIUM' | 'LOW';
-    appId?: string;
+    application?: App;
 }
 
 export interface UserPreferences {

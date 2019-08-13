@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NotificationNative } from '$Components/Notifications/Notification_Native';
+import { Notification } from '$Components/Notifications/Notification';
 import { NotificationAlert } from '$Components/Notifications/Notification_Alert';
 import { logger } from '$Logger';
 
@@ -11,7 +11,7 @@ interface Props {
     toggleCheckBox: any;
 }
 
-export class Notification extends React.PureComponent<Props> {
+export class NotificationsHandler extends React.PureComponent<Props> {
     render() {
         const {
             notifications,
@@ -45,16 +45,16 @@ export class Notification extends React.PureComponent<Props> {
             latestNotification.title =
                 latestNotification.title || 'Uhh Ohh Something Went Wrong!';
 
-            if ( latestNotification.notificationType === 'Native' ) {
+            if ( latestNotification.notificationType === 'standard' ) {
                 return (
-                    <NotificationNative
+                    <Notification
                         latestNotification={latestNotification}
                         acceptNotification={acceptNotification}
                         denyNotification={denyNotification}
                     />
                 );
             }
-            if ( latestNotification.notificationType === 'alert' ) {
+            if ( latestNotification.notificationType === 'js-alert' ) {
                 return (
                     <NotificationAlert
                         latestNotification={latestNotification}

@@ -63,15 +63,15 @@ describe( 'launchpad reducer', () => {
                 id: generateRandomString(),
                 type: 'ALERT',
                 priority: 'HIGH',
-                notificationType: 'Native',
-                appId: generateRandomString()
+                notificationType: 'standard',
+                application: {
+                    id: generateRandomString()
+                }
             };
 
             const nextStore = launchpadReducer( store, {
                 type: TYPES.PUSH_NOTIFICATION,
-                payload: {
-                    notification: { ...newNotification }
-                }
+                payload: newNotification
             } );
 
             const expectedNotification =
@@ -82,7 +82,9 @@ describe( 'launchpad reducer', () => {
             expect( expectedNotification.priority ).toEqual(
                 newNotification.priority
             );
-            expect( expectedNotification.appId ).toEqual( newNotification.appId );
+            expect( expectedNotification.application.id ).toEqual(
+                newNotification.application.id
+            );
         } );
 
         it( 'Should able to add notification without app Id (Global notification)', () => {
@@ -90,15 +92,13 @@ describe( 'launchpad reducer', () => {
             const newNotification = {
                 id: generateRandomString(),
                 type: 'ALERT',
-                notificationType: 'Native',
+                notificationType: 'standard',
                 priority: 'HIGH'
             };
 
             const nextStore = launchpadReducer( store, {
                 type: TYPES.PUSH_NOTIFICATION,
-                payload: {
-                    notification: { ...newNotification }
-                }
+                payload: newNotification
             } );
 
             const expectedNotification =
@@ -109,25 +109,7 @@ describe( 'launchpad reducer', () => {
             expect( expectedNotification.priority ).toEqual(
                 newNotification.priority
             );
-            expect( expectedNotification.appId ).toBeUndefined();
-        } );
-
-        it( 'Should throw if notification id is not available', () => {
-            const store = { ...initialState };
-            const newNotification = {
-                type: 'ALERT',
-                priority: 'HIGH',
-                notificationType: 'Native',
-                appId: generateRandomString()
-            };
-            expect( () =>
-                launchpadReducer( store, {
-                    type: TYPES.PUSH_NOTIFICATION,
-                    payload: {
-                        notification: { ...newNotification }
-                    }
-                } )
-            ).toThrow( ERRORS.NOTIFICATION_ID_NOT_FOUND );
+            expect( expectedNotification.application ).toBeUndefined();
         } );
     } );
 
@@ -136,8 +118,8 @@ describe( 'launchpad reducer', () => {
         const notification = {
             type: 'ALERT',
             priority: 'HIGH',
-            notificationType: 'Native',
-            appId: generateRandomString(),
+            notificationType: 'standard',
+            application: { id: generateRandomString() },
             id: generateRandomString()
         };
 
@@ -145,28 +127,15 @@ describe( 'launchpad reducer', () => {
             const store = { ...initialState };
             nextStore = launchpadReducer( store, {
                 type: TYPES.PUSH_NOTIFICATION,
-                payload: {
-                    notification: { ...notification }
-                }
+                payload: notification
             } );
-        } );
-
-        it( 'Should throw if notification ID not set', () => {
-            expect( () =>
-                launchpadReducer( nextStore, {
-                    type: TYPES.DISMISS_NOTIFICATION,
-                    payload: {}
-                } )
-            ).toThrow( ERRORS.NOTIFICATION_ID_NOT_FOUND );
         } );
 
         it( 'Should remove notification based on ID', () => {
             expect(
                 launchpadReducer( nextStore, {
                     type: TYPES.DISMISS_NOTIFICATION,
-                    payload: {
-                        notificationId: notification.id
-                    }
+                    payload: { id: notification.id }
                 } ).notifications[notification.id]
             ).toBeUndefined();
         } );

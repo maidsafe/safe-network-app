@@ -2,7 +2,7 @@ import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
 import { NotificationAlert } from '$Components/Notifications/Notification_Alert';
 import { notificationTypes } from '$Constants/notifications';
-import { Notification } from '$Components/Notifications/Notifications';
+// import { NotificationsHandler } from '$Components/Notifications/NotificationsHandler';
 
 jest.mock( 'electron', () => ( {
     remote: {
@@ -29,7 +29,7 @@ const shallowSetup = ( propOverrides? ) => {
                     type: 'NO_INTERNET',
                     icon: 'SignalWifiOffIcon',
                     priority: 'HIGH',
-                    notificationType: 'Native',
+                    notificationType: 'standard',
                     title:
                         'No Internet connection. Your install has been paused.',
                     acceptText: 'resume',

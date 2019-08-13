@@ -1,9 +1,9 @@
 import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
 import { NotificationAlert } from '$Components/Notifications/Notification_Alert';
-import { NotificationNative } from '$Components/Notifications/Notification_Native';
+import { Notification } from '$Components/Notifications/Notification';
 import { notificationTypes } from '$Constants/notifications';
-import { Notification } from '$Components/Notifications/Notifications';
+import { NotificationsHandler } from '$Components/Notifications/NotificationsHandler';
 
 jest.mock( 'electron', () => ( {
     remote: {
@@ -28,12 +28,14 @@ const shallowSetup = ( propOverrides? ) => {
                     type: 'NO_INTERNET',
                     icon: 'SignalWifiOffIcon',
                     priority: 'HIGH',
-                    notificationType: 'Native',
+                    notificationType: 'standard',
                     title:
                         'No Internet connection. Your install has been paused.',
                     acceptText: 'resume',
                     denyText: 'dismiss',
-                    appId
+                    application: {
+                        id: appId
+                    }
                 }
             },
             acceptNotification: jest.fn(),
@@ -42,7 +44,7 @@ const shallowSetup = ( propOverrides? ) => {
         propOverrides
     );
 
-    const wrapper = shallow( <Notification {...props} /> );
+    const wrapper = shallow( <NotificationsHandler {...props} /> );
 
     return {
         props,
@@ -62,9 +64,9 @@ describe( 'Notifications', () => {
         expect( wrapper ).toMatchSnapshot();
     } );
 
-    it( 'should have exactly 1 NotificationNative component', () => {
+    it( 'should have exactly 1 Notification component', () => {
         const { wrapper } = shallowSetup();
-        expect( wrapper.find( NotificationNative ).length ).toBe( 1 );
+        expect( wrapper.find( Notification ).length ).toBe( 1 );
     } );
 
     it( 'should have NotificationAlert component', () => {
@@ -77,12 +79,14 @@ describe( 'Notifications', () => {
                     type: 'NO_INTERNET',
                     icon: 'SignalWifiOffIcon',
                     priority: 'HIGH',
-                    notificationType: 'alert',
+                    notificationType: 'js-alert',
                     title:
                         'No Internet connection. Your install has been paused.',
                     acceptText: 'resume',
                     denyText: 'dismiss',
-                    appId
+                    application: {
+                        id: appId
+                    }
                 }
             }
         } );

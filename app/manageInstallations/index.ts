@@ -8,10 +8,11 @@ import {
     cancelAppDownloadAndInstallation,
     pauseAppDownloadAndInstallation,
     resumeAppDownloadAndInstallation,
-    updateDownloadProgress
-    , downloadAndInstallAppFailure } from '$Actions/application_actions';
+    updateDownloadProgress,
+    downloadAndInstallAppFailure
+} from '$Actions/application_actions';
 
-
+import { pushNotification } from '$Actions/launchpad_actions';
 import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
 
 import { silentInstall } from '$App/manageInstallations/installers';
@@ -57,7 +58,7 @@ const resumeDownload = ( store: Store, application: App ) => {
         theCurrentDl.resume();
         store.dispatch( resumeAppDownloadAndInstallation( application ) );
     } else {
-        // TODO throw some notificaiton
+        // TODO throw some notification
         theCurrentDl.cancel();
         store.dispatch( cancelAppDownloadAndInstallation( application ) );
     }
@@ -218,6 +219,16 @@ const downloadAndInstall = async (
             error: error.message
         };
         store.dispatch( downloadAndInstallAppFailure( appWithError ) );
+
+        store.dispatch(
+            pushNotification( {
+                title: `Error downloading ${application.name}`,
+                application,
+                acceptText: 'Retry',
+                type: 'RETRY_INSTALL',
+                notificationType: 'standard'
+            } )
+        );
     }
 };
 

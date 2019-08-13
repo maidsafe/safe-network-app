@@ -9,6 +9,7 @@ import {
 
 import { ERRORS } from '$Constants/errors';
 import { defaultPreferences } from '$Constants/index';
+import { logger } from '$Logger';
 
 export const initialState: LaunchpadState = {
     ...defaultPreferences,
@@ -53,23 +54,24 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
 
         case TYPES.PUSH_NOTIFICATION: {
             const newNotifications = { ...state.notifications };
-            if ( !payload.notification || !payload.notification.id )
-                throw new Error( ERRORS.NOTIFICATION_ID_NOT_FOUND );
-            if ( !payload.notification.notificationType )
+            // allow payload to set it for testing...
+            const randomNotificationId: string =
+                payload.id || Math.random().toString( 36 );
+            if ( !payload.notificationType )
                 throw new Error( ERRORS.NOTIFICATION_TYPE_NOT_FOUND );
 
-            newNotifications[payload.notification.id] = {
-                ...payload.notification
-            };
+            const notification = { ...payload, id: randomNotificationId };
+
+            newNotifications[randomNotificationId] = notification;
+
             return { ...state, notifications: newNotifications };
         }
 
         case TYPES.DISMISS_NOTIFICATION: {
             const newNotifications = { ...state.notifications };
-            if ( !payload.notificationId )
-                throw new Error( ERRORS.NOTIFICATION_ID_NOT_FOUND );
+            if ( !payload.id ) throw new Error( ERRORS.NOTIFICATION_ID_NOT_FOUND );
 
-            delete newNotifications[payload.notificationId];
+            delete newNotifications[payload.id];
             return { ...state, notifications: newNotifications };
         }
 

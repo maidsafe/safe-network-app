@@ -31,7 +31,6 @@ const userAgentRequest = request.defaults( {
 export const TYPES = {
     ALIAS_FETCH_APPS: 'ALIAS_FETCH_APPS',
 
-    // difference here?
     ALIAS_FETCH_UPDATE_INFO: 'ALIAS_FETCH_UPDATE_INFO',
     ALIAS_CHECK_APP_HAS_UPDATE: 'ALIAS_CHECK_APP_HAS_UPDATE',
 
@@ -62,7 +61,7 @@ const fetchAppListFromServer = async (): Promise<void> => {
         const errorNotification = {
             id,
             title: 'Remote application list could not be retrieved.',
-            notificationType: 'Native'
+            notificationType: 'standard'
         };
         store.dispatch( pushNotification( { notification: errorNotification } ) );
     }

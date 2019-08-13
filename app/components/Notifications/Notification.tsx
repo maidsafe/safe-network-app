@@ -23,7 +23,7 @@ interface Props {
     denyNotification: any;
 }
 
-export class NotificationNative extends React.PureComponent<Props> {
+export class Notification extends React.PureComponent<Props> {
     render() {
         const {
             latestNotification,
@@ -41,11 +41,11 @@ export class NotificationNative extends React.PureComponent<Props> {
         };
 
         const handleOnAccept = () => {
-            acceptNotification( { ...latestNotification } );
+            acceptNotification( latestNotification );
         };
 
         const handleOnDeny = () => {
-            denyNotification( { ...latestNotification } );
+            denyNotification( latestNotification  );
         };
 
         const TagName = components[latestNotification.icon || 'WarningIcon'];

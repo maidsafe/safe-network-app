@@ -35,124 +35,101 @@ export const setCurrentStoreForNotificationActions = ( passedStore ) => {
 const getCurrentStore = () => currentStore;
 
 const acceptNotify = ( props ) => {
-    if ( props.application ) {
-        const { application } = props;
-    }
+    const { application } = props;
+    logger.info( 'Accepting notification.', props );
     const store = getCurrentStore();
     switch ( props.type ) {
-        case 'NO_INTERNET':
-            store
-                .dispatch
-                // @ts-ignore
-                // downloadAndInstallApp( id: props.appId )
-                ();
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+        case 'RETRY_INSTALL':
+            store.dispatch( downloadAndInstallApp( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'SERVER_TIMED_OUT':
-            store.dispatch( downloadAndInstallApp( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( downloadAndInstallApp( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'CLOSE_APP_ALERT':
             ipcRenderer.send( 'close-app' );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'CLOSE_APP':
             ipcRenderer.send( 'close-app' );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'UPDATE_AVAILABLE':
-            // store.dispatch( updateApp( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            // store.dispatch( updateApp( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'UPDATE_AVAILABLE_ALERT':
-            // store.dispatch( updateApp( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
-            break;
-        case 'ADMIN_PASS_REQ':
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            // store.dispatch( updateApp( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'RESTART_SYSTEM':
             // ipc for  restart system
             ipcRenderer.send( 'restart' );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'RESTART_SYSTEM_ALERT':
             ipcRenderer.send( 'restart' );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
-        case 'UNDOWNLOAD_AND_INSTALL_APP_ALERT':
-            store.dispatch( unInstallApp( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+        case 'UNINSTALL_APP_ALERT':
+            store.dispatch( unInstallApp( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'GLOBAL_FAILURE':
-            store.dispatch( downloadAndInstallApp( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( downloadAndInstallApp( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'CLEARNET_WARNING_ALERT':
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'DISC_FULL':
             store.dispatch(
                 // @ts-ignore
-                downloadAndInstallApp( props.appId )
+                dismissNotification( { id: props.id } )
             );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         default:
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
     }
 };
 
 const denyNotify = ( props ) => {
+    const { application } = props;
+
+    logger.info( 'Denying notification' );
     const store = getCurrentStore();
     switch ( props.type ) {
         case 'NO_INTERNET':
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'SERVER_TIMED_OUT':
-            store.dispatch( cancelDownload( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( cancelDownload( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'CLOSE_APP':
-            store.dispatch( cancelDownload( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( cancelDownload( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'CLOSE_APP_ALERT':
-            store.dispatch( cancelDownload( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( cancelDownload( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'UPDATE_AVAILABLE':
-            // store.dispatch( skipAppUpdate( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            // store.dispatch( skipAppUpdate( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'UPDATE_AVAILABLE_ALERT':
-            // store.dispatch( skipAppUpdate( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            // store.dispatch( skipAppUpdate( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'ADMIN_PASS_REQ':
-            store.dispatch( cancelDownload( { id: props.appId } ) );
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
-            break;
-        case 'RESTART_SYSTEM':
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
-            break;
-        case 'RESTART_SYSTEM_ALERT':
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
-            break;
-        case 'GLOBAL_FAILURE':
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
-            break;
-        case 'UNDOWNLOAD_AND_INSTALL_APP_ALERT':
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
-            break;
-        case 'DISC_FULL':
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
-            break;
-        case 'CLEARNET_WARNING_ALERT':
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( cancelDownload( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         default:
-            store.dispatch( dismissNotification( { notificationId: props.id } ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
     }
 };
 
