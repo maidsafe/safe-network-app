@@ -1,6 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 
@@ -68,7 +69,8 @@ export class AppStateButton extends React.Component<Props> {
             isUninstalling,
             isPaused,
             hasUpdate,
-            installFailed
+            installFailed,
+            progress
         } = application;
 
         let buttonText = isInstalled
@@ -92,9 +94,6 @@ export class AppStateButton extends React.Component<Props> {
         if ( isDownloadingAndUpdating ) {
             buttonText = I18n.t( `buttons.pause` );
             secondButtonText = I18n.t( `buttons.cancelUpdate` );
-
-            handleClick = this.handlePauseDownload;
-            handleSecondButtonClick = this.handleCancelDownload;
         }
 
         if ( isPaused ) {
@@ -109,6 +108,8 @@ export class AppStateButton extends React.Component<Props> {
             showSecondButton = false;
         }
 
+        const precentageProgress = progress * 100;
+
         return (
             <React.Fragment>
                 <Button
@@ -117,6 +118,12 @@ export class AppStateButton extends React.Component<Props> {
                 >
                     {buttonText}
                 </Button>
+                {progress > 0 && (
+                    <CircularProgress
+                        value={precentageProgress}
+                        variant="determinate"
+                    />
+                )}
                 {showSecondButton && (
                     <Button
                         onClick={handleSecondButtonClick}

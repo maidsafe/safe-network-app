@@ -7,7 +7,7 @@ import path from 'path';
 import {
     cancelAppDownloadAndInstallation,
     pauseAppDownloadAndInstallation,
-    retryAppDownloadAndInstallation,
+    resumeAppDownloadAndInstallation,
     updateDownloadProgress
 } from '$Actions/application_actions';
 import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
@@ -53,6 +53,7 @@ const resumeDownload = ( store: Store, application: App ) => {
 
     if ( theCurrentDl && theCurrentDl.canResume() ) {
         theCurrentDl.resume();
+        store.dispatch( resumeAppDownloadAndInstallation( application ) );
     } else {
         // TODO throw some notificaiton
         theCurrentDl.cancel();
@@ -190,7 +191,6 @@ const downloadAndInstall = async (
             } );
         },
         onProgress: ( progress ) => {
-            logger.silly( 'progress....', progress );
             store.dispatch(
                 updateDownloadProgress( {
                     ...application,

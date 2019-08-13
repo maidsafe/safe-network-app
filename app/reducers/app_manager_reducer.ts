@@ -92,8 +92,8 @@ export function appManager( state = initialState, action ): AppManagerState {
             return updateAppInApplicationList( state, targetApp );
         }
 
-        case APP_TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION: {
-            if ( !targetApp || targetApp.isDownloadingAndInstalling )
+        case APP_TYPES.RESUME_APP_DOWNLOAD_AND_INSTALLATION: {
+            if ( !targetApp || !targetApp.isDownloadingAndInstalling )
                 return state;
             targetApp.isDownloadingAndInstalling = true;
             targetApp.isPaused = false;
@@ -111,7 +111,6 @@ export function appManager( state = initialState, action ): AppManagerState {
 
         case APP_TYPES.UPDATE_DOWNLOAD_PROGRESS: {
             if ( !targetApp ) return state;
-            targetApp.isDownloadingAndInstalling = true;
             targetApp.progress = payload.progress || 0;
 
             return updateAppInApplicationList( state, targetApp );

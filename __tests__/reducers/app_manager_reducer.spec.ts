@@ -417,8 +417,8 @@ describe( 'app manager reducer', () => {
         } );
     } );
 
-    describe( 'RETRY_APP_DOWNLOAD_AND_INSTALLATION', () => {
-        it( 'Should retry app installation', () => {
+    describe( 'RESUME_APP_DOWNLOAD_AND_INSTALLATION', () => {
+        it( 'Should resume app installation', () => {
             const progress = 76;
             const app = getApp();
             const otherApp = getApp();
@@ -426,12 +426,12 @@ describe( 'app manager reducer', () => {
             const { id } = app;
             const store = {
                 applicationList: {
-                    [id]: { ...app },
+                    [id]: { ...app, isDownloadingAndInstalling: true },
                     [otherApp.id]: { ...otherApp }
                 }
             };
             const nextStore = appManager( store, {
-                type: APP_TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
+                type: APP_TYPES.RESUME_APP_DOWNLOAD_AND_INSTALLATION,
                 payload: {
                     id
                 }
@@ -458,7 +458,7 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: APP_TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
+                    type: APP_TYPES.RESUME_APP_DOWNLOAD_AND_INSTALLATION,
                     payload: {}
                 } )
             ).toEqual( store );
@@ -476,7 +476,7 @@ describe( 'app manager reducer', () => {
             };
             expect(
                 appManager( store, {
-                    type: APP_TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
+                    type: APP_TYPES.RESUME_APP_DOWNLOAD_AND_INSTALLATION,
                     payload: {
                         id
                     }

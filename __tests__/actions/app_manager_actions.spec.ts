@@ -44,10 +44,10 @@ describe( 'Application Manager actions', () => {
             id: generateRandomString()
         };
         const expectAction = {
-            type: appActions.TYPES.RETRY_APP_DOWNLOAD_AND_INSTALLATION,
+            type: appActions.TYPES.RESUME_APP_DOWNLOAD_AND_INSTALLATION,
             payload
         };
-        expect( appActions.retryAppDownloadAndInstallation( payload ) ).toEqual(
+        expect( appActions.resumeAppDownloadAndInstallation( payload ) ).toEqual(
             expectAction
         );
     } );
