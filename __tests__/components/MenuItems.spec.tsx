@@ -18,6 +18,9 @@ describe( 'MenuItems', () => {
     beforeEach( () => {
         props = {
             unInstallApp: jest.fn(),
+            resumeDownload: jest.fn(),
+            pauseDownload: jest.fn(),
+            cancelDownload: jest.fn(),
             openApp: jest.fn(),
             downloadAndInstallApp: jest.fn(),
             application: {
@@ -42,39 +45,6 @@ describe( 'MenuItems', () => {
         instance = wrapper.instance();
     } );
 
-    // describe( 'handleDownload', () => {
-    //     it( 'exists', () => {
-    //         expect( instance.handleDownload ).toBeTruthy();
-    //     } );
-    //
-    //     it( 'calls downloadAndInstallApp', () => {
-    //         instance.handleDownload();
-    //         expect( props.downloadAndInstallApp.mock.calls.length ).toEqual( 1 );
-    //     } );
-    // } );
-    //
-    // describe( 'handleOpen', () => {
-    //     it( 'exists', () => {
-    //         expect( instance.handleOpen ).toBeTruthy();
-    //     } );
-    //
-    //     it( 'calls openApp', () => {
-    //         instance.handleOpen();
-    //         expect( props.openApp.mock.calls.length ).toEqual( 1 );
-    //     } );
-    // } );
-    //
-    // describe( 'handleUninstall', () => {
-    //     it( 'exists', () => {
-    //         expect( instance.handleUninstall ).toBeTruthy();
-    //     } );
-    //
-    //     it( 'calls unInstallApp', () => {
-    //         instance.handleUninstall();
-    //         expect( props.unInstallApp.mock.calls.length ).toEqual( 1 );
-    //     } );
-    // } );
-
     describe( 'render', () => {
         it( 'Default "About" menu option', () => {
             expect( wrapper.html().includes( 'About SAFE Browser' ) ).toBeTruthy();
@@ -82,25 +52,6 @@ describe( 'MenuItems', () => {
 
         it( '"Install" menu option, when application not installed', () => {
             expect( wrapper.html().includes( 'Install' ) ).toBeTruthy();
-        } );
-
-        it( '"Uninstall" and "Check for updates" menu options, when application is installed', () => {
-            const applicationProperties = {
-                ...props.application,
-                isInstalled: true
-            };
-            const properties = {
-                ...props,
-                application: applicationProperties
-            };
-            wrapper = shallow(
-                <MemoryRouter>
-                    <MenuItems {...properties} />
-                </MemoryRouter>
-            );
-
-            expect( wrapper.html().includes( 'Uninstall' ) ).toBeTruthy();
-            expect( wrapper.html().includes( 'Check For Updates' ) ).toBeTruthy();
         } );
 
         it( '"Cancel Install" and "Pause Download" menu options, when application is downloading', () => {
@@ -122,7 +73,7 @@ describe( 'MenuItems', () => {
             expect( wrapper.html().includes( 'Pause Download' ) ).toBeTruthy();
         } );
 
-        it( '"Cancel Install" menu option, when application is installing', () => {
+        it( '"Cancel Install" and "Pause" menu option, when application is installing', () => {
             const applicationProperties = {
                 ...props.application,
                 isDownloadingAndInstalling: true
@@ -135,15 +86,26 @@ describe( 'MenuItems', () => {
                 <MemoryRouter>
                     <MenuItems {...properties} />
                 </MemoryRouter>
-            );
+            )
+                .children()
+                .dive();
 
-            expect( wrapper.html().includes( 'Cancel Install' ) ).toBeTruthy();
+            const cancel = wrapper.find( `[aria-label="Cancel Download"]` );
+            expect( cancel ).toHaveLength( 1 );
+            cancel.simulate( 'click' );
+            expect( props.cancelDownload ).toHaveBeenCalled();
+
+            const pauseDownload = wrapper.find( `[aria-label="Pause Download"]` );
+            expect( pauseDownload ).toHaveLength( 1 );
+            pauseDownload.simulate( 'click' );
+            expect( props.pauseDownload ).toHaveBeenCalled();
         } );
 
-        it( '"Cancel Install" and "Re-try install" menu options, when application failed to install', () => {
+        it( 'has "Cancel Install" and "Resume" menu options, when application is paused', () => {
             const applicationProperties = {
                 ...props.application,
-                installFailed: true
+                isDownloadingAndInstalling: true,
+                isPaused: true
             };
             const properties = {
                 ...props,
@@ -153,15 +115,45 @@ describe( 'MenuItems', () => {
                 <MemoryRouter>
                     <MenuItems {...properties} />
                 </MemoryRouter>
+            )
+                .children()
+                .dive();
+
+            const cancel = wrapper.find( `[aria-label="Cancel Download"]` );
+            expect( cancel ).toHaveLength( 1 );
+            cancel.simulate( 'click' );
+            expect( props.cancelDownload ).toHaveBeenCalled();
+
+            const resumeDownload = wrapper.find(
+                `[aria-label="Resume Download"]`
             );
-            expect( wrapper.html().includes( 'Retry Install' ) ).toBeTruthy();
+            expect( resumeDownload ).toHaveLength( 1 );
+            resumeDownload.simulate( 'click' );
+            expect( props.resumeDownload ).toHaveBeenCalled();
         } );
 
-        it( '"Open", "Skip this update", "Uninstall" menu options, when application has updates', () => {
+        // it( '"Cancel Install" and "Re-try install" menu options, when application failed to install', () => {
+        //     const applicationProperties = {
+        //         ...props.application,
+        //         installFailed: true
+        //     };
+        //     const properties = {
+        //         ...props,
+        //         application: applicationProperties
+        //     };
+        //     wrapper = shallow(
+        //         <MemoryRouter>
+        //             <MenuItems {...properties} />
+        //         </MemoryRouter>
+        //     ).children();
+        //     expect( wrapper.html().includes( 'Retry Install' ) ).toBeTruthy();
+        // } );
+
+        it( '"Open", "Uninstall" menu options, when application installed', () => {
             const applicationProperties = {
                 ...props.application,
-                isInstalled: true,
-                hasUpdate: true
+                isInstalled: true
+                // hasUpdate: true
             };
             const properties = {
                 ...props,
@@ -171,10 +163,23 @@ describe( 'MenuItems', () => {
                 <MemoryRouter>
                     <MenuItems {...properties} />
                 </MemoryRouter>
+            )
+                .children()
+                .dive(); // get MenuItems not MemoryRouter
+
+            const open = wrapper.find(
+                `[aria-label="Open ${applicationProperties.name}"]`
             );
-            expect( wrapper.html().includes( 'Open' ) ).toBeTruthy();
-            expect( wrapper.html().includes( 'Skip This Update' ) ).toBeTruthy();
-            expect( wrapper.html().includes( 'Uninstall' ) ).toBeTruthy();
+            expect( open ).toHaveLength( 1 );
+            open.simulate( 'click' );
+            expect( props.openApp ).toHaveBeenCalled();
+
+            const unInstallApp = wrapper.find(
+                `[aria-label="Uninstall ${applicationProperties.name}"]`
+            );
+            expect( unInstallApp ).toHaveLength( 1 );
+            unInstallApp.simulate( 'click' );
+            expect( props.unInstallApp ).toHaveBeenCalled();
         } );
     } );
 } );

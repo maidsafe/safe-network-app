@@ -2,8 +2,9 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 
 import configureStore from 'redux-mock-store';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
+
 import { AppStateButton } from '$App/components/AppStateButton';
 
 jest.mock( '$Logger' );
@@ -98,18 +99,23 @@ describe( 'AppStateButton', () => {
         it( 'has one install button normally', () => {
             expect( wrapper.find( Button ) ).toHaveLength( 1 );
         } );
+        it( 'has lno progress circle normally', () => {
+            expect( wrapper.find( CircularProgress ) ).toHaveLength( 0 );
+        } );
 
-        it( 'has two buttons when updating', () => {
+        it( 'has two buttons and progress when updating', () => {
             props = {
                 ...props,
                 application: {
                     ...props.application,
-                    isDownloadingAndUpdating: true
+                    isDownloadingAndUpdating: true,
+                    progress: 0.3
                 }
             };
             wrapper = shallow( <AppStateButton {...props} /> );
 
             expect( wrapper.find( Button ) ).toHaveLength( 2 );
+            expect( wrapper.find( CircularProgress ) ).toHaveLength( 1 );
         } );
 
         it( 'has two buttons when downloading, which pause/cancel', () => {
