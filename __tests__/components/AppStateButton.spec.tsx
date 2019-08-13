@@ -4,6 +4,7 @@ import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 import { AppStateButton } from '$App/components/AppStateButton';
 
@@ -175,6 +176,35 @@ describe( 'AppStateButton', () => {
 
             expect( props.resumeDownload ).toHaveBeenCalled();
             expect( props.cancelDownload ).toHaveBeenCalled();
+        } );
+
+        it( 'has error msg and one button w/ an errorr', () => {
+            props = {
+                ...props,
+                application: {
+                    ...props.application,
+                    isDownloadingAndInstalling: false,
+                    error: 'Oh no'
+                }
+            };
+            wrapper = shallow( <AppStateButton {...props} /> );
+
+            expect( wrapper.find( Button ) ).toHaveLength( 1 );
+            expect( wrapper.find( Typography ) ).toHaveLength( 1 );
+
+            const action = wrapper.find(
+                '[aria-label="Application Action Button"]'
+            );
+            const secondaryAction = wrapper.find(
+                '[aria-label="Application Secondary Action Button"]'
+            );
+
+            expect( action ).toHaveLength( 1 );
+            expect( secondaryAction ).toHaveLength( 0 );
+            expect( wrapper.html().includes( 'Oh no' ) ).toBeTruthy();
+            action.simulate( 'click' );
+
+            expect( props.downloadAndInstallApp ).toHaveBeenCalled();
         } );
     } );
 } );

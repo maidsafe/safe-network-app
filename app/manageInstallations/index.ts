@@ -9,7 +9,9 @@ import {
     pauseAppDownloadAndInstallation,
     resumeAppDownloadAndInstallation,
     updateDownloadProgress
-} from '$Actions/application_actions';
+    , downloadAndInstallAppFailure } from '$Actions/application_actions';
+
+
 import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
 
 import { silentInstall } from '$App/manageInstallations/installers';
@@ -152,6 +154,7 @@ const downloadAndInstall = async (
     const downloaderOptions = {
         directory: DOWNLOAD_TARGET_DIR,
         errorTitle: `Error Downloading ${application.name}`,
+        showErrorDialog: false,
         // filename,
         onStarted: ( downloadingFile: DownloadItem ) => {
             logger.info( 'Started downloading ', application.name );
@@ -163,7 +166,7 @@ const downloadAndInstall = async (
 
             theDownload.on( 'done', ( event, state ) => {
                 if ( state !== 'completed' ) {
-                    logger.error(
+                    logger.warn(
                         'Download done but not finished. Download state:',
                         state
                     );
@@ -204,8 +207,18 @@ const downloadAndInstall = async (
         }
     };
 
-    // returns https://electronjs.org/docs/api/download-item
-    download( targetWindow, url, downloaderOptions );
+    try {
+        // returns https://electronjs.org/docs/api/download-item
+        await download( targetWindow, url, downloaderOptions );
+    } catch ( error ) {
+        logger.error( 'There was a DL error: ', error.message );
+
+        const appWithError = {
+            ...application,
+            error: error.message
+        };
+        store.dispatch( downloadAndInstallAppFailure( appWithError ) );
+    }
 };
 
 export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {

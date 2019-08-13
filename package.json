@@ -266,7 +266,7 @@
     "electron-db": "^0.15.1",
     "electron-debug": "^3.0.1",
     "electron-devtools-installer": "^2.2.4",
-    "electron-dl": "1.14.0",
+    "electron-dl": "https://github.com/joshuef/electron-dl#NoDialog",
     "electron-log": "3.0.7",
     "electron-redux": "1.4.0",
     "electron-updater": "^4.1.2",

@@ -105,6 +105,7 @@ export function appManager( state = initialState, action ): AppManagerState {
             if ( !targetApp ) return state;
             targetApp.isDownloadingAndInstalling = true;
             targetApp.progress = payload.progress || 0;
+            targetApp.error = null;
 
             return updateAppInApplicationList( state, targetApp );
         }
@@ -130,13 +131,11 @@ export function appManager( state = initialState, action ): AppManagerState {
         }
 
         case APP_TYPES.DOWNLOAD_AND_INSTALL_APP_FAILURE: {
-            if ( !targetApp || !targetApp.isDownloadingAndInstalling )
-                return state;
+            if ( !targetApp ) return state;
             targetApp.isDownloadingAndInstalling = false;
-            targetApp.installFailed = true;
+            targetApp.installFailed = true; // why do we need this?
             targetApp.progress = 0;
             targetApp.isPaused = false;
-
             targetApp.error = payload.error;
 
             return updateAppInApplicationList( state, targetApp );

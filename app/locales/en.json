@@ -9,6 +9,8 @@
         "cancelInstall": "Cancel Install",
         "pause": "Pause Download",
         "resume": "Resume Download",
+        "retryInstall": "Retry Install",
+        "retryUpdate": "Retry Update",
         "cancelUpdate": "Cancel Update",
         "uninstalling": "Uninstalling",
         "open": "Open"

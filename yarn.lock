@@ -5194,10 +5194,9 @@ electron-devtools-installer@^2.2.4:
     rimraf "^2.5.2"
     semver "^5.3.0"
 
-electron-dl@1.14.0:
+"electron-dl@https://github.com/joshuef/electron-dl#NoDialog":
   version "1.14.0"
-  resolved "https://registry.yarnpkg.com/electron-dl/-/electron-dl-1.14.0.tgz#1466f1b945664ca3d784268307c2b935728177bf"
-  integrity sha512-4okyei42a1mLsvLK7hLrIfd20EQzB18nIlLTwBV992aMSmTGLUEFRTmO1MfSslGNrzD8nuPuy1l/VxO8so4lig==
+  resolved "https://github.com/joshuef/electron-dl#09ffb8d683ffa942b821b9d30a8991e6970bc900"
   dependencies:
     ext-name "^5.0.0"
     pupa "^1.0.0"

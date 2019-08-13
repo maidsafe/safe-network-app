@@ -1,6 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
@@ -70,7 +71,8 @@ export class AppStateButton extends React.Component<Props> {
             isPaused,
             hasUpdate,
             installFailed,
-            progress
+            progress,
+            error
         } = application;
 
         let buttonText = isInstalled
@@ -82,6 +84,11 @@ export class AppStateButton extends React.Component<Props> {
 
         let handleClick = isInstalled ? this.handleOpen : this.handleDownload;
         let handleSecondButtonClick = () => {}; // otherwise nothing
+        const errorMessage = error;
+
+        if ( error ) {
+            buttonText = I18n.t( `buttons.retryInstall` );
+        }
 
         if ( isDownloadingAndInstalling ) {
             buttonText = I18n.t( `buttons.pause` );
@@ -112,6 +119,9 @@ export class AppStateButton extends React.Component<Props> {
 
         return (
             <React.Fragment>
+                {errorMessage && (
+                    <Typography color="error">{errorMessage}</Typography>
+                )}
                 <Button
                     onClick={handleClick}
                     aria-label="Application Action Button"
