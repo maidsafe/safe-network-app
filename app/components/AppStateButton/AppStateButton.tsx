@@ -19,31 +19,34 @@ interface Props {
 export class AppStateButton extends React.Component<Props> {
     handleDownload = () => {
         const { application, downloadAndInstallApp } = this.props;
-        logger.warn( 'ApplicationOverview: clicked download ', application.name );
+        logger.verbose(
+            'ApplicationOverview: clicked download ',
+            application.name
+        );
         downloadAndInstallApp( application );
     };
 
     handleOpen = () => {
         const { application, openApp } = this.props;
-        logger.warn( 'ApplicationOverview: clicked open', application );
+        logger.verbose( 'ApplicationOverview: clicked open', application );
         openApp( application );
     };
 
     handleUninstall = () => {
         const { application, unInstallApp } = this.props;
-        logger.warn( 'ApplicationOverview: clicked uninstall', application );
+        logger.verbose( 'ApplicationOverview: clicked uninstall', application );
         unInstallApp( application );
     };
 
     handleCancelDownload = () => {
         const { application, cancelDownload } = this.props;
-        logger.warn( 'ApplicationOverview: clicked cancel', application );
+        logger.verbose( 'ApplicationOverview: clicked cancel', application );
         cancelDownload( application );
     };
 
     handleResumeDownload = () => {
         const { application, resumeDownload } = this.props;
-        logger.warn(
+        logger.verbose(
             'ApplicationOverview: clicked resume download',
             application
         );
@@ -52,7 +55,7 @@ export class AppStateButton extends React.Component<Props> {
 
     handlePauseDownload = () => {
         const { application, pauseDownload } = this.props;
-        logger.silly(
+        logger.verbose(
             'ApplicationOverview: clicked pause download',
             application
         );
@@ -125,10 +128,11 @@ export class AppStateButton extends React.Component<Props> {
                 <Button
                     onClick={handleClick}
                     aria-label="Application Action Button"
+                    disabled={!!isUninstalling}
                 >
                     {buttonText}
                 </Button>
-                {progress > 0 && (
+                {progress > 0 && !isInstalled && (
                     <CircularProgress
                         value={precentageProgress}
                         variant="determinate"

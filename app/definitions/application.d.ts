@@ -63,7 +63,8 @@ export interface App {
     repositorySlug: string;
 
     type: AppType;
-    latestVersion?: string;
+    currentVersion?: string;
+    latestVersion: string;
 
     isOpen?: boolean; // ?why...
     progress?: number;

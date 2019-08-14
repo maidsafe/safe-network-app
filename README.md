@@ -18,7 +18,7 @@ Desktop app for managing the your SAFE Network applications.
 
 ### Testing
 
--   `LAUNCHER_DRY_RUN=true yarn dev`
+-   `SNAPP_DRY_RUN=true yarn dev`
 
 This will not write to the filesystem, but will log to the console what changes it would have made.
 

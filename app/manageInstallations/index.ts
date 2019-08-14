@@ -4,6 +4,10 @@ import { download } from 'electron-dl';
 import { spawnSync } from 'child_process';
 import del from 'del';
 import path from 'path';
+import open from 'open';
+
+import { getInstalledLocation } from '$App/manageInstallations/helpers';
+
 import {
     cancelAppDownloadAndInstallation,
     pauseAppDownloadAndInstallation,
@@ -188,7 +192,7 @@ const downloadAndInstall = async (
                 // TODO: check hashhhhh
                 const downloadLocation = theDownload.getSavePath();
 
-                silentInstall( store, application );
+                silentInstall( store, application, downloadLocation );
 
                 // remove tracked download item
                 delete currentDownloads[application.id];
@@ -252,6 +256,11 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
     );
 
     ipcMain.on( 'unInstallApplication', ( event, application: App ) =>
-        unInstallApplication( application )
+        unInstallApplication( store, application )
     );
+
+    ipcMain.on( 'openApplication', ( event, application: App ) => {
+        logger.info( 'Opening app: ', application.name );
+        open( getInstalledLocation( application ) );
+    } );
 }

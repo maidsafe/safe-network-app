@@ -22,42 +22,48 @@ interface MenuItemsProps {
 export class MenuItems extends Component<MenuItemsProps> {
     handleDownload = () => {
         const { application, downloadAndInstallApp, handleClose } = this.props;
-        logger.silly( 'MeatballMenu: clicked download ', application );
+        logger.verbose( 'MeatballMenu: clicked download ', application.name );
         downloadAndInstallApp( application );
         handleClose();
     };
 
     handleOpen = () => {
         const { application, openApp, handleClose } = this.props;
-        logger.silly( 'MeatballMenu: clicked open ', application );
+        logger.verbose( 'MeatballMenu: clicked open ', application.name );
         openApp( application );
         handleClose();
     };
 
     handleUninstall = () => {
         const { application, unInstallApp, handleClose } = this.props;
-        logger.silly( 'MeatballMenu: clicked uninstall: ', application );
+        logger.verbose( 'MeatballMenu: clicked uninstall: ', application.name );
         unInstallApp( application );
         handleClose();
     };
 
     handleCancelDownload = () => {
         const { application, cancelDownload, handleClose } = this.props;
-        logger.silly( 'MeatballMenu: clicked cancel', application );
+        logger.verbose( 'MeatballMenu: clicked cancel', application.name );
         cancelDownload( application );
         handleClose();
     };
 
     handleResumeDownload = () => {
         const { application, resumeDownload, handleClose } = this.props;
-        logger.silly( 'MeatballMenu: clicked resume download', application );
+        logger.verbose(
+            'MeatballMenu: clicked resume download',
+            application.name
+        );
         resumeDownload( application );
         handleClose();
     };
 
     handlePauseDownload = () => {
         const { application, pauseDownload, handleClose } = this.props;
-        logger.silly( 'MeatballMenu: clicked pause download', application );
+        logger.verbose(
+            'MeatballMenu: clicked pause download',
+            application.name
+        );
         pauseDownload( application );
         handleClose();
     };

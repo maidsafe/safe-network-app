@@ -1,4 +1,8 @@
+import path from 'path';
+
 import { MAC_OS, LINUX, WINDOWS, platform } from '$Constants';
+import { INSTALL_TARGET_DIR } from '$Constants/installConstants';
+
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 
@@ -34,4 +38,15 @@ export const getApplicationExecutable = ( application: App ): string => {
     }
     logger.verbose( 'Executable is called: ', applicationExecutable );
     return applicationExecutable;
+};
+
+export const getInstalledLocation = ( application: App ): string => {
+    const applicationExecutable = getApplicationExecutable( application );
+
+    const installedPath = path.resolve(
+        INSTALL_TARGET_DIR,
+        applicationExecutable
+    );
+
+    return installedPath;
 };

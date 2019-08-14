@@ -157,6 +157,8 @@ export const silentInstall = (
     application: App,
     downloadLocation?: string
 ): void => {
+    logger.info( 'Running silent install for ', downloadLocation );
+
     const applicationExecutable = getApplicationExecutable( application );
     switch ( platform ) {
         case MAC_OS: {

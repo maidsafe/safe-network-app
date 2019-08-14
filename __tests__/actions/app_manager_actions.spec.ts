@@ -8,9 +8,11 @@ describe( 'Application Manager actions', () => {
         expect( appActions.TYPES ).toBeDefined();
     } );
 
-    it( 'should set applications', () => {
-        expect( appManager.setApps ).toBeDefined();
-        expect( appManager.setApps().type ).toEqual( appManager.TYPES.SET_APPS );
+    it( 'should update an application i', () => {
+        expect( appManager.updateAppInfoIfNewer ).toBeDefined();
+        expect( appManager.updateAppInfoIfNewer().type ).toEqual(
+            appManager.TYPES.UPDATE_APP_INFO_IF_NEWER
+        );
     } );
 
     it( 'should cancel application installation', () => {
@@ -61,18 +63,5 @@ describe( 'Application Manager actions', () => {
             payload
         };
         expect( appManager.resetAppState( payload ) ).toEqual( expectAction );
-    } );
-
-    it( 'should update application description', () => {
-        const payload = {
-            id: generateRandomString()
-        };
-        const expectAction = {
-            type: appActions.TYPES.SET_NEXT_RELEASE_DESCRIPTION,
-            payload
-        };
-        expect( appActions.setNextReleaseDescription( payload ) ).toEqual(
-            expectAction
-        );
     } );
 } );

@@ -2,10 +2,10 @@ import { createActions } from 'redux-actions';
 
 export const TYPES = {
     RESET_APP_STATE: 'RESET_APP_STATE',
-    SET_APPS: 'SET_APPS'
+    UPDATE_APP_INFO_IF_NEWER: 'UPDATE_APP_INFO_IF_NEWER'
 };
 
-export const { resetAppState, setApps } = createActions(
+export const { resetAppState, updateAppInfoIfNewer } = createActions(
     TYPES.RESET_APP_STATE,
-    TYPES.SET_APPS
+    TYPES.UPDATE_APP_INFO_IF_NEWER
 );

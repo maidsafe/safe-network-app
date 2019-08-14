@@ -4,8 +4,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { Store } from 'redux';
 
-import { setApps } from '$Actions/app_manager_actions';
-import hardCodedApps from './managedApplications.json';
+import { updateAppInfoIfNewer } from '$Actions/app_manager_actions';
 import { addApplication } from '$Actions/application_actions';
 import { logger } from '$Logger';
 import { configureStore } from '$Store/configureStore';
@@ -78,7 +77,7 @@ if ( !gotTheLock ) {
         store = configureStore( initialState );
 
         // start with hardcoded list of apps.
-        store.dispatch( setApps( hardCodedApps.applications ) );
+        // store.dispatch( updateAppInfoIfNewer( hardCodedApps.applications ) );
 
         await preferencesJsonSetup( store );
 

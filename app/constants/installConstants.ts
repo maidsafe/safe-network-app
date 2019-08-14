@@ -1,5 +1,5 @@
 import path from 'path';
-import { app } from 'electron';
+import { app, remote } from 'electron';
 import { LINUX, WINDOWS, platform } from '$Constants';
 
 export const DOWNLOAD_TARGET_DIR = path.resolve(
@@ -7,7 +7,7 @@ export const DOWNLOAD_TARGET_DIR = path.resolve(
     'downloads'
 );
 
-const homeDirectory = app.getPath( 'home' );
+const homeDirectory = app ? app.getPath( 'home' ) : remote.app.getPath( 'home' );
 // default to macos
 let installTargetDirectory = path.resolve( '/Applications' );
 
