@@ -54,7 +54,6 @@ const fetchAppListFromServer = async (): Promise<void> => {
         logger.debug( 'Application list retrieved sucessfully' );
 
         Object.keys( apps.applications ).forEach( ( theApp ) => {
-            console.log( 'updating the apppp', theApp );
             store.dispatch( updateAppInfoIfNewer( apps.applications[theApp] ) );
         } );
     } catch ( error ) {

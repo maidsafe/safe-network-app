@@ -13,6 +13,7 @@ import { Application, App } from './definitions/application.d';
 import { createSafeLaunchPadTrayWindow, createTray } from './setupLaunchPad';
 import { setupBackground } from './setupBackground';
 import { installExtensions, preferencesJsonSetup } from '$Utils/main_utils';
+import { checkForKnownAppsLocally } from '$App/manageInstallations/helpers';
 
 import { getAppFolderPath, platform, settingsHandlerName } from '$Constants';
 
@@ -77,6 +78,8 @@ if ( !gotTheLock ) {
         store = configureStore( initialState );
 
         // start with hardcoded list of apps.
+        checkForKnownAppsLocally( store );
+
         // store.dispatch( updateAppInfoIfNewer( hardCodedApps.applications ) );
 
         await preferencesJsonSetup( store );

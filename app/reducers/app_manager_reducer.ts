@@ -1,31 +1,14 @@
 import compareVersions from 'compare-versions';
 import { TYPES } from '$Actions/app_manager_actions';
-import { TYPES as ALIAS_TYPES } from '$App/actions/alias/app_manager_actions';
-import { TYPES as APP_TYPES } from '$App/actions/application_actions';
+import { TYPES as ALIAS_TYPES } from '$Actions/alias/app_manager_actions';
+import { TYPES as APP_TYPES } from '$Actions/application_actions';
 import { logger } from '$Logger';
 import { AppManagerState, App } from '../definitions/application.d';
 import { ERRORS } from '$Constants/errors';
 
-export const initialState: AppManagerState = {
-    // TODO: We need a hard list of apps. Incase of no internet....
-    applicationList: {
-        'safe.browser': {
-            id: 'safe.browser',
-            name: 'SAFE Browser',
-            size: '2MB',
-            author: 'Maidsafe Ltd.',
-            packageName: 'safe-browser',
-            repositoryOwner: 'maidsafe',
-            repositorySlug: 'safe_browser',
-            isInstalled: false,
-            latestVersion: '0.1.0',
-            description:
-                'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            updateDescription: '',
-            type: 'userApplications'
-        }
-    }
-};
+import { initialAppManager } from '$Reducers/initialAppManager';
+
+export const initialState = initialAppManager;
 
 const updateAppInApplicationList = ( state, targetApp ) => {
     const updatedState = {
@@ -212,6 +195,17 @@ export function appManager( state = initialState, action ): AppManagerState {
                 throw new Error( ERRORS.VERSION_NOT_FOUND );
             targetApp.hasUpdate = false;
             targetApp.lastSkippedVersion = payload.latestVersion;
+            return updateAppInApplicationList( state, targetApp );
+        }
+
+        case APP_TYPES.SET_CURRENT_VERSION: {
+            if ( !targetApp ) return state;
+            if ( !payload.currentVersion )
+                throw new Error( ERRORS.VERSION_NOT_FOUND );
+
+            targetApp.isInstalled = true;
+            targetApp.currentVersion = payload.currentVersion;
+
             return updateAppInApplicationList( state, targetApp );
         }
 

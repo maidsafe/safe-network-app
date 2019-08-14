@@ -66,8 +66,8 @@ describe( 'app manager reducer', () => {
                 payload: app1
             } );
 
-            // 2 as theres the initital app state...
-            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
+            // 3 as theres the initital app state of two.....
+            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 3 );
             expect( nextStore.applicationList[app1.id] ).toEqual( app1 );
         } );
 
@@ -95,7 +95,7 @@ describe( 'app manager reducer', () => {
             ).toThrow( ERRORS.VERSION_NOT_FOUND );
         } );
 
-        it( 'Should update application newer version', () => {
+        it( 'Should update application info to newer version', () => {
             applicationList.app1.name = 'SUPER Browser';
             applicationList.app1.id = 'safe.browser';
             applicationList.app1.latestVersion = '1.1.0';
@@ -105,9 +105,9 @@ describe( 'app manager reducer', () => {
                 payload: app1
             } );
 
-            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 1 );
+            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
 
-            app1.isInstalled = false;
+            app1.isInstalled = undefined;
             expect( nextStore.applicationList[app1.id] ).toEqual( app1 );
         } );
 
@@ -122,7 +122,7 @@ describe( 'app manager reducer', () => {
                 payload: app1
             } );
 
-            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 1 );
+            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
             expect( nextStore.applicationList[app1.id].isInstalled ).toBeFalsy();
         } );
 
@@ -136,7 +136,7 @@ describe( 'app manager reducer', () => {
                 payload: app1
             } );
 
-            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 1 );
+            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
             expect( nextStore.applicationList[app1.id].name ).not.toEqual(
                 app1.name
             );
@@ -742,6 +742,37 @@ describe( 'app manager reducer', () => {
             expect( nextStore.applicationList[id].error ).not.toBeNull();
             expect( nextStore.applicationList[otherApp.id] ).toEqual(
                 store.applicationList[otherApp.id]
+            );
+        } );
+    } );
+
+    describe( 'SET_CURRENT_VERSION', () => {
+        it( 'Should update current version and install status', () => {
+            const app = getApp();
+
+            app.isInstalled = false;
+
+            const { id } = app;
+            const store = {
+                applicationList: {
+                    [id]: { ...app }
+                }
+            };
+
+            const nextStore = appManager( store, {
+                type: APP_TYPES.SET_CURRENT_VERSION,
+                payload: {
+                    ...app,
+                    currentVersion: '42.1.3'
+                }
+            } );
+
+            expect( nextStore.applicationList[id].name ).toEqual(
+                store.applicationList[id].name
+            );
+            expect( nextStore.applicationList[id].isInstalled ).toBeTruthy();
+            expect( nextStore.applicationList[id].currentVersion ).toEqual(
+                '42.1.3'
             );
         } );
     } );
