@@ -30,3 +30,30 @@ test( 'clicking on a vert icon in application overview shows menu items', async 
         .expect( Selector( '.MuiMenu-list' ).exists )
         .ok();
 } );
+
+test( 'clicking on install triggers install', async ( t ) => {
+    const actionButton = Selector( 'button' ).withAttribute(
+        'aria-label',
+        'Application Action Button'
+    );
+    await t
+        .click( actionButton )
+        .expect( actionButton.innerText )
+        .eql( 'OPEN' );
+} );
+
+test( 'clicking uninstall will uninstall', async ( t ) => {
+    const actionButton = Selector( 'button' ).withAttribute(
+        'aria-label',
+        'Application Action Button'
+    );
+
+    await t
+        .click( actionButton )
+        .click( Selector( '.MeatballMenu__vertIcon' ) )
+        .expect(
+            Selector( 'li' ).withAttribute( 'aria-label', 'Uninstall SAFE Browser' )
+                .exists
+        )
+        .ok();
+} );

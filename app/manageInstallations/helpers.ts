@@ -2,7 +2,13 @@ import path from 'path';
 
 import { Store } from 'redux';
 import fs from 'fs-extra';
-import { MAC_OS, LINUX, WINDOWS, platform } from '$Constants';
+import {
+    MAC_OS,
+    LINUX,
+    WINDOWS,
+    platform,
+    isRunningTestCafeProcess
+} from '$Constants';
 import { INSTALL_TARGET_DIR } from '$Constants/installConstants';
 
 import { setCurrentVersion } from '$Actions/application_actions';
@@ -59,6 +65,8 @@ export const checkForKnownAppsLocally = async ( store: Store ): Promise<void> =>
     logger.info( 'Checking for currently isntalled known apps' );
 
     const knownApps = store.getState().appManager.applicationList;
+
+    if ( isRunningTestCafeProcess ) return;
 
     Object.keys( knownApps ).forEach( async ( theAppId ) => {
         const application = knownApps[theAppId];

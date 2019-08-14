@@ -125,7 +125,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                         Cancel Install
                     </MenuItem>
                 )}
-                {!isPaused && (
+                {!isPaused && isDownloadingAndInstalling && (
                     <MenuItem
                         aria-label="Pause Download"
                         dense
@@ -135,7 +135,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                         Pause Download
                     </MenuItem>
                 )}
-                {isPaused && (
+                {isPaused && isDownloadingAndInstalling && (
                     <MenuItem
                         aria-label="Resume Download"
                         dense

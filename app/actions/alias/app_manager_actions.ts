@@ -2,7 +2,11 @@ import { ipcRenderer } from 'electron';
 import { createAliasedAction } from 'electron-redux';
 import request from 'request-promise-native';
 
-import { LAUNCHPAD_APP_ID, APPLICATION_LIST_SOURCE } from '$Constants/index';
+import {
+    LAUNCHPAD_APP_ID,
+    APPLICATION_LIST_SOURCE,
+    isRunningTestCafeProcess
+} from '$Constants/index';
 import { updateAppInfoIfNewer } from '$Actions/app_manager_actions';
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
 
@@ -47,6 +51,9 @@ export const TYPES = {
 
 const fetchAppListFromServer = async (): Promise<void> => {
     logger.debug( 'Attempting to fetch application list' );
+
+    if ( isRunningTestCafeProcess ) return;
+
     const store = getCurrentStore();
     try {
         const response = await request( APPLICATION_LIST_SOURCE );
