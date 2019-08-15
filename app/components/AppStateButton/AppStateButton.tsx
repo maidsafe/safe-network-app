@@ -81,12 +81,8 @@ export class AppStateButton extends React.Component<Props> {
         let buttonText = isInstalled
             ? I18n.t( `buttons.open` )
             : I18n.t( `buttons.install` );
-        let secondButtonText = I18n.t( `buttons.cancelInstall` );
-        let showSecondButton =
-            isDownloadingAndInstalling || isDownloadingAndUpdating;
 
         let handleClick = isInstalled ? this.handleOpen : this.handleDownload;
-        let handleSecondButtonClick = () => {}; // otherwise nothing
         const errorMessage = error;
 
         if ( error ) {
@@ -95,27 +91,21 @@ export class AppStateButton extends React.Component<Props> {
 
         if ( isDownloadingAndInstalling ) {
             buttonText = I18n.t( `buttons.pause` );
-            secondButtonText = I18n.t( `buttons.cancelInstall` );
 
             handleClick = this.handlePauseDownload;
-            handleSecondButtonClick = this.handleCancelDownload;
         }
 
         if ( isDownloadingAndUpdating ) {
             buttonText = I18n.t( `buttons.pause` );
-            secondButtonText = I18n.t( `buttons.cancelUpdate` );
         }
 
         if ( isPaused ) {
             buttonText = I18n.t( `buttons.resume` );
-            secondButtonText = I18n.t( `buttons.cancelInstall` );
             handleClick = this.handleResumeDownload;
-            handleSecondButtonClick = this.handleCancelDownload;
         }
 
         if ( isUninstalling ) {
             buttonText = I18n.t( `buttons.uninstalling` );
-            showSecondButton = false;
         }
 
         const precentageProgress = progress * 100;
@@ -137,14 +127,6 @@ export class AppStateButton extends React.Component<Props> {
                         value={precentageProgress}
                         variant="determinate"
                     />
-                )}
-                {showSecondButton && (
-                    <Button
-                        onClick={handleSecondButtonClick}
-                        aria-label="Application Secondary Action Button"
-                    >
-                        {secondButtonText}
-                    </Button>
                 )}
             </React.Fragment>
         );

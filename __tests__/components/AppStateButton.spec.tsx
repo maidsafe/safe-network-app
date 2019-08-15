@@ -100,11 +100,11 @@ describe( 'AppStateButton', () => {
         it( 'has one install button normally', () => {
             expect( wrapper.find( Button ) ).toHaveLength( 1 );
         } );
-        it( 'has lno progress circle normally', () => {
+        it( 'has one progress circle normally', () => {
             expect( wrapper.find( CircularProgress ) ).toHaveLength( 0 );
         } );
 
-        it( 'has two buttons and progress when updating', () => {
+        it( 'has one buttons and progress when updating', () => {
             props = {
                 ...props,
                 application: {
@@ -115,11 +115,11 @@ describe( 'AppStateButton', () => {
             };
             wrapper = shallow( <AppStateButton {...props} /> );
 
-            expect( wrapper.find( Button ) ).toHaveLength( 2 );
+            expect( wrapper.find( Button ) ).toHaveLength( 1 );
             expect( wrapper.find( CircularProgress ) ).toHaveLength( 1 );
         } );
 
-        it( 'has two buttons when downloading, which pause/cancel', () => {
+        it( 'has one buttons when downloading, which is pause', () => {
             props = {
                 ...props,
                 application: {
@@ -129,26 +129,20 @@ describe( 'AppStateButton', () => {
             };
             wrapper = shallow( <AppStateButton {...props} /> );
 
-            expect( wrapper.find( Button ) ).toHaveLength( 2 );
+            expect( wrapper.find( Button ) ).toHaveLength( 1 );
 
             const action = wrapper.find(
                 '[aria-label="Application Action Button"]'
             );
-            const secondaryAction = wrapper.find(
-                '[aria-label="Application Secondary Action Button"]'
-            );
 
             expect( action ).toHaveLength( 1 );
-            expect( secondaryAction ).toHaveLength( 1 );
 
             action.simulate( 'click' );
-            secondaryAction.simulate( 'click' );
 
             expect( props.pauseDownload ).toHaveBeenCalled();
-            expect( props.cancelDownload ).toHaveBeenCalled();
         } );
 
-        it( 'has two buttons when paused and they resume/cancel', () => {
+        it( 'has one buttons when paused and it is resume', () => {
             props = {
                 ...props,
                 application: {
@@ -159,23 +153,17 @@ describe( 'AppStateButton', () => {
             };
             wrapper = shallow( <AppStateButton {...props} /> );
 
-            expect( wrapper.find( Button ) ).toHaveLength( 2 );
+            expect( wrapper.find( Button ) ).toHaveLength( 1 );
 
             const action = wrapper.find(
                 '[aria-label="Application Action Button"]'
             );
-            const secondaryAction = wrapper.find(
-                '[aria-label="Application Secondary Action Button"]'
-            );
 
             expect( action ).toHaveLength( 1 );
-            expect( secondaryAction ).toHaveLength( 1 );
 
             action.simulate( 'click' );
-            secondaryAction.simulate( 'click' );
 
             expect( props.resumeDownload ).toHaveBeenCalled();
-            expect( props.cancelDownload ).toHaveBeenCalled();
         } );
 
         it( 'has error msg and one button w/ an errorr', () => {
