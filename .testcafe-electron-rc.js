@@ -8,6 +8,7 @@ if (process.platform === 'windows') {
     appString = 'safe-network-app';
 }
 
+let TEST_UNPACKED = process.env.TEST_UNPACKED;
 // const allArgs = ['--mock'];
 
 const testAuthenticator = process.env.TEST_CAFE_TEST_AUTH;
@@ -29,10 +30,20 @@ if (platform === WINDOWS) {
     PLATFORM_NAME = 'win';
 }
 
-// Changing mainWindowURl to that of a tab gets us the browser UI going too.
-module.exports = {
+let config = {
     mainWindowUrl: './app/app.html',
-    electronPath: `./release/${PLATFORM_NAME}/${appString}`
+    // electronPath: `./release/${PLATFORM_NAME}/${appString}`,
+    appPath: '.'
     // appArgs: allArgs
     // openDevTools: true
 };
+
+if (!TEST_UNPACKED) {
+    console.log('Testcafe testing the packaged app. \n');
+    // delete config.appPath;
+    config.electronPath = `./release/${PLATFORM_NAME}/${appString}`;
+} else {
+    console.log('Testcafe testing the unpackaged app. \n');
+}
+
+module.exports = config;

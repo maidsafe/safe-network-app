@@ -85,10 +85,8 @@ before_script:
 
 script:
   # - yarn package
-  # - yarn package-ci
   - yarn lint
   - yarn check-types
-  - yarn build
   - yarn test
-  - yarn build-e2e
-  - travis_retry yarn test-e2e
+  - yarn package
+  - travis_retry yarn test-e2e-packed

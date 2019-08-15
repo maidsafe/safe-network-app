@@ -13615,9 +13615,9 @@ test-exclude@^5.2.3:
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
 
-"testcafe-browser-provider-electron@https://github.com/joshuef/testcafe-browser-provider-electron.git#AddRCFileInJSWithBuild":
+"testcafe-browser-provider-electron@https://github.com/joshuef/testcafe-browser-provider-electron.git#AddRCFileInJSWithBuild2":
   version "0.0.12"
-  resolved "https://github.com/joshuef/testcafe-browser-provider-electron.git#3ac7b10ee3bea0237d79d86fdb80c75799d69dee"
+  resolved "https://github.com/joshuef/testcafe-browser-provider-electron.git#f4d8d9446389a7ab38d85e7dbc915b4951e9dd82"
   dependencies:
     babel-runtime "^6.25.0"
     chrome-remote-interface "^0.27.0"

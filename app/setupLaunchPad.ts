@@ -2,11 +2,13 @@ import path from 'path';
 import { app, Tray, BrowserWindow, ipcMain, screen, App, Menu } from 'electron';
 import { Store } from 'redux';
 import open from 'open';
+import { is } from 'electron-util';
 import { logger } from '$Logger';
 import { Application } from './definitions/application.d';
 import { setAsTrayWindow } from '$Actions/launchpad_actions';
 
 import {
+    isRunningTestCafeProcess,
     isRunningUnpacked,
     CONFIG,
     isRunningOnWindows,
@@ -134,7 +136,11 @@ export const createSafeLaunchPadTrayWindow = (
 
     theWindow = safeLaunchPadTrayWindow;
 
-    safeLaunchPadTrayWindow.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
+    if ( is.usingAsar || isRunningTestCafeProcess ) {
+        safeLaunchPadTrayWindow.loadURL( `file://${CONFIG.APP_HTML_PATH_ASAR}` );
+    } else {
+        safeLaunchPadTrayWindow.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
+    }
 
     // Hide the safeLaunchPadTrayWindow when it loses focus
     safeLaunchPadTrayWindow.on( 'blur', () => {
