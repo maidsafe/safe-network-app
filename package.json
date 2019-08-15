@@ -60,24 +60,18 @@
   },
   "main": "./app/main.prod.js",
   "build": {
+    "afterPack" : "./afterPack.js",
     "productName": "SAFE Network App",
     "appId": "org.develar.SAFENetworkApp",
-    "extraResources": [
-        {
-            "from" : "../package.json",
-            "to" : "package.json"
-        }
-    ],
     "files": [
-      "app/dist/",
+      "./package.json",
+      "app/dist/**/*",
       "app/tray-icon.png",
       "app/app.html",
       "app/bg.html",
       "app/main.prod.js",
-      "app/main.prod.js.map",
-      "package.json"
+      "app/main.prod.js.map"
     ],
-
     "dmg": {
       "contents": [
         {
@@ -195,7 +189,7 @@
     "css-loader": "^3.2.0",
     "detect-port": "^1.3.0",
     "electron": "6.0.1",
-    "electron-builder": "^21.2.0",
+    "electron-builder": "21.2.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "enzyme-to-json": "^3.4.0",
