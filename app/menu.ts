@@ -6,6 +6,7 @@ import {
     setUserPreferences,
     setAppPreferences
 } from '$Actions/launchpad_actions';
+import { resetToInitialState } from '$Actions/app_manager_actions';
 import { notificationTypes } from '$Constants/notifications';
 import { isRunningTestCafeProcess, defaultPreferences } from '$Constants/index';
 import { storePreferences } from '$Actions/alias/launchpad_actions';
@@ -215,6 +216,12 @@ export class MenuBuilder {
         const subMenuTests = {
             label: 'Tests',
             submenu: [
+                {
+                    label: 'Reset application list',
+                    click: () => {
+                        this.store.dispatch( resetToInitialState() );
+                    }
+                },
                 {
                     label: 'Add a No Internet Notification',
                     click: () => {

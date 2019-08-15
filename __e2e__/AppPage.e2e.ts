@@ -8,12 +8,18 @@ const assertNoConsoleErrors = async ( t ): Promise<void> => {
     await t.expect( error ).eql( [] );
 };
 
-fixture`Application Page`.page( '../app/app.html' ).beforeEach( async () => {
-    // @ts-ignore
-    await clickOnMainMenuItem( ['Tests', `Skip OnBoard App`] );
-    await waitForReact();
-} );
-// .afterEach( assertNoConsoleErrors );
+fixture`Application Page`
+    .page( '../app/app.html' )
+    .beforeEach( async () => {
+        // @ts-ignore
+        await clickOnMainMenuItem( ['Tests', `Skip OnBoard App`] );
+        await waitForReact();
+    } )
+    .afterEach( async ( t ) => {
+        await assertNoConsoleErrors( t );
+        // @ts-ignore
+        await clickOnMainMenuItem( ['Tests', 'Reset application list'] );
+    } );
 
 test( 'should open window', async ( t ) => {
     await t.expect( getPageTitle() ).eql( 'SAFE Network App' );

@@ -59,6 +59,10 @@ export function appManager( state = initialState, action ): AppManagerState {
             return updateAppInApplicationList( state, targetApp );
         }
 
+        case TYPES.RESET_TO_INITIAL_STATE: {
+            return initialState;
+        }
+
         case TYPES.RESET_APP_STATE: {
             if ( !targetApp ) return state;
             targetApp.isDownloadingAndInstalling = false;
