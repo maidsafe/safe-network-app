@@ -1,8 +1,8 @@
 {
   "name": "safe-launchpad",
-  "productName": "SafeLaunchpad",
+  "productName": "SAFE Network App",
   "version": "0.0.2",
-  "identifier": "SafeLaunchpad",
+  "identifier": "SAFE Network App",
   "description": "Launchpad for the SAFE Network",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer-n-bg\"",
@@ -60,8 +60,14 @@
   },
   "main": "./app/main.prod.js",
   "build": {
-    "productName": "SAFE Launch Pad",
-    "appId": "org.develar.SAFELaunchPad",
+    "productName": "SAFE Network App",
+    "appId": "org.develar.SAFENetworkApp",
+    "extraResources": [
+        {
+            "from" : "../package.json",
+            "to" : "package.json"
+        }
+    ],
     "files": [
       "app/dist/",
       "app/tray-icon.png",
@@ -71,6 +77,7 @@
       "app/main.prod.js.map",
       "package.json"
     ],
+
     "dmg": {
       "contents": [
         {
@@ -83,12 +90,6 @@
           "type": "link",
           "path": "/Applications"
         }
-      ]
-    },
-    "protocols": {
-      "name": "SAFE Network URL",
-      "schemes": [
-        "safe-another-auth'"
       ]
     },
     "win": {
@@ -110,7 +111,7 @@
         "snap",
         "AppImage"
       ],
-      "category": "Development"
+      "category": "Productivity"
     },
     "directories": {
       "buildResources": "resources",
@@ -119,13 +120,13 @@
     "publish": {
       "provider": "github",
       "owner": "maidsafe",
-      "repo": "safe_launchpad_app",
-      "private": true
+      "repo": "safe-network-app",
+      "private": false
     }
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/maidsafe/safe_launchpad_app.git"
+    "url": "https://github.com/maidsafe/safe-network-app.git"
   },
   "author": {
     "name": "Josh Wilson",
@@ -134,19 +135,18 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/maidsafe/safe_launchpad_app/issues"
+    "url": "https://github.com/maidsafe/safe-network-app/issues"
   },
   "keywords": [
+    "SAFE",
+    "safe network",
     "electron",
-    "boilerplate",
     "react",
     "redux",
     "sass",
-    "webpack",
-    "hot",
-    "reload"
+    "webpack"
   ],
-  "homepage": "https://github.com/maidsafe/safe_launchpad_app#readme",
+  "homepage": "https://github.com/maidsafe/safe-network-app#readme",
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
