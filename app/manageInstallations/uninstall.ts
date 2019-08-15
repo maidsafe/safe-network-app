@@ -3,7 +3,6 @@ import { Store } from 'redux';
 
 import { spawnSync } from 'child_process';
 import del from 'del';
-import rimraf from 'rimraf';
 import path from 'path';
 
 import { pushNotification } from '$Actions/launchpad_actions';
@@ -13,12 +12,7 @@ import {
     uninstallAppSuccess
 } from '$Actions/application_actions';
 
-import {
-    isRunningOnMac,
-    isRunningOnWindows,
-    isDryRun,
-    platform
-} from '$Constants';
+import { isRunningOnMac, isRunningOnWindows, isDryRun } from '$Constants';
 import {
     getApplicationExecutable,
     getInstalledLocation
@@ -37,8 +31,6 @@ export const unInstallApplication = async (
     logger.info( 'Starting uninstall of', application.name );
 
     store.dispatch( uninstallAppPending( application ) );
-
-    const applicationExecutable = getApplicationExecutable( application );
 
     const installedPath = getInstalledLocation( application );
     const applicationUserDataPath = path.resolve(
@@ -78,6 +70,37 @@ export const unInstallApplication = async (
     }
 
     try {
+        if ( isRunningOnMac ) {
+            logger.verbose( 'Attempting to delete .asar files' );
+            const asarLocation = `${installedPath}/Contents/Resources`;
+            if ( isDryRun ) {
+                logger.verbose(
+                    `MacOS, first would have removed: ${asarLocation}/electron.asar`
+                );
+                logger.verbose(
+                    `MacOS, first would have removed: ${asarLocation}/app.asar`
+                );
+            }
+
+            // we need to manually remove .asar files _first_.
+            const done = spawnSync( 'rm', [
+                `${asarLocation}/electron.asar`,
+                `${asarLocation}/app.asar`
+            ] );
+
+            if ( done.error ) {
+                logger.error( 'Error during removal of .asar files', done.error );
+                store.dispatch(
+                    pushNotification( {
+                        title: `Error removing ${asarLocation} *.asar files. Please check file permissions.`,
+                        message: done.error.message,
+                        application,
+                        type: 'UNINSTALL_FAIL',
+                        notificationType: 'standard'
+                    } )
+                );
+            }
+        }
         const byeApp = del( installedPath, {
             force: true,
             dryRun: isDryRun
@@ -106,7 +129,7 @@ export const unInstallApplication = async (
                 title: `Error uninstalling ${application.name}`,
                 message: error.message,
                 application,
-                acceptText: 'Dismiss',
+                // acceptText: 'Dismiss',
                 type: 'UNINSTALL_FAIL',
                 notificationType: 'standard'
             } )

@@ -1,9 +1,6 @@
-import { BrowserWindow, DownloadItem, ipcMain, app } from 'electron';
+import { BrowserWindow, DownloadItem, ipcMain } from 'electron';
 import { Store } from 'redux';
 import { download } from 'electron-dl';
-import { spawnSync } from 'child_process';
-import del from 'del';
-import path from 'path';
 import open from 'open';
 
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
