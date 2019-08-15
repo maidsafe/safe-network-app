@@ -8,7 +8,11 @@ import {
 } from '$Actions/launchpad_actions';
 import { resetToInitialState } from '$Actions/app_manager_actions';
 import { notificationTypes } from '$Constants/notifications';
-import { isRunningTestCafeProcess, defaultPreferences } from '$Constants/index';
+import {
+    isRunningTestCafeProcess,
+    defaultPreferences,
+    isRunningDebug
+} from '$Constants/index';
 import { storePreferences } from '$Actions/alias/launchpad_actions';
 import { Application } from './definitions/application.d';
 import { logger } from '$Logger';
@@ -27,7 +31,8 @@ export class MenuBuilder {
     public buildMenu(): Menu {
         if (
             process.env.NODE_ENV === 'development' ||
-            process.env.DEBUG_PROD === 'true'
+            process.env.DEBUG_PROD === 'true' ||
+            isRunningDebug
         ) {
             this.setupDevelopmentEnvironment();
         }

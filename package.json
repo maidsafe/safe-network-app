@@ -16,7 +16,7 @@
     "lint-fix": "yarn --silent lint --fix; exit 0",
     "lint-styles": "stylelint --ignore-path .eslintignore '**/*.*(css|scss)' --syntax scss",
     "lint-styles-fix": "yarn --silent lint-styles --fix; exit 0",
-    "log": "tail -f $TMPDIR/safe-launch-pad.log",
+    "log": "tail -f $TMPDIR/safe-network-app.log",
     "package": "yarn build && electron-builder build --publish never",
     "package-all": "yarn build && electron-builder build -mwl",
     "package-macos": "yarn build && electron-builder --publish always",
@@ -60,18 +60,19 @@
   },
   "main": "./app/main.prod.js",
   "build": {
-    "afterPack" : "./afterPack.js",
+    "afterPack": "./internals/scripts/afterPack.js",
     "productName": "SAFE Network App",
     "appId": "org.develar.SAFENetworkApp",
     "files": [
       "./package.json",
-      "app/dist/**/*",
+      "app/dist",
       "app/tray-icon.png",
       "app/app.html",
       "app/bg.html",
       "app/main.prod.js",
       "app/main.prod.js.map"
     ],
+    "artifactName": "SAFE Network App-v${version}-${os}-x64",
     "dmg": {
       "contents": [
         {
@@ -231,7 +232,7 @@
     "stylelint-config-standard": "^18.2.0",
     "terser-webpack-plugin": "^1.4.1",
     "testcafe": "^1.4.0",
-    "testcafe-browser-provider-electron": "https://github.com/joshuef/testcafe-browser-provider-electron.git#AnotherE6",
+    "testcafe-browser-provider-electron": "https://github.com/joshuef/testcafe-browser-provider-electron.git#AddRCFileInJSWithBuild",
     "testcafe-live": "^0.1.4",
     "testcafe-react-selectors": "^3.1.0",
     "ts-jest": "^24.0.2",
@@ -265,6 +266,7 @@
     "electron-log": "3.0.7",
     "electron-redux": "1.4.0",
     "electron-updater": "^4.1.2",
+    "electron-util": "0.12.1",
     "enum": "2.5.0",
     "fs-extra": "8.1.0",
     "history": "^4.9.0",

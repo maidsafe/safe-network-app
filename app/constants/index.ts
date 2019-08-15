@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { app, remote } from 'electron';
-
+import { is } from 'electron-util';
 import pkg from '$Package';
 
 export const LOG_FILE_NAME = 'safe-network-app.log';
@@ -27,10 +27,9 @@ let shouldRunMockNetwork: boolean = fs.existsSync(
 let hasDebugFlag = false;
 let hasDryRunFlag = false;
 
-export const isRunningTestCafeProcess =
-    remote && remote.getGlobal
-        ? remote.getGlobal( 'isRunningTestCafeProcess' )
-        : process.env.TEST_CAFE || false;
+export const isRunningTestCafeProcess = is.renderer
+    ? remote.getGlobal( 'isRunningTestCafeProcess' )
+    : process.env.TEST_CAFE || false;
 
 export const isRunningUnpacked = process.env.IS_UNPACKED;
 export const isRunningPackaged = !isRunningUnpacked;
@@ -77,8 +76,9 @@ export const environment = shouldStartAsMockFromFlagsOrPackage
 
 export const isRunningDevelopment = environment.startsWith( 'dev' );
 
-export const isCI: boolean =
-    remote && remote.getGlobal ? remote.getGlobal( 'isCI' ) : process.env.CI;
+export const isCI: boolean = is.renderer
+    ? remote.getGlobal( 'isCI' )
+    : process.env.CI;
 export const travisOS = process.env.TRAVIS_OS_NAME || '';
 // other considerations?
 export const isHot = process.env.HOT || 0;
@@ -86,10 +86,9 @@ export const isHot = process.env.HOT || 0;
 const startAsMockNetwork = shouldStartAsMockFromFlagsOrPackage;
 
 // only to be used for inital store setting in main process. Not guaranteed correct for renderers.
-export const startedRunningMock: boolean =
-    remote && remote.getGlobal
-        ? remote.getGlobal( 'startedRunningMock' )
-        : startAsMockNetwork || isRunningDevelopment;
+export const startedRunningMock: boolean = is.renderer
+    ? remote.getGlobal( 'startedRunningMock' )
+    : startAsMockNetwork || isRunningDevelopment;
 export const startedRunningProduction = !startedRunningMock;
 export const isRunningNodeEnvironmentTest = environment.startsWith( 'test' );
 export const isRunningDebug = hasDebugFlag || isRunningTestCafeProcess;
@@ -107,7 +106,7 @@ export const currentWindowId =
 const preloadLocation = isRunningUnpacked ? '' : '../';
 
 export const getAppFolderPath = () => {
-    if ( remote && remote.app ) return remote.app.getPath( 'appData' );
+    if ( is.renderer ) return remote.app.getPath( 'appData' );
     return app.getPath( 'appData' );
 };
 export const I18N_CONFIG = {
@@ -124,15 +123,16 @@ export const PROTOCOLS = {
 };
 
 export const CONFIG = {
-    APP_HTML_PATH: path.resolve( __dirname, '..', './app.html' ),
+    APP_HTML_PATH: is.usingAsar
+        ? path.join( __dirname, './app.html' )
+        : path.join( __dirname, '..', '/app.html' ),
     DATE_FORMAT: 'h:MM-mmm dd',
     NET_STATUS_CONNECTED: 'Connected'
 };
 
 if ( inMainProcess ) {
-    const developmentPort = process.env.PORT || 1232;
+    const developmentPort = process.env.PORT || 1458;
 
-    global.preloadFile = `file://${__dirname}/webPreload.prod.js`;
     global.appDirectory = __dirname;
     global.isCI = isCI;
     global.startedRunningMock = startedRunningMock;

@@ -4230,6 +4230,23 @@ cosmiconfig@^5.0.0, cosmiconfig@^5.2.0, cosmiconfig@^5.2.1:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
+cpr-promise@0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/cpr-promise/-/cpr-promise-0.2.6.tgz#02d977d1aaee7169d4cfe3dbfcd0b2b99fb98cc9"
+  integrity sha512-eHveI0jUN5E0h7uRcW84kxdqaBUeTuQM+gvRd7Pot2teDMZ1NQd7q733YEpXzZoNQUC18D+JywU1SwyKsY7REQ==
+  dependencies:
+    cpr "^3.0.1"
+
+cpr@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/cpr/-/cpr-3.0.1.tgz#b9a55038b7cd81a35c17b9761895bd8496aef1e5"
+  integrity sha1-uaVQOLfNgaNcF7l2GJW9hJau8eU=
+  dependencies:
+    graceful-fs "^4.1.5"
+    minimist "^1.2.0"
+    mkdirp "~0.5.1"
+    rimraf "^2.5.4"
+
 crc32-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/crc32-stream/-/crc32-stream-2.0.0.tgz#e3cdd3b4df3168dd74e3de3fbbcb7b297fe908f4"
@@ -5270,6 +5287,14 @@ electron-updater@^4.1.2:
     lodash.isequal "^4.5.0"
     pako "^1.0.10"
     semver "^6.2.0"
+
+electron-util@0.12.1:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/electron-util/-/electron-util-0.12.1.tgz#4a10492d416509a1f588c92d2e50e17798fb4c56"
+  integrity sha512-tRumSqHzNs37X9r2dS42cCxTw8Kw1kARyIcOrKNlYf73n+cooDpBM7+WvA1UNpx1KFPuaBxDpxCmt0SFsJq3BQ==
+  dependencies:
+    electron-is-dev "^1.1.0"
+    new-github-issue-url "^0.2.1"
 
 electron@6.0.1:
   version "6.0.1"
@@ -6788,6 +6813,11 @@ graceful-fs@^4.1.0, graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.1.tgz#1c1f0c364882c868f5bff6512146328336a11b1d"
   integrity sha512-b9usnbDGnD928gJB3LrCmxoibr3VE4U2SMo5PBuBnokWyDADTqDPXg4YpwKF1trpH+UbGp7QLicO3+aWEy0+mw==
+
+graceful-fs@^4.1.5:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.2.tgz#6f0952605d0140c1cfdb138ed005775b92d67b02"
+  integrity sha512-IItsdsea19BoLC7ELy13q1iJFNmd7ofZH5+X/pJr90/nRoPEX0DJo1dHDbgtYWOhJhcCgMDTOw84RZ72q6lB+Q==
 
 grapheme-splitter@^1.0.2:
   version "1.0.4"
@@ -9640,6 +9670,11 @@ neo-async@^2.5.0, neo-async@^2.6.0, neo-async@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
+
+new-github-issue-url@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/new-github-issue-url/-/new-github-issue-url-0.2.1.tgz#e17be1f665a92de465926603e44b9f8685630c1d"
+  integrity sha512-md4cGoxuT4T4d/HDOXbrUHkTKrp/vp+m3aOA7XXVYwNsUNMK49g3SQicTSeV5GIz/5QVGAeYRAOlyp9OvlgsYA==
 
 next-tick@^1.0.0:
   version "1.0.0"
@@ -13580,9 +13615,9 @@ test-exclude@^5.2.3:
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
 
-"testcafe-browser-provider-electron@https://github.com/joshuef/testcafe-browser-provider-electron.git#AnotherE6":
-  version "0.0.11"
-  resolved "https://github.com/joshuef/testcafe-browser-provider-electron.git#c3c9305dd6b73cb1717395b921e249780b32d1ce"
+"testcafe-browser-provider-electron@https://github.com/joshuef/testcafe-browser-provider-electron.git#AddRCFileInJSWithBuild":
+  version "0.0.12"
+  resolved "https://github.com/joshuef/testcafe-browser-provider-electron.git#3ac7b10ee3bea0237d79d86fdb80c75799d69dee"
   dependencies:
     babel-runtime "^6.25.0"
     chrome-remote-interface "^0.27.0"

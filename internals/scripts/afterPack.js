@@ -5,7 +5,7 @@
 const path = require( 'path' );
 const fs = require( 'fs-extra' );
 
-const pkg = require( './package.json' );
+const pkg = require( '../../package.json' );
 
 // const env = process.env.NODE_ENV || 'production';
 // const isBuildingDev = env.startsWith( 'dev' );
