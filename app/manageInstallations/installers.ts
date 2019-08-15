@@ -10,7 +10,10 @@ import {
 import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
 
 import { logger } from '$Logger';
-import { getApplicationExecutable } from '$App/manageInstallations/helpers';
+import {
+    delay,
+    getApplicationExecutable
+} from '$App/manageInstallations/helpers';
 import { App } from '$Definitions/application.d';
 import { INSTALL_TARGET_DIR } from '$Constants/installConstants';
 
@@ -152,12 +155,16 @@ const silentInstallWindows = (
     store.dispatch( downloadAndInstallAppSuccess( application ) );
 };
 
-export const silentInstall = (
+export const silentInstall = async (
     store: Store,
     application: App,
     downloadLocation?: string
-): void => {
+): Promise<void> => {
     logger.info( 'Running silent install for ', downloadLocation );
+
+    if ( isDryRun ) {
+        await delay( 4000 );
+    }
 
     const applicationExecutable = getApplicationExecutable( application );
     switch ( platform ) {

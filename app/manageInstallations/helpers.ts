@@ -16,6 +16,11 @@ import { setCurrentVersion } from '$Actions/application_actions';
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 
+export const delay = ( time: number ): Promise<void> =>
+    new Promise(
+        ( resolve ): ReturnType<typeof setTimeout> => setTimeout( resolve, time )
+    );
+
 export const getApplicationExecutable = ( application: App ): string => {
     // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/tag/v0.1.0
     // TODO ensure name conformity with download, or if different, note how.
