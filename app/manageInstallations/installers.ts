@@ -163,7 +163,7 @@ export const silentInstall = async (
     logger.info( 'Running silent install for ', downloadLocation );
 
     if ( isDryRun ) {
-        await delay( 4000 );
+        await delay( 500 );
     }
 
     const applicationExecutable = getApplicationExecutable( application );

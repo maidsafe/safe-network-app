@@ -75,7 +75,7 @@ export const unInstallApplication = async (
             logger.verbose( 'Attempting to delete .asar files' );
             const asarLocation = `${installedPath}/Contents/Resources`;
             if ( isDryRun ) {
-                await delay( 2000 );
+                await delay( 500 );
                 logger.verbose(
                     `MacOS, first would have removed: ${asarLocation}/electron.asar`
                 );
@@ -115,7 +115,7 @@ export const unInstallApplication = async (
         await Promise.all( [byeApp, byeData] );
 
         if ( isDryRun ) {
-            await delay( 2000 );
+            await delay( 500 );
 
             logger.info( `uninstalled:`, byeApp );
             logger.info( `uninstalled:`, byeData );

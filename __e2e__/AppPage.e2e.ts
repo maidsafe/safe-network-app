@@ -25,7 +25,7 @@ test(
 );
 
 // we start as a tray window right now
-test( 'can navigate to the application page.', async ( t ) => {
+test( 'can navigate to the application page and install', async ( t ) => {
     await t.click(
         Selector( 'a' ).withAttribute( 'href', '#/application/safe.browser' )
     );
@@ -41,4 +41,21 @@ test( 'can navigate to the application page.', async ( t ) => {
             ).exists
         )
         .ok();
+
+    const actionButton = Selector( 'button' ).withAttribute(
+        'aria-label',
+        'Application Action Button'
+    );
+    const progress = Selector( '.MuiCircularProgress-root' );
+
+    await t
+        .expect( actionButton.innerText )
+        .eql( 'INSTALL' )
+        .click( actionButton )
+        .expect( actionButton.innerText )
+        .eql( 'PAUSE DOWNLOAD' )
+        .expect( progress.exists )
+        .ok()
+        .expect( actionButton.innerText )
+        .eql( 'OPEN' );
 } );

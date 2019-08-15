@@ -36,8 +36,16 @@ test( 'clicking on install triggers install', async ( t ) => {
         'aria-label',
         'Application Action Button'
     );
+    const progress = Selector( '.MuiCircularProgress-root' );
+
     await t
+        .expect( actionButton.innerText )
+        .eql( 'INSTALL' )
         .click( actionButton )
+        .expect( actionButton.innerText )
+        .eql( 'PAUSE DOWNLOAD' )
+        .expect( progress.exists )
+        .ok()
         .expect( actionButton.innerText )
         .eql( 'OPEN' );
 } );
@@ -47,13 +55,25 @@ test( 'clicking uninstall will uninstall', async ( t ) => {
         'aria-label',
         'Application Action Button'
     );
+    const progress = Selector( '.MuiCircularProgress-root' );
+
+    const uninstall = Selector( 'li' ).withAttribute(
+        'aria-label',
+        'Uninstall SAFE Browser'
+    );
 
     await t
         .click( actionButton )
+        .expect( actionButton.innerText )
+        .eql( 'PAUSE DOWNLOAD' )
+        .expect( progress.exists )
+        .ok()
         .click( Selector( '.MeatballMenu__vertIcon' ) )
-        .expect(
-            Selector( 'li' ).withAttribute( 'aria-label', 'Uninstall SAFE Browser' )
-                .exists
-        )
-        .ok();
+        .expect( uninstall.exists )
+        .ok()
+        .click( uninstall )
+        .expect( actionButton.innerText )
+        .eql( 'UNINSTALLING' )
+        .expect( actionButton.innerText )
+        .eql( 'INSTALL' );
 } );
