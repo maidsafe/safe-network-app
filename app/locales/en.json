@@ -40,7 +40,10 @@
             "no_internet": "No Internet connection. Your install has been paused.",
             "global_failure": "Global Failure",
             "update_available": "Update Available! %{name} %{version} is ready to install. What’s New…",
-            "clearnet_warning": "Opening webpage in Clearnet"
+            "clearnet_warning": "Opening webpage in Clearnet",
+            "uninstall_error_asar": "Error removing %{asarLocation} *.asar files. Please check file permissions.",
+            "unable_to_get_app_list": "Remote application list could not be retrieved.",
+            "uninstall_error": "Error uninstalling %{name}"
         },
         "message": {
             "close_app": "SAFE Network App requires %{name} to be closed to complete updating.",

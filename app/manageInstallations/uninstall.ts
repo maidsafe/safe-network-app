@@ -4,6 +4,7 @@ import { Store } from 'redux';
 import { spawnSync } from 'child_process';
 import del from 'del';
 import path from 'path';
+import { I18n } from 'react-redux-i18n';
 
 import { pushNotification } from '$Actions/launchpad_actions';
 import {
@@ -11,7 +12,7 @@ import {
     uninstallAppFailure,
     uninstallAppSuccess
 } from '$Actions/application_actions';
-
+import { NOTIFICATION_TYPES } from '$Constants/notifications';
 import { isRunningOnMac, isRunningOnWindows, isDryRun } from '$Constants';
 import {
     delay,
@@ -94,11 +95,16 @@ export const unInstallApplication = async (
                 logger.error( 'Error during removal of .asar files', done.error );
                 store.dispatch(
                     pushNotification( {
-                        title: `Error removing ${asarLocation} *.asar files. Please check file permissions.`,
+                        title: I18n.t(
+                            'notifications.title.uninstall_error_asar',
+                            {
+                                asarLocation
+                            }
+                        ),
                         message: done.error.message,
                         application,
                         type: 'UNINSTALL_FAIL',
-                        notificationType: 'standard'
+                        notificationType: NOTIFICATION_TYPES.STANDARD
                     } )
                 );
             }
@@ -130,12 +136,14 @@ export const unInstallApplication = async (
         store.dispatch( uninstallAppFailure( appWithError ) );
         store.dispatch(
             pushNotification( {
-                title: `Error uninstalling ${application.name}`,
+                title: I18n.t( 'notifications.title.uninstall_error', {
+                    name: application.name
+                } ),
                 message: error.message,
                 application,
                 // acceptText: 'Dismiss',
                 type: 'UNINSTALL_FAIL',
-                notificationType: 'standard'
+                notificationType: NOTIFICATION_TYPES.STANDARD
             } )
         );
     }

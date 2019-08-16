@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron';
 import { createAliasedAction } from 'electron-redux';
 import request from 'request-promise-native';
+import { I18n } from 'react-redux-i18n';
 
 import {
     LAUNCHPAD_APP_ID,
@@ -9,6 +10,7 @@ import {
 } from '$Constants/index';
 import { updateAppInfoIfNewer } from '$Actions/app_manager_actions';
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
+import { NOTIFICATION_TYPES } from '$Constants/notifications';
 
 import {
     getCurrentStore,
@@ -69,10 +71,11 @@ const fetchAppListFromServer = async (): Promise<void> => {
 
         const errorNotification = {
             id,
-            title: 'Remote application list could not be retrieved.',
-            notificationType: 'standard'
+            title: I18n.t( 'notifications.title.unable_to_get_app_list' ),
+            notificationType: NOTIFICATION_TYPES.STANDARD,
+            type: 'NO_APP_LIST'
         };
-        store.dispatch( pushNotification( { notification: errorNotification } ) );
+        store.dispatch( pushNotification( errorNotification ) );
     }
 };
 

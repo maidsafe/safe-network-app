@@ -2,6 +2,7 @@ import { BrowserWindow, DownloadItem, ipcMain } from 'electron';
 import { Store } from 'redux';
 import { download } from 'electron-dl';
 import open from 'open';
+import { I18n } from 'react-redux-i18n';
 
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
 
@@ -15,6 +16,7 @@ import {
 
 import { pushNotification } from '$Actions/launchpad_actions';
 import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
+import { NOTIFICATION_TYPES } from '$Constants/notifications';
 
 import { silentInstall } from '$App/manageInstallations/installers';
 import { unInstallApplication } from '$App/manageInstallations/uninstall';
@@ -227,7 +229,7 @@ const downloadAndInstall = async (
                 application,
                 acceptText: 'Retry',
                 type: 'RETRY_INSTALL',
-                notificationType: 'standard'
+                notificationType: NOTIFICATION_TYPES.STANDARD
             } )
         );
     }

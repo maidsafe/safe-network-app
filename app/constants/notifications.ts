@@ -1,5 +1,10 @@
 import { I18n } from 'react-redux-i18n';
 
+export const NOTIFICATION_TYPES = {
+    STANDARD: 'standard',
+    ALERT: 'js-alert'
+};
+
 export const prepareNotification = (
     title,
     acceptText,
@@ -23,7 +28,7 @@ export const notificationTypes = {
             type: 'NO_INTERNET',
             icon: 'SignalWifiOffIcon',
             priority: 'HIGH',
-            notificationType: 'standard',
+            notificationType: NOTIFICATION_TYPES.STANDARD,
             application
         };
 
@@ -49,7 +54,7 @@ export const notificationTypes = {
         const otherProperties = {
             type: 'CLOSE_APP',
             icon: 'InfoIcon',
-            notificationType: 'standard',
+            notificationType: NOTIFICATION_TYPES.STANDARD,
             priority: 'LOW',
             application
         };
@@ -80,7 +85,7 @@ export const notificationTypes = {
         const otherProperties = {
             type: 'CLOSE_APP_ALERT',
             priority: 'LOW',
-            notificationType: 'js-alert',
+            notificationType: NOTIFICATION_TYPES.ALERT,
             message,
             buttons,
             application
@@ -105,7 +110,7 @@ export const notificationTypes = {
         const otherProperties = {
             icon: 'WarningIcon',
             type: 'SERVER_TIMED_OUT',
-            notificationType: 'standard',
+            notificationType: NOTIFICATION_TYPES.STANDARD,
             priority: 'HIGH',
             application
         };
@@ -131,7 +136,7 @@ export const notificationTypes = {
             type: 'UPDATE_AVAILABLE',
             icon: 'InfoIcon',
             priority: 'LOW',
-            notificationType: 'standard',
+            notificationType: NOTIFICATION_TYPES.STANDARD,
             application
         };
 
@@ -162,7 +167,7 @@ export const notificationTypes = {
         const otherProperties = {
             priority: 'LOW',
             type: 'UPDATE_AVAILABLE_ALERT',
-            notificationType: 'js-alert',
+            notificationType: NOTIFICATION_TYPES.ALERT,
             message,
             buttons,
             application
@@ -188,7 +193,7 @@ export const notificationTypes = {
             type: 'ADMIN_PASS_REQ',
             priority: 'HIGH',
             icon: 'LockIcon',
-            notificationType: 'standard',
+            notificationType: NOTIFICATION_TYPES.STANDARD,
             application
         };
 
@@ -208,7 +213,7 @@ export const notificationTypes = {
 
         const otherProperties = {
             type: 'RESTART_SYSTEM',
-            notificationType: 'standard',
+            notificationType: NOTIFICATION_TYPES.STANDARD,
             icon: 'LoopIcon',
             priority: 'LOW'
         };
@@ -233,7 +238,7 @@ export const notificationTypes = {
 
         const otherProperties = {
             type: 'RESTART_SYSTEM_ALERT',
-            notificationType: 'js-alert',
+            notificationType: NOTIFICATION_TYPES.ALERT,
             priority: 'LOW',
             message,
             buttons
@@ -253,7 +258,7 @@ export const notificationTypes = {
 
         const otherProperties = {
             type: 'GLOBAL_FAILURE',
-            notificationType: 'standard',
+            notificationType: NOTIFICATION_TYPES.STANDARD,
             icon: 'WarningIcon',
             priority: 'HIGH',
             application
@@ -273,7 +278,7 @@ export const notificationTypes = {
 
         const otherProperties = {
             type: 'DISC_FULL',
-            notificationType: 'standard',
+            notificationType: NOTIFICATION_TYPES.STANDARD,
             icon: 'DiscFullIcon',
             priority: 'HIGH',
             application
@@ -301,7 +306,7 @@ export const notificationTypes = {
 
         const otherProperties = {
             type: 'UNINSTALL_APP',
-            notificationType: 'js-alert',
+            notificationType: NOTIFICATION_TYPES.ALERT,
             priority: 'HIGH',
             message,
             application,
@@ -326,7 +331,7 @@ export const notificationTypes = {
         const otherProperties = {
             type: 'CLEARNET_WARNING',
             priority: 'HIGH',
-            notificationType: 'js-alert',
+            notificationType: NOTIFICATION_TYPES.ALERT,
             checkboxLabel,
             message,
             buttons
