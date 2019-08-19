@@ -92,28 +92,31 @@ const setWindowAsVisible = ( setVisible: boolean ): void => {
     }
 };
 
-export const createTray = ( store: Store ): void => {
-    const iconPathtray = path.resolve( __dirname, 'tray-icon.png' );
+export const createTray = ( store: Store ) => {
+    return new Promise( ( resolve ) => {
+        const iconPathtray = path.resolve( __dirname, 'tray-icon.png' );
 
-    tray = new Tray( iconPathtray );
+        tray = new Tray( iconPathtray );
 
-    tray.on( 'double-click', () => {
-        setWindowAsVisible( true );
+        tray.on( 'double-click', () => {
+            setWindowAsVisible( true );
+        } );
+        tray.on( 'click', ( event ) => {
+            setWindowAsVisible( true );
+
+            // Show devtools when command clicked
+            if (
+                safeLaunchPadStandardWindow &&
+                safeLaunchPadStandardWindow.isVisible() &&
+                process.defaultApp &&
+                event.metaKey
+            ) {
+                safeLaunchPadStandardWindow.openDevTools( { mode: 'undocked' } );
+            }
+        } );
+        tray.setToolTip( app.getName() );
+        resolve();
     } );
-    tray.on( 'click', ( event ) => {
-        setWindowAsVisible( true );
-
-        // Show devtools when command clicked
-        if (
-            safeLaunchPadStandardWindow &&
-            safeLaunchPadStandardWindow.isVisible() &&
-            process.defaultApp &&
-            event.metaKey
-        ) {
-            safeLaunchPadStandardWindow.openDevTools( { mode: 'undocked' } );
-        }
-    } );
-    tray.setToolTip( app.getName() );
 };
 
 export const createSafeLaunchPadTrayWindow = (
@@ -167,13 +170,15 @@ export const createSafeLaunchPadTrayWindow = (
         }
     } );
 
-    ipcMain.on( 'set-as-tray-window', ( _event, shouldBeTray: boolean ) => {
+    ipcMain.on( 'set-as-tray-window', async ( _event, shouldBeTray: boolean ) => {
         if ( shouldBeTray ) {
             // must be first for dock icon changes
+            await createTray( store );
             store.dispatch( setAsTrayWindow( true ) );
             showAsTrayWindow();
         } else {
             // must be first for dock icon changes
+            tray.destroy();
             store.dispatch( setAsTrayWindow( false ) );
             showAsRegularWindow();
         }

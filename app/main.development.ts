@@ -86,7 +86,7 @@ if ( !gotTheLock ) {
 
         setupBackground( store );
         trayWindow = createSafeLaunchPadTrayWindow( store );
-        createTray( store );
+        await createTray( store );
 
         const menuBuilder = new MenuBuilder( trayWindow, store );
         menuBuilder.buildMenu();
