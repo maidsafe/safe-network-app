@@ -1,3 +1,6 @@
+import path from 'path';
+import os from 'os';
+import fse from 'fs-extra';
 import { ipcRenderer } from 'electron';
 import { createAliasedAction } from 'electron-redux';
 import request from 'request-promise-native';
@@ -51,6 +54,28 @@ export const TYPES = {
     ALIAS_SKIP_APP_UPDATE: 'ALIAS_SKIP_APP_UPDATE'
 };
 
+const getAppIcon = ( application ): Promise<string> => {
+    return new Promise( async ( resolve ) => {
+        try {
+            const filename = `${application.id}.png`;
+            const filePath = path.resolve( os.tmpdir(), filename );
+
+            const appIcon = await request( {
+                uri: `https://github.com/${application.repositoryOwner}/${application.repositorySlug}
+                    /releases/download/v${application.latestVersion}/icon.png`,
+                encoding: null,
+                resolveWithFullResponse: true
+            } );
+
+            fse.outputFileSync( filePath, appIcon.body );
+            return resolve( fse.pathExists( filePath ) && filePath );
+        } catch ( error ) {
+            logger.warn( error.message );
+            return resolve( null );
+        }
+    } );
+};
+
 const fetchAppListFromServer = async (): Promise<void> => {
     logger.debug( 'Attempting to fetch application list' );
 
@@ -60,10 +85,12 @@ const fetchAppListFromServer = async (): Promise<void> => {
     try {
         const response = await request( APPLICATION_LIST_SOURCE );
         const apps = JSON.parse( response );
-        logger.debug( 'Application list retrieved sucessfully' );
+        logger.debug( 'Application list retrieved successfully' );
 
-        Object.keys( apps.applications ).forEach( ( theApp ) => {
-            store.dispatch( updateAppInfoIfNewer( apps.applications[theApp] ) );
+        Object.keys( apps.applications ).forEach( async ( theAppId ) => {
+            const theApp = apps.applications[theAppId];
+            theApp.iconUrl = await getAppIcon( theApp );
+            store.dispatch( updateAppInfoIfNewer( theApp ) );
         } );
     } catch ( error ) {
         logger.error( error.message );

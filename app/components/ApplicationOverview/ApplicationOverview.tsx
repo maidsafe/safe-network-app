@@ -36,9 +36,13 @@ export class ApplicationOverview extends React.PureComponent<Props> {
             <React.Fragment>
                 <ListItem className={styles.list}>
                     <ListItemAvatar>
-                        <Avatar>
-                            <FolderIcon />
-                        </Avatar>
+                        {application.iconUrl ? (
+                            <Avatar src={application.iconUrl} />
+                        ) : (
+                            <Avatar>
+                                <FolderIcon />
+                            </Avatar>
+                        )}
                     </ListItemAvatar>
                     <Link to={`/application/${application.id}`}>
                         <ListItemText
