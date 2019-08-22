@@ -1,10 +1,11 @@
 import path from 'path';
 import os from 'os';
 import fse from 'fs-extra';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import { createAliasedAction } from 'electron-redux';
 import request from 'request-promise-native';
 import { I18n } from 'react-redux-i18n';
+import { getAppDataPath } from '$Utils/app_utils';
 
 import {
     LAUNCHPAD_APP_ID,
@@ -54,21 +55,30 @@ export const TYPES = {
     ALIAS_SKIP_APP_UPDATE: 'ALIAS_SKIP_APP_UPDATE'
 };
 
-const getAppIcon = ( application ): Promise<string> => {
+const fetchAppIconFromServer = ( application ): Promise<string> => {
     return new Promise( async ( resolve ) => {
         try {
-            const filename = `${application.id}.png`;
-            const filePath = path.resolve( os.tmpdir(), filename );
+            const filename = `${
+                application.id
+            }-${application.latestVersion.replace( /\./g, '-' )}.png`;
+            const filePath = path.resolve(
+                getAppDataPath(),
+                'thumbnail',
+                filename
+            );
 
-            const appIcon = await request( {
-                uri: `https://github.com/${application.repositoryOwner}/${application.repositorySlug}
-                    /releases/download/v${application.latestVersion}/icon.png`,
-                encoding: null,
-                resolveWithFullResponse: true
-            } );
+            // TODO: need to remove old icon
 
-            fse.outputFileSync( filePath, appIcon.body );
-            return resolve( fse.pathExists( filePath ) && filePath );
+            if ( !fse.pathExistsSync( filePath ) ) {
+                const appIcon = await request( {
+                    uri: `https://github.com/${application.repositoryOwner}/${application.repositorySlug}/releases/download/v${application.latestVersion}/icon.png`,
+                    encoding: null,
+                    resolveWithFullResponse: true
+                } );
+
+                fse.outputFileSync( filePath, appIcon.body );
+            }
+            return resolve( filePath );
         } catch ( error ) {
             logger.warn( error.message );
             return resolve( null );
@@ -89,7 +99,7 @@ const fetchAppListFromServer = async (): Promise<void> => {
 
         Object.keys( apps.applications ).forEach( async ( theAppId ) => {
             const theApp = apps.applications[theAppId];
-            theApp.iconUrl = await getAppIcon( theApp );
+            theApp.iconPath = await fetchAppIconFromServer( theApp );
             store.dispatch( updateAppInfoIfNewer( theApp ) );
         } );
     } catch ( error ) {

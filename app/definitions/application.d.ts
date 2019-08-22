@@ -61,7 +61,7 @@ export interface App {
     packageName: string;
     repositoryOwner: string;
     repositorySlug: string;
-    iconUrl?: string;
+    iconPath?: string;
 
     type: AppType;
     currentVersion?: string;

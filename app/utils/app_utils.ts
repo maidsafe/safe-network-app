@@ -1,4 +1,6 @@
+import path from 'path';
 import { remote } from 'electron';
+import pkg from '$Package';
 
 export const generateRandomString = (): string => {
     return (
@@ -22,3 +24,6 @@ export const camelToTitle = ( camelCase ) =>
         .replace( /([A-Z])/g, ( match ) => ` ${match}` )
         .replace( /^./, ( match ) => match.toUpperCase() )
         .trim();
+
+export const getAppDataPath = () =>
+    path.resolve( remote.app.getPath( 'appData' ), pkg.name );

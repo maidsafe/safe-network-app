@@ -7,6 +7,7 @@ import { logger } from '$Logger';
 import styles from './ApplicationDetail.css';
 import { App } from '$Definitions/application.d';
 import { AppStateButton } from '$Components/AppStateButton';
+import { AppIcon } from '$Components/AppIcon';
 
 interface Props {
     match: {
@@ -62,9 +63,11 @@ export class ApplicationDetail extends React.PureComponent<Props> {
                     </Grid>
 
                     <Grid item xs={4}>
-                        <Avatar className={styles.appIcon}>
-                            <FolderIcon fontSize="large" />
-                        </Avatar>
+                        <AppIcon
+                            url={application.iconPath}
+                            fontSize="large"
+                            className={styles.appIcon}
+                        />
                     </Grid>
                     <Grid item xs={12} className={styles.appDesc}>
                         <Typography aria-label="description" variant="body2">

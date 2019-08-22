@@ -13,6 +13,7 @@ import {
 import indigo from '@material-ui/core/colors/indigo';
 import FolderIcon from '@material-ui/icons/Folder';
 import { MeatballMenu } from '$Components/MeatballMenu';
+import { AppIcon } from '$Components/AppIcon';
 // import { logger } from '$Logger';
 import { AppStateButton } from '$Components/AppStateButton';
 import styles from './ApplicationOverview.css';
@@ -36,13 +37,7 @@ export class ApplicationOverview extends React.PureComponent<Props> {
             <React.Fragment>
                 <ListItem className={styles.list}>
                     <ListItemAvatar>
-                        {application.iconUrl ? (
-                            <Avatar src={application.iconUrl} />
-                        ) : (
-                            <Avatar>
-                                <FolderIcon />
-                            </Avatar>
-                        )}
+                        <AppIcon url={application.iconPath} />
                     </ListItemAvatar>
                     <Link to={`/application/${application.id}`}>
                         <ListItemText
