@@ -1,12 +1,4 @@
-let appString = 'SAFE Network App.app';
-
-if (process.platform === 'linux') {
-    appString = 'safe-network-app';
-}
-
-if (process.platform === 'windows') {
-    appString = 'safe-network-app';
-}
+let appString = 'safe-network-app';
 
 let TEST_UNPACKED = process.env.TEST_UNPACKED;
 // const allArgs = ['--mock'];
@@ -20,14 +12,15 @@ const WINDOWS = 'win32';
 
 if (platform === MAC_OS) {
     PLATFORM_NAME = 'mac';
+    appString = 'SAFE Network App.app';
 }
 
 if (platform === LINUX) {
-    PLATFORM_NAME = LINUX;
+    PLATFORM_NAME = 'linux-unpacked';
 }
 
 if (platform === WINDOWS) {
-    PLATFORM_NAME = 'win';
+    PLATFORM_NAME = 'win-unpacked';
 }
 
 let config = {
