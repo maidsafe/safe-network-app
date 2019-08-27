@@ -10,6 +10,7 @@ import { getAppDataPath } from '$Utils/app_utils';
 import {
     LAUNCHPAD_APP_ID,
     APPLICATION_LIST_SOURCE,
+    DEFAULT_APP_ICON_PATH,
     isRunningTestCafeProcess
 } from '$Constants/index';
 import { updateAppInfoIfNewer } from '$Actions/app_manager_actions';
@@ -53,6 +54,10 @@ export const TYPES = {
 
     ALIAS_UPDATE_APP: 'ALIAS_UPDATE_APP',
     ALIAS_SKIP_APP_UPDATE: 'ALIAS_SKIP_APP_UPDATE'
+};
+
+export const fetchDefaultAppIconFromLocal = ( applicationId: string ): string => {
+    return path.resolve( DEFAULT_APP_ICON_PATH, `${applicationId}.png` );
 };
 
 const fetchAppIconFromServer = ( application ): Promise<string> => {
@@ -99,7 +104,9 @@ const fetchAppListFromServer = async (): Promise<void> => {
 
         Object.keys( apps.applications ).forEach( async ( theAppId ) => {
             const theApp = apps.applications[theAppId];
-            theApp.iconPath = await fetchAppIconFromServer( theApp );
+            theApp.iconPath =
+                ( await fetchAppIconFromServer( theApp ) ) ||
+                fetchDefaultAppIconFromLocal( theApp.id );
             store.dispatch( updateAppInfoIfNewer( theApp ) );
         } );
     } catch ( error ) {

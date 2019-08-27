@@ -8,6 +8,8 @@ export const LOG_FILE_NAME = 'safe-network-app.log';
 export const APPLICATION_LIST_SOURCE =
     'https://safe-network-app.s3.eu-west-2.amazonaws.com/managedApplications.json';
 
+export const DEFAULT_APP_ICON_PATH = `${remote &&
+    remote.app.getAppPath()}/assets/icons`;
 export const { platform } = process;
 export const MAC_OS = 'darwin';
 export const LINUX = 'linux';

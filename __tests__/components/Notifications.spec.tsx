@@ -7,6 +7,9 @@ import { NotificationsHandler } from '$Components/Notifications/NotificationsHan
 
 jest.mock( 'electron', () => ( {
     remote: {
+        app: {
+            getAppPath: jest.fn()
+        },
         dialog: {
             showMessageBox: jest.fn()
         },

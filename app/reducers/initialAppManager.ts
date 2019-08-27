@@ -1,4 +1,5 @@
 import { AppManagerState, App } from '../definitions/application.d';
+import { fetchDefaultAppIconFromLocal } from '$Actions/alias/app_manager_actions';
 
 export const initialAppManager: AppManagerState = {
     applicationList: {
@@ -7,6 +8,7 @@ export const initialAppManager: AppManagerState = {
             name: 'SAFE Browser',
             size: '2MB',
             author: 'Maidsafe Ltd.',
+            iconPath: fetchDefaultAppIconFromLocal( 'safe.browser' ),
             packageName: 'safe-browser',
             repositoryOwner: 'maidsafe',
             repositorySlug: 'safe_browser',
@@ -23,6 +25,7 @@ export const initialAppManager: AppManagerState = {
             size: '2MB',
             author: 'Joshuef Ltd.',
             packageName: 'ElectronTypescriptBoiler',
+            iconPath: fetchDefaultAppIconFromLocal( 'electron.boiler' ),
             repositoryOwner: 'joshuef',
             repositorySlug: 'electron-typescript-react-boilerplate',
             latestVersion: '0.0.4',

@@ -6,6 +6,9 @@ import { notificationTypes } from '$Constants/notifications';
 
 jest.mock( 'electron', () => ( {
     remote: {
+        app: {
+            getAppPath: jest.fn()
+        },
         dialog: {
             showMessageBox: jest.fn()
         },
