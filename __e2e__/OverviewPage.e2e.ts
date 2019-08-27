@@ -48,8 +48,11 @@ test( 'clicking on install triggers install', async ( t ) => {
         .expect( actionButton.innerText )
         .eql( 'INSTALL' )
         .click( actionButton )
-        .expect( actionButton.innerText )
-        .eql( 'PAUSE DOWNLOAD' )
+        .expect(
+            actionButton.find( 'svg' ).withAttribute( 'aria-label', 'Pause Button' )
+                .exists
+        )
+        .ok()
         .expect( progress.exists )
         .ok()
         .expect( actionButton.innerText )
@@ -70,8 +73,11 @@ test( 'clicking uninstall will uninstall', async ( t ) => {
 
     await t
         .click( actionButton )
-        .expect( actionButton.innerText )
-        .eql( 'PAUSE DOWNLOAD' )
+        .expect(
+            actionButton.find( 'svg' ).withAttribute( 'aria-label', 'Pause Button' )
+                .exists
+        )
+        .ok()
         .expect( progress.exists )
         .ok()
         .click( Selector( '.MeatballMenu__vertIcon' ) )

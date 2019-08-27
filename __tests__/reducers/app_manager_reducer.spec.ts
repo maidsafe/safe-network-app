@@ -267,12 +267,12 @@ describe( 'app manager reducer', () => {
             const { id } = app1;
             const otherAppId = app2.id;
             const installationError = new Error( 'Unable to install' );
-
+            const progress = 86;
             let nextStore = appManager( store, {
                 type: APP_TYPES.DOWNLOAD_AND_INSTALL_APP_PENDING,
                 payload: {
                     id,
-                    progress: 86
+                    progress
                 }
             } );
             nextStore = appManager( nextStore, {
@@ -285,7 +285,7 @@ describe( 'app manager reducer', () => {
             expect(
                 nextStore.applicationList[id].isDownloadingAndInstalling
             ).toBeFalsy();
-            expect( nextStore.applicationList[id].progress ).toEqual( 0 );
+            expect( nextStore.applicationList[id].progress ).toEqual( progress );
             expect( nextStore.applicationList[id].error ).not.toBeNull();
             expect( nextStore.applicationList[otherAppId] ).toEqual(
                 store.applicationList[otherAppId]

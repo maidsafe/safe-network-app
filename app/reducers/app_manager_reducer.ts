@@ -135,7 +135,6 @@ export function appManager( state = initialState, action ): AppManagerState {
             if ( !targetApp ) return state;
             targetApp.isDownloadingAndInstalling = false;
             targetApp.installFailed = true; // why do we need this?
-            targetApp.progress = 0;
             targetApp.isPaused = false;
             targetApp.error = payload.error;
 

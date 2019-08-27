@@ -100,6 +100,7 @@ describe( 'AppStateButton', () => {
         it( 'has one install button normally', () => {
             expect( wrapper.find( Fab ) ).toHaveLength( 1 );
         } );
+
         it( 'has one progress circle normally', () => {
             expect( wrapper.find( CircularProgress ) ).toHaveLength( 0 );
         } );

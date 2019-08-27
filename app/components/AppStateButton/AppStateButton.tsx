@@ -1,6 +1,9 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Box, Fab, Typography, CircularProgress } from '@material-ui/core';
+import CancelIcon from '@material-ui/icons/Cancel';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 
@@ -85,24 +88,40 @@ export class AppStateButton extends React.Component<Props> {
 
         let handleClick = isInstalled ? this.handleOpen : this.handleDownload;
         const errorMessage = showErrorText ? error : null;
+        let progressButtonIcon;
+
+        const pauseIconButton = (
+            <PauseCircleFilledIcon
+                aria-label="Pause Button"
+                className={styles.pauseButton}
+            />
+        );
 
         if ( error ) {
             buttonText = I18n.t( `buttons.retryInstall` );
+            progressButtonIcon = (
+                <CancelIcon
+                    className={styles.cancelButton}
+                    aria-label="cancelButton"
+                />
+            );
         }
 
         if ( isDownloadingAndInstalling ) {
             buttonText = I18n.t( `buttons.pause` );
-
             handleClick = this.handlePauseDownload;
+            progressButtonIcon = pauseIconButton;
         }
 
         if ( isDownloadingAndUpdating ) {
             buttonText = I18n.t( `buttons.pause` );
+            progressButtonIcon = pauseIconButton;
         }
 
         if ( isPaused ) {
             buttonText = I18n.t( `buttons.resume` );
             handleClick = this.handleResumeDownload;
+            progressButtonIcon = <RefreshIcon aria-label="refreshButton" />;
         }
 
         if ( isUninstalling ) {
@@ -113,22 +132,40 @@ export class AppStateButton extends React.Component<Props> {
 
         return (
             <Box className={styles.wrap}>
-                <Fab
-                    className={styles.actionButton}
-                    variant="extended"
-                    color="primary"
-                    onClick={handleClick}
-                    aria-label="Application Action Button"
-                    disabled={!!isUninstalling}
-                >
-                    {buttonText}
-                </Fab>
-                {progress > 0 && !isInstalled && (
-                    <CircularProgress
-                        value={percentageProgress}
-                        variant="determinate"
-                    />
+                {!isInstalled && progressButtonIcon && (
+                    <Box className={styles.progressButton}>
+                        <Fab
+                            color="primary"
+                            className={styles.progressFab}
+                            onClick={handleClick}
+                            aria-label="Application Action Button"
+                        >
+                            {progressButtonIcon}
+                        </Fab>
+                        <CircularProgress
+                            value={percentageProgress}
+                            variant="static"
+                            className={`${styles.progress} ${
+                                isDownloadingAndInstalling && !isPaused
+                                    ? styles.active
+                                    : ''
+                            }`}
+                        />
+                    </Box>
                 )}
+                {!progressButtonIcon && (
+                    <Fab
+                        className={styles.actionButton}
+                        variant="extended"
+                        color="primary"
+                        onClick={handleClick}
+                        aria-label="Application Action Button"
+                        disabled={!!isUninstalling}
+                    >
+                        {buttonText}
+                    </Fab>
+                )}
+
                 {errorMessage && (
                     <Typography
                         className={styles.error}

@@ -12,6 +12,7 @@ button.actionButton {
 .wrap {
     position: relative;
     display: inline-block;
+    vertical-align: middle;
 }
 
 .wrap .error {
@@ -24,4 +25,48 @@ button.actionButton {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.progressButton {
+    position: relative;
+    width: 36px;
+    height: 36px;
+}
+
+.progressButton .progress {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    max-width: 36px;
+    max-height: 36px;
+    color: #dadada;
+    z-index: 0;
+}
+
+.progressButton .progress.active {
+    color: #c5cae9;
+}
+.progressButton .progressFab {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    min-height: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-shadow: none;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.progressButton .progressFab:hover {
+    background-color: transparent;
+}
+
+.progressButton .pauseButton {
+    fill: #4054b2;
+}
+
+.progressButton .cancelButton {
+    fill: #ff0c3e;
 }

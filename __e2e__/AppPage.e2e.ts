@@ -62,8 +62,11 @@ test( 'can navigate to the application page and install', async ( t ) => {
         .expect( actionButton.innerText )
         .eql( 'INSTALL' )
         .click( actionButton )
-        .expect( actionButton.innerText )
-        .eql( 'PAUSE DOWNLOAD' )
+        .expect(
+            actionButton.find( 'svg' ).withAttribute( 'aria-label', 'Pause Button' )
+                .exists
+        )
+        .ok()
         .expect( progress.exists )
         .ok()
         .expect( actionButton.innerText )
