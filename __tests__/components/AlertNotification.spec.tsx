@@ -2,22 +2,6 @@ import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
 import { NotificationAlert } from '$Components/Notifications/Notification_Alert';
 import { notificationTypes } from '$Constants/notifications';
-// import { NotificationsHandler } from '$Components/Notifications/NotificationsHandler';
-
-jest.mock( 'electron', () => ( {
-    remote: {
-        app: {
-            getAppPath: jest.fn()
-        },
-        dialog: {
-            showMessageBox: jest.fn()
-        },
-        getGlobal: jest.fn()
-    },
-    nativeImage: {
-        createFromPath: jest.fn()
-    }
-} ) );
 
 const shallow = createShallow();
 

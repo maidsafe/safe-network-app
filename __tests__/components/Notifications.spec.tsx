@@ -5,18 +5,6 @@ import { Notification } from '$Components/Notifications/Notification';
 import { notificationTypes } from '$Constants/notifications';
 import { NotificationsHandler } from '$Components/Notifications/NotificationsHandler';
 
-jest.mock( 'electron', () => ( {
-    remote: {
-        app: {
-            getAppPath: jest.fn()
-        },
-        dialog: {
-            showMessageBox: jest.fn()
-        },
-        getGlobal: jest.fn()
-    }
-} ) );
-
 const shallow = createShallow();
 
 const shallowSetup = ( propOverrides? ) => {
