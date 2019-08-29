@@ -3,7 +3,6 @@ import { createShallow } from '@material-ui/core/test-utils';
 import { Button } from '@material-ui/core';
 import { Notification } from '$Components/Notifications/Notification';
 import { notificationTypes } from '$Constants/notifications';
-import { logger } from '$Logger';
 
 const shallow = createShallow();
 
@@ -52,7 +51,7 @@ describe( 'Notifications', () => {
             .filterWhere(
                 ( node ) => node.props()['aria-label'] === 'AcceptNotification'
             )
-            .simulate( 'click', { preventDefault() {} } );
+            .simulate( 'click' );
         expect( props.acceptNotification ).toHaveBeenCalled();
     } );
 
@@ -63,7 +62,7 @@ describe( 'Notifications', () => {
             .filterWhere(
                 ( node ) => node.props()['aria-label'] === 'DenyNotification'
             )
-            .simulate( 'click', { preventDefault() {} } );
+            .simulate( 'click' );
         expect( props.denyNotification ).toHaveBeenCalled();
     } );
 } );

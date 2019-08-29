@@ -25,5 +25,11 @@
             "$Package": ["package.json"]
         }
     },
-    "exclude": ["*.config*?js", "app/*.prod.js", "app/dist", "node_modules"]
+    "exclude": [
+        "*.config*?js",
+        "app/*.prod.js",
+        "app/dist",
+        "node_modules",
+        "*.config.js"
+    ]
 }

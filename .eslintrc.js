@@ -20,7 +20,6 @@ module.exports = {
             jsx: true
         },
         useJSXTextNode: false,
-        project: './tsconfig.json',
         tsconfigRootDir: '.',
         sourceType: 'module',
         allowImportExportEverywhere: false,
@@ -66,7 +65,8 @@ module.exports = {
         'react/prefer-stateless-function': 'error',
         '@typescript-eslint/interface-name-prefix': 'off',
         '@typescript-eslint/no-namespace': 'off',
-        '@typescript-eslint/array-type': ['error', 'generic'],
+        '@typescript-eslint/ban-ts-ignore': 'off',
+        '@typescript-eslint/array-type': ['error', { default: 'generic' }],
         indent: 'off',
         '@typescript-eslint/indent': ['error', 4],
         'unicorn/prevent-abbreviations': [

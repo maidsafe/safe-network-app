@@ -59,7 +59,7 @@ cache:
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-8"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; fi
-  - yarn config delete proxy
+  # - yarn config delete proxy
   - yarn --version
   - npm --version
   # - npm config rm proxy
