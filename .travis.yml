@@ -1,11 +1,12 @@
 matrix:
   allow_failures:
     - os: windows
+    - os: linux
   include:
     - os: osx
       language: node_js
       node_js:
-        - "10"
+        - "12"
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
@@ -15,7 +16,10 @@ matrix:
       services:
         - xvfb
       node_js:
-        - "10"
+        - "12"
+      env:
+        - ELECTRON_CACHE=$HOME/.cache/electron
+        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
       addons:
         apt:
           sources:
@@ -33,7 +37,7 @@ matrix:
     - os: windows
       language: node_js
       node_js:
-        - "10"
+        - "12"
       env:
         # - ELECTRON_CACHE=$HOME/.cache/electron
         # - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
@@ -63,7 +67,8 @@ before_install:
   - npm config set cache-lock-retries 500
 
 install:
-  - travis_wait 30 yarn --ignore-engines --network-timeout 800000
+  - yarn
+  # - travis_wait 30 yarn --ignore-engines --network-timeout 800000
   # On Linux, initialize "virtual display". See before_script
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
