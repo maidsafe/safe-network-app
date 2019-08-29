@@ -64,7 +64,7 @@ const delayShowingWindow = () => {
     setTimeout( () => {
         theWindow.show();
         theWindow.focus();
-    }, 500 );
+    }, 200 );
 };
 
 const showAsTrayWindow = (): void => {
@@ -110,6 +110,10 @@ const showAsRegularWindow = (): void => {
 export const createTray = ( store: Store ) => {
     return new Promise( ( resolve ) => {
         const iconPathtray = path.resolve( __dirname, 'tray-icon.png' );
+
+        if ( tray && !tray.isDestroyed() ) {
+            tray.destroy();
+        }
 
         tray = new Tray( iconPathtray );
 
