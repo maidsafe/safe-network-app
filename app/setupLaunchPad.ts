@@ -17,8 +17,6 @@ import {
 } from '$Constants';
 
 let tray;
-let safeLaunchPadStandardWindow: Application.Window;
-let safeLaunchPadTrayWindow: Application.Window;
 let theWindow: Application.Window;
 
 const getTrayWindowPosition = (
@@ -53,42 +51,59 @@ const getTrayWindowPosition = (
     return { x, y };
 };
 
-const showAsTrayWindow = (): void => {
-    logger.info( 'Setting as tray' );
-    const position = getTrayWindowPosition( theWindow );
-    theWindow.setPosition( position.x, position.y, false );
-
-    theWindow.setMovable( false );
-    theWindow.setResizable( false );
-    theWindow.show();
-    theWindow.focus();
-
-    if ( isRunningOnMac ) {
-        theWindow.setWindowButtonVisibility( false );
-        app.dock.hide();
-    }
-};
-
-const showAsRegularWindow = (): void => {
-    logger.info( 'Setting as window' );
-    theWindow.center();
-    theWindow.show();
-    theWindow.focus();
-    theWindow.setResizable( false );
-    theWindow.setMovable( true );
-
-    if ( isRunningOnMac ) {
-        app.dock.show();
-        theWindow.setWindowButtonVisibility( true );
-    }
-};
-
 const setWindowAsVisible = ( setVisible: boolean ): void => {
     if ( !setVisible ) {
         theWindow.hide();
     } else {
         theWindow.show();
         theWindow.focus();
+    }
+};
+
+const delayShowingWindow = () => {
+    setTimeout( () => {
+        theWindow.show();
+        theWindow.focus();
+    }, 500 );
+};
+
+const showAsTrayWindow = (): void => {
+    logger.info( 'Setting as tray' );
+
+    if ( theWindow.listenerCount( 'blur' ) !== 0 ) {
+        theWindow.removeAllListeners( 'blur' );
+    }
+
+    theWindow.hide();
+    const position = getTrayWindowPosition( theWindow );
+    theWindow.setPosition( position.x, position.y, false );
+    theWindow.setMovable( false );
+    theWindow.setResizable( false );
+    delayShowingWindow();
+
+    if ( isRunningOnMac ) {
+        theWindow.setWindowButtonVisibility( false );
+        app.dock.hide();
+    }
+
+    // Hide the theWindow when it loses focus
+    theWindow.on( 'blur', () => {
+        setWindowAsVisible( false );
+    } );
+};
+
+const showAsRegularWindow = (): void => {
+    logger.info( 'Setting as window' );
+    theWindow.removeAllListeners( 'blur' );
+    theWindow.hide();
+    theWindow.center();
+    theWindow.setResizable( false );
+    theWindow.setMovable( true );
+    delayShowingWindow();
+
+    if ( isRunningOnMac ) {
+        app.dock.show();
+        theWindow.setWindowButtonVisibility( true );
     }
 };
 
@@ -102,17 +117,7 @@ export const createTray = ( store: Store ) => {
             setWindowAsVisible( true );
         } );
         tray.on( 'click', ( event ) => {
-            setWindowAsVisible( true );
-
-            // Show devtools when command clicked
-            if (
-                safeLaunchPadStandardWindow &&
-                safeLaunchPadStandardWindow.isVisible() &&
-                process.defaultApp &&
-                event.metaKey
-            ) {
-                safeLaunchPadStandardWindow.openDevTools( { mode: 'undocked' } );
-            }
+            setWindowAsVisible( !theWindow.isVisible() );
         } );
         tray.setToolTip( app.getName() );
         resolve();
@@ -122,7 +127,7 @@ export const createTray = ( store: Store ) => {
 export const createSafeLaunchPadTrayWindow = (
     store: Store
 ): Application.Window => {
-    safeLaunchPadTrayWindow = new BrowserWindow( {
+    theWindow = new BrowserWindow( {
         width: 400,
         show: false,
         frame: false,
@@ -137,36 +142,26 @@ export const createSafeLaunchPadTrayWindow = (
         }
     } ) as Application.Window;
 
-    theWindow = safeLaunchPadTrayWindow;
-
     if ( is.usingAsar || isRunningTestCafeProcess ) {
-        safeLaunchPadTrayWindow.loadURL( `file://${CONFIG.APP_HTML_PATH_ASAR}` );
+        theWindow.loadURL( `file://${CONFIG.APP_HTML_PATH_ASAR}` );
     } else {
-        safeLaunchPadTrayWindow.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
+        theWindow.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
     }
 
-    // Hide the safeLaunchPadTrayWindow when it loses focus
-    safeLaunchPadTrayWindow.on( 'blur', () => {
-        const { isTrayWindow } = store.getState().launchpad;
-
-        if ( isTrayWindow ) {
-            setWindowAsVisible( false );
-        }
-    } );
-
-    safeLaunchPadTrayWindow.webContents.on( 'did-finish-load', () => {
+    theWindow.webContents.on( 'did-finish-load', async () => {
         logger.info( 'Tray Window: Loaded' );
 
         const { isTrayWindow } = store.getState().launchpad;
 
         if ( isTrayWindow ) {
+            await createTray( store );
             showAsTrayWindow();
         } else {
             showAsRegularWindow();
         }
 
         if ( isRunningUnpacked ) {
-            safeLaunchPadTrayWindow.openDevTools( { mode: 'undocked' } );
+            theWindow.openDevTools( { mode: 'undocked' } );
         }
     } );
 
@@ -186,10 +181,10 @@ export const createSafeLaunchPadTrayWindow = (
 
     // prevent links in pulled updates to trigger window opening. Use default
     // OS browser...
-    safeLaunchPadTrayWindow.webContents.on( 'new-window', function( event, url ) {
+    theWindow.webContents.on( 'new-window', function( event, url ) {
         event.preventDefault();
         open( url );
     } );
 
-    return safeLaunchPadTrayWindow;
+    return theWindow;
 };
