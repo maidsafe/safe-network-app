@@ -62,9 +62,9 @@ before_install:
   - yarn config delete proxy
   - yarn --version
   - npm --version
-  - npm config rm proxy
-  - npm config rm https-proxy
-  - npm config set cache-lock-retries 500
+  # - npm config rm proxy
+  # - npm config rm https-proxy
+  # - npm config set cache-lock-retries 500
 
 install:
   - yarn
