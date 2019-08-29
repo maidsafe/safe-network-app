@@ -128,6 +128,7 @@ export const createSafeLaunchPadTrayWindow = (
         frame: false,
         fullscreenable: false,
         resizable: false,
+        maximizable: false,
         webPreferences: {
             // Prevents renderer process code from not running when safeLaunchPadWindow is
             // hidden

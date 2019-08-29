@@ -6462,9 +6462,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-"frameless-titlebar@https://github.com/manavbp/frameless-titlebar":
+frameless-titlebar@1.0.8:
   version "1.0.8"
-  resolved "https://github.com/manavbp/frameless-titlebar#186bd17e7813fdfe99322f0156718ac123def920"
+  resolved "https://registry.yarnpkg.com/frameless-titlebar/-/frameless-titlebar-1.0.8.tgz#20c8fd5eb97cd94a24f6d7365ae9986babd664fd"
+  integrity sha512-2to1LfDinhDWZpGdOSy2By/VVHvSUeVW6diYrxgKeE4A7RoqOq7a3rCjbwIeVWQTIbgUJaKx9SJoWXAek4QcaA==
   dependencies:
     lodash.isequal "^4.5.0"
 
