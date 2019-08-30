@@ -41,10 +41,10 @@ export class App extends React.PureComponent<Props> {
         const currentPath = router.location.pathname;
         const baseClassList = [
             !shouldOnboard ? styles.gridContainer : '',
-            !isTrayWindow ? styles.standardWindow : ''
+            !isTrayWindow ? styles.standardWindow : styles.trayWindow
         ];
         return (
-            <div>
+            <div className={baseClassList.join( ' ' )}>
                 <div className={styles.titleBarContainer}>
                     {!isTrayWindow && (
                         <TitleBar
@@ -58,11 +58,11 @@ export class App extends React.PureComponent<Props> {
                         />
                     )}
                 </div>
-                <div className={baseClassList.join( ' ' )}>
-                    <div className={styles.headerBar}>
-                        <HeaderBar currentPath={currentPath} />
-                    </div>
-                    <div className={styles.containerBase}>
+                <div className={styles.headerBar}>
+                    <HeaderBar currentPath={currentPath} />
+                </div>
+                <div className={styles.containerBase}>
+                    <Grid container>
                         <NotificationsHandler
                             notifications={notifications}
                             acceptNotification={acceptNotification}
@@ -70,10 +70,10 @@ export class App extends React.PureComponent<Props> {
                             toggleCheckBox={notificationToggleCheckBox}
                             notificationCheckBox={notificationCheckBox}
                         />
-                        <Grid container className="commonBase">
-                            {children}
-                        </Grid>
-                    </div>
+                    </Grid>
+                    <Grid container className="commonBase">
+                        {children}
+                    </Grid>
                 </div>
             </div>
         );

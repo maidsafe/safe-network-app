@@ -5,13 +5,20 @@
 .gridContainer {
     display: grid;
     height: 100%;
-    grid-template-rows: 56px auto;
+    grid-template-rows: 24px 56px auto;
+}
+
+.trayWindow {
+    grid-template-rows: 0 56px auto;
 }
 
 .gridContainer .headerBar {
-    grid-row: 1;
+    grid-row: 2;
 }
 
 .gridContainer .containerBase {
-    grid-row: 2;
+    grid-row: 3;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
 }

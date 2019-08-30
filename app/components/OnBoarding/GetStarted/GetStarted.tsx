@@ -31,7 +31,11 @@ export const GetStarted = ( properties ) => {
                 >
                     {I18n.t( `onboarding.title.getStarted` )}
                 </Typography>
-                <Typography aria-label="GetStartedSubTitle">
+                <Typography
+                    className={styles.desc}
+                    aria-label="GetStartedSubTitle"
+                    variant="body2"
+                >
                     {I18n.t( `onboarding.subTitle.getStarted` )}
                 </Typography>
                 <Fab

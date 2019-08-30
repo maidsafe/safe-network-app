@@ -31,10 +31,15 @@
     margin-bottom: 20px;
 }
 
-.GetStartedButton {
+.Container .GetStartedButton {
     text-transform: uppercase;
     height: 36px;
-    margin-top: 30px;
     background-color: #ff5722;
     color: #fff;
+    margin-top: 28px;
+}
+
+.Container .desc {
+    max-width: 200px;
+    margin-top: 16px;
 }

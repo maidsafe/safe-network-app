@@ -10,16 +10,21 @@
     flex-direction: column;
 }
 
-.Box {
-    padding: '0 24px';
+.Base .Container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.Title {
-    padding-top: 450px;
+.Base .Container .Title {
     text-align: center;
+    margin-top: 100px;
     margin-bottom: 16px;
 }
 
-.Description {
+.Base .Container .Description {
     text-align: center;
+    padding: 0 24px;
 }

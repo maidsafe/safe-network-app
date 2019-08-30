@@ -1,7 +1,6 @@
 .container {
     width: -webkit-fill-available;
     background-color: rgba(229, 229, 229, 1);
-    height: 100%;
 }
 
 .container h2 {

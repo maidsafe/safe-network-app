@@ -2,10 +2,14 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 0 24px;
+    margin-top: 42px;
 }
 
-.Title {
-    padding-top: 10%;
+.Base .Container {
+    margin-top: 40px;
+    padding: 0 16px 20px;
+}
+
+.Base .Container .Title {
     margin-bottom: 16px;
 }

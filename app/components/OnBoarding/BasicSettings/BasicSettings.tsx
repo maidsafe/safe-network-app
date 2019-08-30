@@ -30,22 +30,22 @@ export const BasicSettings = ( properties ) => {
             elevation={0}
             aria-label="BasicSettingsPage"
         >
-            <Box>
+            <Box className={styles.Container}>
                 <Typography className={styles.Title} variant="h5">
                     {I18n.t( `onboarding.title.basic_settings` )}
                 </Typography>
                 <Typography>
                     {I18n.t( `onboarding.subTitle.basic_settings` )}
                 </Typography>
-                <Grid item xs={12}>
-                    <Preferences
-                        isTrayWindow={isTrayWindow}
-                        userPreferences={userPreferences}
-                        requiredItems={requiredItems}
-                        onChange={setUserPreferences}
-                    />
-                </Grid>
             </Box>
+            <Grid item xs={12}>
+                <Preferences
+                    isTrayWindow={isTrayWindow}
+                    userPreferences={userPreferences}
+                    requiredItems={requiredItems}
+                    onChange={setUserPreferences}
+                />
+            </Grid>
         </Paper>
     );
 };
