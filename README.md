@@ -1,4 +1,4 @@
-# SAFE Launch Pad
+# SAFE Network App
 
 Desktop app for managing the your SAFE Network applications.
 
