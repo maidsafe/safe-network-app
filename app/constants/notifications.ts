@@ -198,6 +198,32 @@ export const notificationTypes = {
 
         return prepareNotification( title, denyText, otherProperties );
     },
+    RESTART_APP: ( application, appIsDownloading ) => {
+        const title = appIsDownloading
+            ? I18n.t( 'notifications.title.restart_app_later', {
+                name: application.name
+            } )
+            : I18n.t( 'notifications.title.restart_app_now', {
+                name: application.name
+            } );
+        const acceptText = appIsDownloading
+            ? I18n.t( 'notifications.buttons.acceptText.allow_restart' )
+            : I18n.t( 'notifications.buttons.acceptText.restart_now' );
+        const denyText = appIsDownloading
+            ? I18n.t( 'notifications.buttons.denyText.not_now' )
+            : I18n.t( 'notifications.buttons.denyText.try_later' );
+
+        const otherProperties = {
+            type: 'RESTART_APP',
+            notificationType: NOTIFICATION_TYPES.STANDARD,
+            icon: 'LoopIcon',
+            priority: 'LOW',
+            acceptText,
+            application
+        };
+
+        return prepareNotification( title, denyText, otherProperties );
+    },
     RESTART_SYSTEM_ALERT: ( application ) => {
         const title = I18n.t( 'notifications.title.restart_system', {
             name: application.name

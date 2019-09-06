@@ -1,7 +1,7 @@
 import path from 'path';
 import os from 'os';
 import fse from 'fs-extra';
-import { ipcRenderer, remote } from 'electron';
+import { ipcRenderer, remote, app } from 'electron';
 import { createAliasedAction } from 'electron-redux';
 import request from 'request-promise-native';
 import { I18n } from 'react-redux-i18n';
@@ -26,6 +26,7 @@ import { logger } from '$Logger';
 import { pushNotification } from '$Actions/launchpad_actions';
 import { App } from '$Definitions/application.d';
 
+//  need to add a check to see if its a launchpad update or a random update question is do we use this or what to use
 export const updateApplication = ( application: App ) => mockPromise();
 export const checkForApplicationUpdate = ( application: App ) => mockPromise();
 export const storeApplicationSkipVersion = ( application: App ) => mockPromise();
@@ -55,6 +56,7 @@ export const TYPES = {
     ALIAS_CANCEL_DOWNLOAD_OF_APP: 'ALIAS_CANCEL_DOWNLOAD_OF_APP',
 
     ALIAS_UPDATE_APP: 'ALIAS_UPDATE_APP',
+    ALIAS_RESTART_APP: 'ALIAS_RESTART_APP',
     ALIAS_SKIP_APP_UPDATE: 'ALIAS_SKIP_APP_UPDATE'
 };
 
@@ -168,6 +170,18 @@ const pauseDownloadOfAllApps = ( appList: App ) => {
     } );
 };
 
+const updateTheApplication = ( application: App ) => {
+    if ( application.name === 'SAFE Network App' )
+        ipcRenderer.send( 'update-safe-network-app', application );
+    else console.log( 'no app update feature available at the moment' );
+};
+
+const restartTheApplication = ( application: App ) => {
+    if ( application.name === 'SAFE Network App' )
+        ipcRenderer.send( 'install-safe-network-app' );
+    else console.log( 'no app update feature available at the moment' );
+};
+
 export const fetchTheApplicationList = createAliasedAction(
     TYPES.ALIAS_FETCH_APPS,
     () => {
@@ -248,7 +262,15 @@ export const updateApp = createAliasedAction(
     TYPES.ALIAS_UPDATE_APP,
     ( application: App ) => ( {
         type: TYPES.ALIAS_UPDATE_APP,
-        payload: updateApplication( application )
+        payload: updateTheApplication( application )
+    } )
+);
+
+export const restartApp = createAliasedAction(
+    TYPES.ALIAS_RESTART_APP,
+    ( application: App ) => ( {
+        type: TYPES.ALIAS_RESTART_APP,
+        payload: restartTheApplication( application )
     } )
 );
 

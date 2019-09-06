@@ -1,6 +1,5 @@
-import { ipcMain, app } from 'electron';
+import { ipcMain, app, dialog } from 'electron';
 import path from 'path';
-import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { Store } from 'redux';
 
@@ -15,28 +14,22 @@ import { setupBackground } from './setupBackground';
 import { installExtensions, preferencesJsonSetup } from '$Utils/main_utils';
 import { checkForKnownAppsLocally } from '$App/manageInstallations/helpers';
 
-import { getAppFolderPath, platform, settingsHandlerName } from '$Constants';
+import {
+    isRunningTestCafeProcess,
+    isRunningUnpacked,
+    getAppFolderPath,
+    platform,
+    settingsHandlerName
+} from '$Constants';
 
 import { addNotification } from '$App/env-handling';
+import { pushNotification } from '$Actions/launchpad_actions';
+import { notificationTypes } from './constants/notifications';
+import { AppUpdater } from './autoUpdate';
 
 require( '$Utils/ipcMainListners' );
 
 logger.info( 'User data exists: ', app.getPath( 'userData' ) );
-
-/* eslint-disable-next-line import/no-default-export */
-export default class AppUpdater {
-    public constructor() {
-        log.transports.file.level = 'info';
-        autoUpdater.logger = log;
-
-        try {
-            autoUpdater.checkForUpdatesAndNotify();
-        } catch ( error ) {
-            logger.error( 'Problems with auto updating...' );
-            logger.error( error );
-        }
-    }
-}
 
 if ( process.env.NODE_ENV === 'production' ) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
@@ -103,9 +96,13 @@ if ( !gotTheLock ) {
 
         addNotification( store );
 
-        // Remove this if your app does not use auto updates
-        // eslint-disable-next-line no-new
-        new AppUpdater();
+        if (
+            ( !isRunningTestCafeProcess || !isRunningUnpacked ) &&
+            app.whenReady()
+        ) {
+            // eslint-disable-next-line no-new
+            new AppUpdater( store );
+        }
     } );
 }
 

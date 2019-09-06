@@ -1,5 +1,6 @@
 import { createActions } from 'redux-actions';
 import { ipcRenderer } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import { createAliasedAction } from 'electron-redux';
 import { logger } from '$Logger';
 import { dismissNotification } from '$Actions/launchpad_actions';
@@ -8,7 +9,8 @@ import {
     resumeAllDownloads,
     // TODO: Enable skip app update.
     // skipAppUpdate,
-    // updateApp,
+    restartApp,
+    updateApp,
     unInstallApp,
     downloadAndInstallApp
 } from '$Actions/alias/app_manager_actions';
@@ -37,12 +39,19 @@ const getCurrentStore = () => currentStore;
 
 const acceptNotify = ( props ) => {
     const { application } = props;
-    logger.info( 'Accepting notification.', props );
     const store = getCurrentStore();
     const { applicationList } = store.getState().appManager;
     switch ( props.type ) {
         case 'RETRY_INSTALL':
             store.dispatch( downloadAndInstallApp( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
+            break;
+        case 'UPDATE_AVAILABLE':
+            store.dispatch( updateApp( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
+            break;
+        case 'RESTART_APP':
+            store.dispatch( restartApp( application ) );
             store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'SERVER_TIMED_OUT':
@@ -55,10 +64,6 @@ const acceptNotify = ( props ) => {
             break;
         case 'CLOSE_APP':
             ipcRenderer.send( 'close-app' );
-            store.dispatch( dismissNotification( { id: props.id } ) );
-            break;
-        case 'UPDATE_AVAILABLE':
-            // store.dispatch( updateApp( application ) );
             store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         case 'UPDATE_AVAILABLE_ALERT':
@@ -131,6 +136,9 @@ const denyNotify = ( props ) => {
             break;
         case 'ADMIN_PASS_REQ':
             store.dispatch( cancelDownload( application ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
+            break;
+        case 'RESTART_APP':
             store.dispatch( dismissNotification( { id: props.id } ) );
             break;
         default:

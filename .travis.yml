@@ -86,3 +86,5 @@ script:
   - yarn test
   - yarn package
   - travis_retry yarn test-e2e-packed
+  - rm -rf release
+  - yarn release
