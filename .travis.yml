@@ -1,3 +1,6 @@
+env:
+  global:
+    - secure: "KdkokhthUg6E9MPkda/goz7hrvicoBBDCFVr8ypNsCkwPpZbTzTAyE5eHveDQSMmZaBmtHAUCCegeQmEudkojuiK2arUrIpYkDlxrIq9+vhIfme4R/2d7hcEZakagdQ6ns8dtG1moo5vpijN0ghkch4g/+7jVhRIE7PxHRAVYKkdlOzwLVOuHcoBk9l6+Wl4Tw2XIhs0YKoo+Bhg4wI2yQz/CEfCT4EhCAFiNVVm2PDS3ndOA4vIqth86t+EFDFCxpEeo3lBUb1rJMiXrNxJ6WA18PXhPWzK6jvuiqXMYL6U4QuTOP/YtBExyCNuDXK+2pmimzyzYiGwBI29jqkZe1DePaJs1q6o9Cq+OFjAGUb/8GAxE7PkhREguyhv4d8avcMCZu6uLhYU037CyDyiC34kLp75UleYeEc8wUXcC21+RC/3EP6NPuKlDSQm2WW8y3m/6+r2/yKHf07ak+Gx5dAKhE5Q9r5eDO7VoEiHElgeUVWegZM+/aMacWdz86BKX/FDCevVbyq+XuGiysPV42zyNe4gqjSuJfzA3B0NoBUdlbgKHUR+/ZXaGLbQTzOYz43l4422uDTrP0/ASRnPOktct+ekkGtydIZdr2f+gYnJDd07UAHZ85GYSv7NTR0S8D8LCU1Ugy02fRy6wV1gRkI/h5DanM6KM8KDajynvIM="
 matrix:
   allow_failures:
     - os: windows
