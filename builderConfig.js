@@ -42,20 +42,13 @@ const buildConfig = {
                 type: 'link',
                 path: '/Applications'
             }
-        ],
-        artifactName: `safe-network-app-v\${version}-\${os}-x64.\${ext}`
+        ]
     },
     win: {
         target: ['nsis', 'msi']
     },
-    nsis: {
-        artifactName: `safe-network-app-v\${version}-\${os}-x64.\${ext}`
-    },
     mac: {
         target: ['dmg', 'pkg', 'zip']
-    },
-    appImage: {
-        artifactName: `safe-network-app-v\${version}-\${os}-x64.\${ext}`
     },
     linux: {
         target: ['deb', 'rpm', 'snap', 'AppImage'],

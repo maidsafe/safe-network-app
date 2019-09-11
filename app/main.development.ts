@@ -97,7 +97,8 @@ if ( !gotTheLock ) {
         addNotification( store );
 
         if (
-            ( !isRunningTestCafeProcess || !isRunningUnpacked ) &&
+            !isRunningTestCafeProcess &&
+            !isRunningUnpacked &&
             app.whenReady()
         ) {
             // eslint-disable-next-line no-new
