@@ -1,6 +1,6 @@
 env:
   global:
-    - secure: "Sh+h1IwT/5xKEH/I4EOowrxKH+n+QGjoMw0lWP2KzMubegSUBAyUrHrPGVI7Yua0k/tl/VqhWT1yRkwliDcH3JHmsWIdrTbWxh/HnYzdYDi7XHlkiUrlWFeyJKH/TczD1UFSnDV6cBQsDvyfomLYyUSdQYM9E+chur+CGAX3sb18aLREh3cFtThBh8ASj+IkG7tQl+xHf3HQNw2JTTmHTBDK82GkgK0lSQNH6+mal9KNWf1Xkf6OcHciWHPbWBJOo65hFtxAs3vmtu6U/ZS8QV+RadGWLrDhJQpb/bozObSfnvdE3YeJdJUuAPy9iRUgnOfr1X3OC+DvTQ7KKVBLXOJa5pBuSjLSfu5rVEsVHqP2fRQHV0y3bIB4DhEzYCs68A8Vie9OZgORHLAjyGKYw3VkaY314DBOQpN9JFltCY2RPV9LYJhdfHg0wdKWTvOqNA4uxqZbFCCOlDBy5Q5tMqJnokb3lHr1S94wwHVidF4N1RhXK7fhHVDJGHEAwZBY37eqpo6qwjcTB2SJf3ErORWEb52np6VA6tKWFJms1KJgTzG5fwzJooS0S6cZD1sa1R619J3OsDR9AgaIxutCUwIKkf/d3uWW9b3ZOdeCj44IVB7NrBXrUEa48/dtoyHk0+7U7m9x0KUrkynbKbrdA8Wjm4l1ZnrLik7IObtf3Ws="
+    - secure: "G+hQbK2+8f6XFDopDJNddw3D8pEYx8OcWS4HAPpdXWY3Uo1mOFMObQsK7PjKoVKU7+n/ScL6t1FmRPuqCaxzEZa4jztgtViyVlb04mUI331f0xnuURiSOwHNwkEXpYAOXjmA79UFkSw4BTDVH+A4cJr5wxep+Xr85wGUwRscyDMjNg4DFQHmkNYK+JluquZ2+31yDI/Rl8qgM6vOQAhf4hV72UGKNpjGknPtFqiwnf/j2Q8IT3QiUeOLaEQbgOFAQ/ad7YGt9B0vhRBkh7X3vUMrSU5JXtsZZwETpfOzE6rDUg5d+YJpwhmIlPgqg/o7hL0gyZm+mk5fY/fdWoKAoHSa2/OkMyRN0UXopg5ZDDq1NQb5Pt1a1ndgWH9tlJXRfjXaurtip+ExEamXhr+bMISqbFHyQkLHCnyC1O3LQOLbIHOv6kjNqPYLAHIE/ysagkXg6iZ9k7WOv4Rw436GoMNS1rEL0a2iacC9+X3w770QZ1mlSxYqXsswxtJLvI7kHNN+2vwJb563FJxaaaTYm66T2dYFpZhG0/o0IIM8BPTEGDit8mIBFjzZtbMP1DVRjfZhoX6zc9hXggFr8PdWBHIy6MC3dl23f84X74NnBf6RgDF6EnlQRA5D4YnB8hMHbyzwpl+Zu1ACnKfmdn7Q8QoKOC8bS9Fb/nBr7svqguo="
 matrix:
   allow_failures:
     - os: windows
@@ -63,6 +63,7 @@ before_install:
   - npm --version
   - npm config rm proxy
   - npm config rm https-proxy
+  - if[ tag IS present ];then pip install --user awscli; fi  
   # - npm config set cache-lock-retries 500
 
 install:
@@ -82,7 +83,6 @@ install:
     else
       :
     fi
-
 script:
   - yarn lint
   - yarn check-types
@@ -90,4 +90,7 @@ script:
   - yarn package
   - travis_retry yarn test-e2e-packed
   - rm -rf release
+  - if [ tag IS present AND "$TRAVIS_OS_NAME" == "windows" ];then aws s3 rm --recursive s3://safe-network-app/safe-network-app-win/; fi
+  - if [ tag IS present AND "$TRAVIS_OS_NAME" == "linux" ];then aws s3 rm --recursive s3://safe-network-app/safe-network-app-linux/; fi
+  - if [ tag IS present AND "$TRAVIS_OS_NAME" == "osx" ];then aws s3 rm --recursive s3://safe-network-app/safe-network-app-osx/; fi
   - yarn release
