@@ -1,5 +1,6 @@
 import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
+import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
@@ -23,6 +24,8 @@ const shallowSetup = ( propOverrides? ) => {
             storeUserPreferences: jest.fn(),
             pinToTray: jest.fn(),
             autoLaunch: jest.fn(),
+            quitApplication: jest.fn(),
+            isTrayWindow: false,
             history: {
                 push: jest.fn()
             }
@@ -47,5 +50,15 @@ describe( 'Settings Page', () => {
     it( 'should load preferences once', () => {
         const { wrapper } = shallowSetup();
         expect( wrapper.find( Preferences ) ).toHaveLength( 1 );
+    } );
+
+    it( 'Hide quit option on standard window', () => {
+        const { wrapper } = shallowSetup();
+        expect( wrapper.find( ListItem ) ).toHaveLength( 0 );
+    } );
+
+    it( 'Show quit option on switching to tray window', () => {
+        const { wrapper } = shallowSetup( { isTrayWindow: true } );
+        expect( wrapper.find( ListItem ) ).toHaveLength( 1 );
     } );
 } );

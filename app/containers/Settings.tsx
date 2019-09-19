@@ -2,7 +2,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
     triggerSetAsTrayWindow,
-    autoLaunch
+    autoLaunch,
+    quitApplication
 } from '$Actions/alias/launchpad_actions';
 import { Settings } from '$Components/Settings';
 
@@ -24,6 +25,7 @@ const mapDispatchToProperties = ( dispatch ) => {
         setUserPreferences,
         getUserPreferences,
         triggerSetAsTrayWindow,
+        quitApplication,
         autoLaunch
     };
     return bindActionCreators( actions, dispatch );

@@ -52,3 +52,7 @@ ipcMain.on( 'onClickQuitApp', () => {
         app.quit();
     }
 } );
+
+ipcMain.on( 'exitSafeNetworkApp', () => {
+    app.exit( 0 );
+} );

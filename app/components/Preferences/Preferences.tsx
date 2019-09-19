@@ -57,7 +57,12 @@ export class Preferences extends Component<Props> {
     };
 
     render() {
-        const { userPreferences, requiredItems } = this.props;
+        const {
+            userPreferences,
+            requiredItems,
+            isTrayWindow,
+            children
+        } = this.props;
         const requiredItemArray = Object.keys( requiredItems );
         const userPreferencesKeys = Object.keys( userPreferences );
 
@@ -74,10 +79,14 @@ export class Preferences extends Component<Props> {
                             status={userPreferences[userPreference]}
                             onChange={this.handleChange}
                             disabled={!requiredItems[userPreference]}
-                            isLastItem={i === userPreferencesKeys.length - 1}
+                            isLastItem={
+                                !isTrayWindow &&
+                                i === userPreferencesKeys.length - 1
+                            }
                         />
                     );
                 } )}
+                {children}
             </List>
         );
     }

@@ -10,7 +10,8 @@ export const TYPES = {
     ALIAS_STORE_PREFERENCES: 'ALIAS_STORE_PREFERENCES',
     ALIAS_AUTO_LAUNCH: 'ALIAS_AUTO_LAUNCH',
     ALIAS_PIN_TO_TRAY: 'ALIAS_PIN_TO_TRAY',
-    ALIAS_SET_AS_TRAY_WINDOW: 'ALIAS_SET_AS_TRAY_WINDOW'
+    ALIAS_SET_AS_TRAY_WINDOW: 'ALIAS_SET_AS_TRAY_WINDOW',
+    ALIAS_QUIT_APP: 'ALIAS_QUIT_APP'
 };
 
 const updatePreferences = async ( preferences ) => {
@@ -39,6 +40,16 @@ export const triggerSetAsTrayWindow = createAliasedAction(
         type: TYPES.ALIAS_SET_AS_TRAY_WINDOW,
         payload: ( () => {
             ipcRenderer.send( 'set-as-tray-window', setAsTray );
+        } )()
+    } )
+);
+
+export const quitApplication = createAliasedAction(
+    TYPES.ALIAS_QUIT_APP,
+    () => ( {
+        type: TYPES.ALIAS_QUIT_APP,
+        payload: ( () => {
+            ipcRenderer.send( 'exitSafeNetworkApp' );
         } )()
     } )
 );

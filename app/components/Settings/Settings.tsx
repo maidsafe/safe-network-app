@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { History } from 'history';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {
+    Grid,
+    ListItem,
+    ListItemText,
+    Box,
+    Toolbar,
+    Typography,
+    IconButton
+} from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import { Preferences } from '$Components/Preferences';
@@ -23,6 +27,7 @@ interface Props {
     getUserPreferences: Function;
     triggerSetAsTrayWindow: Function;
     autoLaunch: Function;
+    quitApplication: Function;
     history?: History;
     isTrayWindow: boolean;
 }
@@ -47,7 +52,8 @@ export class Settings extends Component<Props> {
             setUserPreferences,
             triggerSetAsTrayWindow,
             autoLaunch,
-            isTrayWindow
+            isTrayWindow,
+            quitApplication
         } = this.props;
 
         return (
@@ -58,7 +64,23 @@ export class Settings extends Component<Props> {
                     onChange={this.handlePreferenceChange}
                     onChangeLaunchOnStart={autoLaunch}
                     onChangePinToMenu={triggerSetAsTrayWindow}
-                />
+                >
+                    {isTrayWindow && (
+                        <ListItem
+                            button
+                            onClick={() => {
+                                quitApplication();
+                            }}
+                        >
+                            <ListItemText
+                                primary="Quit"
+                                primaryTypographyProps={{
+                                    variant: 'body2'
+                                }}
+                            />
+                        </ListItem>
+                    )}
+                </Preferences>
             </Grid>
         );
     }
