@@ -13,7 +13,10 @@ import {
     defaultPreferences,
     isRunningDebug
 } from '$Constants/index';
-import { storePreferences } from '$Actions/alias/launchpad_actions';
+import {
+    storePreferences,
+    quitApplication
+} from '$Actions/alias/launchpad_actions';
 import { Application } from './definitions/application.d';
 import { logger } from '$Logger';
 import pkg from '$Package';
@@ -95,7 +98,7 @@ export class MenuBuilder {
                     label: 'Quit',
                     accelerator: 'Command+Q',
                     click: () => {
-                        app.exit();
+                        this.store.dispatch( quitApplication() );
                     }
                 }
             ]
