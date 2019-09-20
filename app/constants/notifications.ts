@@ -132,6 +132,21 @@ export const notificationTypes = {
 
         return prepareNotification( title, denyText, otherProperties );
     },
+    UPDATE_CHECK_ERROR: ( application ) => {
+        const title = I18n.t( 'notifications.title.update_check_error' );
+        const denyText = I18n.t( 'notifications.buttons.denyText.dismiss' );
+
+        const otherProperties = {
+            type: 'UPDATE_CHECK_ERROR',
+            notificationType: NOTIFICATION_TYPES.STANDARD,
+            icon: 'WarningIcon',
+            priority: 'HIGH',
+            application,
+            denyText
+        };
+
+        return prepareNotification( title, denyText, otherProperties );
+    },
     UPDATE_AVAILABLE_ALERT: ( application, version ) => {
         const title = I18n.t( 'notifications.title.update_available', {
             name: application.name,
@@ -278,6 +293,7 @@ export const notificationTypes = {
 
         return prepareNotification( title, denyText, otherProperties );
     },
+
     UNINSTALL_APP_ALERT: ( application ) => {
         const title = I18n.t( 'notifications.title.uninstall_app', {
             name: application.name

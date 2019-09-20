@@ -25,14 +25,20 @@ const checkIfAppIsDownloading = () => {
 };
 
 autoUpdater.on( 'error', ( error ) => {
-    dialog.showErrorBox(
-        'Error: ',
-        error == null ? 'unknown' : ( error.stack || error ).toString()
+    logger.error( error );
+
+    // @ts-ignore
+    const id = Math.random().toString( '36' );
+
+    store.dispatch(
+        pushNotification( {
+            id,
+            ...notificationTypes.UPDATE_CHECK_ERROR( application )
+        } )
     );
 } );
 
 autoUpdater.on( 'update-available', ( info ) => {
-    console.log( info );
     const { version } = info;
     // @ts-ignore
     const id = Math.random().toString( '36' );

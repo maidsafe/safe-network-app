@@ -43,6 +43,7 @@
             "no_internet_app_is_installing": "No Internet connection. Your install has been paused.",
             "global_failure": "Global Failure",
             "update_available": "Update Available! %{name} %{version} is ready to install. What’s New…",
+            "update_check_error": "There was an error checking for Safe Network App updates.",
             "clearnet_warning": "Opening webpage in Clearnet",
             "uninstall_error_asar": "Error removing %{asarLocation} *.asar files. Please check file permissions.",
             "unable_to_get_app_list": "Remote application list could not be retrieved.",
