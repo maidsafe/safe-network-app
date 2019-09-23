@@ -97,24 +97,24 @@ const getDowloadUrlForApplication = ( application: App ): string => {
     const version = application.latestVersion;
     const baseUrl = `https://github.com/${application.repositoryOwner}/${
         application.repositorySlug
-    }/releases/download/v${version}/${application.packageName ||
+    }/releases/download/${version}/${application.packageName ||
         application.name}-${version}`;
     let targetUrl: string;
 
     logger.silly( 'Checking platform', platform );
     switch ( platform ) {
         case MAC_OS: {
-            targetUrl = `${baseUrl}.dmg`;
+            targetUrl = `${baseUrl}-mac-x64.dmg`;
             break;
-            // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/download/v0.1.0/ElectronTypescriptBoiler-0.1.0.dmg
+            // https://github.com/maidsafe/safe_browser/releases/download/v0.15.0/safe-browser-v0.15.0-mac-x64.dmg
         }
         case WINDOWS: {
-            targetUrl = `${baseUrl}.exe`;
+            targetUrl = `${baseUrl}-win-x64.exe`;
             break;
         }
         case LINUX: {
-            // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/download/v0.1.0/electron-react-boilerplate-0.1.0-x86_64.AppImage
-            targetUrl = `${baseUrl}-x86_64.AppImage`;
+            // https://github.com/maidsafe/safe_browser/releases/download/v0.15.0/safe-browser-v0.15.0-linux-x64.AppImage
+            targetUrl = `${baseUrl}-x64.AppImage`;
             break;
         }
         default: {
@@ -124,7 +124,7 @@ const getDowloadUrlForApplication = ( application: App ): string => {
             );
         }
     }
-    logger.verbose( 'Download URL: ', targetUrl );
+    logger.info( 'Download URL: ', targetUrl );
     return targetUrl;
 };
 

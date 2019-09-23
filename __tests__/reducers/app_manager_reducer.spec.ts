@@ -67,8 +67,8 @@ describe( 'app manager reducer', () => {
                 payload: app1
             } );
 
-            // 3 as theres the initital app state of two.....
-            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 3 );
+            // 2 as theres the initital app state of one.....
+            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
             expect( nextStore.applicationList[app1.id] ).toEqual( app1 );
         } );
 
@@ -106,7 +106,7 @@ describe( 'app manager reducer', () => {
                 payload: app1
             } );
 
-            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
+            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 1 );
 
             app1.isInstalled = undefined;
             expect( nextStore.applicationList[app1.id] ).toEqual( app1 );
@@ -123,7 +123,7 @@ describe( 'app manager reducer', () => {
                 payload: app1
             } );
 
-            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
+            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 1 );
             expect( nextStore.applicationList[app1.id].isInstalled ).toBeFalsy();
         } );
 
@@ -137,7 +137,7 @@ describe( 'app manager reducer', () => {
                 payload: app1
             } );
 
-            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
+            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 1 );
             expect( nextStore.applicationList[app1.id].name ).not.toEqual(
                 app1.name
             );
