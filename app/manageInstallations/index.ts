@@ -114,7 +114,7 @@ const getDowloadUrlForApplication = ( application: App ): string => {
         }
         case LINUX: {
             // https://github.com/maidsafe/safe_browser/releases/download/v0.15.0/safe-browser-v0.15.0-linux-x64.AppImage
-            targetUrl = `${baseUrl}-x64.AppImage`;
+            targetUrl = `${baseUrl}-linux-x64.AppImage`;
             break;
         }
         default: {
