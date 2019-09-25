@@ -1,7 +1,6 @@
-import { BrowserWindow, DownloadItem, ipcMain } from 'electron';
+import { BrowserWindow, DownloadItem, ipcMain, shell } from 'electron';
 import { Store } from 'redux';
 import { download } from 'electron-dl';
-import open from 'open';
 import { I18n } from 'react-redux-i18n';
 
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
@@ -260,6 +259,6 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
 
     ipcMain.on( 'openApplication', ( event, application: App ) => {
         logger.info( 'Opening app: ', application.name );
-        open( getInstalledLocation( application ) );
+        shell.openItem( getInstalledLocation( application ) );
     } );
 }

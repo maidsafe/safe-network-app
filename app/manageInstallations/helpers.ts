@@ -29,8 +29,8 @@ export const getApplicationExecutable = ( application: App ): string => {
 
     switch ( platform ) {
         case MAC_OS: {
-            applicationExecutable = `${application.packageName ||
-                application.name}.app`;
+            applicationExecutable = `${application.name ||
+                application.packageName}.app`;
             break;
         }
         case WINDOWS: {
@@ -58,10 +58,7 @@ export const getApplicationExecutable = ( application: App ): string => {
 export const getInstalledLocation = ( application: App ): string => {
     const applicationExecutable = getApplicationExecutable( application );
 
-    const installedPath = path.resolve(
-        INSTALL_TARGET_DIR,
-        applicationExecutable
-    );
+    const installedPath = path.join( INSTALL_TARGET_DIR, applicationExecutable );
 
     return installedPath;
 };

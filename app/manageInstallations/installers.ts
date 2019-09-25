@@ -47,7 +47,7 @@ const silentInstallMacOS = (
 
         const done = spawnSync( 'cp', ['-r', targetAppPath, INSTALL_TARGET_DIR] );
 
-        if ( done.error ) {
+        if ( done.error || done.stderr.toString() ) {
             logger.error( 'Error during copy', done.error );
             store.dispatch(
                 downloadAndInstallAppFailure( {
@@ -65,6 +65,7 @@ const silentInstallMacOS = (
             }
 
             // TODO Remove Dlded version?
+            spawnSync( 'rm', ['-rf', downloadLocation] );
             logger.info( 'Install complete.' );
             store.dispatch( downloadAndInstallAppSuccess( application ) );
         } );
