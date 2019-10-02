@@ -2,6 +2,8 @@ import { BrowserWindow, DownloadItem, ipcMain, shell } from 'electron';
 import { Store } from 'redux';
 import { download } from 'electron-dl';
 import { I18n } from 'react-redux-i18n';
+import { spawn, exec } from 'child_process';
+import path from 'path';
 
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
 
@@ -14,7 +16,16 @@ import {
 } from '$Actions/application_actions';
 
 import { pushNotification } from '$Actions/launchpad_actions';
-import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
+import {
+    MAC_OS,
+    LINUX,
+    WINDOWS,
+    isDryRun,
+    platform,
+    isRunningOnMac,
+    isRunningOnLinux,
+    isRunningOnWindows
+} from '$Constants';
 import { NOTIFICATION_TYPES } from '$Constants/notifications';
 
 import { silentInstall } from '$App/manageInstallations/installers';
@@ -258,7 +269,41 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
     );
 
     ipcMain.on( 'openApplication', ( event, application: App ) => {
-        logger.info( 'Opening app: ', application.name );
-        shell.openItem( getInstalledLocation( application ) );
+        const appLocation = getInstalledLocation( application );
+
+        let command = appLocation;
+
+        const newEnvironment = {
+            ...process.env,
+            NODE_ENV: 'prod',
+            HOT: 'false'
+        };
+        // needs to be actually deleted.
+        delete newEnvironment.HOT;
+
+        if ( isRunningOnMac ) {
+            command = `open "${command}"`;
+        }
+        if ( isRunningOnWindows ) {
+            command = `start "${command}"`;
+        }
+        if ( isRunningOnLinux ) {
+            logger.warn( 'Opening on linux via spawn command: ', command );
+            // exec on linux doesnt give us a new process, so closing SNAPP
+            // will close the spawned app :|
+            spawn( command, {
+                // eslint-disable-next-line unicorn/prevent-abbreviations
+                env: newEnvironment,
+                detached: true
+            } );
+            return;
+        }
+
+        logger.warn( 'Opening app via exec command: ', command );
+
+        exec( command, {
+            // eslint-disable-next-line unicorn/prevent-abbreviations
+            env: newEnvironment
+        } );
     } );
 }

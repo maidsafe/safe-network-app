@@ -63,6 +63,7 @@ export const getInstalledLocation = ( application: App ): string => {
     logger.error( 'applicationExecutable', applicationExecutable );
 
     const installedPath = path.join( INSTALL_TARGET_DIR, applicationExecutable );
+    console.log( 'merging ---->>>', installedPath );
 
     return installedPath;
 };
