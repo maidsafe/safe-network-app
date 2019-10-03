@@ -39,15 +39,25 @@ autoUpdater.on( 'error', ( error ) => {
 } );
 
 autoUpdater.on( 'update-available', ( info ) => {
-    const { version } = info;
-    // @ts-ignore
-    const id = Math.random().toString( '36' );
-    store.dispatch(
-        pushNotification( {
-            id,
-            ...notificationTypes.UPDATE_AVAILABLE( application, version )
-        } )
-    );
+    const state = store.getState();
+    const { launchpad } = state;
+    const { userPreferences } = launchpad;
+    const { autoUpdate } = userPreferences;
+
+    if ( !autoUpdate ) {
+        // @ts-ignore
+        const id = Math.random().toString( '36' );
+        const { version } = info;
+
+        store.dispatch(
+            pushNotification( {
+                id,
+                ...notificationTypes.UPDATE_AVAILABLE( application, version )
+            } )
+        );
+    } else {
+        autoUpdater.downloadUpdate();
+    }
 } );
 
 ipcMain.on( 'update-safe-network-app', ( event ) => {

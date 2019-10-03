@@ -152,7 +152,7 @@ export const LAUNCHPAD_APP_ID = '__LAUNCHPAD_APP_ID__';
 // TODO: remove this from here...
 export const defaultPreferences = {
     userPreferences: {
-        autoUpdate: false,
+        autoUpdate: true,
         pinToMenuBar: true,
         launchOnStart: true,
         showDeveloperApps: false,
