@@ -2,7 +2,7 @@ import { BrowserWindow, DownloadItem, ipcMain, shell } from 'electron';
 import { Store } from 'redux';
 import { download } from 'electron-dl';
 import { I18n } from 'react-redux-i18n';
-import { spawn, exec } from 'child_process';
+import { spawn, exec, execFile } from 'child_process';
 import path from 'path';
 
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
@@ -281,11 +281,22 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
         // needs to be actually deleted.
         delete newEnvironment.HOT;
 
+        logger.warn( 'Opening app via path: ', command );
+
         if ( isRunningOnMac ) {
             command = `open "${command}"`;
+
+            exec( command, {
+                // eslint-disable-next-line unicorn/prevent-abbreviations
+                env: newEnvironment
+            } );
         }
         if ( isRunningOnWindows ) {
-            command = `start "${command}"`;
+            execFile( command, {
+                // eslint-disable-next-line unicorn/prevent-abbreviations
+                env: newEnvironment
+            } );
+            return;
         }
         if ( isRunningOnLinux ) {
             logger.warn( 'Opening on linux via spawn command: ', command );
@@ -296,14 +307,7 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
                 env: newEnvironment,
                 detached: true
             } );
-            return;
+            
         }
-
-        logger.warn( 'Opening app via exec command: ', command );
-
-        exec( command, {
-            // eslint-disable-next-line unicorn/prevent-abbreviations
-            env: newEnvironment
-        } );
     } );
 }
