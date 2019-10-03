@@ -341,15 +341,12 @@ export class MenuBuilder {
             ]
         };
 
-        const subMenuView =
-            process.env.NODE_ENV === 'development'
-                ? subMenuViewDevelopment
-                : subMenuViewProduction;
-
         return [
             subMenuAbout,
-            subMenuEdit,
-            subMenuView,
+            // subMenuEdit,
+            ...( process.env.NODE_ENV === 'development'
+                ? [subMenuViewDevelopment]
+                : [subMenuViewProduction] ),
             subMenuWindow,
             subMenuHelp,
             ...( isRunningTestCafeProcess ? [subMenuTests] : [] )

@@ -63,7 +63,7 @@ test( 'can toggle switch buttons', async ( t ) => {
 
     await t
         .expect( AutoUpdatePreference.find( 'input.MuiSwitch-input' ).checked )
-        .notOk();
+        .ok();
 } );
 
 test( 'Go back from Settings page to Home', async ( t ) => {
