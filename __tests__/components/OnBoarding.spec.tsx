@@ -26,9 +26,7 @@ const shallowSetup = ( propOverrides? ) => {
             userPreferences: {
                 autoUpdate: false,
                 pinToMenuBar: false,
-                launchOnStart: false,
-                showDeveloperApps: false,
-                warnOnAccessingClearnet: false
+                launchOnStart: false
             },
             isTrayWindow: false,
             triggerSetAsTrayWindow: jest.fn(),

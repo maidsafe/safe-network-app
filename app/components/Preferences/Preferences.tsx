@@ -21,9 +21,7 @@ export class Preferences extends Component<Props> {
         requiredItems: {
             autoUpdate: true,
             pinToMenuBar: true,
-            launchOnStart: true,
-            showDeveloperApps: true,
-            warnOnAccessingClearnet: true
+            launchOnStart: true
         },
         onChange: () => {},
         onChangeLaunchOnStart: () => {},

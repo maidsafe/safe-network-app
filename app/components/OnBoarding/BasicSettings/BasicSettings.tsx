@@ -22,8 +22,7 @@ export const BasicSettings = ( properties ) => {
     const requiredItems = {
         autoUpdate: true,
         pinToMenuBar: true,
-        launchOnStart: true,
-        showDeveloperApps: true
+        launchOnStart: true
     };
     return (
         <Paper

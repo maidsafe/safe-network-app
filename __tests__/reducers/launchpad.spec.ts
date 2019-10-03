@@ -14,9 +14,7 @@ describe( 'launchpad reducer', () => {
             const userPreferences = {
                 autoUpdate: true,
                 pinToMenuBar: false,
-                launchOnStart: false,
-                showDeveloperApps: true,
-                warnOnAccessingClearnet: false
+                launchOnStart: false
             };
             const nextStore = launchpadReducer( undefined, {
                 type: TYPES.SET_USER_PREFERENCES,
@@ -31,20 +29,13 @@ describe( 'launchpad reducer', () => {
             expect( nextStore.userPreferences.launchOnStart ).toEqual(
                 userPreferences.launchOnStart
             );
-            expect( nextStore.userPreferences.showDeveloperApps ).toEqual(
-                userPreferences.showDeveloperApps
-            );
-            expect( nextStore.userPreferences.warnOnAccessingClearnet ).toEqual(
-                userPreferences.warnOnAccessingClearnet
-            );
         } );
 
         it( 'Should throw if userPreferences has extra property', () => {
             const userPreferences = {
                 myNewPreference: false,
                 pinToMenuBar: true,
-                launchOnStart: true,
-                showDeveloperApps: false
+                launchOnStart: true
             };
 
             expect( () =>

@@ -154,9 +154,7 @@ export const defaultPreferences = {
     userPreferences: {
         autoUpdate: false,
         pinToMenuBar: true,
-        launchOnStart: true,
-        showDeveloperApps: false,
-        warnOnAccessingClearnet: true
+        launchOnStart: true
     },
     appPreferences: {
         shouldOnboard: true

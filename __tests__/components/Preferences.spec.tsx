@@ -11,9 +11,7 @@ const shallowSetup = ( propOverrides? ) => {
             userPreferences: {
                 autoUpdate: false,
                 pinToMenuBar: false,
-                launchOnStart: false,
-                showDeveloperApps: false,
-                warnOnAccessingClearnet: false
+                launchOnStart: false
             },
             onChange: jest.fn()
         },
@@ -36,18 +34,17 @@ describe( 'Preferences', () => {
 
     it( 'render all preferences by default', () => {
         const { wrapper } = shallowSetup();
-        expect( wrapper.children() ).toHaveLength( 5 );
+        expect( wrapper.children() ).toHaveLength( 3 );
     } );
 
     it( 'render specific preferences', () => {
         const { wrapper } = shallowSetup( {
             requiredItems: {
                 autoUpdate: true,
-                pinToMenuBar: true,
                 launchOnStart: true
             }
         } );
-        expect( wrapper.children() ).toHaveLength( 3 );
+        expect( wrapper.children() ).toHaveLength( 2 );
         expect(
             wrapper
                 .children()
@@ -58,12 +55,6 @@ describe( 'Preferences', () => {
             wrapper
                 .children()
                 .at( 1 )
-                .props().name
-        ).toEqual( 'pinToMenuBar' );
-        expect(
-            wrapper
-                .children()
-                .at( 2 )
                 .props().name
         ).toEqual( 'launchOnStart' );
     } );

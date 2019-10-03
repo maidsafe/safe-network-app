@@ -12,9 +12,7 @@ const shallowSetup = ( propOverrides? ) => {
             userPreferences: {
                 autoUpdate: false,
                 pinToMenuBar: false,
-                launchOnStart: false,
-                showDeveloperApps: false,
-                warnOnAccessingClearnet: false
+                launchOnStart: false
             },
             setUserPreferences: jest.fn()
         },
@@ -45,8 +43,7 @@ describe( 'Basic Settings', () => {
         const expectedRequiredItems = {
             autoUpdate: true,
             pinToMenuBar: true,
-            launchOnStart: true,
-            showDeveloperApps: true
+            launchOnStart: true
         };
         expect( wrapper.find( Preferences ).props().requiredItems ).toEqual(
             expectedRequiredItems

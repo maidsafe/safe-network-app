@@ -36,9 +36,7 @@ describe( 'Launchpad actions', () => {
             userPreferences: {
                 autoUpdate: true,
                 pinToMenuBar: true,
-                launchOnStart: true,
-                showDeveloperApps: true,
-                warnOnAccessingClearnet: true
+                launchOnStart: true
             }
         };
         const expectAction = {

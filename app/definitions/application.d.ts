@@ -35,8 +35,6 @@ export interface UserPreferences {
     autoUpdate: boolean;
     pinToMenuBar: boolean;
     launchOnStart: boolean;
-    showDeveloperApps: boolean;
-    warnOnAccessingClearnet: boolean;
 }
 
 export interface AppPreferences {
