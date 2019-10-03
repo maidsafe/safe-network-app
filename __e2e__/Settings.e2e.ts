@@ -63,7 +63,7 @@ test( 'can toggle switch buttons', async ( t ) => {
 
     await t
         .expect( AutoUpdatePreference.find( 'input.MuiSwitch-input' ).checked )
-        .ok();
+        .notOk();
 } );
 
 test( 'Go back from Settings page to Home', async ( t ) => {
@@ -142,7 +142,7 @@ test( 'Changing any preference should persist', async ( t ) => {
         )
         .eql( 'Auto Update' )
         .expect( AutoUpdatePreference.find( 'input.MuiSwitch-input' ).checked )
-        .notOk()
+        .ok()
         .click( AutoUpdatePreference.find( 'input.MuiSwitch-input' ) )
         .click( Selector( 'button' ).withAttribute( 'aria-label', 'Go Backwards' ) )
         .expect( getPageUrl() )

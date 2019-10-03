@@ -36,7 +36,7 @@ describe( 'Preferences', () => {
 
     it( 'render all preferences by default', () => {
         const { wrapper } = shallowSetup();
-        expect( wrapper.children() ).toHaveLength( 5 );
+        expect( wrapper.children() ).toHaveLength( 2 );
     } );
 
     it( 'render specific preferences', () => {
