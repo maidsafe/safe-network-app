@@ -57,11 +57,11 @@ cache:
     # - $HOME/.cache/electron-builder
 
 before_install:
-  - if [[ ${TRAVIS_TAG} != "" && "$TRAVIS_OS_NAME" == "linux" ]]; then 
+  - if [[ ${TRAVIS_TAG} != "" && "$TRAVIS_OS_NAME" == "linux" ]]; then
       pip install --user awscli;
       export PATH=$PATH:$HOME/.local/bin;
     fi
-  - if [[ ${TRAVIS_TAG} != "" && "$TRAVIS_OS_NAME" == "osx" ]]; then 
+  - if [[ ${TRAVIS_TAG} != "" && "$TRAVIS_OS_NAME" == "osx" ]]; then
       pip install --user awscli;
       export PATH=$PATH:/Users/travis/Library/Python/2.7/bin;
     fi
@@ -92,7 +92,7 @@ install:
       :
     fi
 script:
-  - yarn lint
+  - yarn lint --quiet
   - yarn check-types
   - yarn test
   - yarn package

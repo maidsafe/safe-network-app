@@ -11,17 +11,13 @@ const getPreferenceItems = () => {
     return Preferences.child( 'li' );
 };
 
-fixture`Settings Page`
-    .page( '../app/app.html' )
-    .beforeEach( async () => {
-        // @ts-ignore
-        await clickOnMainMenuItem( ['Tests', `Skip OnBoard App`] );
-        await waitForReact();
-    } )
-    .afterEach( async () => {
-        // @ts-ignore
-        await clickOnMainMenuItem( ['Tests', 'Reset Preferences'] );
-    } );
+fixture`Settings Page`.page( '../app/app.html' ).beforeEach( async () => {
+    // @ts-ignore
+    await clickOnMainMenuItem( ['Tests', 'Reset Preferences'] );
+    // @ts-ignore
+    await clickOnMainMenuItem( ['Tests', `Skip OnBoard App`] );
+    await waitForReact();
+} );
 
 test( 'e2e', async ( t ) => {
     await t.expect( getPageTitle() ).eql( 'SAFE Network App' );
@@ -63,7 +59,7 @@ test( 'can toggle switch buttons', async ( t ) => {
 
     await t
         .expect( AutoUpdatePreference.find( 'input.MuiSwitch-input' ).checked )
-        .ok();
+        .notOk();
 } );
 
 test( 'Go back from Settings page to Home', async ( t ) => {
@@ -166,5 +162,5 @@ test( 'Changing any preference should persist', async ( t ) => {
         )
         .eql( 'Auto Update' )
         .expect( AutoUpdatePreference.find( 'input.MuiSwitch-input' ).checked )
-        .ok();
+        .notOk();
 } );
