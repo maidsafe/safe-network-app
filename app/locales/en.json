@@ -39,7 +39,7 @@
             "close_app": "Close %{name} to complete installation",
             "restart_system": "Restart your computer to finish installing %{name}",
             "server_timeout": "Download Server has timed out. Installation of %{name} has been paused.",
-            "no_internet": "Oh no! You're Internet connection is down!",
+            "no_internet": "Oh no! Your internet connection is down!",
             "no_internet_app_is_installing": "No Internet connection. Your install has been paused.",
             "global_failure": "Global Failure",
             "update_available": "Update Available! %{name} %{version} is ready to install. What’s New…",
