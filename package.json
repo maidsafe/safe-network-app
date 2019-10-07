@@ -10,6 +10,8 @@
     "build-e2e": "cross-env E2E_BUILD=true yarn build",
     "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.main.production.babel.js --colors",
     "build-renderer-n-bg": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.background.production.babel.js --colors",
+    "bump": "standard-version -a",
+    "prerelease": "standard-version --prerelease rc",
     "check-types": "tsc",
     "dev": "cross-env START_HOT=1 node -r babel-register-ts ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev",
     "lint": "cross-env NODE_ENV=development eslint --cache --format=pretty --ext .js,.jsx,.ts,.tsx .",
@@ -41,6 +43,11 @@
     "test-e2e-live": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_CAFE=true testcafe-live electron:. ./__e2e__/*.e2e.ts",
     "test-watch": "yarn test --watch"
   },
+  "standard-version": {
+    "scripts": {
+      "postchangelog": "git add -A ."
+    }
+  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --ignore-path .eslintignore --arrow-parens always --single-quote --write",
@@ -56,7 +63,7 @@
       "prettier --ignore-path .eslintignore --single-quote --write",
       "git add"
     ],
-    "*.{yml,md}": [
+    "*.(!CHANGELOG.){yml,md}": [
       "prettier --ignore-path .eslintignore --single-quote --write",
       "git add"
     ]
@@ -170,6 +177,7 @@
     "rimraf": "3.0.0",
     "sass-loader": "^7.3.1",
     "spectron": "^8.0.0",
+    "standard-version": "7.0.0",
     "style-loader": "^1.0.0",
     "stylelint": "^10.1.0",
     "stylelint-config-prettier": "^5.0.0",
