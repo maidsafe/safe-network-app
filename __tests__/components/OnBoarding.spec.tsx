@@ -7,7 +7,7 @@ import { OnBoarding } from '$Components/OnBoarding';
 import { GetStarted } from '$Components/OnBoarding/GetStarted';
 import { Intro } from '$Components/OnBoarding/Intro';
 import { BasicSettings } from '$Components/OnBoarding/BasicSettings';
-import { Stepper } from '$Components/OnBoarding/Stepper';
+import { Stepper } from '$Components/Stepper';
 import {
     ON_BOARDING,
     HOME,

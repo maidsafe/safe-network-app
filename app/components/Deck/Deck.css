@@ -1,0 +1,22 @@
+.container {
+    width: -webkit-fill-available;
+    background-color: rgba(229, 229, 229, 0.9);
+}
+
+.container h2 {
+    font-size: 5rem;
+}
+
+.container a {
+    font-size: 1.4rem;
+}
+
+.btn--upper-right {
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.container .List {
+    padding-top: 0;
+}

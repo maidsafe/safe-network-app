@@ -229,7 +229,6 @@ export class MenuBuilder {
     }
 
     private setupDevelopmentEnvironment(): void {
-        this.mainWindow.openDevTools();
         this.mainWindow.webContents.on( 'context-menu', ( _event, properties ) => {
             const { x, y } = properties;
 
