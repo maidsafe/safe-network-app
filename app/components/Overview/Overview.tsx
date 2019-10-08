@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-import { Grid, List } from '@material-ui/core';
+import { Grid, List, Typography } from '@material-ui/core';
 
 import { Redirect } from 'react-router';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 import { logger } from '$Logger';
 import styles from './Overview.css';
 import { App, AppManagerState } from '$Definitions/application.d';
@@ -45,6 +50,7 @@ export class Overview extends Component<Props> {
         return (
             <Grid container justify="space-between">
                 <Grid item xs={12}>
+                    <Typography variant="body2">Applications</Typography>
                     <List className={styles.List}>
                         {Object.values( appList ).map( ( theApplication ) => (
                             <ApplicationOverview
@@ -65,6 +71,47 @@ export class Overview extends Component<Props> {
                         ) )}
                     </List>
                 </Grid>
+                {
+                    // TODO: If not logged in change header or?
+                }
+                <Typography variant="body2">Getting Started</Typography>
+                <Card // TODO move to css
+                    style={{ maxWidth: 250 }}
+                >
+                    <CardActionArea>
+                        <CardMedia
+                            // TODO move to css
+                            style={{ height: 300 }}
+                            // className={}
+                            image="https://picsum.photos/250/300"
+                            title="Get involved circle"
+                        />
+                        <CardContent>
+                            <Typography
+                                gutterBottom
+                                variant="body2"
+                                component="span"
+                            >
+                                Get Involved
+                            </Typography>
+                            <Typography
+                                gutterBottom
+                                variant="h5"
+                                component="h2"
+                            >
+                                Create Account
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                component="p"
+                            >
+                                Store files, create a site, use Safecoin and
+                                more, with a SAFE Network Account.
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
             </Grid>
         );
     };
