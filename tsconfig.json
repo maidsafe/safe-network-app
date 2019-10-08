@@ -18,6 +18,7 @@
             "$Reducers/*": ["app/reducers/*"],
             "$Logger": ["app/logger.ts"],
             "$Components/*": ["app/components/*"],
+            "$Pages/*": ["app/pages/*"],
             "$Definitions/*": ["app/definitions/*"],
             "$Constants/*": ["app/constants/*"],
             "$Constants": ["app/constants/index.ts"],

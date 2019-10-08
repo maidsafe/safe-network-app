@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { Grid, List } from '@material-ui/core';
+import { Grid, List, Typography } from '@material-ui/core';
 
 import { Redirect } from 'react-router';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+
 import { logger } from '$Logger';
 import styles from './Overview.css';
 import { App, AppManagerState } from '$Definitions/application.d';
+import { Deck } from '$Components/Deck';
 import { ApplicationOverview } from '$Components/ApplicationOverview';
-import { ON_BOARDING, HOME } from '$Constants/routes.json';
+import { ON_BOARDING, HOME, ACCOUNT_LOGIN } from '$Constants/routes.json';
 import { notificationTypes } from '../../constants/notifications';
 
 interface Props {
@@ -31,6 +39,7 @@ interface Props {
     };
     triggerSetAsTrayWindow: Function;
     isTrayWindow: boolean;
+    history: History;
 }
 
 export class Overview extends Component<Props> {
@@ -49,8 +58,9 @@ export class Overview extends Component<Props> {
             history
         } = this.props;
         return (
-            <Grid container justify="space-between">
+            <Grid container>
                 <Grid item xs={12}>
+                    <Typography variant="body2">Applications</Typography>
                     <List className={styles.List}>
                         {Object.values( appList ).map( ( theApplication ) => (
                             <ApplicationOverview
@@ -73,8 +83,16 @@ export class Overview extends Component<Props> {
                         ) )}
                     </List>
                 </Grid>
+                {
+                    // TODO: If not logged in change header or?
+                }
             </Grid>
         );
+    };
+
+    handleLogIn = () => {
+        const { history } = this.props;
+        history.push( ACCOUNT_LOGIN );
     };
 
     render() {
@@ -88,8 +106,10 @@ export class Overview extends Component<Props> {
 
         return (
             <div className={styles.container} data-tid="container">
+                <Button onClick={this.handleLogIn}>Log in</Button>
                 <span data-istraywindow={isTrayWindow} />
                 {this.loadApps()}
+                <Deck />
             </div>
         );
     }

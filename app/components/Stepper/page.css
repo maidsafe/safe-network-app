@@ -1,0 +1,32 @@
+.Base {
+    width: 100%;
+    height: 100%;
+
+    /* background-image: url('../../../assets/images/on_boarding_popup_bg.png'); */
+    background-repeat: no-repeat;
+    background-size: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Base .Container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Base .Container .Title {
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 16px;
+}
+
+.Base .Container .Description {
+    text-align: center;
+    max-width: 270px;
+    color: rgba(0, 0, 0, 0.6);
+}

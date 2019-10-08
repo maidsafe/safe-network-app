@@ -1,7 +1,7 @@
 import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
 
-import { Stepper } from '$App/components/OnBoarding/Stepper';
+import { Stepper } from '$App/components/Stepper';
 
 const shallow = createShallow();
 

@@ -5,13 +5,15 @@ import {
     APPLICATION_DETAIL,
     HOME,
     SETTINGS,
+    ACCOUNT,
     ON_BOARDING
 } from './constants/routes.json';
-import { AppWindow } from './containers/AppWindow';
-import { OverviewPage } from './containers/OverviewPage';
-import { OnBoardingPage } from './containers/OnBoarding';
-import { SettingsPage } from './containers/Settings';
-import { ApplicationPage } from './containers/ApplicationPage';
+import { AppWindow } from './pages/AppWindow';
+import { AccountPage } from './pages/AccountPage';
+import { OverviewPage } from './pages/OverviewPage';
+import { OnBoardingPage } from './pages/OnBoarding';
+import { SettingsPage } from './pages/Settings';
+import { ApplicationPage } from './pages/ApplicationPage';
 
 export const Routes = () => (
     <AppWindow>
@@ -19,6 +21,7 @@ export const Routes = () => (
             <Route exact path={HOME} component={OverviewPage} />
             <Route path={ON_BOARDING} component={OnBoardingPage} />
             <Route path={SETTINGS} component={SettingsPage} />
+            <Route path={ACCOUNT} component={AccountPage} />
             <Route path={APPLICATION_DETAIL} component={ApplicationPage} />
         </Switch>
     </AppWindow>
