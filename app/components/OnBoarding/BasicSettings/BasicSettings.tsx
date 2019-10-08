@@ -21,9 +21,9 @@ export const BasicSettings = ( properties ) => {
     const { userPreferences, setUserPreferences, isTrayWindow } = properties;
     const requiredItems = {
         autoUpdate: true,
-        pinToMenuBar: true,
-        launchOnStart: true,
-        showDeveloperApps: true
+        pinToMenuBar: true
+        // launchOnStart: true,
+        // showDeveloperApps: true
     };
     return (
         <Paper
