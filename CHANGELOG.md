@@ -29,7 +29,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.0.3](https://github.com/maidsafe/safe-network-app/compare/v0.0.1...v0.0.3) (2019-10-10)
 
-
 ### Features
 
 * **Apps:** fetch applist from server ([ab5e232](https://github.com/maidsafe/safe-network-app/commit/ab5e232bac7af0d0723d979353f55773fee85951))
