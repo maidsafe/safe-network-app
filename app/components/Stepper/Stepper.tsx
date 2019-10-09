@@ -1,24 +1,17 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { withStyles, styled } from '@material-ui/core/styles';
 import indigo from '@material-ui/core/colors/indigo';
 import Button from '@material-ui/core/Button';
 import MobileStepper from '@material-ui/core/MobileStepper';
+import { logger } from '$Logger';
+
 import {
     ON_BOARDING,
     BASIC_SETTINGS,
     INTRO,
     HOME
 } from '$Constants/routes.json';
-
-interface Props {
-    showButtons?: boolean;
-    noElevation?: boolean;
-    theme?: 'default' | 'white';
-    onNext: Function;
-    onBack: Function;
-    steps: number;
-    activeStep: number;
-}
 
 const defaultTheme = {
     root: {
@@ -46,15 +39,33 @@ const whiteTheme = {
     }
 };
 
-export const Stepper = ( properties ) => {
+interface StepperProps {
+    showButtons?: boolean;
+    noElevation?: boolean;
+    onFinish: Function;
+    theme?: 'default' | 'white';
+    location: {
+        pathname: string;
+    };
+    history: {
+        push: Function;
+        goBack: Function;
+    };
+    steps: Array<{
+        url: string;
+        nextText?: string;
+    }>;
+}
+
+export const Stepper = withRouter( ( properties: StepperProps ) => {
     const {
+        history,
+        location,
         showButtons,
         theme,
         steps,
-        activeStep,
-        onBack,
-        onNext,
-        noElevation
+        noElevation,
+        onFinish
     } = properties;
 
     const NavButton = styled( Button )( {
@@ -62,20 +73,38 @@ export const Stepper = ( properties ) => {
         visibility: showButtons ? 'visible' : 'hidden'
     } );
 
+    const currentIndex = steps.findIndex(
+        ( step ) => step.url === location.pathname
+    );
+    const nextButtonText = steps[currentIndex].nextText || 'Next';
     const NextButton = (
         <NavButton
             size="small"
-            aria-label="OnBoardingNextButton"
-            onClick={() => onNext()}
+            aria-label="NextButton"
+            onClick={() => {
+                const nextStepIndex = currentIndex + 1;
+
+                // next step is 0 indexed, length starts at 1.
+                if ( nextStepIndex === steps.length ) {
+                    return onFinish();
+                }
+
+                const nextStep = steps[nextStepIndex];
+                const nextUrl = nextStep.url;
+
+                return history.push( nextUrl );
+            }}
         >
-            {activeStep === steps - 1 ? 'Save' : 'Next'}
+            {nextButtonText}
         </NavButton>
     );
     const BackButton = (
         <NavButton
             size="small"
-            aria-label="OnBoardingBackButton"
-            onClick={() => onBack()}
+            aria-label="BackButton"
+            onClick={() => {
+                history.goBack();
+            }}
         >
             Back
         </NavButton>
@@ -89,19 +118,17 @@ export const Stepper = ( properties ) => {
         <StyledStepper
             elevation={noElevation ? 0 : 4}
             variant="dots"
-            steps={steps}
+            steps={steps.length}
             position="bottom"
-            activeStep={activeStep}
+            activeStep={currentIndex}
             nextButton={NextButton}
             backButton={BackButton}
         />
     );
-};
+} );
 
 Stepper.defaultProps = {
     showButtons: true,
-    steps: 3,
     theme: 'default',
-    activeStep: 0,
     noElevation: false
 };
