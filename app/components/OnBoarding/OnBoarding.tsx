@@ -10,7 +10,7 @@ import {
     LaunchpadState
 } from '$Definitions/application.d';
 
-import { Stepper } from '$Components/OnBoarding/Stepper/Stepper';
+import { Stepper } from '$Components/Stepper';
 import { GetStarted } from './GetStarted';
 import { Intro } from './Intro';
 import { BasicSettings } from './BasicSettings/BasicSettings';
@@ -21,7 +21,6 @@ import {
     ON_BOARDING
 } from '$Constants/routes.json';
 import styles from './OnBoarding.css';
-import { logger } from '$Logger';
 
 interface Props {
     setAppPreferences: Function;
@@ -33,50 +32,20 @@ interface Props {
     isTrayWindow: boolean;
     autoLaunch: Function;
     history?: History;
+    location?: Location;
 }
 
 export class OnBoarding extends React.Component<Props> {
-    state = {
-        currentPosition: 0
-    };
-
-    totalSteps = 3;
-
     componentDidMount() {
         const { triggerSetAsTrayWindow } = this.props;
         triggerSetAsTrayWindow( false );
     }
-
-    navigate = ( position ) => {
-        const { history } = this.props;
-        enum ON_BOARDING_PAGES {
-            GET_STARTED_PAGE,
-            INTRO_PAGE,
-            BASIC_SETTINGS_PAGE
-        }
-
-        switch ( position ) {
-            case ON_BOARDING_PAGES.GET_STARTED_PAGE:
-                history.push( ON_BOARDING );
-                break;
-            case ON_BOARDING_PAGES.INTRO_PAGE:
-                history.push( INTRO );
-                break;
-            case ON_BOARDING_PAGES.BASIC_SETTINGS_PAGE:
-                history.push( BASIC_SETTINGS );
-                break;
-            default:
-                logger.error( 'Invalid Page' );
-        }
-    };
 
     completed = () => {
         const {
             userPreferences,
             autoLaunch,
             setAppPreferences,
-            history,
-            isTrayWindow,
             triggerSetAsTrayWindow
         } = this.props;
 
@@ -93,44 +62,22 @@ export class OnBoarding extends React.Component<Props> {
         }
     };
 
-    onNext = () => {
-        let { currentPosition } = this.state;
-
-        if ( currentPosition < this.totalSteps - 1 ) {
-            this.setState( {
-                currentPosition: currentPosition + 1
-            } );
-        } else {
-            this.completed();
-        }
-        this.navigate( ( currentPosition += 1 ) );
-    };
-
-    onBack = () => {
-        let { currentPosition } = this.state;
-
-        if ( currentPosition > 0 ) {
-            this.setState( {
-                currentPosition: currentPosition - 1
-            } );
-        }
-        this.navigate( ( currentPosition -= 1 ) );
+    handleGetStarted = () => {
+        const { history } = this.props;
+        history.push( INTRO );
     };
 
     render() {
-        const { currentPosition } = this.state;
         const {
+            location,
+            history,
             userPreferences,
             setUserPreferences,
             appPreferences,
-            getUserPreferences,
-            isTrayWindow,
-            triggerSetAsTrayWindow,
-            autoLaunch,
-            history
+            isTrayWindow
         } = this.props;
 
-        const isGetStarted = currentPosition === 0;
+        const isGetStarted = location.pathname === ON_BOARDING;
 
         if ( !appPreferences.shouldOnboard ) return <Redirect to={HOME} />;
 
@@ -142,7 +89,9 @@ export class OnBoarding extends React.Component<Props> {
                             exact
                             path={ON_BOARDING}
                             component={() => (
-                                <GetStarted onClickGetStarted={this.onNext} />
+                                <GetStarted
+                                    onClickGetStarted={this.handleGetStarted}
+                                />
                             )}
                         />
                         <Route path={INTRO} component={() => <Intro />} />
@@ -162,10 +111,19 @@ export class OnBoarding extends React.Component<Props> {
                     theme={isGetStarted ? 'white' : 'default'}
                     showButtons={!isGetStarted}
                     noElevation={isGetStarted}
-                    onNext={this.onNext}
-                    onBack={this.onBack}
-                    steps={this.totalSteps}
-                    activeStep={this.state.currentPosition}
+                    onFinish={this.completed}
+                    steps={[
+                        {
+                            url: ON_BOARDING
+                        },
+                        {
+                            url: INTRO
+                        },
+                        {
+                            url: BASIC_SETTINGS,
+                            nextText: 'Save'
+                        }
+                    ]}
                 />
             </Grid>
         );
