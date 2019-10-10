@@ -80,7 +80,7 @@ export const Stepper = withRouter( ( properties: StepperProps ) => {
     const NextButton = (
         <NavButton
             size="small"
-            aria-label="NextButton"
+            aria-label="NextStepButton"
             onClick={() => {
                 const nextStepIndex = currentIndex + 1;
 
@@ -101,7 +101,7 @@ export const Stepper = withRouter( ( properties: StepperProps ) => {
     const BackButton = (
         <NavButton
             size="small"
-            aria-label="BackButton"
+            aria-label="BackStepButton"
             onClick={() => {
                 history.goBack();
             }}

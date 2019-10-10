@@ -28,8 +28,8 @@ let config = {
     mainWindowUrl: './app/app.html',
     // electronPath: `./release/${PLATFORM_NAME}/${appString}`,
     appPath: '.'
-    // appArgs: allArgs
-    // openDevTools: true
+    // , appArgs: allArgs
+    // , openDevTools: true
 };
 
 if (!TEST_UNPACKED) {

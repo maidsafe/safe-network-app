@@ -11,6 +11,7 @@
         "skipLibCheck": true,
         "paths": {
             "$Tests/*": ["__tests__/*"],
+            "$E2E/*": ["__e2e__/*"],
             "$App/*": ["app/*"],
             "$Assets/*": ["app/assets/*"],
             "$Actions/*": ["app/actions/*"],

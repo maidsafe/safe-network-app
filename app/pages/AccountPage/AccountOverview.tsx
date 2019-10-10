@@ -12,7 +12,6 @@ import { logger } from '$Logger';
 import styles from './Account.css';
 
 import { ACCOUNT_CREATE, ACCOUNT_CREATE_REDEEM } from '$Constants/routes.json';
-// import { notificationTypes } from '../../constants/notifications';
 
 interface Props {
     history: { push: Function };
@@ -28,7 +27,7 @@ export const ProtoAccountOverview = ( props: Props ) => {
             >
                 <CardActionArea
                     onClick={() => {
-                        logger.info( 'GEt an inviiite clicked' );
+                        logger.info( 'Get an invite clicked' );
                         // history.push( ACCOUNT );
                     }}
                 >
@@ -56,7 +55,7 @@ export const ProtoAccountOverview = ( props: Props ) => {
             >
                 <CardActionArea
                     onClick={() => {
-                        logger.info( 'Redeeem an inviiite clicked' );
+                        logger.info( 'Redeeem an invite clicked' );
                         // history.push( ACCOUNT );
                     }}
                 >
@@ -83,7 +82,7 @@ export const ProtoAccountOverview = ( props: Props ) => {
             >
                 <CardActionArea
                     onClick={() => {
-                        logger.info( 'Earn account inviiite clicked' );
+                        logger.info( 'Earn account invite clicked' );
                         // history.push( ACCOUNT_CREATE_PASSWORD );
                     }}
                 >
@@ -106,9 +105,10 @@ export const ProtoAccountOverview = ( props: Props ) => {
                 </CardActionArea>
             </Card>
             <Typography
+                aria-label="IAlreadyHaveInvite"
                 variant="body2"
                 onClick={() => {
-                    logger.info( 'Create account inviiite clicked' );
+                    logger.info( 'Create account inite clicked' );
                     history.push( ACCOUNT_CREATE_REDEEM );
                 }}
             >

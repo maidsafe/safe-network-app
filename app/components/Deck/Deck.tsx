@@ -30,6 +30,7 @@ const ProtoDeck = ( props: Props ) => {
             <Typography variant="body2">Getting Started</Typography>
             <Card // TODO move to css
                 style={{ maxWidth: 250 }}
+                id="CreateAccountCard"
             >
                 <CardActionArea
                     onClick={() => {
