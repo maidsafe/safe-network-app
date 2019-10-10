@@ -2,6 +2,7 @@ module.exports = {
     $App: './app',
     $Assets: './app/assets',
     $Tests: './__tests__',
+    $E2E: './__e2e__',
     $Actions: './app/actions',
     $Store: './app/store',
     $Logger: './app/logger.ts',

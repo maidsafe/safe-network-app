@@ -37,9 +37,9 @@
     "start-renderer-dev": "cross-env NODE_ENV=development webpack-dev-server --config configs/webpack.config.renderer.dev.babel.js",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest -u",
     "test-all": "yarn lint && yarn build && yarn test && yarn build-e2e && yarn test-e2e",
-    "test-e2e": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_UNPACKED=true TEST_CAFE=true testcafe electron:. ./__e2e__/*.e2e.ts",
-    "test-e2e-packed": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/*.e2e.ts",
-    "test-e2e-live": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_CAFE=true testcafe-live electron:. ./__e2e__/*.e2e.ts",
+    "test-e2e": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_UNPACKED=true TEST_CAFE=true testcafe electron:. ./__e2e__/**/*.e2e.ts",
+    "test-e2e-packed": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/**/*.e2e.ts",
+    "test-e2e-live": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_CAFE=true testcafe-live electron:. ./__e2e__/**/*.e2e.ts",
     "test-watch": "yarn test --watch"
   },
   "standard-version": {

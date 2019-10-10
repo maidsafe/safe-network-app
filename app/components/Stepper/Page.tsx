@@ -14,19 +14,19 @@ export const StepperPage = ( props: StepperPageProps ) => {
     const { title, description, image } = props;
 
     return (
-        <Paper className={styles.Base} elevation={0} aria-label="IntroPage">
+        <Paper className={styles.Base} elevation={0} aria-label="StepperPage">
             <Box className={styles.Container}>
                 <Typography
                     className={styles.Title}
                     variant="h6"
-                    aria-label="IntroPageTitle"
+                    aria-label="StepperPageTitle"
                 >
                     {title}
                 </Typography>
                 <Typography
                     variant="body2"
                     className={styles.Description}
-                    aria-label="IntroPageSubTitle"
+                    aria-label="StepperPageSubTitle"
                 >
                     {description}
                 </Typography>

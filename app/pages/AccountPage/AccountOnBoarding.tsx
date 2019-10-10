@@ -4,12 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import { Switch, Route, Redirect } from 'react-router';
 import { styled } from '@material-ui/core/styles';
 import { logger } from '$Logger';
-// import {
-//     UserPreferences,
-//     AppPreferences,
-//     Preferences,
-//     LaunchpadState
-// } from '$Definitions/application.d';
 
 import { Stepper, StepperPage } from '$Components/Stepper';
 import {
