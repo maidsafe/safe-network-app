@@ -9,6 +9,12 @@ button.actionButton {
     font-size: 0.75rem;
 }
 
+button.actionButton.openButton {
+    background-color: transparent;
+    color: #4054b2;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+}
+
 .wrap {
     position: relative;
     display: inline-block;
