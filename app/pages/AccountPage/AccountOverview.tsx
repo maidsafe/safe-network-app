@@ -108,7 +108,7 @@ export const ProtoAccountOverview = ( props: Props ) => {
                 aria-label="IAlreadyHaveInvite"
                 variant="body2"
                 onClick={() => {
-                    logger.info( 'Create account inite clicked' );
+                    logger.info( 'Already have invite clicked' );
                     history.push( ACCOUNT_CREATE_REDEEM );
                 }}
             >

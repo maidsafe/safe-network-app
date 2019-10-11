@@ -36,24 +36,31 @@ export const LoginPage = ( props: Props ) => {
         stayLoggedIn: false
     } );
 
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleChange = ( name ) => ( event ) => {
         setValues( { ...values, [name]: event.target.value } );
     };
 
+    // until used ignore
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleLogin = () => {
         logger.info( 'Save the passssssshrase' );
         // history.push(ACCOUNT_CREATE_PASSPHRASE);
-        // history.push(ACCOUNT_CREATE_PASSPHRASE);
     };
+
+    // until used ignore
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleStayLoggedIn = () => {
         // history.goBack();
         logger.info( 'clicked stay logged in' );
     };
+
     return (
-        <React.Fragment>
+        <>
             <Typography variant="h4">Log In....</Typography>
 
             <TextField
+                aria-label="Password Field"
                 id="password"
                 label="Password"
                 // className={classes.textField}
@@ -63,6 +70,7 @@ export const LoginPage = ( props: Props ) => {
                 variant="outlined"
             />
             <TextField
+                aria-label="Passphrase Field"
                 id="passphrase"
                 label="Passphrase"
                 // className={classes.textField}
@@ -83,12 +91,13 @@ export const LoginPage = ( props: Props ) => {
                                 checked={values.stayLoggedIn}
                                 onChange={handleChange( 'stayLoggedIn' )}
                                 value="checked"
+                                aria-label="Keep me logged in"
                             />
                         }
                         label="Keep me logged in"
                     />
                 </FormGroup>
             </FormControl>
-        </React.Fragment>
+        </>
     );
 };

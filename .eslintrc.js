@@ -56,6 +56,7 @@ module.exports = {
         'import/prefer-default-export': 'off',
         'import/no-default-export': 'error',
         'react/prefer-stateless-function': 'off',
+        'react/static-property-placement': 'off',
         'jest/no-jasmine-globals': 'off',
         'jest/valid-describe': 'off',
         'react/destructuring-assignment': 'off',
