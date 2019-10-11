@@ -106,7 +106,9 @@ export class Overview extends Component<Props> {
 
         return (
             <div className={styles.container} data-tid="container">
-                <Button onClick={this.handleLogIn}>Log in</Button>
+                <Button aria-label="Login Button" onClick={this.handleLogIn}>
+                    Log in
+                </Button>
                 <span data-istraywindow={isTrayWindow} />
                 {this.loadApps()}
                 <Deck />

@@ -70,3 +70,32 @@ test( 'can navigate through create account onboarding', async ( t ) => {
     await t.click( nextStep );
     await t.expect( getByAria( 'IAlreadyHaveInvite' ).exists ).ok();
 } );
+
+test( 'can create an account', async ( t ) => {
+    await t.click( Selector( '#CreateAccountCard' ) );
+
+    const passphrase = getByAria( 'Create Passphrase Field' );
+    const password = getByAria( 'Create Password Field' );
+    const savePassword = getByAria( 'Save Password' );
+    const savePassphrase = getByAria( 'Save Passphrase' );
+    const invite = getByAria( 'Redeem Invite Field' );
+    const redeem = getByAria( 'Redeem Invite' );
+    const nextStep = getByAria( 'NextStepButton' );
+
+    await t.click( nextStep );
+    await t.click( nextStep );
+    await t.click( nextStep );
+
+    await t.click( getByAria( 'IAlreadyHaveInvite' ) );
+
+    await t
+        .expect( redeem.exists )
+        .ok()
+        .click( redeem )
+        .expect( password.exists )
+        .ok()
+        .click( savePassword )
+        .expect( passphrase.exists )
+        .ok();
+    // .click( savePassphrase )
+} );

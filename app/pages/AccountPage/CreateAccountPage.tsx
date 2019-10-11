@@ -39,12 +39,13 @@ const Invite = withRouter( ( props: InviteProps ) => {
     // TODO: put info type anad back / next buttons.
     // On click next set password etc in store.
 
-    const { password, history } = props;
+    const { history } = props;
 
     const [values, setValues] = React.useState( {
         invite: ''
     } );
 
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleChange = ( name ) => ( event ) => {
         setValues( { ...values, [name]: event.target.value } );
     };
@@ -58,7 +59,7 @@ const Invite = withRouter( ( props: InviteProps ) => {
     };
 
     return (
-        <React.Fragment>
+        <>
             <Typography variant="body2">Step 1 of 3</Typography>
             <Typography variant="h4">Enter Invite</Typography>
             <Typography variant="body2">
@@ -66,6 +67,7 @@ const Invite = withRouter( ( props: InviteProps ) => {
             </Typography>
             <TextField
                 id="invite"
+                aria-label="Redeem Invite Field"
                 label="Invite"
                 // className={classes.textField}
                 value={values.invite}
@@ -77,9 +79,11 @@ const Invite = withRouter( ( props: InviteProps ) => {
                 <Typography>
                     <Button onClick={handleLinkClick}>Back</Button>
                 </Typography>
-                <Button onClick={handleSaveInvite}>Next</Button>
+                <Button onClick={handleSaveInvite} aria-label="Redeem Invite">
+                    Next
+                </Button>
             </Grid>
-        </React.Fragment>
+        </>
     );
 } );
 
@@ -90,12 +94,13 @@ const Password = withRouter( ( props: PasswordProps ) => {
         password: ''
     } );
 
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleChange = ( name ) => ( event ) => {
         setValues( { ...values, [name]: event.target.value } );
     };
 
     const handleSavePassword = () => {
-        logger.info( 'Save the passsssssword' );
+        logger.info( 'Save the password' );
         history.push( ACCOUNT_CREATE_PASSPHRASE );
     };
     const handleLinkClick = () => {
@@ -103,7 +108,7 @@ const Password = withRouter( ( props: PasswordProps ) => {
     };
 
     return (
-        <React.Fragment>
+        <>
             <Typography variant="body2">Step 2 of 3</Typography>
             <Typography variant="h4">Choose a Password</Typography>
             <Typography variant="body2">
@@ -111,9 +116,9 @@ const Password = withRouter( ( props: PasswordProps ) => {
                 recovered.
             </Typography>
             <TextField
+                aria-label="Create Password Field"
                 id="password"
                 label="Password"
-                // className={classes.textField}
                 value={values.password}
                 onChange={handleChange( 'password' )}
                 margin="normal"
@@ -123,9 +128,11 @@ const Password = withRouter( ( props: PasswordProps ) => {
                 <Typography>
                     <Button onClick={handleLinkClick}>Back</Button>
                 </Typography>
-                <Button onClick={handleSavePassword}>Save Password</Button>
+                <Button aria-label="Save Password" onClick={handleSavePassword}>
+                    Save Password
+                </Button>
             </Grid>
-        </React.Fragment>
+        </>
     );
 } );
 
@@ -136,12 +143,14 @@ const Passphrase = withRouter( ( props: PassphraseProps ) => {
         passphrase: ''
     } );
 
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleChange = ( name ) => ( event ) => {
         setValues( { ...values, [name]: event.target.value } );
     };
 
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleSavePassphrase = () => {
-        logger.info( 'Save the passssssshrase' );
+        logger.info( 'Save the passhrase' );
         // history.push(ACCOUNT_CREATE_PASSPHRASE);
     };
     const handleLinkClick = () => {
@@ -149,7 +158,7 @@ const Passphrase = withRouter( ( props: PassphraseProps ) => {
     };
 
     return (
-        <React.Fragment>
+        <>
             <Typography variant="body2">Step 3 of 3</Typography>
             <Typography variant="h4">Choose a Passphrase</Typography>
             <Typography variant="body2">
@@ -159,7 +168,7 @@ const Passphrase = withRouter( ( props: PassphraseProps ) => {
             <TextField
                 id="passphrase"
                 label="Passphrase"
-                // className={classes.textField}
+                aria-label="Create Passphrase Field"
                 value={values.passphrase}
                 onChange={handleChange( 'passphrase' )}
                 margin="normal"
@@ -169,9 +178,14 @@ const Passphrase = withRouter( ( props: PassphraseProps ) => {
                 <Typography>
                     <Button onClick={handleLinkClick}>Back</Button>
                 </Typography>
-                <Button onClick={handleSavePassphrase}>Save Passphrase</Button>
+                <Button
+                    aria-label="Save Passphrase"
+                    onClick={handleSavePassphrase}
+                >
+                    Save Passphrase
+                </Button>
             </Grid>
-        </React.Fragment>
+        </>
     );
 } );
 export const CreateAccountPage = ( props: Props ) => {
