@@ -1,6 +1,9 @@
 {
     "HOME": "/",
     "ACCOUNT": "/account",
+    "ACCOUNT_INVITES_GET": "/account/invites/get-invite",
+    "ACCOUNT_INVITES_REQUEST": "/account/invites/request-invite",
+    "ACCOUNT_INVITES_EARN": "/account/invites/earn-invite",
     "ACCOUNT_ONBOARDING": "/account/on-boarding",
     "ACCOUNT_ONBOARDING_PAYG": "/account/on-boarding/pay-as-you-go",
     "ACCOUNT_ONBOARDING_EARN": "/account/on-boarding/earn-safecoin",
