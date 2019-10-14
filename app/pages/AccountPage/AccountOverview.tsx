@@ -11,7 +11,13 @@ import CardContent from '@material-ui/core/CardContent';
 import { logger } from '$Logger';
 import styles from './Account.css';
 
-import { ACCOUNT_CREATE, ACCOUNT_CREATE_REDEEM } from '$Constants/routes.json';
+import {
+    ACCOUNT_CREATE,
+    ACCOUNT_CREATE_REDEEM,
+    ACCOUNT_INVITES_GET,
+    ACCOUNT_INVITES_EARN,
+    ACCOUNT_INVITES_REQUEST
+} from '$Constants/routes.json';
 
 interface Props {
     history: { push: Function };
@@ -26,9 +32,10 @@ export const ProtoAccountOverview = ( props: Props ) => {
                 style={{ maxWidth: 250 }}
             >
                 <CardActionArea
+                    aria-label="Get Invite"
                     onClick={() => {
                         logger.info( 'Get an invite clicked' );
-                        // history.push( ACCOUNT );
+                        history.push( ACCOUNT_INVITES_GET );
                     }}
                 >
                     <CardContent>
@@ -54,9 +61,10 @@ export const ProtoAccountOverview = ( props: Props ) => {
                 style={{ maxWidth: 250 }}
             >
                 <CardActionArea
+                    aria-label="Request Invite"
                     onClick={() => {
-                        logger.info( 'Redeeem an invite clicked' );
-                        // history.push( ACCOUNT );
+                        logger.info( 'Request an invite clicked' );
+                        history.push( ACCOUNT_INVITES_REQUEST );
                     }}
                 >
                     <CardContent>
@@ -81,9 +89,10 @@ export const ProtoAccountOverview = ( props: Props ) => {
                 style={{ maxWidth: 250 }}
             >
                 <CardActionArea
+                    aria-label="Earn Invite"
                     onClick={() => {
                         logger.info( 'Earn account invite clicked' );
-                        // history.push( ACCOUNT_CREATE_PASSWORD );
+                        history.push( ACCOUNT_INVITES_EARN );
                     }}
                 >
                     <CardContent>
