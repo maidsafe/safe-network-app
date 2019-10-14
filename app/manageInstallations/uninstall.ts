@@ -61,11 +61,14 @@ export const unInstallApplication = async (
     }
 
     if ( isRunningOnWindows ) {
-        if ( isDryRun )
+        if ( isDryRun ) {
+            logger.info(
+                `Windows, kill any running instance before uninstalling: "taskkill /IM ${windowsUninstallLocation} >nul"`
+            );
             logger.info(
                 `DRY RUN: Would have uninstalled via command: "${windowsUninstallLocation} /S"`
             );
-        else {
+        } else {
             // quit application before uninstall on windows
             spawnSync( 'taskkill', ['/IM', `${windowsUninstallLocation} >nul`] );
 
@@ -95,6 +98,9 @@ export const unInstallApplication = async (
             if ( isDryRun ) {
                 await delay( 500 );
                 logger.verbose(
+                    `MacOS, kill any running instance before uninstalling: "osascript -e 'tell app "${installedPath}" to quit'"`
+                );
+                logger.verbose(
                     `MacOS, first would have removed: ${asarLocation}/electron.asar`
                 );
                 logger.verbose(
@@ -105,7 +111,7 @@ export const unInstallApplication = async (
             // quit application before uninstall on MacOs
             spawnSync( 'osascript', [
                 '-e',
-                `'tell app "${installedPath}" to quit'`
+                `tell app "${installedPath}" to quit`
             ] );
 
             // we need to manually remove .asar files _first_.
@@ -134,6 +140,12 @@ export const unInstallApplication = async (
         }
 
         if ( isRunningOnLinux ) {
+            if ( isDryRun ) {
+                await delay( 500 );
+                logger.verbose(
+                    `Linux, kill any running instance before uninstalling: "killall ${application.name}"`
+                );
+            }
             // quit application before uninstall on Linux
             spawnSync( 'killall', [application.name] );
         }
