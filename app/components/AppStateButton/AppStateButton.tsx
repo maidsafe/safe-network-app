@@ -106,7 +106,6 @@ export class AppStateButton extends React.Component<Props> {
             progress,
             error
         } = application;
-
         let buttonText = isInstalled
             ? I18n.t( `buttons.open` )
             : I18n.t( `buttons.install` );
@@ -190,7 +189,8 @@ export class AppStateButton extends React.Component<Props> {
                         onClick={handleClick}
                         aria-label="Application Action Button"
                         disabled={!!isUninstalling}
-                        className={styles.actionButton}
+                        className={`${styles.actionButton} ${isInstalled &&
+                            styles.openButton}`}
                     >
                         {buttonText}
                     </Fab>
