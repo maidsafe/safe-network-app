@@ -13,15 +13,18 @@ import {
     uninstallAppSuccess
 } from '$Actions/application_actions';
 import { NOTIFICATION_TYPES } from '$Constants/notifications';
-import { isRunningOnMac, isRunningOnWindows, isDryRun } from '$Constants';
+import {
+    isRunningOnMac,
+    isRunningOnWindows,
+    isRunningOnLinux,
+    isDryRun
+} from '$Constants';
 import {
     delay,
     getApplicationExecutable,
     getInstalledLocation
 } from '$App/manageInstallations/helpers';
-
 import { logger } from '$Logger';
-
 import { App } from '$Definitions/application.d';
 import { INSTALL_TARGET_DIR } from '$Constants/installConstants';
 
@@ -63,6 +66,9 @@ export const unInstallApplication = async (
                 `DRY RUN: Would have uninstalled via command: "${windowsUninstallLocation} /S"`
             );
         else {
+            // quit application before uninstall on windows
+            spawnSync( 'taskkill', ['/IM', `${windowsUninstallLocation} >nul`] );
+
             const uninstalled = spawnSync( windowsUninstallLocation, ['/S'] );
 
             if ( uninstalled.error ) {
@@ -96,6 +102,12 @@ export const unInstallApplication = async (
                 );
             }
 
+            // quit application before uninstall on MacOs
+            spawnSync( 'osascript', [
+                '-e',
+                `'tell app "${installedPath}" to quit'`
+            ] );
+
             // we need to manually remove .asar files _first_.
             const done = spawnSync( 'rm', [
                 `${asarLocation}/electron.asar`,
@@ -120,6 +132,12 @@ export const unInstallApplication = async (
                 );
             }
         }
+
+        if ( isRunningOnLinux ) {
+            // quit application before uninstall on Linux
+            spawnSync( 'killall', [application.name] );
+        }
+
         const byeApp = del( installedPath, {
             force: true,
             dryRun: isDryRun
