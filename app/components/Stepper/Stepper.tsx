@@ -8,8 +8,8 @@ import { logger } from '$Logger';
 
 import {
     ON_BOARDING,
-    BASIC_SETTINGS,
-    INTRO,
+    ON_BOARDING_BASIC_SETTINGS,
+    ON_BOARDING_INTRO,
     HOME
 } from '$Constants/routes.json';
 

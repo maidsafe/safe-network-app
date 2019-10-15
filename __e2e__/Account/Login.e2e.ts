@@ -32,9 +32,33 @@ test( 'can navigate to login, which has standard state', async ( t ) => {
         .expect( password.exists )
         .ok()
         .expect( passphrase.exists )
+        .ok();
+    // .expect( stayLoggedIn.exists )
+    // .ok()
+    // .expect( stayLoggedIn.checked )
+    // .notOk();
+} );
+
+// TODO: Setup e2e to always have authd running. (as part of app?)
+// Right now authd must be setup and running manually
+test( 'can navigate to login, and attempt/fail to login', async ( t ) => {
+    const loginButton = getByAria( 'Login Button' );
+    const password = getByAria( 'Password Field' );
+    const passphrase = getByAria( 'Passphrase Field' );
+    const stayLoggedIn = getByAria( 'Keep me logged in' );
+    const error = getByAria( 'Login Error' );
+
+    await t.click( loginButton );
+    await t
+        .expect( password.exists )
         .ok()
-        .expect( stayLoggedIn.exists )
+        .expect( passphrase.exists )
         .ok()
-        .expect( stayLoggedIn.checked )
-        .notOk();
+        // .expect( stayLoggedIn.exists )
+        // .ok()
+        .typeText( password, 'no' )
+        .typeText( passphrase, 'no' )
+        .click( loginButton )
+        .expect( error.exists )
+        .ok();
 } );

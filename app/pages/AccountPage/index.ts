@@ -1,17 +1,22 @@
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { AccountPage as TheAccountPage } from './AccountPage';
+
+import { logInToNetwork, createAccount } from '$Actions/alias/authd_actions';
 
 import { AppState } from '$Definitions/application.d';
 
-function mapStateToProperties( _state: AppState ) {
+function mapStateToProperties( state: AppState ) {
     return {
-        // TODO: Why this unnecessary nesting?
+        authd: state.authd
     };
 }
-function mapDispatchToProperties( dispatch: Function ) {
+function mapDispatchToProperties( dispatch: Dispatch ) {
     // until we have a reducer to add here.
-    const actions = {};
+    const actions = {
+        logInToNetwork,
+        createAccount
+    };
 
     return bindActionCreators( actions, dispatch );
 }

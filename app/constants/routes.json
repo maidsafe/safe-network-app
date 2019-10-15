@@ -7,7 +7,7 @@
     "ACCOUNT_ONBOARDING": "/account/on-boarding",
     "ACCOUNT_ONBOARDING_PAYG": "/account/on-boarding/pay-as-you-go",
     "ACCOUNT_ONBOARDING_EARN": "/account/on-boarding/earn-safecoin",
-    "ACCOUNT_LOGIN": "/account/login",
+    "ACCOUNT_LOGIN": "/account/log-in",
     "ACCOUNT_CREATE": "/account/create",
     "ACCOUNT_CREATE_REDEEM": "/account/create/redeem",
     "ACCOUNT_CREATE_PASSWORD": "/account/create/password",
@@ -15,6 +15,6 @@
     "SETTINGS": "/settings",
     "ON_BOARDING": "/on-boarding",
     "APPLICATION_DETAIL": "/application/:id",
-    "INTRO": "/on-boarding/intro",
-    "BASIC_SETTINGS": "/on-boarding/basic-settings"
+    "ON_BOARDING_INTRO": "/on-boarding/intro",
+    "ON_BOARDING_BASIC_SETTINGS": "/on-boarding/basic-settings"
 }

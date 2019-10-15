@@ -13,6 +13,7 @@
             "$Tests/*": ["__tests__/*"],
             "$E2E/*": ["__e2e__/*"],
             "$App/*": ["app/*"],
+            "$Background/*": ["app/backgroundProcess/*"],
             "$Assets/*": ["app/assets/*"],
             "$Actions/*": ["app/actions/*"],
             "$Store/*": ["app/store/*"],

@@ -24,17 +24,20 @@ interface Props {
     children: React.ReactChild;
     isTrayWindow: boolean;
     shouldOnboard: boolean;
+
     notifications: object;
     notificationCheckBox: boolean;
     acceptNotification: any;
     denyNotification: any;
     pushNotification: any;
     notificationToggleCheckBox: any;
+
     router: {
         location: {
             pathname: string;
         };
     };
+
     appList: {};
     currentPath: string;
     unInstallApp: Function;
@@ -44,6 +47,9 @@ interface Props {
     cancelDownload: Function;
     updateApp: Function;
     resumeDownload: Function;
+
+    logOutOfNetwork: Function;
+    isLoggedIn: boolean;
 }
 
 export class App extends React.PureComponent<Props> {
@@ -92,7 +98,9 @@ export class App extends React.PureComponent<Props> {
             acceptNotification,
             denyNotification,
             notificationCheckBox,
-            router
+            router,
+            isLoggedIn,
+            logOutOfNetwork
         } = this.props;
 
         const currentPath = router.location.pathname;
@@ -109,16 +117,23 @@ export class App extends React.PureComponent<Props> {
 
         if ( currentPath === '/' )
             secondaryAction = (
-                <Link to={SETTINGS}>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="Go to settings"
-                        style={{ fontSize: 18 }}
-                    >
-                        <Settings fontSize="inherit" />
-                    </IconButton>
-                </Link>
+                <>
+                    <Link to={SETTINGS}>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="Go to settings"
+                            style={{ fontSize: 18 }}
+                        >
+                            <Settings fontSize="inherit" />
+                        </IconButton>
+                    </Link>
+                    {isLoggedIn && (
+                        <button onClick={() => logOutOfNetwork()}>
+                            logout!
+                        </button>
+                    )}
+                </>
             );
 
         if ( currentPath.startsWith( '/application/' ) )

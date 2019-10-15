@@ -10,6 +10,7 @@ import {
     unInstallApp,
     updateApp
 } from '$Actions/alias/app_manager_actions';
+
 import { resetAppInstallationState } from '$Actions/app_manager_actions';
 import { updateDownloadProgress } from '$Actions/application_actions';
 import { triggerSetAsTrayWindow } from '$Actions/alias/launchpad_actions';
@@ -23,7 +24,8 @@ function mapStateToProperties( state: AppState ) {
     return {
         appList: state.appManager.applicationList,
         appPreferences: state.launchpad.appPreferences,
-        isTrayWindow: state.launchpad.isTrayWindow
+        isTrayWindow: state.launchpad.isTrayWindow,
+        isLoggedIn: state.authd.isLoggedIn
     };
 }
 function mapDispatchToProperties( dispatch ) {

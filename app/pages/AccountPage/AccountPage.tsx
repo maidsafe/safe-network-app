@@ -10,6 +10,8 @@ import { EarnInvite } from '$Pages/AccountPage/EarnInvite';
 import { GetInvite } from '$Pages/AccountPage/GetInvite';
 import { RequestCommunityInvite } from '$Pages/AccountPage/RequestCommunityInvite';
 
+import { AuthDState } from '$Definitions/application.d';
+
 // import styles from './Account.css';
 
 import {
@@ -24,17 +26,36 @@ import {
 import { notificationTypes } from '../../constants/notifications';
 
 interface Props {
-    unInstallApp: Function;
+    logInToNetwork: Function;
+    authd: AuthDState;
 }
 
 export const AccountPage = ( props: Props ) => {
     return (
         <Switch>
-            <Route exact path={ACCOUNT} component={AccountOverview} />
+            <Route exact path={ACCOUNT} render={() => <AccountOverview />} />
 
             <Route path={ACCOUNT_ONBOARDING} component={AccountOnBoarding} />
-            <Route path={ACCOUNT_LOGIN} component={LoginPage} />
-            <Route path={ACCOUNT_CREATE} component={CreateAccountPage} />
+            <Route
+                path={ACCOUNT_LOGIN}
+                render={() => (
+                    <LoginPage
+                        isLoggedIn={props.authd.isLoggedIn}
+                        loginError={props.authd.error}
+                        logInToNetwork={props.logInToNetwork}
+                    />
+                )}
+            />
+            <Route
+                path={ACCOUNT_CREATE}
+                render={() => (
+                    <CreateAccountPage
+                        isLoggedIn={props.authd.isLoggedIn}
+                        createAccount={props.createAccount}
+                        createAccountError={props.authd.error}
+                    />
+                )}
+            />
 
             <Route path={ACCOUNT_INVITES_GET} component={GetInvite} />
             <Route

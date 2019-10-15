@@ -21,6 +21,7 @@ import {
 
 interface Props {
     history: { push: Function };
+    isLoggedIn: boolean;
 }
 
 export const ProtoAccountOverview = ( props: Props ) => {

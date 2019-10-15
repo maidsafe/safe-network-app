@@ -10,7 +10,8 @@ import {
     ACCOUNT_ONBOARDING,
     ACCOUNT_ONBOARDING_PAYG,
     ACCOUNT_ONBOARDING_EARN,
-    ACCOUNT
+    ACCOUNT,
+    ACCOUNT_CREATE_PASSWORD
 } from '$Constants/routes.json';
 import styles from './Account.css';
 
@@ -22,14 +23,17 @@ export class AccountOnBoarding extends React.Component<Props> {
     completed = () => {
         const { history } = this.props;
 
-        logger.info( 'finished account onboardingggggg' );
+        logger.info( 'finished account on boarding' );
         // const appPreferences: AppPreferences = {
         //     shouldOnboard: false
         // };
         //
         // setAppPreferences( { shouldOnboard: false } );
 
-        history.push( ACCOUNT );
+        // history.push( ACCOUNT );
+
+        // TODO: point to account again once fleshed out
+        history.push( ACCOUNT_CREATE_PASSWORD );
     };
 
     render() {

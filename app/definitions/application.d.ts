@@ -9,13 +9,14 @@ export namespace Application {
     }
 }
 
+export interface AuthDState {
+    isLoggedIn: boolean;
+    error: string;
+}
+
 export interface ApplicationsState {
     userApplications: Array<App>;
     developmentApplications: Array<App>;
-}
-
-export interface TheState {
-    applications: ApplicationsState;
 }
 
 export interface ApplicationsAction {
@@ -99,4 +100,5 @@ export interface AppState {
     appManager: AppManagerState;
     launchpad: LaunchpadState;
     router: Router;
+    authd: AuthDState;
 }

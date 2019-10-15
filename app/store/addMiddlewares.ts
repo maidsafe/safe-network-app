@@ -5,11 +5,13 @@ import { inRendererProcess, inBgProcess } from '$Constants';
 
 export const addMiddlewares = ( middlewares: Array<Function> ): void => {
     middlewares.push( thunk );
-    middlewares.unshift( promiseMiddleware );
 
     if ( inBgProcess ) {
         middlewares.push( triggerAlias );
     }
+
+    // must be after trigger alias
+    middlewares.push( promiseMiddleware );
 
     if ( inRendererProcess ) {
         // must be first

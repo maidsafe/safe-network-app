@@ -1,57 +1,47 @@
 import React, { Component } from 'react';
 import { Grid, Button, Typography, TextField } from '@material-ui/core';
 
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { Route, Switch } from 'react-router';
 
 import { logger } from '$Logger';
 import styles from './Account.css';
 
 import {
+    HOME,
     ACCOUNT_CREATE_REDEEM,
     ACCOUNT_CREATE_PASSWORD,
     ACCOUNT_CREATE_PASSPHRASE
 } from '$Constants/routes.json';
 
-interface InviteProps {
-    invite: string;
+interface CreateAccountPageProps {
+    values: {
+        invite: string;
+        password: string;
+        passphrase: string;
+    };
     history: {
         goBack: Function;
         push: Function;
     };
+    handleChange: Function;
+    createAccount?: Function;
+    createAccountError?: string;
 }
-interface PasswordProps {
-    password: string;
-    history: {
-        goBack: Function;
-        push: Function;
-    };
-}
-interface PassphraseProps {
-    passphrase: string;
-    history: { goBack: Function };
-}
-interface Props {
-    unInstallApp: Function;
+interface CreateAccountProps {
+    isLoggedIn: boolean;
+    createAccount: Function;
+    createAccountError: string;
 }
 
-const Invite = withRouter( ( props: InviteProps ) => {
+const Invite = withRouter( ( props: CreateAccountPageProps ) => {
     // TODO: put info type anad back / next buttons.
     // On click next set password etc in store.
 
-    const { history } = props;
-
-    const [values, setValues] = React.useState( {
-        invite: ''
-    } );
-
-    // eslint-disable-next-line unicorn/consistent-function-scoping
-    const handleChange = ( name ) => ( event ) => {
-        setValues( { ...values, [name]: event.target.value } );
-    };
+    const { history, handleChange, values } = props;
 
     const handleSaveInvite = () => {
-        logger.info( 'Save the invite' );
+        logger.info( 'Saved the invite' );
         history.push( ACCOUNT_CREATE_PASSWORD );
     };
     const handleLinkClick = () => {
@@ -87,20 +77,11 @@ const Invite = withRouter( ( props: InviteProps ) => {
     );
 } );
 
-const Password = withRouter( ( props: PasswordProps ) => {
-    const { password, history } = props;
-
-    const [values, setValues] = React.useState( {
-        password: ''
-    } );
-
-    // eslint-disable-next-line unicorn/consistent-function-scoping
-    const handleChange = ( name ) => ( event ) => {
-        setValues( { ...values, [name]: event.target.value } );
-    };
+const Password = withRouter( ( props: CreateAccountPageProps ) => {
+    const { history, handleChange, values } = props;
 
     const handleSavePassword = () => {
-        logger.info( 'Save the password' );
+        logger.info( 'Saved the password' );
         history.push( ACCOUNT_CREATE_PASSPHRASE );
     };
     const handleLinkClick = () => {
@@ -136,22 +117,19 @@ const Password = withRouter( ( props: PasswordProps ) => {
     );
 } );
 
-const Passphrase = withRouter( ( props: PassphraseProps ) => {
-    const { passphrase, history } = props;
-
-    const [values, setValues] = React.useState( {
-        passphrase: ''
-    } );
-
-    // eslint-disable-next-line unicorn/consistent-function-scoping
-    const handleChange = ( name ) => ( event ) => {
-        setValues( { ...values, [name]: event.target.value } );
-    };
+const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
+    const {
+        history,
+        handleChange,
+        values,
+        createAccount,
+        createAccountError
+    } = props;
 
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleSavePassphrase = () => {
-        logger.info( 'Save the passhrase' );
-        // history.push(ACCOUNT_CREATE_PASSPHRASE);
+        logger.info( 'Save the passhrase and create!!', values );
+        createAccount( values.invite, values.password, values.passphrase );
     };
     const handleLinkClick = () => {
         history.goBack();
@@ -182,27 +160,57 @@ const Passphrase = withRouter( ( props: PassphraseProps ) => {
                     aria-label="Save Passphrase"
                     onClick={handleSavePassphrase}
                 >
-                    Save Passphrase
+                    Save Passphrase & Create Account
                 </Button>
+
+                {createAccountError && (
+                    <Typography variant="h5">{createAccountError}</Typography>
+                )}
             </Grid>
         </>
     );
 } );
-export const CreateAccountPage = ( props: Props ) => {
-    // const {
-    //     // triggerSetAsTrayWindow,
-    //     // isTrayWindow,
-    //     // appPreferences
-    // } = this.props;
+
+export const CreateAccountPage = ( props: CreateAccountProps ) => {
+    const { createAccount, isLoggedIn, createAccountError } = props;
+    const [values, setValues] = React.useState( {
+        password: '',
+        passphrase: '',
+        invite: ''
+    } );
+
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const handleChange = ( name ) => ( event ) => {
+        setValues( { ...values, [name]: event.target.value } );
+    };
+
+    if ( isLoggedIn ) return <Redirect to={HOME} />;
 
     return (
         <div>
             <Switch>
-                <Route path={ACCOUNT_CREATE_REDEEM} component={Invite} />
-                <Route path={ACCOUNT_CREATE_PASSWORD} component={Password} />
+                <Route
+                    path={ACCOUNT_CREATE_REDEEM}
+                    render={() => (
+                        <Invite handleChange={handleChange} values={values} />
+                    )}
+                />
+                <Route
+                    path={ACCOUNT_CREATE_PASSWORD}
+                    render={() => (
+                        <Password handleChange={handleChange} values={values} />
+                    )}
+                />
                 <Route
                     path={ACCOUNT_CREATE_PASSPHRASE}
-                    component={Passphrase}
+                    render={() => (
+                        <Passphrase
+                            handleChange={handleChange}
+                            values={values}
+                            createAccount={createAccount}
+                            createAccountError={createAccountError}
+                        />
+                    )}
                 />
             </Switch>
         </div>

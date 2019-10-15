@@ -8,32 +8,28 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Switch from '@material-ui/core/Switch';
 
-import { withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import { logger } from '$Logger';
 import styles from './Account.css';
 
-import { ACCOUNT_CREATE } from '$Constants/routes.json';
+import { HOME, ACCOUNT_CREATE } from '$Constants/routes.json';
 
 interface Props {
-    history?: History;
-    password: string;
-    passphrase: string;
+    loginError: string;
+    logInToNetwork: Function;
+    isLoggedIn: boolean;
 }
 
 export const LoginPage = ( props: Props ) => {
-    // const {
-    //     // triggerSetAsTrayWindow,
-    //     // isTrayWindow,
-    //     // appPreferences
-    // } = this.props;
+    const { loginError, isLoggedIn } = props;
 
-    const { passphrase, password, history } = props;
+    if ( isLoggedIn ) return <Redirect to={HOME} />;
 
     const [values, setValues] = React.useState( {
         passphrase: '',
-        password: '',
-        stayLoggedIn: false
+        password: ''
+        // stayLoggedIn: false
     } );
 
     // eslint-disable-next-line unicorn/consistent-function-scoping
@@ -42,23 +38,27 @@ export const LoginPage = ( props: Props ) => {
     };
 
     // until used ignore
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleLogin = () => {
-        logger.info( 'Save the passssssshrase' );
-        // history.push(ACCOUNT_CREATE_PASSPHRASE);
+        const { logInToNetwork } = props;
+
+        logInToNetwork( values.password, values.passphrase );
     };
 
     // until used ignore
     // eslint-disable-next-line unicorn/consistent-function-scoping
-    const handleStayLoggedIn = () => {
-        // history.goBack();
-        logger.info( 'clicked stay logged in' );
-    };
+    // const handleStayLoggedIn = () => {
+    //     // history.goBack();
+    //     logger.info( 'clicked stay logged in' );
+    // };
 
     return (
         <>
             <Typography variant="h4">Log In....</Typography>
-
+            {loginError && (
+                <Typography variant="h5" aria-label="Login Error">
+                    {loginError}
+                </Typography>
+            )}
             <TextField
                 aria-label="Password Field"
                 id="password"
@@ -80,24 +80,28 @@ export const LoginPage = ( props: Props ) => {
                 variant="outlined"
             />
 
-            <Button onClick={handleLogin}>Login</Button>
+            <Button onClick={handleLogin} aria-label="Login Button">
+                Login
+            </Button>
 
-            <FormControl component="fieldset">
-                <FormGroup>
-                    <FormControlLabel
-                        labelPlacement="end"
-                        control={
-                            <Switch
-                                checked={values.stayLoggedIn}
-                                onChange={handleChange( 'stayLoggedIn' )}
-                                value="checked"
-                                aria-label="Keep me logged in"
-                            />
-                        }
-                        label="Keep me logged in"
-                    />
-                </FormGroup>
-            </FormControl>
+            {
+                // <FormControl component="fieldset">
+                //     <FormGroup>
+                //         <FormControlLabel
+                //             labelPlacement="end"
+                //             control={
+                //                 <Switch
+                //                     checked={values.stayLoggedIn}
+                //                     onChange={handleChange( 'stayLoggedIn' )}
+                //                     value="checked"
+                //                     aria-label="Keep me logged in"
+                //                 />
+                //             }
+                //             label="Keep me logged in"
+                //         />
+                //     </FormGroup>
+                // </FormControl>
+            }
         </>
     );
 };

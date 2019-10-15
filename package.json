@@ -241,10 +241,11 @@
     "redux": "^4.0.4",
     "redux-actions": "2.6.5",
     "redux-logger": "^3.0.6",
-    "redux-promise": "0.6.0",
+    "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.7",
+    "safe-nodejs": "https://github.com/maidsafe/safe-nodejs.git#0.2.4",
     "source-map-support": "^0.5.13",
     "typeface-roboto": "^0.0.75"
   },
