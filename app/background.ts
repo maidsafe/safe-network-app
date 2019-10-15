@@ -8,6 +8,11 @@ import { setCurrentStore } from '$Actions/application_actions';
 import { settingsHandler } from '$Actions/helpers/settings_handler';
 import { isDryRun } from '$Constants';
 
+import {
+    setupAuthDaemon,
+    stopAuthDaemon
+} from '$App/backgroundProcess/authDaemon';
+
 declare let window: Window;
 
 const PID = process.pid;
@@ -36,10 +41,16 @@ const initBgProcess = () => {
     store.subscribe( () => {
         managePreferencesLocally( store );
     } );
+
+    setupAuthDaemon();
 };
 
 initBgProcess();
 
 window.addEventListener( 'error', function windowErrors( error ) {
     logger.error( 'errorInBackgroundWindow', error );
+} );
+
+window.addEventListener( 'unload', async ( event ) => {
+    await stopAuthDaemon();
 } );

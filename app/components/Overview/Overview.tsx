@@ -39,7 +39,8 @@ interface Props {
     };
     triggerSetAsTrayWindow: Function;
     isTrayWindow: boolean;
-    history: History;
+    history: { push: Function };
+    isLoggedIn: boolean;
 }
 
 export class Overview extends Component<Props> {
@@ -99,16 +100,22 @@ export class Overview extends Component<Props> {
         const {
             triggerSetAsTrayWindow,
             isTrayWindow,
-            appPreferences
+            appPreferences,
+            isLoggedIn
         } = this.props;
 
         if ( appPreferences.shouldOnboard ) return <Redirect to={ON_BOARDING} />;
 
         return (
             <div className={styles.container} data-tid="container">
-                <Button aria-label="Login Button" onClick={this.handleLogIn}>
-                    Log in
-                </Button>
+                {!isLoggedIn && (
+                    <Button
+                        aria-label="Login Button"
+                        onClick={this.handleLogIn}
+                    >
+                        Log in
+                    </Button>
+                )}
                 <span data-istraywindow={isTrayWindow} />
                 {this.loadApps()}
                 <Deck />

@@ -16,8 +16,8 @@ import { Intro } from './Intro';
 import { BasicSettings } from './BasicSettings/BasicSettings';
 import {
     HOME,
-    INTRO,
-    BASIC_SETTINGS,
+    ON_BOARDING_INTRO,
+    ON_BOARDING_BASIC_SETTINGS,
     ON_BOARDING
 } from '$Constants/routes.json';
 import styles from './OnBoarding.css';
@@ -64,7 +64,7 @@ export class OnBoarding extends React.Component<Props> {
 
     handleGetStarted = () => {
         const { history } = this.props;
-        history.push( INTRO );
+        history.push( ON_BOARDING_INTRO );
     };
 
     render() {
@@ -94,10 +94,10 @@ export class OnBoarding extends React.Component<Props> {
                                 />
                             )}
                         />
-                        <Route path={INTRO} component={() => <Intro />} />
+                        <Route path={ON_BOARDING_INTRO} component={Intro} />
                         <Route
-                            path={BASIC_SETTINGS}
-                            component={() => (
+                            path={ON_BOARDING_BASIC_SETTINGS}
+                            render={() => (
                                 <BasicSettings
                                     userPreferences={userPreferences}
                                     setUserPreferences={setUserPreferences}
@@ -117,10 +117,10 @@ export class OnBoarding extends React.Component<Props> {
                             url: ON_BOARDING
                         },
                         {
-                            url: INTRO
+                            url: ON_BOARDING_INTRO
                         },
                         {
-                            url: BASIC_SETTINGS,
+                            url: ON_BOARDING_BASIC_SETTINGS,
                             nextText: 'Save'
                         }
                     ]}

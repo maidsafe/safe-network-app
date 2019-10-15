@@ -1,28 +1,39 @@
+/**
+ * @jest-environment jsdom
+ */
 import React from 'react';
-import { createShallow } from '@material-ui/core/test-utils';
+import { createMount } from '@material-ui/core/test-utils';
+import { MemoryRouter } from 'react-router';
 
 import { Stepper } from '$App/components/Stepper';
+import { ON_BOARDING, ON_BOARDING_INTRO } from '$Constants/routes.json';
 
-const shallow = createShallow();
+const mount = createMount();
 
-const shallowSetup = ( propOverrides? ) => {
-    const props = Object.assign(
-        {
-            showButtons: true,
-            noElevation: false,
-            theme: 'default',
-            onNext: jest.fn(),
-            onBack: jest.fn(),
-            steps: 3,
-            activeStep: 0,
-            history: {
-                push: jest.fn()
-            }
+const mountSetup = ( propOverrides? ) => {
+    const props = {
+        showButtons: true,
+        noElevation: false,
+        theme: 'default',
+        onFinish: jest.fn(),
+        history: {
+            push: jest.fn(),
+            goBack: jest.fn()
         },
-        propOverrides
-    );
+        steps: [
+            { url: ON_BOARDING },
+            { url: ON_BOARDING_INTRO, nextText: 'boom' }
+        ],
+        ...propOverrides
+    };
 
-    const wrapper = shallow( <Stepper {...props} /> );
+    /* eslint-disable react/jsx-props-no-spreading */
+    const wrapper = mount(
+        <MemoryRouter initialEntries={[ON_BOARDING_INTRO]}>
+            <Stepper {...props} />
+        </MemoryRouter>
+    );
+    /* eslint-disable react/jsx-props-no-spreading */
 
     return {
         props,
@@ -32,31 +43,25 @@ const shallowSetup = ( propOverrides? ) => {
 
 describe( 'Stepper', () => {
     it( 'render', () => {
-        const { wrapper } = shallowSetup();
+        const { wrapper } = mountSetup();
         expect( wrapper ).toMatchSnapshot();
     } );
 
-    it( 'Go next', () => {
-        const { wrapper, props } = shallowSetup();
-        wrapper.getElement().props.nextButton.props.onClick();
-        expect( props.onNext ).toHaveBeenCalled();
-    } );
-
-    it( 'Go back', () => {
-        const { wrapper, props } = shallowSetup();
-        wrapper.getElement().props.backButton.props.onClick();
-        expect( props.onBack ).toHaveBeenCalled();
+    it( 'Uses nextText', () => {
+        const { wrapper } = mountSetup();
+        expect( wrapper.html() ).toContain( 'boom' );
     } );
 
     it( 'handle no elevation', () => {
-        const { wrapper } = shallowSetup( {
+        const { wrapper } = mountSetup( {
             noElevation: true
         } );
-        expect( wrapper.getElement().props.elevation ).toEqual( 0 );
+
+        expect( wrapper.html() ).toContain( 'elevation0' );
     } );
 
     it( 'default have elevation', () => {
-        const { wrapper } = shallowSetup();
+        const { wrapper } = mountSetup();
         expect( wrapper.getElement().props.elevation ).not.toEqual( 0 );
     } );
 } );

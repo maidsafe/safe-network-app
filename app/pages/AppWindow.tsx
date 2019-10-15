@@ -11,6 +11,8 @@ import {
     pushNotification,
     dismissNotification
 } from '$Actions/launchpad_actions';
+import { logOutOfNetwork } from '$Actions/alias/authd_actions';
+
 import { logger } from '$Logger';
 import {
     unInstallApp,
@@ -32,7 +34,8 @@ function mapStateToProperties( state ) {
         isTrayWindow: state.launchpad.isTrayWindow,
         notifications: state.launchpad.notifications,
         notificationCheckBox: state.launchpad.notificationCheckBox,
-        router: state.router
+        router: state.router,
+        isLoggedIn: state.authd.isLoggedIn
     };
 }
 function mapDispatchToProperties( dispatch ) {
@@ -57,7 +60,9 @@ function mapDispatchToProperties( dispatch ) {
         acceptNotification,
         denyNotification,
         pushNotification,
-        notificationToggleCheckBox
+        notificationToggleCheckBox,
+
+        logOutOfNetwork
     };
 
     return bindActionCreators( actions, dispatch );

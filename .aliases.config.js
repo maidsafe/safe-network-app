@@ -1,5 +1,6 @@
 module.exports = {
     $App: './app',
+    $Background: './app/backgroundProcess',
     $Assets: './app/assets',
     $Tests: './__tests__',
     $E2E: './__e2e__',

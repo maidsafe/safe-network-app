@@ -6,6 +6,7 @@ import {
     Reducer,
     StoreEnhancer
 } from 'redux';
+
 import { createHashHistory, History } from 'history';
 import { routerMiddleware, routerActions } from 'connected-react-router';
 import {
