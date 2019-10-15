@@ -95,36 +95,31 @@ const cancelDownload = ( store: Store, application: App ) => {
 };
 
 const getDowloadUrlForApplication = ( application: App ): string => {
-    // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/tag/v0.1.0
-    // TODO ensure name conformity with download, or if different, note how.
-    // TODO: perhaps use github API here...
+    // https://safe-network-app.s3.eu-west-2.amazonaws.com/safe-network-app-osx/safe-network-app-v0.0.3-mac-x64.zip
 
-    // should be:
-    // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/download/v0.1.0/ElectronTypescriptBoiler-0.1.0.dmg
-    // https://github.com/maidsafe/safe_browser/releases/download/v0.14.1/safe-browser-v0.14.1-linux-x64-dev.zip
+    // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-win/latest.yml
 
-    // we have: https://github.com/maidsafe/safe_browser/releases/download/v0.1.0/safe-browser-0.1.0.dmg
     const version = application.latestVersion;
-    const baseUrl = `https://github.com/${application.repositoryOwner}/${
-        application.repositorySlug
-    }/releases/download/${version}/${application.packageName ||
-        application.name}-${version}`;
+    const { packageName } = application;
+    const baseUrl = `https://${packageName}.s3.eu-west-2.amazonaws.com/${packageName}-`;
+
     let targetUrl: string;
 
     logger.silly( 'Checking platform', platform );
     switch ( platform ) {
         case MAC_OS: {
-            targetUrl = `${baseUrl}-mac-x64.dmg`;
+            // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-mac/safe-browser-v0.15.1-mac-x64.dmg
+            targetUrl = `${baseUrl}-mac/${packageName}-${version}-mac-x64.dmg`;
             break;
-            // https://github.com/maidsafe/safe_browser/releases/download/v0.15.0/safe-browser-v0.15.0-mac-x64.dmg
         }
         case WINDOWS: {
-            targetUrl = `${baseUrl}-win-x64.exe`;
+            // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-win/safe-browser-v0.15.1-win-x64.exe
+            targetUrl = `${baseUrl}-win/${packageName}-${version}-win-x64.exe`;
             break;
         }
         case LINUX: {
-            // https://github.com/maidsafe/safe_browser/releases/download/v0.15.0/safe-browser-v0.15.0-linux-x64.AppImage
-            targetUrl = `${baseUrl}-linux-x64.AppImage`;
+            // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-linux/safe-browser-v0.15.1-linux-x64.AppImage
+            targetUrl = `${baseUrl}-linux/${packageName}-${version}-mac-x64.dmg`;
             break;
         }
         default: {
@@ -307,7 +302,6 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
                 env: newEnvironment,
                 detached: true
             } );
-            
         }
     } );
 }

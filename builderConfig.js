@@ -6,7 +6,7 @@ const WINDOWS = 'win32';
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, consistent-return
 const publishedFilePath = () => {
     if ( platform === OSX ) {
-        return `safe-network-app-osx`;
+        return `safe-network-app-mac`;
     }
     if ( platform === LINUX ) {
         return `safe-network-app-linux`;
