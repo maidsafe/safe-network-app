@@ -45,7 +45,7 @@ describe( 'Overview', () => {
                     type: 'userApplications'
                 }
             },
-            fetchTheApplicationList: jest.fn(),
+            fetchLatestAppVersions: jest.fn(),
             triggerSetWindowVisibility: jest.fn()
         };
 

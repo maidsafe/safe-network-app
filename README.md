@@ -27,21 +27,6 @@ Downloading from the GitHub releases page on Linux, using an AppImage will requi
 
 This will not write to the filesystem, but will log to the console what changes it would have made.
 
-## Applications
-
-Applications managed by the app are defined in a json file, `managedApplications.json`, and each app has a structure thus:
-
-```
-"SAFE Browser": {
-    "name": "SAFE Browser",
-    "repository": "https://github.com/joshuef/safe_browser",
-    "latestVersion": "0.1.0",
-    "type": "userApplications"
-}
-```
-
-Note there's no `v` on the version, but one _is_ expected on the release tag.
-
 ## Releases
 
 -   Fork the SAFE Network App repository

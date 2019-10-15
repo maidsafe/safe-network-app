@@ -46,7 +46,6 @@
             "update_check_error": "There was an error checking for Safe Network App updates.",
             "clearnet_warning": "Opening webpage in Clearnet",
             "uninstall_error_asar": "Error removing %{asarLocation} *.asar files. Please check file permissions.",
-            "unable_to_get_app_list": "Couldn't retrieve Application list.",
             "uninstall_error": "Error uninstalling %{name}"
         },
         "message": {

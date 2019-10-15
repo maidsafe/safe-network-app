@@ -10,7 +10,7 @@ import {
     resumeDownload,
     openApp,
     unInstallApp,
-    fetchTheApplicationList
+    fetchLatestAppVersions
 } from '$Actions/alias/app_manager_actions';
 import { triggerSetAsTrayWindow } from '$Actions/alias/launchpad_actions';
 import { AppState } from '../definitions/application.d';
@@ -40,7 +40,7 @@ function mapDispatchToProperties( dispatch ) {
 
         updateDownloadProgress,
 
-        fetchTheApplicationList,
+        fetchLatestAppVersions,
 
         triggerSetAsTrayWindow,
         resetAppInstallationState

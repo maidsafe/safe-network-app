@@ -6,8 +6,8 @@ describe( 'Alias application Manager actions', () => {
     } );
 
     it( 'should fetch applications', () => {
-        expect( appManager.fetchTheApplicationList ).toBeDefined();
-        expect( appManager.fetchTheApplicationList().meta.trigger ).toEqual(
+        expect( appManager.fetchLatestAppVersions ).toBeDefined();
+        expect( appManager.fetchLatestAppVersions().meta.trigger ).toEqual(
             appManager.TYPES.ALIAS_FETCH_APPS
         );
     } );

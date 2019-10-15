@@ -1,6 +1,7 @@
 import path from 'path';
 import os from 'os';
 import fse from 'fs-extra';
+import yaml from 'js-yaml';
 import { ipcRenderer, remote, app } from 'electron';
 import { createAliasedAction } from 'electron-redux';
 import request from 'request-promise-native';
@@ -9,12 +10,15 @@ import { getAppDataPath } from '$Utils/app_utils';
 
 import {
     LAUNCHPAD_APP_ID,
-    APPLICATION_LIST_SOURCE,
     DEFAULT_APP_ICON_PATH,
-    isRunningTestCafeProcess
+    isRunningTestCafeProcess,
+    isRunningOnMac,
+    isRunningOnLinux
 } from '$Constants/index';
 import { updateAppInfoIfNewer } from '$Actions/app_manager_actions';
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
+import { getS3Folder } from '$App/utils/gets3Folders';
+
 import { NOTIFICATION_TYPES } from '$Constants/notifications';
 
 import {
@@ -80,7 +84,7 @@ const fetchAppIconFromServer = ( application ): Promise<string> => {
 
             if ( !fse.pathExistsSync( filePath ) ) {
                 const appIcon = await request( {
-                    uri: `https://github.com/${application.repositoryOwner}/${application.repositorySlug}/releases/download/v${application.latestVersion}/icon.png`,
+                    uri: `https://github.com/${application.repositoryOwner}/${application.repositorySlug}/releases/download/${application.latestVersion}/icon.png`,
                     encoding: null,
                     resolveWithFullResponse: true
                 } );
@@ -95,39 +99,45 @@ const fetchAppIconFromServer = ( application ): Promise<string> => {
     } );
 };
 
-const fetchAppListFromServer = async (): Promise<void> => {
-    logger.debug( 'Attempting to fetch application list' );
+const getLatestAppVersions = async (): Promise<void> => {
+    logger.debug( 'Attempting to fetch application versions from The Internets' );
 
     if ( isRunningTestCafeProcess ) return;
 
     const store = getCurrentStore();
-    try {
-        const response = await request( APPLICATION_LIST_SOURCE );
-        const apps = JSON.parse( response );
-        logger.debug( 'Application list retrieved successfully' );
+    const apps = store.getState().appManager.applicationList;
 
-        Object.keys( apps.applications ).forEach( async ( theAppId ) => {
-            const theApp = apps.applications[theAppId];
-            theApp.iconPath =
-                ( await fetchAppIconFromServer( theApp ) ) ||
-                fetchDefaultAppIconFromLocal( theApp.id );
-            store.dispatch( updateAppInfoIfNewer( theApp ) );
-        } );
-    } catch ( error ) {
-        logger.error( error.message );
-        const id: string = Math.random().toString( 36 );
+    Object.keys( apps ).forEach( async ( theAppId ) => {
+        const application: App = apps[theAppId];
 
-        const errorNotification = {
-            id,
-            title: I18n.t( 'notifications.title.unable_to_get_app_list' ),
-            icon: 'WarningIcon',
-            notificationType: NOTIFICATION_TYPES.STANDARD,
-            type: 'NO_APP_LIST',
-            denyText: I18n.t( 'notifications.buttons.denyText.dismiss' ),
-            acceptText: I18n.t( 'notifications.buttons.acceptText.retry' )
-        };
-        store.dispatch( pushNotification( errorNotification ) );
-    }
+        try {
+            const s3Url = getS3Folder( application );
+
+            // https://safe-network-app.s3.eu-west-2.amazonaws.com/safe-network-app-win/latest.yml
+            let latestVersionFile = `${s3Url}/latest.yml`;
+
+            if ( isRunningOnMac ) latestVersionFile = `${s3Url}/latest-mac.yml`;
+
+            if ( isRunningOnLinux )
+                latestVersionFile = `${s3Url}/latest-linux.yml`;
+
+            const response = await request( latestVersionFile );
+            const latestVersion = `v${yaml.safeLoad( response ).version}`;
+
+            logger.debug(
+                `${application.name} latest version is ${latestVersion}`
+            );
+
+            const updatedApp = { ...application, latestVersion };
+            updatedApp.iconPath =
+                ( await fetchAppIconFromServer( updatedApp ) ) ||
+                fetchDefaultAppIconFromLocal( updatedApp.id );
+
+            store.dispatch( updateAppInfoIfNewer( updatedApp ) );
+        } catch ( error ) {
+            logger.error( error.message );
+        }
+    } );
 };
 
 export const unInstallApplication = ( application: App ) => {
@@ -185,12 +195,12 @@ const restartTheApplication = ( application: App ) => {
     else console.log( 'no app update feature available at the moment' );
 };
 
-export const fetchTheApplicationList = createAliasedAction(
+export const fetchLatestAppVersions = createAliasedAction(
     TYPES.ALIAS_FETCH_APPS,
     () => {
         return {
             type: TYPES.ALIAS_FETCH_APPS,
-            payload: fetchAppListFromServer()
+            payload: getLatestAppVersions()
         };
     }
 );

@@ -9,7 +9,7 @@ import {
     isRunningDevelopment,
     isCI
 } from '$Constants';
-import { fetchTheApplicationList } from '$Actions/alias/app_manager_actions';
+import { fetchLatestAppVersions } from '$Actions/alias/app_manager_actions';
 
 const BACKGROUND_PROCESS = `file://${__dirname}/bg.html`;
 
@@ -56,8 +56,8 @@ export const setupBackground = async ( store ): Promise<BrowserWindow> =>
                     }
 
                     if ( !isRunningTestCafeProcess || isCI ) {
-                        // lets update the application list
-                        store.dispatch( fetchTheApplicationList() );
+                        // lets update the application versions
+                        store.dispatch( fetchLatestAppVersions() );
                     }
 
                     return resolve( backgroundProcessWindow );

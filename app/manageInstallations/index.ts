@@ -6,6 +6,7 @@ import { spawn, exec, execFile } from 'child_process';
 import path from 'path';
 
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
+import { getS3Folder } from '$App/utils/gets3Folders';
 
 import {
     cancelAppDownloadAndInstallation,
@@ -101,7 +102,7 @@ const getDowloadUrlForApplication = ( application: App ): string => {
 
     const version = application.latestVersion;
     const { packageName } = application;
-    const baseUrl = `https://${packageName}.s3.eu-west-2.amazonaws.com/${packageName}-`;
+    const baseUrl = getS3Folder( application );
 
     let targetUrl: string;
 
@@ -109,17 +110,17 @@ const getDowloadUrlForApplication = ( application: App ): string => {
     switch ( platform ) {
         case MAC_OS: {
             // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-mac/safe-browser-v0.15.1-mac-x64.dmg
-            targetUrl = `${baseUrl}-mac/${packageName}-${version}-mac-x64.dmg`;
+            targetUrl = `${baseUrl}/${packageName}-${version}-mac-x64.dmg`;
             break;
         }
         case WINDOWS: {
             // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-win/safe-browser-v0.15.1-win-x64.exe
-            targetUrl = `${baseUrl}-win/${packageName}-${version}-win-x64.exe`;
+            targetUrl = `${baseUrl}/${packageName}-${version}-win-x64.exe`;
             break;
         }
         case LINUX: {
             // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-linux/safe-browser-v0.15.1-linux-x64.AppImage
-            targetUrl = `${baseUrl}-linux/${packageName}-${version}-mac-x64.dmg`;
+            targetUrl = `${baseUrl}/${packageName}-${version}-mac-x64.dmg`;
             break;
         }
         default: {
