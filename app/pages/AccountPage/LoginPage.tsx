@@ -18,11 +18,13 @@ import { HOME, ACCOUNT_CREATE } from '$Constants/routes.json';
 interface Props {
     loginError: string;
     logInToNetwork: Function;
+    setAuthdWorking: Function;
     isLoggedIn: boolean;
+    isWorking: boolean;
 }
 
 export const LoginPage = ( props: Props ) => {
-    const { loginError, isLoggedIn } = props;
+    const { loginError, isLoggedIn, isWorking } = props;
 
     if ( isLoggedIn ) return <Redirect to={HOME} />;
 
@@ -39,8 +41,9 @@ export const LoginPage = ( props: Props ) => {
 
     // until used ignore
     const handleLogin = () => {
-        const { logInToNetwork } = props;
+        const { logInToNetwork, setAuthdWorking } = props;
 
+        setAuthdWorking();
         logInToNetwork( values.password, values.passphrase );
     };
 
@@ -79,6 +82,7 @@ export const LoginPage = ( props: Props ) => {
                 margin="normal"
                 variant="outlined"
             />
+            {isWorking && <span> woooorking.... </span>}
 
             <Button onClick={handleLogin} aria-label="Login Button">
                 Login

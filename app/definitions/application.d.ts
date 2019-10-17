@@ -12,6 +12,7 @@ export namespace Application {
 export interface AuthDState {
     isLoggedIn: boolean;
     error: string;
+    isWorking: boolean;
 }
 
 export interface ApplicationsState {

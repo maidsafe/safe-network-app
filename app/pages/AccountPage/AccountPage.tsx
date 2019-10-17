@@ -41,8 +41,10 @@ export const AccountPage = ( props: Props ) => {
                 render={() => (
                     <LoginPage
                         isLoggedIn={props.authd.isLoggedIn}
+                        isWorking={props.authd.isWorking}
                         loginError={props.authd.error}
                         logInToNetwork={props.logInToNetwork}
+                        setAuthdWorking={props.setAuthdWorking}
                     />
                 )}
             />
@@ -51,7 +53,9 @@ export const AccountPage = ( props: Props ) => {
                 render={() => (
                     <CreateAccountPage
                         isLoggedIn={props.authd.isLoggedIn}
+                        isWorking={props.authd.isWorking}
                         createAccount={props.createAccount}
+                        setAuthdWorking={props.setAuthdWorking}
                         createAccountError={props.authd.error}
                     />
                 )}

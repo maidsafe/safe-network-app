@@ -6,24 +6,43 @@ import { AuthDState } from '../definitions/application.d';
 
 export const initialState: AuthDState = {
     isLoggedIn: false,
-    error: null
+    error: null,
+    isWorking: false
 };
 
 export function authd( state = initialState, action ): AuthDState {
     const { payload } = action;
 
     switch ( action.type ) {
+        case TYPES.SET_AUTHD_WORKING: {
+            return { ...state, isWorking: true };
+        }
         case TYPES.LOG_IN_TO_NETWORK: {
-            return { ...state, ...payload };
+            return {
+                ...state,
+                isLoggedIn: !payload.error,
+                error: payload.error,
+                isWorking: false
+            };
         }
         case TYPES.CREATE_ACCOUNT: {
-            return { ...state, ...payload };
+            return {
+                ...state,
+                isLoggedIn: !payload.error,
+                error: payload.error,
+                isWorking: false
+            };
         }
         case TYPES.CLEAR_ERROR: {
             return { ...state, error: null };
         }
         case TYPES.LOG_OUT_OF_NETWORK: {
-            return { ...state, ...payload };
+            return {
+                ...state,
+                isLoggedIn: !!payload.error,
+                error: payload.error,
+                isWorking: false
+            };
         }
 
         default:
