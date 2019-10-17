@@ -70,7 +70,7 @@ export const unInstallApplication = async (
             );
         } else {
             // quit application before uninstall on windows
-            spawnSync( 'taskkill', ['/IM', `${windowsUninstallLocation} >nul`] );
+            spawnSync( 'taskkill', ['/IM', `${application.name}.exe`, `/F`] );
 
             const uninstalled = spawnSync( windowsUninstallLocation, ['/S'] );
 
