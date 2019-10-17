@@ -5,7 +5,7 @@ import { getAuthdLocation } from '$Constants/authd';
 export const createSafeAccount = async (
     password: string,
     passphrase: string
-): Promise<{ isLoggedIn: boolean; error: string }> => {
+): Promise<{ error: string }> => {
     try {
         const safeAuthdClient = await new SafeAuthdClient(); // use default port number
 
@@ -17,7 +17,7 @@ export const createSafeAccount = async (
         await safeAuthdClient.create_acc( sk, password, passphrase );
         logger.info( 'account created & logged in' );
 
-        return { isLoggedIn: true, error: null };
+        return { error: null };
     } catch ( error ) {
         logger.error(
             'Error creating account and logging in to safe authd',
@@ -29,6 +29,6 @@ export const createSafeAccount = async (
         //     errorMessage = 'Account does not exist';
         // }
 
-        return { isLoggedIn: false, error: errorMessage };
+        return { error: errorMessage };
     }
 };

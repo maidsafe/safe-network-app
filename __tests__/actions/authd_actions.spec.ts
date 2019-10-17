@@ -24,6 +24,13 @@ describe( 'Auth daemon actions', () => {
         expect( authdActions.logOutOfNetwork().type ).toEqual( 'ALIASED' );
     } );
 
+    it( 'can set authd as working', () => {
+        expect( authdActions.setAuthdWorking ).toBeDefined();
+        expect( authdActions.setAuthdWorking().type ).toEqual(
+            'SET_AUTHD_WORKING'
+        );
+    } );
+
     it( 'should create account', () => {
         expect( authdActions.createAccount ).toBeDefined();
         expect( authdActions.createAccount().type ).toEqual( 'ALIASED' );

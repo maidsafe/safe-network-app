@@ -13,10 +13,14 @@ export const TYPES = {
     LOG_OUT_OF_NETWORK: 'LOG_OUT_OF_NETWORK',
     ALIAS_CREATE_ACCOUNT: 'ALIAS_CREATE_ACCOUNT',
     CREATE_ACCOUNT: 'CREATE_ACCOUNT',
-    CLEAR_ERROR: 'CLEAR_ERROR'
+    CLEAR_ERROR: 'CLEAR_ERROR',
+    SET_AUTHD_WORKING: 'SET_AUTHD_WORKING'
 };
 
-export const { clearError } = createActions( TYPES.CLEAR_ERROR );
+export const { clearError, setAuthdWorking } = createActions(
+    TYPES.CLEAR_ERROR,
+    TYPES.SET_AUTHD_WORKING
+);
 
 export const logInToNetwork = createAliasedAction(
     TYPES.ALIAS_LOG_IN_TO_NETWORK,

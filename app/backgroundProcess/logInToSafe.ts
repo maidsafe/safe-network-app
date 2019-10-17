@@ -2,7 +2,10 @@ import { SafeAuthdClient } from 'safe-nodejs';
 import { logger } from '$Logger';
 import { getAuthdLocation } from '$Constants/authd';
 
-export const logInToSafe = async ( password: string, passphrase: string ) => {
+export const logInToSafe = async (
+    password: string,
+    passphrase: string
+): Promise<{ error?: string }> => {
     try {
         const safeAuthdClient = await new SafeAuthdClient(); // use default port number
 
@@ -12,7 +15,7 @@ export const logInToSafe = async ( password: string, passphrase: string ) => {
         await safeAuthdClient.log_in( password, passphrase );
         logger.info( 'Logged in' );
 
-        return { isLoggedIn: true, error: null };
+        return {};
     } catch ( error ) {
         logger.error( 'Error logging in to safe authd', error );
 
@@ -27,6 +30,6 @@ export const logInToSafe = async ( password: string, passphrase: string ) => {
             errorMessage = 'Could not connect to authenticator';
         }
 
-        return { isLoggedIn: false, error: errorMessage };
+        return { error: errorMessage };
     }
 };

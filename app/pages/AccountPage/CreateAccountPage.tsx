@@ -27,9 +27,13 @@ interface CreateAccountPageProps {
     handleChange: Function;
     createAccount?: Function;
     createAccountError?: string;
+    isWorking?: boolean;
+    setAuthdWorking?: Function;
 }
 interface CreateAccountProps {
     isLoggedIn: boolean;
+    isWorking: boolean;
+    setAuthdWorking: Function;
     createAccount: Function;
     createAccountError: string;
 }
@@ -123,12 +127,15 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
         handleChange,
         values,
         createAccount,
-        createAccountError
+        createAccountError,
+        isWorking,
+        setAuthdWorking
     } = props;
 
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleSavePassphrase = () => {
         logger.info( 'Save the passhrase and create!!', values );
+        setAuthdWorking();
         createAccount( values.invite, values.password, values.passphrase );
     };
     const handleLinkClick = () => {
@@ -162,7 +169,7 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
                 >
                     Save Passphrase & Create Account
                 </Button>
-
+                {isWorking && <span>working on it...</span>}
                 {createAccountError && (
                     <Typography variant="h5">{createAccountError}</Typography>
                 )}
@@ -172,7 +179,13 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
 } );
 
 export const CreateAccountPage = ( props: CreateAccountProps ) => {
-    const { createAccount, isLoggedIn, createAccountError } = props;
+    const {
+        createAccount,
+        isLoggedIn,
+        isWorking,
+        createAccountError,
+        setAuthdWorking
+    } = props;
     const [values, setValues] = React.useState( {
         password: '',
         passphrase: '',
@@ -207,6 +220,8 @@ export const CreateAccountPage = ( props: CreateAccountProps ) => {
                         <Passphrase
                             handleChange={handleChange}
                             values={values}
+                            isWorking={isWorking}
+                            setAuthdWorking={setAuthdWorking}
                             createAccount={createAccount}
                             createAccountError={createAccountError}
                         />
