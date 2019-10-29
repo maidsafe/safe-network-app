@@ -21,53 +21,54 @@ fixture`Account Info Pages`
         await clickOnMainMenuItem( ['Tests', 'Reset application list'] );
     } );
 
+// TODO: reenable all once this flow is reinstated
 test( 'can navigate to get invite', async ( t ) => {
     await t.click( Selector( '#CreateAccountCard' ) );
 
     const nextStep = getByAria( 'NextStepButton' );
-    const backStep = getByAria( 'BackStepButton' );
-    const getInviteCard = getByAria( 'Get Invite' );
-
-    await t.click( nextStep );
-    await t.click( nextStep );
-    await t.click( nextStep );
-
-    await t.expect( getInviteCard.exists ).ok();
-    await t.click( getInviteCard );
-
-    await t.expect( Selector( 'h5' ).withText( 'Get an invite' ).exists ).ok();
+    // const backStep = getByAria( 'BackStepButton' );
+    // const getInviteCard = getByAria( 'Get Invite' );
+    //
+    // await t.click( nextStep );
+    // await t.click( nextStep );
+    // await t.click( nextStep );
+    //
+    // await t.expect( getInviteCard.exists ).ok();
+    // await t.click( getInviteCard );
+    //
+    // await t.expect( Selector( 'h5' ).withText( 'Get an invite' ).exists ).ok();
 } );
 
-test( 'can navigate to requst invite', async ( t ) => {
-    await t.click( Selector( '#CreateAccountCard' ) );
-
-    const nextStep = getByAria( 'NextStepButton' );
-    const backStep = getByAria( 'BackStepButton' );
-    const requestInviteCard = getByAria( 'Request Invite' );
-
-    await t.click( nextStep );
-    await t.click( nextStep );
-    await t.click( nextStep );
-
-    await t.expect( requestInviteCard.exists ).ok();
-    await t.click( requestInviteCard );
-
-    await t.expect( Selector( 'h5' ).withText( 'Request an invite' ).exists ).ok();
-} );
-
-test( 'can navigate to earn invite', async ( t ) => {
-    await t.click( Selector( '#CreateAccountCard' ) );
-
-    const nextStep = getByAria( 'NextStepButton' );
-    const backStep = getByAria( 'BackStepButton' );
-    const earnInviteCard = getByAria( 'Earn Invite' );
-
-    await t.click( nextStep );
-    await t.click( nextStep );
-    await t.click( nextStep );
-
-    await t.expect( earnInviteCard.exists ).ok();
-    await t.click( earnInviteCard );
-
-    await t.expect( Selector( 'h5' ).withText( 'Earn an invite' ).exists ).ok();
-} );
+// test( 'can navigate to requst invite', async ( t ) => {
+//     await t.click( Selector( '#CreateAccountCard' ) );
+//
+//     const nextStep = getByAria( 'NextStepButton' );
+//     const backStep = getByAria( 'BackStepButton' );
+//     const requestInviteCard = getByAria( 'Request Invite' );
+//
+//     await t.click( nextStep );
+//     await t.click( nextStep );
+//     await t.click( nextStep );
+//
+//     await t.expect( requestInviteCard.exists ).ok();
+//     await t.click( requestInviteCard );
+//
+//     await t.expect( Selector( 'h5' ).withText( 'Request an invite' ).exists ).ok();
+// } );
+//
+// test( 'can navigate to earn invite', async ( t ) => {
+//     await t.click( Selector( '#CreateAccountCard' ) );
+//
+//     const nextStep = getByAria( 'NextStepButton' );
+//     const backStep = getByAria( 'BackStepButton' );
+//     const earnInviteCard = getByAria( 'Earn Invite' );
+//
+//     await t.click( nextStep );
+//     await t.click( nextStep );
+//     await t.click( nextStep );
+//
+//     await t.expect( earnInviteCard.exists ).ok();
+//     await t.click( earnInviteCard );
+//
+//     await t.expect( Selector( 'h5' ).withText( 'Earn an invite' ).exists ).ok();
+// } );

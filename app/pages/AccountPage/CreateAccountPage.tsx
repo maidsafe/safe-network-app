@@ -169,7 +169,9 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
                 >
                     Save Passphrase & Create Account
                 </Button>
-                {isWorking && <span>working on it...</span>}
+                {isWorking && (
+                    <span aria-label="Working...">working on it...</span>
+                )}
                 {createAccountError && (
                     <Typography variant="h5">{createAccountError}</Typography>
                 )}
