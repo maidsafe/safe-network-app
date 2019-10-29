@@ -21,7 +21,7 @@ interface Props {
 
 const BackButton = ( { location } ) => {
     return (
-        <React.Fragment>
+        <>
             {location.pathname !== '/' && (
                 <Link to="/">
                     <IconButton
@@ -34,7 +34,7 @@ const BackButton = ( { location } ) => {
                     </IconButton>
                 </Link>
             )}
-        </React.Fragment>
+        </>
     );
 };
 

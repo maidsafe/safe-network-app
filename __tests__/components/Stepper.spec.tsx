@@ -33,7 +33,7 @@ const mountSetup = ( propOverrides? ) => {
             <Stepper {...props} />
         </MemoryRouter>
     );
-    /* eslint-disable react/jsx-props-no-spreading */
+    /* eslint-enable react/jsx-props-no-spreading */
 
     return {
         props,
@@ -50,6 +50,14 @@ describe( 'Stepper', () => {
     it( 'Uses nextText', () => {
         const { wrapper } = mountSetup();
         expect( wrapper.html() ).toContain( 'boom' );
+    } );
+
+    it( 'can go next', () => {
+        const { wrapper } = mountSetup();
+
+        expect(
+            wrapper.find( { 'aria-label': 'NextStepButton' } ).hostNodes().length
+        ).toBe( 1 );
     } );
 
     it( 'handle no elevation', () => {

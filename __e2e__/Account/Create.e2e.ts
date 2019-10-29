@@ -29,6 +29,8 @@ test(
 test( 'can navigate through create account onboarding', async ( t ) => {
     await t.click( Selector( '#CreateAccountCard' ) );
 
+    await t.setTestSpeed( 0.5 );
+
     const nextStep = getByAria( 'NextStepButton' );
     const backStep = getByAria( 'BackStepButton' );
 
@@ -57,7 +59,6 @@ test( 'can navigate through create account onboarding', async ( t ) => {
 
     // we can go back a screen
     await t.click( backStep );
-
     await t
         .expect(
             Selector( 'h6' ).withText(
@@ -66,9 +67,12 @@ test( 'can navigate through create account onboarding', async ( t ) => {
         )
         .ok();
 
-    await t.click( nextStep );
-    await t.click( nextStep );
-    await t.expect( getByAria( 'IAlreadyHaveInvite' ).exists ).ok();
+    // TODO : Reenable this flow check once reinstated
+
+    // await t.click( nextStep );
+
+    // await t.click( nextStep );
+    // await t.expect( getByAria( 'IAlreadyHaveInvite' ).exists ).ok();
 } );
 
 test( 'can create an account', async ( t ) => {
@@ -86,12 +90,13 @@ test( 'can create an account', async ( t ) => {
     await t.click( nextStep );
     await t.click( nextStep );
 
-    await t.click( getByAria( 'IAlreadyHaveInvite' ) );
+    // await t.click( getByAria( 'IAlreadyHaveInvite' ) );
 
     await t
-        .expect( redeem.exists )
-        .ok()
-        .click( redeem )
+        // TODO: reenable once we have redemption
+        // .expect( redeem.exists )
+        // .ok()
+        // .click( redeem )
         .expect( password.exists )
         .ok()
         .click( savePassword )
