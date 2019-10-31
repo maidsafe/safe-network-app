@@ -37,9 +37,9 @@
     "start-renderer-dev": "cross-env NODE_ENV=development webpack-dev-server --config configs/webpack.config.renderer.dev.babel.js",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest -u",
     "test-all": "yarn lint && yarn build && yarn test && yarn build-e2e && yarn test-e2e",
-    "test-e2e": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_UNPACKED=true TEST_CAFE=true testcafe electron:. ./__e2e__/**/*.e2e.ts",
-    "test-e2e-packed": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/**/*.e2e.ts",
-    "test-e2e-live": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_CAFE=true testcafe-live electron:. ./__e2e__/**/*.e2e.ts",
+    "test-e2e": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_UNPACKED=true TEST_CAFE=true testcafe electron:. ./__e2e__",
+    "test-e2e-packed": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__",
+    "test-e2e-live": "node -r babel-register-ts ./internals/scripts/CheckBuiltsExist.js && cross-env NODE_ENV=test TEST_CAFE=true testcafe-live electron:. ./__e2e__",
     "test-watch": "yarn test --watch"
   },
   "standard-version": {
@@ -153,7 +153,7 @@
     "eslint-import-resolver-webpack": "^0.11.0",
     "eslint-plugin-compat": "^3.3.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jest": "^23.0.2",
+    "eslint-plugin-jest": "22",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.16.0",

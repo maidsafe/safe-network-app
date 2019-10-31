@@ -2,6 +2,7 @@ import * as fs from 'fs-extra';
 import { app, Menu, shell } from 'electron';
 import { Store } from 'redux';
 import path from 'path';
+import { push } from 'connected-react-router';
 import {
     pushNotification,
     setUserPreferences,
@@ -190,6 +191,13 @@ const setupTestsMenu = ( store: Store ) => {
                     };
                     store.dispatch( resetAppUpdateState( application ) );
                 }
+            },
+            {
+                label: 'Trigger Permission Request',
+                click: () => {
+                    store.dispatch(
+                        push( '/permissions/pending/89498494/TestApp' )
+                    );
             }
         ]
     };

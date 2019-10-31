@@ -18,10 +18,6 @@ declare const document: Document;
 
 const allPassedArguments = process.argv;
 
-let shouldRunMockNetwork: boolean = fs.existsSync(
-    path.resolve( __dirname, '../..', 'startAsMock' )
-);
-
 let hasDebugFlag = false;
 let hasDryRunFlag = false;
 let shouldOpenDebugApps = false;
@@ -86,12 +82,7 @@ if ( allPassedArguments.includes( '--port' ) ) {
     forcedPort = Number( allPassedArguments[index + 1] );
 }
 
-// Still needed if we want to pass this on to apps we open up...
-export const shouldStartAsMockFromFlagsOrPackage: boolean = shouldRunMockNetwork;
-
-export const environment = shouldStartAsMockFromFlagsOrPackage
-    ? 'development'
-    : process.env.NODE_ENV || 'production';
+export const environment = process.env.NODE_ENV || 'production';
 
 export const isRunningDevelopment = environment.startsWith( 'dev' );
 
@@ -101,14 +92,6 @@ export const travisOS = process.env.TRAVIS_OS_NAME || '';
 // other considerations?
 export const isHot = process.env.HOT || 0;
 
-const startAsMockNetwork = shouldStartAsMockFromFlagsOrPackage;
-
-// only to be used for inital store setting in main process. Not guaranteed correct for renderers.
-export const startedRunningMock: boolean =
-    remote && remote.getGlobal
-        ? remote.getGlobal( 'startedRunningMock' )
-        : startAsMockNetwork || isRunningDevelopment;
-export const startedRunningProduction = !startedRunningMock;
 export const isRunningNodeEnvironmentTest = environment.startsWith( 'test' );
 export const isRunningDebug = hasDebugFlag;
 export const isDryRun = hasDryRunFlag || isRunningTestCafeProcess;
@@ -156,10 +139,8 @@ if ( inMainProcess ) {
     global.preloadFile = `file://${__dirname}/webPreload.prod.js`;
     global.appDirectory = __dirname;
     global.isCI = isCI;
-    global.startedRunningMock = startedRunningMock;
     global.isRunningTestCafeProcess = isRunningTestCafeProcess;
     global.isRunningTestCafeProcessingPackagedApp = isRunningTestCafeProcessingPackagedApp;
-    global.shouldStartAsMockFromFlagsOrPackage = shouldStartAsMockFromFlagsOrPackage;
 }
 
 export const LAUNCHPAD_APP_ID = '__LAUNCHPAD_APP_ID__';

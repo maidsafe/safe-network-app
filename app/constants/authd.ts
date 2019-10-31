@@ -1,2 +1,2 @@
 export const getAuthdLocation = () =>
-    '/home/josh/Projects/safe-cli/target/debug/safe-authd';
+    '/home/josh/Projects/safe-api/target/debug/safe-authd';
