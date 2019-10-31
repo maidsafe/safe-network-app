@@ -6,7 +6,7 @@ import { Intro } from '$App/components/OnBoarding/Intro';
 const shallow = createShallow();
 
 const shallowSetup = ( propOverrides? ) => {
-    const props = Object.assign( {}, propOverrides );
+    const props = { ...propOverrides };
 
     const wrapper = shallow( <Intro {...props} /> );
 

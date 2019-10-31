@@ -6,15 +6,13 @@ import { GetStarted } from '$App/components/OnBoarding/GetStarted';
 const shallow = createShallow();
 
 const shallowSetup = ( propOverrides? ) => {
-    const props = Object.assign(
-        {
-            onClickGetStarted: jest.fn(),
-            history: {
-                push: jest.fn()
-            }
+    const props = {
+        onClickGetStarted: jest.fn(),
+        history: {
+            push: jest.fn()
         },
-        propOverrides
-    );
+        ...propOverrides
+    };
 
     const wrapper = shallow( <GetStarted {...props} /> );
 

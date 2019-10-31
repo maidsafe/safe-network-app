@@ -44,7 +44,7 @@ export class ApplicationOverview extends React.PureComponent<Props> {
         const secondaryText = application.error || progressText;
 
         return (
-            <React.Fragment>
+            <>
                 <ListItem
                     className={styles.list}
                     button
@@ -82,7 +82,7 @@ export class ApplicationOverview extends React.PureComponent<Props> {
                     </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />
-            </React.Fragment>
+            </>
         );
     }
 }

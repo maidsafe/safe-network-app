@@ -10,28 +10,26 @@ import { Preferences } from '$Components/Preferences';
 const shallow = createShallow();
 
 const shallowSetup = ( propOverrides? ) => {
-    const props = Object.assign(
-        {
-            userPreferences: {
-                autoUpdate: false,
-                pinToMenuBar: false,
-                launchOnStart: false,
-                showDeveloperApps: false,
-                warnOnAccessingClearnet: false
-            },
-            setUserPreferences: jest.fn(),
-            getUserPreferences: jest.fn(),
-            storeUserPreferences: jest.fn(),
-            pinToTray: jest.fn(),
-            autoLaunch: jest.fn(),
-            quitApplication: jest.fn(),
-            isTrayWindow: false,
-            history: {
-                push: jest.fn()
-            }
+    const props = {
+        userPreferences: {
+            autoUpdate: false,
+            pinToMenuBar: false,
+            launchOnStart: false,
+            showDeveloperApps: false,
+            warnOnAccessingClearnet: false
         },
-        propOverrides
-    );
+        setUserPreferences: jest.fn(),
+        getUserPreferences: jest.fn(),
+        storeUserPreferences: jest.fn(),
+        pinToTray: jest.fn(),
+        autoLaunch: jest.fn(),
+        quitApplication: jest.fn(),
+        isTrayWindow: false,
+        history: {
+            push: jest.fn()
+        },
+        ...propOverrides
+    };
 
     const wrapper = shallow( <Settings {...props} /> );
 

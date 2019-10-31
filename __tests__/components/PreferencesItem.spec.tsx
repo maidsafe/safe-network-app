@@ -9,15 +9,13 @@ import { camelToTitle } from '$Utils/app_utils';
 const shallow = createShallow();
 
 const shallowSetup = ( propOverrides? ) => {
-    const props = Object.assign(
-        {
-            name: 'autoUpdate',
-            status: true,
-            disabled: false,
-            onChange: jest.fn()
-        },
-        propOverrides
-    );
+    const props = {
+        name: 'autoUpdate',
+        status: true,
+        disabled: false,
+        onChange: jest.fn(),
+        ...propOverrides
+    };
 
     const wrapper = shallow( <PreferenceItem {...props} /> );
 

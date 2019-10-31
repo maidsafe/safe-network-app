@@ -6,14 +6,12 @@ import { AppIcon } from '$Components/AppIcon';
 const shallow = createShallow();
 
 const shallowSetup = ( propOverrides? ) => {
-    const props = Object.assign(
-        {
-            url: '',
-            fontSize: 'default',
-            className: ''
-        },
-        propOverrides
-    );
+    const props = {
+        url: '',
+        fontSize: 'default',
+        className: '',
+        ...propOverrides
+    };
 
     const wrapper = shallow( <AppIcon {...props} /> );
 

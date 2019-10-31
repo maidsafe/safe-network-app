@@ -9,23 +9,21 @@ const shallow = createShallow();
 const shallowSetup = ( propOverrides? ) => {
     const id: string = Math.random().toString( 36 );
 
-    const props = Object.assign(
-        {
-            latestNotification: {
-                id,
-                type: 'NO_INTERNET',
-                icon: 'SignalWifiOffIcon',
-                priority: 'HIGH',
-                notificationType: 'standard',
-                title: 'No Internet connection. Your install has been paused.',
-                acceptText: 'resume',
-                denyText: 'dismiss'
-            },
-            acceptNotification: jest.fn(),
-            denyNotification: jest.fn()
+    const props = {
+        latestNotification: {
+            id,
+            type: 'NO_INTERNET',
+            icon: 'SignalWifiOffIcon',
+            priority: 'HIGH',
+            notificationType: 'standard',
+            title: 'No Internet connection. Your install has been paused.',
+            acceptText: 'resume',
+            denyText: 'dismiss'
         },
-        propOverrides
-    );
+        acceptNotification: jest.fn(),
+        denyNotification: jest.fn(),
+        ...propOverrides
+    };
 
     const wrapper = shallow( <Notification {...props} /> );
 

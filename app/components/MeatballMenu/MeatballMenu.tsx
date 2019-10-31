@@ -49,7 +49,7 @@ MeatballMenuState
         const { menuAnchorElement } = this.state;
 
         return (
-            <React.Fragment>
+            <>
                 <IconButton
                     className={styles.vertIcon}
                     onClick={this.handleClick}
@@ -71,7 +71,7 @@ MeatballMenuState
                 >
                     <MenuItems {...this.props} handleClose={this.handleClose} />
                 </Menu>
-            </React.Fragment>
+            </>
         );
     }
 }
