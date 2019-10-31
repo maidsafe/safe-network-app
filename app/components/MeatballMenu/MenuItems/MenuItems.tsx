@@ -101,7 +101,7 @@ export class MenuItems extends Component<MenuItemsProps> {
         const { showAboutAppOption } = this.props;
 
         return (
-            <React.Fragment>
+            <>
                 {showAboutAppOption && (
                     <MenuItemWrapper
                         dense
@@ -130,7 +130,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                     </MenuItemWrapper>
                 )}
                 {isInstalled && !isUpdating && (
-                    <React.Fragment>
+                    <>
                         <MenuItemWrapper
                             dense
                             className={styles['menu-item']}
@@ -139,7 +139,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                         >
                             Open
                         </MenuItemWrapper>
-                    </React.Fragment>
+                    </>
                 )}
                 {isDownloadingAndInstalling && (
                     <MenuItemWrapper
@@ -185,7 +185,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                         Skip This Update
                     </MenuItemWrapper>
                 )}
-            </React.Fragment>
+            </>
         );
     }
 }
