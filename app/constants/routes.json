@@ -1,5 +1,6 @@
 {
     "HOME": "/",
+
     "ACCOUNT": "/account",
     "ACCOUNT_INVITES_GET": "/account/invites/get-invite",
     "ACCOUNT_INVITES_REQUEST": "/account/invites/request-invite",
@@ -12,6 +13,12 @@
     "ACCOUNT_CREATE_REDEEM": "/account/create/redeem",
     "ACCOUNT_CREATE_PASSWORD": "/account/create/password",
     "ACCOUNT_CREATE_PASSPHRASE": "/account/create/passphrase",
+
+    "PERMISSIONS": "/permissions",
+    "PERMISSIONS_PENDING": "/permissions/pending",
+    "PERMISSION_REQUEST": "/permissions/pending/:requestId/:appName",
+    "PERMISSIONS_GRANTED": "/permissions/granted",
+
     "SETTINGS": "/settings",
     "ON_BOARDING": "/on-boarding",
     "APPLICATION_DETAIL": "/application/:id",

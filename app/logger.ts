@@ -9,8 +9,6 @@ import {
     isRunningPackaged,
     isRunningDebug,
     inBgProcess,
-    startedRunningProduction,
-    startedRunningMock,
     isRunningTestCafeProcessingPackagedApp,
     isRunningTestCafeProcess,
     inMainProcess,
@@ -77,7 +75,6 @@ if (
     log.info( 'isRunningUnpacked?', isRunningUnpacked );
     log.info( 'isRunningPackaged?', isRunningPackaged );
     log.info( 'inMainProcess?', inMainProcess );
-    log.info( 'startedRunningProduction?', startedRunningProduction );
     log.info( 'isRunningTestCafeProcess?', isRunningTestCafeProcess );
     log.info(
         'isRunningTestCafeProcessingPackagedApp?',
