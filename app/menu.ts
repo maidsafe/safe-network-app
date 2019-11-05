@@ -198,6 +198,7 @@ const setupTestsMenu = ( store: Store ) => {
                     store.dispatch(
                         push( '/permissions/pending/89498494/TestApp' )
                     );
+                }
             }
         ]
     };
