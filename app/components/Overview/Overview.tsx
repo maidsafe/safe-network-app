@@ -39,7 +39,6 @@ interface Props {
     };
     triggerSetAsTrayWindow: Function;
     isTrayWindow: boolean;
-    history: { push: Function };
     isLoggedIn: boolean;
 }
 
@@ -66,7 +65,7 @@ export class Overview extends Component<Props> {
                         {Object.values( appList ).map( ( theApplication ) => (
                             <ApplicationOverview
                                 key={theApplication.name}
-                                {...theApplication}
+                                // {...theApplication}
                                 history={history}
                                 application={theApplication}
                                 downloadAndInstallApp={downloadAndInstallApp}

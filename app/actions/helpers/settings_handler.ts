@@ -45,27 +45,14 @@ class SettingsHandler {
         }
     }
 
-    public updatePreferences( preferences: Preferences ) {
-        return new Promise( ( resolve, reject ) => {
-            const appFolderPath = this.getJsonPath();
-            try {
-                fs.outputJsonSync( appFolderPath, { ...preferences } );
-                return resolve();
-            } catch ( error ) {
-                return reject( error );
-            }
-        } );
+    public async updatePreferences( preferences: Preferences ) {
+        const appFolderPath = await this.getJsonPath();
+        fs.outputJsonSync( appFolderPath, { ...preferences } );
     }
 
-    public getPreferences(): Promise<Preferences> {
-        return new Promise( ( resolve, reject ) => {
-            const appFolderPath = await this.getJsonPath();
-            try {
-                return resolve( fs.readJsonSync( appFolderPath ) );
-            } catch ( error ) {
-                return reject( error );
-            }
-        } );
+    public async getPreferences(): Promise<Preferences> {
+        const appFolderPath = this.getJsonPath();
+        return fs.readJsonSync( appFolderPath );
     }
 }
 
