@@ -243,7 +243,7 @@
     "redux-thunk": "^2.3.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.7",
-    "safe-nodejs": "https://github.com/maidsafe/safe-nodejs.git#0.2.4",
+    "safe-nodejs": "https://github.com/bochaco/safe-nodejs#feat-authd-client-bindings",
     "source-map-support": "^0.5.16",
     "typeface-roboto": "^0.0.75"
   },

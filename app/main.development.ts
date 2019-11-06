@@ -18,6 +18,11 @@ import { safeAppUpdater } from '$App/manageInstallations/safeAppUpdater';
 import { notificationTypes } from '$Constants/notifications';
 
 import {
+    setupAuthDaemon,
+    stopAuthDaemon
+} from '$App/backgroundProcess/authDaemon';
+
+import {
     ignoreAppLocation,
     isRunningTestCafeProcess,
     isRunningUnpacked,
@@ -68,6 +73,8 @@ if ( !gotTheLock ) {
         if ( !ignoreAppLocation && !isRunningTestCafeProcess ) {
             enforceMacOSAppLocation();
         }
+
+        setupAuthDaemon();
 
         if (
             process.env.NODE_ENV === 'development' ||
@@ -121,6 +128,11 @@ if ( !gotTheLock ) {
  */
 app.on( 'before-quit', () => {
     appExiting = true;
+} );
+
+app.on( 'quit', async ( event ) => {
+    appExiting = true;
+    await stopAuthDaemon();
 } );
 
 app.on( 'activate', () => {

@@ -1,2 +1,9 @@
-export const getAuthdLocation = () =>
-    '/home/josh/Projects/safe-api/target/debug/safe-authd';
+import path from 'path';
+import { isRunningOnMac } from '$Constants/index';
+
+// temp hack for authd
+export const getAuthdLocation = () => {
+    // if ( isRunningOnMac ) {
+    return path.resolve( '$App/../resources/authd/mac-safe-authd' );
+    // }
+};
