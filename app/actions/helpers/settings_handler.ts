@@ -1,6 +1,5 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
-import * as fse from 'fs-extra';
 import { logger } from '$Logger';
 import pkg from '$Package';
 
@@ -18,7 +17,7 @@ class SettingsHandler {
 
     private jsonFileName: string;
 
-    public constructor() {
+    constructor() {
         this.preferenceId = null;
         this.jsonFileName = isRunningTestCafeProcess
             ? settingsHandlerName.test
@@ -35,9 +34,10 @@ class SettingsHandler {
                 `${this.jsonFileName}.json`
             );
 
-            fse.ensureFile( appFolderPath, ( error ) => {
+            fs.ensureFile( appFolderPath, ( error ) => {
                 if ( error ) logger.error( error );
             } );
+
             return appFolderPath;
         } catch ( error ) {
             console.log( 'error', error );
@@ -46,10 +46,10 @@ class SettingsHandler {
     }
 
     public updatePreferences( preferences: Preferences ) {
-        return new Promise( async ( resolve, reject ) => {
+        return new Promise( ( resolve, reject ) => {
             const appFolderPath = this.getJsonPath();
             try {
-                fse.outputJsonSync( appFolderPath, { ...preferences } );
+                fs.outputJsonSync( appFolderPath, { ...preferences } );
                 return resolve();
             } catch ( error ) {
                 return reject( error );
@@ -58,10 +58,10 @@ class SettingsHandler {
     }
 
     public getPreferences(): Promise<Preferences> {
-        return new Promise( async ( resolve, reject ) => {
+        return new Promise( ( resolve, reject ) => {
             const appFolderPath = await this.getJsonPath();
             try {
-                return resolve( fse.readJsonSync( appFolderPath ) );
+                return resolve( fs.readJsonSync( appFolderPath ) );
             } catch ( error ) {
                 return reject( error );
             }

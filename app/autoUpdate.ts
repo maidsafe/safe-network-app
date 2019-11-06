@@ -84,7 +84,7 @@ ipcMain.on( 'install-safe-network-app', ( event ) => {
 } );
 
 export class AppUpdater {
-    public constructor( passedStore ) {
+    constructor( passedStore ) {
         log.transports.file.level = 'info';
         autoUpdater.logger = log;
         store = passedStore;
