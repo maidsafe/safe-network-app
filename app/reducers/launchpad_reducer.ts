@@ -1,6 +1,6 @@
 import { TYPES } from '$App/actions/launchpad_actions';
 import { TYPES as NOTIFICATION_TYPES } from '$Actions/alias/notification_actions';
-import { TYPES as ALIAS_TYPES } from '$Actions/alias/launchpad_actions';
+import { TYPES as ALIAS__TYPES } from '$Actions/alias/launchpad_actions';
 import {
     LaunchpadState,
     UserPreferences,
@@ -77,7 +77,7 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
             return { ...state, notifications: newNotifications };
         }
 
-        case ALIAS_TYPES.ALIAS_SHOULD_ONBOARD: {
+        case ALIAS__TYPES.ALIAS__SHOULD_ONBOARD: {
             if ( typeof payload.shouldOnboard !== 'boolean' )
                 throw new Error( ERRORS.INVALID_TYPE );
 
@@ -99,9 +99,9 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
         }
 
         // Alias Types Alias Pin To Tray is a duplicate of Set As Tray Window and Set As Tray Window is the right one
-        case ALIAS_TYPES.ALIAS_AUTO_LAUNCH:
-        case ALIAS_TYPES.ALIAS_PIN_TO_TRAY:
-        case ALIAS_TYPES.ALIAS_STORE_PREFERENCES:
+        case ALIAS__TYPES.ALIAS__AUTO_LAUNCH:
+        case ALIAS__TYPES.ALIAS__PIN_TO_TRAY:
+        case ALIAS__TYPES.ALIAS__STORE_PREFERENCES:
         case NOTIFICATION_TYPES.ACCEPT_NOTIFICATION:
         case NOTIFICATION_TYPES.DENY_NOTIFICATION:
         default:

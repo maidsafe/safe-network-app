@@ -9,10 +9,16 @@ export namespace Application {
     }
 }
 
+export interface AuthRequest {
+    appId: string;
+    requestId: number;
+}
+
 export interface AuthDState {
     isLoggedIn: boolean;
     error: string;
     isWorking: boolean;
+    pendingRequests: Array<AuthRequest>;
 }
 
 export interface ApplicationsState {

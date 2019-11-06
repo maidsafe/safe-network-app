@@ -8,21 +8,21 @@ describe( 'Alias launchpad actions', () => {
     it( 'should store preferences', () => {
         expect( launchpad.storePreferences ).toBeDefined();
         expect( launchpad.storePreferences().meta.trigger ).toEqual(
-            launchpad.TYPES.ALIAS_STORE_PREFERENCES
+            launchpad.TYPES.ALIAS__STORE_PREFERENCES
         );
     } );
 
     it( 'should auto launch launchpad', () => {
         expect( launchpad.autoLaunch ).toBeDefined();
         expect( launchpad.autoLaunch().meta.trigger ).toEqual(
-            launchpad.TYPES.ALIAS_AUTO_LAUNCH
+            launchpad.TYPES.ALIAS__AUTO_LAUNCH
         );
     } );
 
     it( 'should as tray window', () => {
         expect( launchpad.triggerSetAsTrayWindow ).toBeDefined();
         expect( launchpad.triggerSetAsTrayWindow().meta.trigger ).toEqual(
-            launchpad.TYPES.ALIAS_SET_AS_TRAY_WINDOW
+            launchpad.TYPES.ALIAS__SET_AS_TRAY_WINDOW
         );
     } );
 } );
