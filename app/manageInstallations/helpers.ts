@@ -66,48 +66,12 @@ export const getInstalledLocation = ( application: App ): string => {
     return installedPath;
 };
 
-export const checkForKnownAppsLocally = async ( store: Store ): Promise<void> => {
-    logger.info( 'Checking for currently isntalled known apps' );
-
-    const knownApps = store.getState().appManager.applicationList;
-
-    if ( isRunningTestCafeProcess ) return;
-
-    Object.keys( knownApps ).forEach( async ( theAppId ) => {
-        const application = knownApps[theAppId];
-
-        const applicationExecutable = getApplicationExecutable( application );
-
-        const installedPath = path.resolve(
-            INSTALL_TARGET_DIR,
-            applicationExecutable
-        );
-
-        const exists = await fs.pathExists( installedPath );
-
-        logger.warn( 'Checking if path exists', installedPath, exists );
-
-        if ( exists ) {
-            // store.dispatch(
-            //     setCurrentVersion( {
-            //         ...application,
-            //         currentVersion: '1.0.0'
-            //     } )
-            // );
-        }
-        // fs grab version somehow...
-    } );
-};
-
 export const checkIfAppIsInstalledLocally = async (
     application
 ): Promise<boolean> => {
     const applicationExecutable = getApplicationExecutable( application );
 
-    const installedPath = path.resolve(
-        INSTALL_TARGET_DIR,
-        applicationExecutable
-    );
+    const installedPath = getInstalledLocation( application );
 
     const exists = await fs.pathExists( installedPath );
 
@@ -117,7 +81,11 @@ export const checkIfAppIsInstalledLocally = async (
 };
 
 export const getLocalAppVersion = ( application, store: Store ): string => {
-    logger.verbose( 'Checking local version of ', application.name );
+    logger.warn(
+        'Checking locally installed version: ',
+        path.resolve( INSTALL_TARGET_DIR, application.packageName, 'version' )
+    );
+
     try {
         // default to MacOs
         let versionFilePath = path.resolve(
@@ -127,13 +95,15 @@ export const getLocalAppVersion = ( application, store: Store ): string => {
 
         if ( isRunningOnWindows ) {
             versionFilePath = path.resolve(
-                INSTALL_TARGET_DIR,
-                application.packageName,
+                getInstalledLocation( application ),
                 'version'
             );
         }
 
         if ( isRunningOnLinux ) {
+            // need to mount appIMage to view contents...
+
+            // my.AppImage --appimage-mount
             versionFilePath = path.resolve(
                 INSTALL_TARGET_DIR,
                 application.packageName,

@@ -31,7 +31,7 @@ import {
 import { addNotification } from '$App/env-handling';
 import { AppUpdater } from './autoUpdate';
 
-require( '$Utils/ipcMainListners' );
+import { setupIPCListeners } from '$Utils/ipcMainListeners';
 
 logger.info( 'User data exists: ', app.getPath( 'userData' ) );
 
@@ -81,6 +81,7 @@ if ( !gotTheLock ) {
 
         safeAppUpdater.store = store;
 
+        setupIPCListeners( store );
         await preferencesJsonSetup( store );
 
         setupBackground( store );

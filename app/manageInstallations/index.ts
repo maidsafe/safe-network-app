@@ -121,7 +121,7 @@ const getDowloadUrlForApplication = ( application: App ): string => {
         }
         case LINUX: {
             // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-linux/safe-browser-v0.15.1-linux-x64.AppImage
-            targetUrl = `${baseUrl}/${packageName}-${version}-mac-x64.dmg`;
+            targetUrl = `${baseUrl}/${packageName}-${version}-linux-x64.AppImage`;
             break;
         }
         default: {
@@ -297,13 +297,12 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
                     env: newEnvironment
                 } );
                 return;
-            } 
+            }
             execFile( command, {
                 // eslint-disable-next-line unicorn/prevent-abbreviations
                 env: newEnvironment
             } );
             return;
-            
         }
         if ( isRunningOnLinux ) {
             logger.warn( 'Opening on linux via spawn command: ', command );

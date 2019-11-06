@@ -51,15 +51,21 @@ export function appManager( state = initialState, action ): AppManagerState {
             theCurrentApp.currentVersion = currentVersion;
 
             if ( compareVersions( newVersion, currentVersion ) < 1 ) {
+                // only update local info
+                targetApp = {
+                    ...theCurrentApp,
+                    isInstalled: payload.isInstalled,
+                    isOpen: payload.isOpen
+                };
+
                 // do nothing
-                return state;
+                return updateAppInApplicationList( state, targetApp );
             }
 
             // otherwise we overwrite.
             targetApp = {
                 ...theCurrentApp,
-                ...payload,
-                isInstalled: theCurrentApp.isInstalled || false
+                ...payload
             };
 
             return updateAppInApplicationList( state, targetApp );

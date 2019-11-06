@@ -33,7 +33,8 @@ const getApp = (): App => ( {
     hasUpdate: false,
     lastSkippedVersion: null,
     error: null,
-    progress: null
+    progress: null,
+    isInstalled: false
 } );
 
 let app1 = getApp();
@@ -130,8 +131,8 @@ describe( 'app manager reducer', () => {
             );
         } );
 
-        it( 'Should not overwrite the install state from newer version info', () => {
-            const newAppInfo = { ...app1, isInstalled: false };
+        it( 'Should overwrite the install state from newer version info', () => {
+            const newAppInfo = { ...app1, isInstalled: true };
 
             const nextStore = appManager(
                 { applicationList },
@@ -142,7 +143,7 @@ describe( 'app manager reducer', () => {
             );
 
             expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
-            expect( nextStore.applicationList[app1.id].isInstalled ).toBeFalsy();
+            expect( nextStore.applicationList[app1.id].isInstalled ).toBeTruthy();
         } );
 
         it( 'Should NOT update application newer version when lower', () => {

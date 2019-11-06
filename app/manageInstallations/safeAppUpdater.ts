@@ -10,6 +10,7 @@ import { notificationTypes } from '$Constants/notifications';
 import { getLocalAppVersion, getInstalledLocation } from './helpers';
 import {
     appHasUpdate,
+    updateAppInfoIfNewer,
     resetAppUpdateState
 } from '$Actions/app_manager_actions';
 import { initialAppManager } from '$Reducers/initialAppManager';
@@ -37,7 +38,7 @@ export class SafeAppUpdater {
             newVersion
         );
         const installPath = getInstalledLocation( application );
-        logger.info( `Checking for apps updates` );
+        logger.info( `Checking for apps updates`, installPath );
 
         const store = this._store;
 
@@ -53,6 +54,8 @@ export class SafeAppUpdater {
             this._store.dispatch(
                 appHasUpdate( {
                     id: application.id,
+                    isInstalled: true,
+                    currentVersion: localVersion,
                     hasUpdate: comparison
                 } )
             );

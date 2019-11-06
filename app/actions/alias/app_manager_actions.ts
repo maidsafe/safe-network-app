@@ -143,6 +143,7 @@ const getLatestAppVersions = async (): Promise<void> => {
             );
 
             if ( isAppInstalledLocally ) {
+                updatedApp.isInstalled = true;
                 ipcRenderer.send( 'checkApplicationsForUpdate', updatedApp );
             }
             store.dispatch( updateAppInfoIfNewer( updatedApp ) );
