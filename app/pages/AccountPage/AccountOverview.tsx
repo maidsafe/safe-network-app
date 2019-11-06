@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, List, Typography } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 
 // import { Redirect, Route, Switch } from 'react-router';
 import Card from '@material-ui/core/Card';
@@ -19,12 +20,15 @@ import {
     ACCOUNT_INVITES_REQUEST
 } from '$Constants/routes.json';
 
-interface Props {
-    history: { push: Function };
-    isLoggedIn: boolean;
-}
+// Whatever you expect in 'this.props.match.params.*'
+type PathParamsType = {};
 
-export const ProtoAccountOverview = ( props: Props ) => {
+type ProtoAccountOverviewProps = RouteComponentProps<PathParamsType> & {
+    history: { push: Function };
+    isLoggedIn?: boolean;
+};
+
+export const ProtoAccountOverview = ( props: ProtoAccountOverviewProps ) => {
     const { history } = props;
 
     return (

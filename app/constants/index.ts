@@ -41,10 +41,6 @@ export const isRunningTestCafeProcessingPackagedApp =
 export const inBgProcess = !!(
     typeof document !== 'undefined' && document.title.startsWith( 'Background' )
 );
-// override for spectron dev mode
-if ( isRunningTestCafeProcess && !isRunningTestCafeProcessingPackagedApp ) {
-    shouldRunMockNetwork = true;
-}
 
 let ignoreAppLocationMacOs = false;
 

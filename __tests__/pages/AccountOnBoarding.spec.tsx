@@ -9,7 +9,7 @@ import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
 import { AccountOnBoarding } from '$Pages/AccountPage/AccountOnBoarding';
-import { getByAria } from '';
+// import { getByAria } from '../helpers';
 import { ACCOUNT_ONBOARDING } from '$Constants/routes.json';
 
 jest.mock( '$Logger' );

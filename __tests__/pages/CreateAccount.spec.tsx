@@ -10,7 +10,7 @@ import configureStore from 'redux-mock-store';
 
 import { CreateAccountPage } from '$Pages/AccountPage/CreateAccountPage';
 import { AccountPage } from '$Pages/AccountPage';
-import { getByAria } from '';
+// import { getByAria } from '';
 import { ACCOUNT_CREATE_REDEEM } from '$Constants/routes.json';
 
 jest.mock( '$Logger' );

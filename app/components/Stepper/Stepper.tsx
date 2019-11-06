@@ -4,6 +4,8 @@ import { withStyles, styled } from '@material-ui/core/styles';
 import indigo from '@material-ui/core/colors/indigo';
 import Button from '@material-ui/core/Button';
 import MobileStepper from '@material-ui/core/MobileStepper';
+import { RouteComponentProps } from 'react-router';
+
 import { logger } from '$Logger';
 
 import {
@@ -39,7 +41,10 @@ const whiteTheme = {
     }
 };
 
-interface StepperProps {
+// Whatever you expect in 'this.props.match.params.*'
+type PathParamsType = {};
+
+type StepperProps = RouteComponentProps<PathParamsType> & {
     showButtons?: boolean;
     noElevation?: boolean;
     onFinish: Function;
@@ -55,7 +60,7 @@ interface StepperProps {
         url: string;
         nextText?: string;
     }>;
-}
+};
 
 export const Stepper = withRouter( ( properties: StepperProps ) => {
     const {

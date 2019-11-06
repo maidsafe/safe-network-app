@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Button, Typography, TextField } from '@material-ui/core';
 
 import { withRouter, Redirect } from 'react-router-dom';
-import { Route, Switch } from 'react-router';
-
+import { Route, Switch, RouteComponentProps } from 'react-router';
 import { logger } from '$Logger';
 import styles from './Account.css';
 
@@ -14,7 +13,10 @@ import {
     ACCOUNT_CREATE_PASSPHRASE
 } from '$Constants/routes.json';
 
-interface CreateAccountPageProps {
+// Whatever you expect in 'this.props.match.params.*'
+type PathParamsType = {};
+
+type CreateAccountPageProps = RouteComponentProps<PathParamsType> & {
     values: {
         invite: string;
         password: string;
@@ -29,7 +31,7 @@ interface CreateAccountPageProps {
     createAccountError?: string;
     isWorking?: boolean;
     setAuthdWorking?: Function;
-}
+};
 interface CreateAccountProps {
     isLoggedIn: boolean;
     isWorking: boolean;

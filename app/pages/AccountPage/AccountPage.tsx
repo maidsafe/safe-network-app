@@ -28,6 +28,8 @@ import { notificationTypes } from '../../constants/notifications';
 interface Props {
     logInToNetwork: Function;
     authd: AuthDState;
+    setAuthdWorking: Function;
+    createAccount: Function;
 }
 
 export const AccountPage = ( props: Props ) => {
