@@ -28,7 +28,7 @@ export const storePreferences = createAliasedAction(
 
 export const autoLaunch = createAliasedAction(
     TYPES.ALIAS_AUTO_LAUNCH,
-    ( enable ) => ( {
+    ( enable: boolean ) => ( {
         type: TYPES.ALIAS_AUTO_LAUNCH,
         payload: autoLaunchOnStart( enable )
     } )

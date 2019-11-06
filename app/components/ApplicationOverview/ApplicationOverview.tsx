@@ -72,11 +72,32 @@ export class ApplicationOverview extends React.PureComponent<Props> {
                     />
                     <ListItemSecondaryAction className={styles.actions}>
                         <AppStateButton
-                            {...this.props}
+                            unInstallApp={this.props.unInstallApp}
+                            openApp={this.props.openApp}
+                            downloadAndInstallApp={
+                                this.props.downloadAndInstallApp
+                            }
+                            pauseDownload={this.props.pauseDownload}
+                            resetAppInstallationState={
+                                this.props.resetAppInstallationState
+                            }
+                            pushNotification={this.props.pushNotification}
+                            resumeDownload={this.props.resumeDownload}
+                            updateApp={this.props.updateApp}
+                            application={application}
                             key="list-secondary-action-1"
                         />
                         <MeatballMenu
-                            {...this.props}
+                            unInstallApp={this.props.unInstallApp}
+                            openApp={this.props.openApp}
+                            downloadAndInstallApp={
+                                this.props.downloadAndInstallApp
+                            }
+                            pauseDownload={this.props.pauseDownload}
+                            cancelDownload={this.props.cancelDownload}
+                            resumeDownload={this.props.resumeDownload}
+                            updateApp={this.props.updateApp}
+                            application={application}
                             key="list-secondary-action-2"
                         />
                     </ListItemSecondaryAction>

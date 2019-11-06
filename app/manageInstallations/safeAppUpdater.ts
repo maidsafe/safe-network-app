@@ -5,7 +5,7 @@ import { spawn, exec, execFile } from 'child_process';
 
 import compareVersions from 'compare-versions';
 import { pushNotification } from '$Actions/launchpad_actions';
-import { getCommandLineParam } from '$Utils/app_utils';
+import { getCommandLineParameter } from '$Utils/app_utils';
 import { notificationTypes } from '$Constants/notifications';
 import { getLocalAppVersion, getInstalledLocation } from './helpers';
 import {

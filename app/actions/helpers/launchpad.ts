@@ -12,24 +12,16 @@ export const mockPromise = ( data = null ) =>
 
 export const checkOnBoardingCompleted = () => mockPromise( true );
 
-export const autoLaunchOnStart = ( enable ) =>
-    new Promise( async ( resolve ) => {
-        try {
-            const launchpadAutoLaunch = new AutoLaunch( {
-                name: pkg.name
-            } );
-            const isEnabled = await launchpadAutoLaunch.isEnabled();
-            if ( !isEnabled && enable ) {
-                await launchpadAutoLaunch.enable();
-                return resolve();
-            }
-
-            if ( isEnabled ) {
-                await launchpadAutoLaunch.disable();
-            }
-            return resolve();
-        } catch ( error ) {
-            // TODO: Show error notification
-            return resolve();
-        }
+export const autoLaunchOnStart = async ( enable: boolean ) => {
+    const launchpadAutoLaunch = new AutoLaunch( {
+        name: pkg.name
     } );
+    const isEnabled = await launchpadAutoLaunch.isEnabled();
+    if ( !isEnabled && enable ) {
+        await launchpadAutoLaunch.enable();
+    }
+
+    if ( isEnabled ) {
+        await launchpadAutoLaunch.disable();
+    }
+};

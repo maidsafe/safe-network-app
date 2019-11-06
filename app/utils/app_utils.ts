@@ -6,10 +6,10 @@ export const generateRandomString = (): string => {
     return (
         Math.random()
             .toString( 36 )
-            .substring( 2, 15 ) +
+            .slice( 2, 15 ) +
         Math.random()
             .toString( 36 )
-            .substring( 2, 15 )
+            .slice( 2, 15 )
     );
 };
 
@@ -47,11 +47,11 @@ export const getAppStatusText = ( application ) => {
     return progressText;
 };
 
-export const getCommandLineParam = ( argv, key ) => {
+export const getCommandLineParameter = ( argv, key ) => {
     let value;
     argv.forEach( ( argument ) => {
         if ( argument.indexOf( key ) === 0 ) {
-            value = argument.substr( key.length + 1 ).trim();
+            value = argument.slice( key.length + 1 ).trim();
         }
     } );
     return value;

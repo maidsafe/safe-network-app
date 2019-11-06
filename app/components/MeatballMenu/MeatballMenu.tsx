@@ -69,7 +69,18 @@ MeatballMenuState
                     onClose={this.handleClose}
                     open={Boolean( menuAnchorElement )}
                 >
-                    <MenuItems {...this.props} handleClose={this.handleClose} />
+                    <MenuItems
+                        unInstallApp={this.props.unInstallApp}
+                        openApp={this.props.openApp}
+                        showAboutAppOption={this.props.showAboutAppOption}
+                        downloadAndInstallApp={this.props.downloadAndInstallApp}
+                        pauseDownload={this.props.pauseDownload}
+                        cancelDownload={this.props.cancelDownload}
+                        resumeDownload={this.props.resumeDownload}
+                        updateApp={this.props.updateApp}
+                        application={this.props.application}
+                        handleClose={this.handleClose}
+                    />
                 </Menu>
             </>
         );
