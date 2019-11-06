@@ -96,13 +96,16 @@ before_deploy:
       export IS_RC=yes
     fi
   - if [[ "$TRAVIS_OS_NAME" != "windows" && "$IS_RC" != "yes" ]]; then NODE_ENV=prod yarn package; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" && "$IS_RC" == "yes" ]]; then TEST_PACKAGES=true NODE_ENV=prod yarn package --publish always; fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" && "$IS_RC" == "yes" ]]; then TEST_PACKAGES=true NODE_ENV=prod yarn package; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export RELEASE_PROD_EXE="$(ls release/*-mac-x64.dmg)";
     fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export RELEASE_PROD_EXE="$(ls release/*-linux-x64.AppImage)";
     fi
   - if [[ "$TRAVIS_OS_NAME" == "win" ]]; then export RELEASE_PROD_EXE="$(ls release/*-win-x64.exe)";
     fi
+  - export RELEASE_YML="$(ls release/*.yml)"
+  - export RELEASE_ZIP="$(ls release/*.zip)"
+  - export RELEASE_DMG="$(ls release/*.dmg)"
   - echo "deploying ${RELEASE_PROD_EXE} to GitHub releases as tagged with ${TRAVIS_TAG}"
   - if [[ "$IS_RC" != "yes" ]]; then ls release; fi
 
@@ -113,6 +116,9 @@ deploy:
   api_key: $GH_TOKEN
   file:
     - "${RELEASE_PROD_EXE}"
+    - "${RELEASE_YML}"
+    - "${RELEASE_ZIP}"
+    - "${RELEASE_DMG}"
   draft: true
   tag_name: $TRAVIS_TAG
   on:
