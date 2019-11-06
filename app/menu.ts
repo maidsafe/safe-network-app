@@ -209,7 +209,7 @@ export class MenuBuilder {
 
     public store;
 
-    public constructor( mainWindow: Application.Window, store ) {
+    constructor( mainWindow: Application.Window, store ) {
         this.mainWindow = mainWindow;
         this.store = store;
     }
