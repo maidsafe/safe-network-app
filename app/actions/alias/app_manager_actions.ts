@@ -73,7 +73,7 @@ export const fetchDefaultAppIconFromLocal = ( applicationId: string ): string =>
     return path.resolve( DEFAULT_APP_ICON_PATH, `${applicationId}.png` );
 };
 
-const fetchAppIconFromServer = async ( application ): Promise<string> => {
+const fetchAppIconFromServer = async ( application ): Promise<string | null> => {
     try {
         const filename = `${application.id}-${application.latestVersion.replace(
             /\./g,
@@ -82,7 +82,6 @@ const fetchAppIconFromServer = async ( application ): Promise<string> => {
         const filePath = path.resolve( getAppDataPath(), 'thumbnail', filename );
 
         // TODO: need to remove old icon
-
         if ( !fse.pathExistsSync( filePath ) ) {
             const appIcon = await request( {
                 uri: `https://github.com/${application.repositoryOwner}/${application.repositorySlug}/releases/download/${application.latestVersion}/icon.png`,

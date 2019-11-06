@@ -33,7 +33,7 @@ interface Props {
 }
 
 export class Settings extends Component<Props> {
-    componentWillMount() {
+    componentDidMount() {
         this.props.getUserPreferences();
     }
 

@@ -5,7 +5,12 @@ export const MenuItemWrapper = ( props ) => {
     const { children } = props;
 
     return (
-        <MenuItem {...props}>
+        <MenuItem
+            dense
+            onClick={props.onClick}
+            className={props.className}
+            aria-label={props['aria-label']}
+        >
             <Typography variant="body2">{children}</Typography>
         </MenuItem>
     );

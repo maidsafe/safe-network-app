@@ -129,7 +129,7 @@ export class App extends React.PureComponent<Props> {
                         </IconButton>
                     </Link>
                     {isLoggedIn && (
-                        <button onClick={() => logOutOfNetwork()}>
+                        <button type="button" onClick={() => logOutOfNetwork()}>
                             logout!
                         </button>
                     )}

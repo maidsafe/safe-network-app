@@ -104,7 +104,6 @@ export class MenuItems extends Component<MenuItemsProps> {
             <>
                 {showAboutAppOption && (
                     <MenuItemWrapper
-                        dense
                         className={styles['menu-item']}
                         aria-label="about the application"
                     >
@@ -113,7 +112,6 @@ export class MenuItems extends Component<MenuItemsProps> {
                 )}
                 {!isDownloadingAndInstalling && (
                     <MenuItemWrapper
-                        dense
                         className={styles['menu-item']}
                         aria-label={
                             isInstalled
@@ -132,7 +130,6 @@ export class MenuItems extends Component<MenuItemsProps> {
                 {isInstalled && !isUpdating && (
                     <>
                         <MenuItemWrapper
-                            dense
                             className={styles['menu-item']}
                             onClick={this.handleOpen}
                             aria-label={`Open ${name}`}
@@ -144,7 +141,6 @@ export class MenuItems extends Component<MenuItemsProps> {
                 {isDownloadingAndInstalling && (
                     <MenuItemWrapper
                         aria-label="Cancel Download"
-                        dense
                         className={styles['menu-item']}
                         onClick={this.handleCancelDownload}
                     >
@@ -154,7 +150,6 @@ export class MenuItems extends Component<MenuItemsProps> {
                 {!isPaused && isDownloadingAndInstalling && (
                     <MenuItemWrapper
                         aria-label="Pause Download"
-                        dense
                         className={styles['menu-item']}
                         onClick={this.handlePauseDownload}
                     >
@@ -164,7 +159,6 @@ export class MenuItems extends Component<MenuItemsProps> {
                 {isPaused && isDownloadingAndInstalling && (
                     <MenuItemWrapper
                         aria-label="Resume Download"
-                        dense
                         className={styles['menu-item']}
                         onClick={this.handleResumeDownload}
                     >
@@ -173,7 +167,6 @@ export class MenuItems extends Component<MenuItemsProps> {
                 )}
                 {hasUpdate && !isUpdating && (
                     <MenuItemWrapper
-                        dense
                         className={styles['menu-item']}
                         onClick={this.handleUpdate}
                     >
@@ -181,7 +174,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                     </MenuItemWrapper>
                 )}
                 {hasUpdate && !isUpdating && (
-                    <MenuItemWrapper dense className={styles['menu-item']}>
+                    <MenuItemWrapper className={styles['menu-item']}>
                         Skip This Update
                     </MenuItemWrapper>
                 )}

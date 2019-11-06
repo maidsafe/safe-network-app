@@ -55,7 +55,20 @@ export class ApplicationDetail extends React.PureComponent<Props> {
                         <Grid container className={styles.appInfoActions}>
                             <Grid item>
                                 <AppStateButton
-                                    {...this.props}
+                                    unInstallApp={this.props.unInstallApp}
+                                    openApp={this.props.openApp}
+                                    downloadAndInstallApp={
+                                        this.props.downloadAndInstallApp
+                                    }
+                                    pushNotification={
+                                        this.props.pushNotification
+                                    }
+                                    pauseDownload={this.props.pauseDownload}
+                                    resumeDownload={this.props.resumeDownload}
+                                    resetAppInstallationState={
+                                        this.props.resetAppInstallationState
+                                    }
+                                    updateApp={this.props.updateApp}
                                     application={application}
                                     showAppStatus
                                 />
