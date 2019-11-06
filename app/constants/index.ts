@@ -115,13 +115,6 @@ export const I18N_CONFIG = {
     objectNotation: true
 };
 
-export const PROTOCOLS = {
-    SAFE: 'safe',
-    SAFE_AUTH: 'safe-auth',
-    SAFE_LOGS: 'safe-logs',
-    INTERNAL_PAGES: 'safe-browser'
-};
-
 export const CONFIG = {
     APP_HTML_PATH: path.join( __dirname, '..', './app.html' ),
     APP_HTML_PATH_ASAR: path.join( __dirname, './app.html' ),
@@ -130,8 +123,6 @@ export const CONFIG = {
 };
 
 if ( inMainProcess ) {
-    const developmentPort = process.env.PORT || 1458;
-
     global.preloadFile = `file://${__dirname}/webPreload.prod.js`;
     global.appDirectory = __dirname;
     global.isCI = isCI;
@@ -139,7 +130,7 @@ if ( inMainProcess ) {
     global.isRunningTestCafeProcessingPackagedApp = isRunningTestCafeProcessingPackagedApp;
 }
 
-export const LAUNCHPAD_APP_ID = '__LAUNCHPAD_APP_ID__';
+export const LAUNCHPAD_APP_ID = '__SNAPP_APP_ID__';
 
 // TODO: remove this from here...
 export const defaultPreferences = {
