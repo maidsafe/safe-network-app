@@ -10,7 +10,8 @@ import { isDryRun } from '$Constants';
 
 import {
     setupAuthDaemon,
-    stopAuthDaemon
+    stopAuthDaemon,
+    subscribeForAuthRequests
 } from '$App/backgroundProcess/authDaemon';
 
 declare let window: Window;
@@ -43,6 +44,7 @@ const initBgProcess = () => {
     } );
 
     setupAuthDaemon();
+    subscribeForAuthRequests();
 };
 
 initBgProcess();

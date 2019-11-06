@@ -5,6 +5,7 @@ import { createActions } from 'redux-actions';
 import { createSafeAccount } from '$Background/createSafeAccount';
 import { logInToSafe } from '$Background/logInToSafe';
 import { logOutOfSafe } from '$Background/logOutOfSafe';
+import { allowRequest, denyRequest } from '$Background/authDaemon';
 
 export const TYPES = {
     ALIAS_LOG_IN_TO_NETWORK: 'ALIAS_LOG_IN_TO_NETWORK',
@@ -14,7 +15,10 @@ export const TYPES = {
     ALIAS_CREATE_ACCOUNT: 'ALIAS_CREATE_ACCOUNT',
     CREATE_ACCOUNT: 'CREATE_ACCOUNT',
     CLEAR_ERROR: 'CLEAR_ERROR',
-    SET_AUTHD_WORKING: 'SET_AUTHD_WORKING'
+
+    SET_AUTHD_WORKING: 'SET_AUTHD_WORKING',
+    AUTHD_ALLOW_REQUEST: 'AUTHD_ALLOW_REQUEST',
+    AUTHD_DENY_REQUEST: 'AUTHD_DENY_REQUEST'
 };
 
 export const { clearError, setAuthdWorking } = createActions(
@@ -43,5 +47,20 @@ export const createAccount = createAliasedAction(
     async ( password: string, passphrase: string ) => ( {
         type: TYPES.CREATE_ACCOUNT,
         payload: await createSafeAccount( password, passphrase )
+    } )
+);
+
+export const allowAuthRequest = createAliasedAction(
+    TYPES.ALIAS_CREATE_ACCOUNT,
+    async ( authdRequest ) => ( {
+        type: TYPES.CREATE_ACCOUNT,
+        payload: await allowRequest( authdRequest )
+    } )
+);
+export const denyAuthRequest = createAliasedAction(
+    TYPES.ALIAS_CREATE_ACCOUNT,
+    async ( authdRequest ) => ( {
+        type: TYPES.CREATE_ACCOUNT,
+        payload: await denyRequest( authdRequest )
     } )
 );
