@@ -35,4 +35,21 @@ describe( 'Auth daemon actions', () => {
         expect( authdActions.createAccount ).toBeDefined();
         expect( authdActions.createAccount().type ).toEqual( 'ALIASED' );
     } );
+
+    it( 'should allow req', () => {
+        expect( authdActions.allowAuthRequest ).toBeDefined();
+        expect( authdActions.allowAuthRequest().type ).toEqual( 'ALIASED' );
+    } );
+
+    it( 'should deny req', () => {
+        expect( authdActions.denyAuthRequest ).toBeDefined();
+        expect( authdActions.denyAuthRequest().type ).toEqual( 'ALIASED' );
+    } );
+
+    it( 'should add pending req', () => {
+        expect( authdActions.addAuthRequestToPendingList ).toBeDefined();
+        expect( authdActions.addAuthRequestToPendingList().type ).toEqual(
+            'ADD_AUTH_REQUEST_TO_PENDING_LIST'
+        );
+    } );
 } );

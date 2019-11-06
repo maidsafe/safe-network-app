@@ -1,7 +1,7 @@
 import { appManager, initialState } from '$Reducers/app_manager_reducer';
 import { TYPES } from '$Actions/app_manager_actions';
 import { TYPES as APP_TYPES } from '$Actions/application_actions';
-import { TYPES as ALIAS_TYPES } from '$Actions/alias/app_manager_actions';
+import { TYPES as ALIAS__TYPES } from '$Actions/alias/app_manager_actions';
 import { generateRandomString } from '$Utils/app_utils';
 import { ERRORS } from '$Constants/errors';
 import {

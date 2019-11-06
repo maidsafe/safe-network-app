@@ -51,22 +51,22 @@ const userAgentRequest = request.defaults( {
 // these actions all trigger some async functionality and require updates via normal electron-redux
 // actions down the line...
 export const TYPES = {
-    ALIAS_RESUME_DOWNLOAD_OF_ALL_APPS: 'ALIAS_RESUME_DOWNLOAD_OF_ALL_APPS',
-    ALIAS_PAUSE_DOWNLOAD_OF_ALL_APPS: 'ALIAS_PAUSE_DOWNLOAD_OF_ALL_APPS',
-    ALIAS_FETCH_APPS: 'ALIAS_FETCH_APPS',
+    ALIAS__RESUME_DOWNLOAD_OF_ALL_APPS: 'ALIAS__RESUME_DOWNLOAD_OF_ALL_APPS',
+    ALIAS__PAUSE_DOWNLOAD_OF_ALL_APPS: 'ALIAS__PAUSE_DOWNLOAD_OF_ALL_APPS',
+    ALIAS__FETCH_APPS: 'ALIAS__FETCH_APPS',
 
-    ALIAS_FETCH_UPDATE_INFO: 'ALIAS_FETCH_UPDATE_INFO',
+    ALIAS__FETCH_UPDATE_INFO: 'ALIAS__FETCH_UPDATE_INFO',
 
-    ALIAS_OPEN_APP: 'ALIAS_OPEN_APP',
+    ALIAS__OPEN_APP: 'ALIAS__OPEN_APP',
 
-    ALIAS_DOWNLOAD_AND_INSTALL_APP: 'ALIAS_DOWNLOAD_AND_INSTALL_APP',
-    ALIAS_UNINSTALL_APP: 'ALIAS_UNINSTALL_APP',
-    ALIAS_PAUSE_DOWNLOAD_OF_APP: 'ALIAS_PAUSE_DOWNLOAD_OF_APP',
-    ALIAS_RESUME_DOWNLOAD_OF_APP: 'ALIAS_RESUME_DOWNLOAD_OF_APP',
-    ALIAS_CANCEL_DOWNLOAD_OF_APP: 'ALIAS_CANCEL_DOWNLOAD_OF_APP',
+    ALIAS__DOWNLOAD_AND_INSTALL_APP: 'ALIAS__DOWNLOAD_AND_INSTALL_APP',
+    ALIAS__UNINSTALL_APP: 'ALIAS__UNINSTALL_APP',
+    ALIAS__PAUSE_DOWNLOAD_OF_APP: 'ALIAS__PAUSE_DOWNLOAD_OF_APP',
+    ALIAS__RESUME_DOWNLOAD_OF_APP: 'ALIAS__RESUME_DOWNLOAD_OF_APP',
+    ALIAS__CANCEL_DOWNLOAD_OF_APP: 'ALIAS__CANCEL_DOWNLOAD_OF_APP',
 
-    ALIAS_UPDATE_APP: 'ALIAS_UPDATE_APP',
-    ALIAS_RESTART_APP: 'ALIAS_RESTART_APP'
+    ALIAS__UPDATE_APP: 'ALIAS__UPDATE_APP',
+    ALIAS__RESTART_APP: 'ALIAS__RESTART_APP'
 };
 
 export const fetchDefaultAppIconFromLocal = ( applicationId: string ): string => {
@@ -209,93 +209,93 @@ const restartTheApplication = ( application: App ) => {
 };
 
 export const fetchLatestAppVersions = createAliasedAction(
-    TYPES.ALIAS_FETCH_APPS,
+    TYPES.ALIAS__FETCH_APPS,
     () => {
         return {
-            type: TYPES.ALIAS_FETCH_APPS,
+            type: TYPES.ALIAS__FETCH_APPS,
             payload: getLatestAppVersions()
         };
     }
 );
 
 export const downloadAndInstallApp = createAliasedAction(
-    TYPES.ALIAS_DOWNLOAD_AND_INSTALL_APP,
+    TYPES.ALIAS__DOWNLOAD_AND_INSTALL_APP,
     ( application: App ) => ( {
         // TODO: This type should be the final action no? Is that why
         // nothing is returned from these aliases?
-        type: TYPES.ALIAS_DOWNLOAD_AND_INSTALL_APP,
+        type: TYPES.ALIAS__DOWNLOAD_AND_INSTALL_APP,
         payload: installThatApp( application )
     } )
 );
 
 export const pauseDownload = createAliasedAction(
-    TYPES.ALIAS_PAUSE_DOWNLOAD_OF_APP,
+    TYPES.ALIAS__PAUSE_DOWNLOAD_OF_APP,
     ( application: App ) => ( {
-        type: TYPES.ALIAS_PAUSE_DOWNLOAD_OF_APP,
+        type: TYPES.ALIAS__PAUSE_DOWNLOAD_OF_APP,
         payload: pauseDownloadOfApp( application )
     } )
 );
 
 export const pauseAllDownloads = createAliasedAction(
-    TYPES.ALIAS_PAUSE_DOWNLOAD_OF_ALL_APPS,
+    TYPES.ALIAS__PAUSE_DOWNLOAD_OF_ALL_APPS,
     ( appList: App ) => ( {
-        type: TYPES.ALIAS_PAUSE_DOWNLOAD_OF_APP,
+        type: TYPES.ALIAS__PAUSE_DOWNLOAD_OF_APP,
         payload: pauseDownloadOfAllApps( appList )
     } )
 );
 
 export const resumeDownload = createAliasedAction(
-    TYPES.ALIAS_RESUME_DOWNLOAD_OF_APP,
+    TYPES.ALIAS__RESUME_DOWNLOAD_OF_APP,
     ( application: App ) => ( {
-        type: TYPES.ALIAS_RESUME_DOWNLOAD_OF_APP,
+        type: TYPES.ALIAS__RESUME_DOWNLOAD_OF_APP,
         payload: resumeDownloadOfApp( application )
     } )
 );
 
 export const resumeAllDownloads = createAliasedAction(
-    TYPES.ALIAS_RESUME_DOWNLOAD_OF_ALL_APPS,
+    TYPES.ALIAS__RESUME_DOWNLOAD_OF_ALL_APPS,
     ( appList: App ) => ( {
-        type: TYPES.ALIAS_RESUME_DOWNLOAD_OF_APP,
+        type: TYPES.ALIAS__RESUME_DOWNLOAD_OF_APP,
         payload: resumeDownloadOfAllApps( appList )
     } )
 );
 
 export const cancelDownload = createAliasedAction(
-    TYPES.ALIAS_CANCEL_DOWNLOAD_OF_APP,
+    TYPES.ALIAS__CANCEL_DOWNLOAD_OF_APP,
     ( application: App ) => ( {
-        type: TYPES.ALIAS_CANCEL_DOWNLOAD_OF_APP,
+        type: TYPES.ALIAS__CANCEL_DOWNLOAD_OF_APP,
         payload: cancelDownloadOfApp( application )
     } )
 );
 
 export const unInstallApp = createAliasedAction(
-    TYPES.ALIAS_UNINSTALL_APP,
+    TYPES.ALIAS__UNINSTALL_APP,
     ( application: App ) => ( {
-        type: TYPES.ALIAS_UNINSTALL_APP,
+        type: TYPES.ALIAS__UNINSTALL_APP,
         payload: unInstallApplication( application )
     } )
 );
 
 export const updateApp = createAliasedAction(
-    TYPES.ALIAS_UPDATE_APP,
+    TYPES.ALIAS__UPDATE_APP,
     ( application: App ) => ( {
-        type: TYPES.ALIAS_UPDATE_APP,
+        type: TYPES.ALIAS__UPDATE_APP,
         payload: updateTheApplication( application )
     } )
 );
 
 export const restartApp = createAliasedAction(
-    TYPES.ALIAS_RESTART_APP,
+    TYPES.ALIAS__RESTART_APP,
     ( application: App ) => ( {
-        type: TYPES.ALIAS_RESTART_APP,
+        type: TYPES.ALIAS__RESTART_APP,
         payload: restartTheApplication( application )
     } )
 );
 
 export const openApp = createAliasedAction(
-    TYPES.ALIAS_OPEN_APP,
+    TYPES.ALIAS__OPEN_APP,
     ( application: App ) => ( {
-        type: TYPES.ALIAS_OPEN_APP,
+        type: TYPES.ALIAS__OPEN_APP,
         payload: openTheApplication( application )
     } )
 );
