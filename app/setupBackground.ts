@@ -37,32 +37,42 @@ export const setupBackground = async ( store ): Promise<BrowserWindow> =>
                 }
             } );
 
-            backgroundProcessWindow.webContents.on(
-                'did-finish-load',
-                (): void => {
-                    logger.verbose( 'Background process renderer loaded.' );
-
-                    if ( isRunningTestCafeProcess || isCI )
-                        return resolve( backgroundProcessWindow );
-
-                    if (
-                        isRunningDebug ||
-                        isRunningUnpacked ||
-                        isRunningDevelopment
-                    ) {
-                        backgroundProcessWindow.webContents.openDevTools( {
-                            mode: 'undocked'
-                        } );
-                    }
-
-                    if ( !isRunningTestCafeProcess || isCI ) {
-                        // lets update the application versions
-                        store.dispatch( fetchLatestAppVersions() );
-                    }
-
-                    return resolve( backgroundProcessWindow );
+            // Devtools fix: https://github.com/electron/electron/issues/13008#issuecomment-530837646
+            backgroundProcessWindow.webContents.session.webRequest.onBeforeRequest(
+                { urls: ['devtools://devtools/remote/*'] },
+                ( details, callback ) => {
+                    callback( {
+                        redirectURL: details.url.replace(
+                            'devtools://devtools/remote/',
+                            'https://chrome-devtools-frontend.appspot.com/'
+                        )
+                    } );
                 }
             );
+
+            backgroundProcessWindow.webContents.on( 'dom-ready', (): void => {
+                logger.verbose( 'Background process renderer loaded.' );
+
+                if ( isRunningTestCafeProcess || isCI )
+                    return resolve( backgroundProcessWindow );
+
+                if (
+                    isRunningDebug ||
+                    isRunningUnpacked ||
+                    isRunningDevelopment
+                ) {
+                    backgroundProcessWindow.webContents.openDevTools( {
+                        mode: 'undocked'
+                    } );
+                }
+
+                if ( !isRunningTestCafeProcess || isCI ) {
+                    // lets update the application versions
+                    store.dispatch( fetchLatestAppVersions() );
+                }
+
+                return resolve( backgroundProcessWindow );
+            } );
 
             // hook in to initiate downloads (can only happen from main process :/ )
             manageDownloads( store, backgroundProcessWindow );

@@ -50,7 +50,3 @@ initBgProcess();
 window.addEventListener( 'error', function windowErrors( error ) {
     logger.error( 'errorInBackgroundWindow', error );
 } );
-
-window.addEventListener( 'unload', async ( event ) => {
-    await stopAuthDaemon();
-} );

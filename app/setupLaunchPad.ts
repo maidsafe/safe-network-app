@@ -159,7 +159,20 @@ export const createSafeLaunchPadTrayWindow = (
         theWindow.loadURL( `file://${CONFIG.APP_HTML_PATH}` );
     }
 
-    theWindow.webContents.on( 'did-finish-load', async () => {
+    // Devtools fix: https://github.com/electron/electron/issues/13008#issuecomment-530837646
+    theWindow.webContents.session.webRequest.onBeforeRequest(
+        { urls: ['devtools://devtools/remote/*'] },
+        ( details, callback ) => {
+            callback( {
+                redirectURL: details.url.replace(
+                    'devtools://devtools/remote/',
+                    'https://chrome-devtools-frontend.appspot.com/'
+                )
+            } );
+        }
+    );
+
+    theWindow.webContents.on( 'dom-ready', async () => {
         logger.info( 'Tray Window: Loaded' );
 
         const { isTrayWindow } = store.getState().launchpad;
