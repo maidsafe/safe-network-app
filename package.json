@@ -21,7 +21,6 @@
     "log": "tail -f $TMPDIR/safe-network-app.log",
     "package": "yarn build && electron-builder build --config ./builderConfig.js --publish never",
     "release": "yarn build && electron-builder build --config ./builderConfig.js --publish onTag",
-    "deploy": "yarn build && electron-builder build --config ./builderConfig.js --publish always",
     "package-all": "yarn build && electron-builder build -mwl",
     "package-macos": "yarn build && electron-builder --publish always",
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
