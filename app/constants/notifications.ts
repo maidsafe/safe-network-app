@@ -14,6 +14,23 @@ export const prepareNotification = ( title, denyText, otherProperties ) => {
 };
 
 export const notificationTypes = {
+    PERMISSION_PENDING: ( authRequest ) => {
+        const title = I18n.t( 'notifications.title.permissions_pending', {
+            name: authRequest.appId
+        } );
+        const denyText = I18n.t( 'notifications.buttons.denyText.dismiss' );
+        const acceptText = I18n.t( 'notifications.buttons.acceptText.allow' );
+
+        const otherProperties = {
+            type: 'PERMISSION_REQUEST',
+            icon: 'InfoIcon',
+            priority: 'HIGH',
+            acceptText,
+            notificationType: NOTIFICATION_TYPES.STANDARD
+        };
+
+        return prepareNotification( title, denyText, otherProperties );
+    },
     NO_INTERNET: () => {
         const title = I18n.t( 'notifications.title.no_internet' );
         const denyText = I18n.t( 'notifications.buttons.denyText.dismiss' );

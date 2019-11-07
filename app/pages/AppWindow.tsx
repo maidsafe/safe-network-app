@@ -34,8 +34,9 @@ function mapStateToProperties( state ) {
         isTrayWindow: state.launchpad.isTrayWindow,
         notifications: state.launchpad.notifications,
         notificationCheckBox: state.launchpad.notificationCheckBox,
-        router: state.router,
-        isLoggedIn: state.authd.isLoggedIn
+        pathname: state.router.location.pathname,
+        isLoggedIn: state.authd.isLoggedIn,
+        pendingRequests: state.authd.pendingRequests
     };
 }
 function mapDispatchToProperties( dispatch ) {

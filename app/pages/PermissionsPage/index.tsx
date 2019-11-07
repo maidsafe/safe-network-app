@@ -6,14 +6,14 @@ import { Redirect } from 'react-router-dom';
 
 import { connect, Dispatch } from 'react-redux';
 // import { PermissionsPage as ThePermissionsPage } from './PermissionsPage';
+import { logger } from '$Logger';
 
 import {
-    logInToNetwork,
-    createAccount,
-    setAuthdWorking
+    allowAuthRequest,
+    denyAuthRequest
 } from '$Actions/alias/authd_actions';
 
-import { AppState, AuthDState } from '$Definitions/application.d';
+import { AppState, AuthDState, AuthRequest } from '$Definitions/application.d';
 
 import { PermissionsPending } from '$Pages/PermissionsPage/PermissionsPending';
 import { PermissionsGranted } from '$Pages/PermissionsPage/PermissionsGranted';
@@ -25,13 +25,16 @@ import {
     PERMISSIONS,
     PERMISSIONS_PENDING,
     PERMISSIONS_GRANTED,
-    PERMISSION_REQUEST,
+    PERMISSIONS_REQUEST,
     ACCOUNT_LOGIN
 } from '$Constants/routes.json';
 import { notificationTypes } from '../../constants/notifications';
 
 interface Props {
     isLoggedIn: boolean;
+    pendingRequests: Array<AuthRequest>;
+    allowAuthRequest: Function;
+    denyAuthRequest: Function;
 }
 
 export const ProtoPermissionsPage = ( props: Props ) => {
@@ -39,11 +42,28 @@ export const ProtoPermissionsPage = ( props: Props ) => {
         return <Redirect to={ACCOUNT_LOGIN} />;
     }
 
+    logger.info( 'PERMS PAAAAAGGGEE' );
+
     return (
         <Switch>
             <Route path={PERMISSIONS_GRANTED} component={PermissionsGranted} />
-            <Route path={PERMISSION_REQUEST} component={PermissionRequest} />
-            <Route path={PERMISSIONS_PENDING} component={PermissionsPending} />
+            <Route
+                path={PERMISSIONS_REQUEST}
+                render={() => (
+                    <PermissionRequest
+                        allowAuthRequest={props.allowAuthRequest}
+                        denyAuthRequest={props.denyAuthRequest}
+                    />
+                )}
+            />
+            <Route
+                path={PERMISSIONS_PENDING}
+                render={() => (
+                    <PermissionsPending
+                        pendingRequests={props.pendingRequests}
+                    />
+                )}
+            />
             <Route
                 exact
                 path={PERMISSIONS}
@@ -55,15 +75,15 @@ export const ProtoPermissionsPage = ( props: Props ) => {
 
 function mapStateToProperties( state: AppState ) {
     return {
-        isLoggedIn: state.authd.isLoggedIn
+        isLoggedIn: state.authd.isLoggedIn,
+        pendingRequests: state.authd.pendingRequests
     };
 }
 function mapDispatchToProperties( dispatch: Dispatch ) {
     // until we have a reducer to add here.
     const actions = {
-        // logInToNetwork,
-        // createAccount,
-        // setAuthdWorking
+        allowAuthRequest,
+        denyAuthRequest
     };
 
     return bindActionCreators( actions, dispatch );

@@ -1,26 +1,31 @@
-import { SafeAuthdClient, Safe } from 'safe-nodejs';
+import { SafeAuthdClient } from 'safe-nodejs';
+
 import { logger } from '$Logger';
 import { getAuthdLocation } from '$Constants/authd';
-import { LAUNCHPAD_APP_ID } from '$Constants';
+import { AuthDClient, AuthRequest } from '$Definitions/application.d';
 
-let theAuthDaemonWithSubscription;
+export const setupAuthDaemon = async (): Promise<AuthDClient> => {
+    const safeAuthdClient = await new SafeAuthdClient();
 
-export const setupAuthDaemon = async () => {
     try {
-        const safeAuthdClient = await new SafeAuthdClient(); // use default port number
-
         await safeAuthdClient.start( getAuthdLocation() );
 
         logger.info( 'Safe authd running' );
     } catch ( error ) {
-        logger.error( 'Error initing safe authd', error );
+        if ( error.message && error.message.includes( 'AuthdAlreadyStarted' ) ) {
+            logger.info( 'AuthDaemon already exists.' );
+        } else {
+            logger.error( 'Error initing safe authd', error );
+        }
     }
+
+    return safeAuthdClient;
 };
 
-export const stopAuthDaemon = async () => {
+export const stopAuthDaemon = async (): Promise<void> => {
     try {
         // TODO: we should check if we started this process
-        const safeAuthdClient = await new SafeAuthdClient(); // use default port number
+        const safeAuthdClient = await setupAuthDaemon();
 
         await safeAuthdClient.stop( getAuthdLocation() );
         logger.info( 'Safe authd stopped' );
@@ -29,56 +34,36 @@ export const stopAuthDaemon = async () => {
     }
 };
 
-export const allowRequest = async ( requestId: number ) => {
+export const allowRequest = async ( request: AuthRequest ): Promise<{}> => {
+    const { requestId } = request;
+    logger.info( 'Attempting to allow request', requestId, typeof requestId );
     try {
         // TODO: we should check if we started this process
-        const safeAuthdClient = await new SafeAuthdClient(); // use default port number
+        const safeAuthdClient = await setupAuthDaemon();
 
-        logger.info( 'Attempting to allow request', requestId );
-        await safeAuthdClient.allow( requestId );
+        await safeAuthdClient.allow( parseInt( requestId, 10 ) );
         logger.info( 'Auth request allowed' );
+
+        return request;
     } catch ( error ) {
         logger.error( 'Error allowing request w/ safe authd', error );
+
+        return { error };
     }
 };
 
-export const denyRequest = async ( requestId: number ) => {
+export const denyRequest = async ( request: AuthRequest ): Promise<{}> => {
+    const { requestId } = request;
+    logger.info( 'Attempting to deny request', requestId, typeof requestId );
     try {
-        // TODO: we should check if we started this process
-        const safeAuthdClient = await new SafeAuthdClient(); // use default port number
-
-        logger.info( 'Attempting to deny request', requestId );
-        await safeAuthdClient.deny( requestId );
+        const safeAuthdClient = await setupAuthDaemon();
+        await safeAuthdClient.deny( parseInt( requestId, 10 ) );
         logger.info( 'Auth request denied' );
+
+        return request;
     } catch ( error ) {
         logger.error( 'Error denying request w/ safe authd', error );
-    }
-};
 
-const handleAuthDSubscriptionCallbacks = ( appId, requestId ) => {
-    logger.info( 'Auth request received', appId, requestId );
-
-    console.log( ' REQ RECEIVEDDDD', appId, requestId );
-    // store.dispatch( requestinfo )
-
-    setTimeout( () => {
-        allowRequest( parseInt( requestId, 10 ) );
-    }, 5000 );
-};
-
-export const subscribeForAuthRequests = async () => {
-    try {
-        // TODO: we should check if we started this process
-        theAuthDaemonWithSubscription = await new SafeAuthdClient(); // use default port number
-
-        logger.info( 'Attempting to subscibe for auth requests' );
-        await theAuthDaemonWithSubscription.subscribe(
-            'https://localhost:33001',
-            LAUNCHPAD_APP_ID,
-            handleAuthDSubscriptionCallbacks
-        );
-        logger.info( 'Subscibed successfully' );
-    } catch ( error ) {
-        logger.error( 'Error subscribing to safe authd', error );
+        return { error };
     }
 };

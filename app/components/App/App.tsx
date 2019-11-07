@@ -1,18 +1,26 @@
 import * as React from 'react';
 import { Grid } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, Redirect } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import TitleBar from 'frameless-titlebar';
 import IconButton from '@material-ui/core/IconButton';
 import Settings from '@material-ui/icons/Settings';
 import { I18n } from 'react-redux-i18n';
+
 import { notificationTypes } from '$Constants/notifications';
 import { NotificationsHandler } from '$Components/Notifications/NotificationsHandler';
 import { HeaderBar } from '$Components/HeaderBar';
 import { logger } from '$Logger';
-import { SETTINGS, ON_BOARDING } from '$Constants/routes.json';
+import {
+    SETTINGS,
+    ON_BOARDING,
+    PERMISSIONS_PENDING,
+    HOME
+} from '$Constants/routes.json';
 import { MeatballMenu } from '$App/components/MeatballMenu';
+
+import { AuthRequest } from '$Definitions/application.d';
 
 import { THEME } from '$Constants/theme';
 
@@ -27,16 +35,12 @@ interface Props {
 
     notifications: object;
     notificationCheckBox: boolean;
-    acceptNotification: any;
-    denyNotification: any;
-    pushNotification: any;
+    acceptNotification: Function;
+    denyNotification: Function;
+    pushNotification: Function;
     notificationToggleCheckBox: any;
 
-    router: {
-        location: {
-            pathname: string;
-        };
-    };
+    pathname: string;
 
     appList: {};
     currentPath: string;
@@ -50,6 +54,8 @@ interface Props {
 
     logOutOfNetwork: Function;
     isLoggedIn: boolean;
+
+    pendingRequests: Array<AuthRequest>;
 }
 
 export class App extends React.PureComponent<Props> {
@@ -98,12 +104,18 @@ export class App extends React.PureComponent<Props> {
             acceptNotification,
             denyNotification,
             notificationCheckBox,
-            router,
+            pathname,
             isLoggedIn,
-            logOutOfNetwork
+            logOutOfNetwork,
+            pendingRequests
         } = this.props;
 
-        const currentPath = router.location.pathname;
+        // if only one request, lets forwad to perms page...
+        if ( pendingRequests.length === 1 && pathname === HOME ) {
+            return <Redirect to={PERMISSIONS_PENDING} />;
+        }
+
+        const currentPath = pathname;
         // path always starts with a slash
 
         const baseClassList = [

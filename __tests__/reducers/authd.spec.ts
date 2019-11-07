@@ -15,7 +15,7 @@ describe( 'authd reducer', () => {
     describe( 'AUTH REQUEST HANDLING', () => {
         it( 'Should add action to pending list', () => {
             const authdAction = {
-                requestId: 22,
+                requestId: '22',
                 appId: 'testApp'
             };
 
@@ -35,7 +35,7 @@ describe( 'authd reducer', () => {
 
         it( 'Added action to be uniq', () => {
             const authdAction = {
-                requestId: 22,
+                requestId: '22',
                 appId: 'testApp'
             };
 
@@ -60,7 +60,7 @@ describe( 'authd reducer', () => {
 
         it( 'should throw with no appid', () => {
             const authdAction = {
-                requestId: 22
+                requestId: '22'
             };
 
             expect( () =>
@@ -73,7 +73,7 @@ describe( 'authd reducer', () => {
 
         it( 'should throw with no requestId', () => {
             const authdAction = {
-                appId: 22
+                appId: '22'
             };
 
             expect( () =>
@@ -86,7 +86,7 @@ describe( 'authd reducer', () => {
 
         it( 'Should remove action on allow', () => {
             const authdAction = {
-                requestId: 22
+                requestId: '22'
             };
 
             const nextStore = authd(
@@ -94,7 +94,7 @@ describe( 'authd reducer', () => {
                     isLoggedIn: true,
                     error: null,
                     isWorking: false,
-                    pendingRequests: [{ appId: 'hi', requestId: 22 }]
+                    pendingRequests: [{ appId: 'hi', requestId: '22' }]
                 },
                 {
                     type: TYPES.AUTHD_ALLOW_REQUEST,
@@ -113,7 +113,7 @@ describe( 'authd reducer', () => {
 
         it( 'Should remove action on deny', () => {
             const authdAction = {
-                requestId: 22
+                requestId: '22'
             };
 
             const nextStore = authd(
@@ -121,7 +121,7 @@ describe( 'authd reducer', () => {
                     isLoggedIn: true,
                     error: null,
                     isWorking: false,
-                    pendingRequests: [{ appId: 'hi', requestId: 22 }]
+                    pendingRequests: [{ appId: 'hi', requestId: '22' }]
                 },
                 {
                     type: TYPES.AUTHD_DENY_REQUEST,

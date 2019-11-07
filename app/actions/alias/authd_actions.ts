@@ -60,15 +60,15 @@ export const createAccount = createAliasedAction(
 
 export const allowAuthRequest = createAliasedAction(
     TYPES.ALIAS__AUTHD_ALLOW_REQUEST,
-    async ( authdRequest ) => ( {
+    async ( authdRequestObject ) => ( {
         type: TYPES.AUTHD_ALLOW_REQUEST,
-        payload: await allowRequest( authdRequest )
+        payload: await allowRequest( authdRequestObject )
     } )
 );
 export const denyAuthRequest = createAliasedAction(
     TYPES.ALIAS__AUTHD_DENY_REQUEST,
-    async ( authdRequest ) => ( {
+    async ( authdRequestObject ) => ( {
         type: TYPES.AUTHD_DENY_REQUEST,
-        payload: await denyRequest( authdRequest )
+        payload: await denyRequest( authdRequestObject )
     } )
 );

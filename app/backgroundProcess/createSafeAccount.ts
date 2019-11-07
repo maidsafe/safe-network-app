@@ -1,15 +1,14 @@
 import { SafeAuthdClient, Safe } from 'safe-nodejs';
 import { logger } from '$Logger';
-import { getAuthdLocation } from '$Constants/authd';
+import { setupAuthDaemon } from '$Background/authDaemon';
 
 export const createSafeAccount = async (
     password: string,
     passphrase: string
 ): Promise<{ error: string }> => {
     try {
-        const safeAuthdClient = await new SafeAuthdClient(); // use default port number
+        const safeAuthdClient = await setupAuthDaemon();
 
-        safeAuthdClient.start( getAuthdLocation() );
         logger.info( 'Safe authd running' );
 
         const safe = new Safe();
