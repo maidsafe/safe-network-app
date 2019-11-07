@@ -2,7 +2,7 @@ import { uniqBy } from 'lodash';
 import { TYPES } from '$Actions/alias/authd_actions';
 import { AuthDState } from '../definitions/application.d';
 // import { ERRORS } from '$Constants/errors';
-// import { logger } from '$Logger';
+import { logger } from '$Logger';
 
 export const initialState: AuthDState = {
     isLoggedIn: false,
@@ -53,9 +53,9 @@ export function authd( state = initialState, action ): AuthDState {
 
             return {
                 ...state,
-                pendingRequests: updatedRequestList.filter(
-                    ( request ) => request.requestId !== payload.requestId
-                )
+                pendingRequests: updatedRequestList.filter( ( request ) => {
+                    return request.requestId !== payload.requestId;
+                } )
             };
         }
         case TYPES.AUTHD_DENY_REQUEST: {

@@ -13,6 +13,7 @@ import {
     resetAppUpdateState,
     appHasUpdate
 } from '$Actions/app_manager_actions';
+import { addAuthRequestToPendingList } from '$Actions/alias/authd_actions';
 import { notificationTypes } from '$Constants/notifications';
 import {
     isRunningTestCafeProcess,
@@ -28,6 +29,8 @@ import { safeAppUpdater } from './manageInstallations/safeAppUpdater';
 import { Application } from './definitions/application.d';
 import { logger } from '$Logger';
 import pkg from '$Package';
+
+import { PERMISSIONS_PENDING } from '$Constants/routes.json';
 
 const subMenuHelp = {
     label: 'Help',
@@ -196,8 +199,13 @@ const setupTestsMenu = ( store: Store ) => {
                 label: 'Trigger Permission Request',
                 click: () => {
                     store.dispatch(
-                        push( '/permissions/pending/89498494/TestApp' )
+                        addAuthRequestToPendingList( {
+                            appId: 'test app',
+                            requestId: 42
+                        } )
                     );
+
+                    store.dispatch( push( PERMISSIONS_PENDING ) );
                 }
             }
         ]

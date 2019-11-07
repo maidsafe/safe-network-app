@@ -1,12 +1,11 @@
 import { SafeAuthdClient } from 'safe-nodejs';
 import { logger } from '$Logger';
 import { getAuthdLocation } from '$Constants/authd';
+import { setupAuthDaemon } from '$Background/authDaemon';
 
 export const logOutOfSafe = async () => {
     try {
-        const safeAuthdClient = await new SafeAuthdClient(); // use default port number
-
-        await safeAuthdClient.start( getAuthdLocation() );
+        const safeAuthdClient = await setupAuthDaemon(); // use default port number
         await safeAuthdClient.log_out();
         logger.info( 'Logged out' );
 

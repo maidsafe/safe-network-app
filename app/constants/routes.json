@@ -16,7 +16,7 @@
 
     "PERMISSIONS": "/permissions",
     "PERMISSIONS_PENDING": "/permissions/pending",
-    "PERMISSION_REQUEST": "/permissions/pending/:requestId/:appName",
+    "PERMISSIONS_REQUEST": "/permissions/pending/:requestId/:appId",
     "PERMISSIONS_GRANTED": "/permissions/granted",
 
     "SETTINGS": "/settings",

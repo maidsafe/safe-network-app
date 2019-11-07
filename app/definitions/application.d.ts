@@ -9,9 +9,22 @@ export namespace Application {
     }
 }
 
+export interface AuthDClient {
+    start: Function;
+    stop: Function;
+    restart: Function;
+    status: Function;
+    allow: Function;
+    deny: Function;
+    subscibe: Function;
+    create_acc: Function;
+    log_in: Function;
+    log_out: Function;
+}
+
 export interface AuthRequest {
     appId: string;
-    requestId: number;
+    requestId: string;
 }
 
 export interface AuthDState {

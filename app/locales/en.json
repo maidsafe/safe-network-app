@@ -34,6 +34,7 @@
     },
     "notifications": {
         "title": {
+            "permissions_pending": "%{name} needs requests permissions.",
             "restart_app_now": "%{name} needs to restart to finish updating.",
             "restart_app_later": "%{name} needs to restart to once your installaltion is complete.",
             "disc_full": "Disk is full. Your install has been paused. Free up some space and resume.",
@@ -68,6 +69,7 @@
                 "restart_now": "Restart Now",
                 "allow_restart": "Allow Restart",
                 "retry": "Retry",
+                "allow": "Allow",
                 "update_now": "Update now",
                 "uninstall_app": "Uninstall",
                 "continue": "Continue"

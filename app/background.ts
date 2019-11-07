@@ -1,18 +1,16 @@
 /* eslint global-require: 1 */
 import _ from 'lodash';
-import { ipcRenderer } from 'electron';
+import { Store } from 'redux';
 import { logger } from '$Logger';
 import { setCurrentStoreForNotificationActions } from '$Actions/alias/notification_actions';
 import { configureStore } from '$Store/configureStore';
 import { setCurrentStore } from '$Actions/application_actions';
 import { settingsHandler } from '$Actions/helpers/settings_handler';
-import { isDryRun } from '$Constants';
-
+import { setupAuthDaemon } from '$App/backgroundProcess/authDaemon';
 import {
-    setupAuthDaemon,
-    stopAuthDaemon,
-    subscribeForAuthRequests
-} from '$App/backgroundProcess/authDaemon';
+    subscribeForAuthRequests,
+    setCurrentStoreForAuthDSubscriber
+} from '$App/backgroundProcess/authDaemonSubscription';
 
 declare let window: Window;
 
@@ -36,8 +34,9 @@ const managePreferencesLocally = async ( store ) => {
 };
 
 const initBgProcess = () => {
-    const store = configureStore( undefined );
+    const store: Store = configureStore( undefined );
     setCurrentStore( store );
+    setCurrentStoreForAuthDSubscriber( store );
     setCurrentStoreForNotificationActions( store );
     store.subscribe( () => {
         managePreferencesLocally( store );
