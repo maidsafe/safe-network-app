@@ -21,6 +21,7 @@ import {
     defaultPreferences,
     isRunningDebug
 } from '$Constants/index';
+import { updateSharedVaultConfig } from '$App/updateSharedVaultConfig';
 import {
     storePreferences,
     quitApplication
@@ -61,6 +62,12 @@ const subMenuHelp = {
                 shell.openExternal(
                     'https://github.com/maidsafe/safe-network-app/issues'
                 );
+            }
+        },
+        {
+            label: 'Update shared vault config',
+            click() {
+                updateSharedVaultConfig();
             }
         }
     ]
