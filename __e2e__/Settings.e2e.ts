@@ -24,6 +24,7 @@ test( 'e2e', async ( t ) => {
 } );
 
 test( 'can navigate to settings page', async ( t ) => {
+    // await t.debug()
     await t.click(
         Selector( 'button' ).withAttribute( 'aria-label', 'Go to settings' )
     );

@@ -27,9 +27,9 @@ if (platform === WINDOWS) {
 let config = {
     mainWindowUrl: './app/app.html',
     // electronPath: `./release/${PLATFORM_NAME}/${appString}`,
-    appPath: '.'
+    appPath: '.',
     // , appArgs: allArgs
-    // , openDevTools: true
+    openDevTools: true
 };
 
 if (!TEST_UNPACKED) {
