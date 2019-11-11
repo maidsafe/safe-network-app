@@ -138,8 +138,8 @@
     "cross-spawn": "^7.0.1",
     "css-loader": "^3.2.0",
     "detect-port": "^1.3.0",
-    "electron": "6.0.12",
     "electron-notarize": "0.2",
+    "electron": "6.1.4",
     "electron-builder": "22.1.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.15.1",
@@ -244,7 +244,7 @@
     "redux-thunk": "^2.3.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.8",
-    "safe-nodejs": "https://github.com/bochaco/safe-nodejs#feat-authd-client-bindings",
+    "safe-nodejs": "https://github.com/maidsafe/safe-nodejs#0.3.2",
     "source-map-support": "^0.5.16",
     "typeface-roboto": "^0.0.75"
   },
