@@ -24,6 +24,8 @@ import {
 
 import {
     ignoreAppLocation,
+    isRunningDebug,
+    isRunningDevelopment,
     isRunningTestCafeProcess,
     isRunningUnpacked,
     isRunningOnLinux,
@@ -77,7 +79,9 @@ if ( !gotTheLock ) {
         setupAuthDaemon();
 
         if (
-            process.env.NODE_ENV === 'development' ||
+            // isRunningTestCafeProcess ||
+            // isRunningDevelopment ||
+            isRunningDebug ||
             process.env.DEBUG_PROD === 'true'
         ) {
             await installExtensions();
@@ -98,7 +102,8 @@ if ( !gotTheLock ) {
             if ( !appExiting && process.platform === 'darwin' ) {
                 event.preventDefault();
                 if (
-                    process.env.NODE_ENV === 'development' ||
+                    // isRunningDevelopment ||
+                    isRunningDebug ||
                     process.env.DEBUG_PROD === 'true'
                 )
                     app.hide();

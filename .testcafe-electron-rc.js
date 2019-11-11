@@ -1,7 +1,6 @@
 let appString = 'safe-network-app';
 
 let TEST_UNPACKED = process.env.TEST_UNPACKED;
-// const allArgs = ['--mock'];
 
 const testAuthenticator = process.env.TEST_CAFE_TEST_AUTH;
 
@@ -24,12 +23,13 @@ if (platform === WINDOWS) {
     appString = 'SAFE Network App.exe';
 }
 
+const allArgs = [];
+// allArgs.push('--debug')
 let config = {
     mainWindowUrl: './app/app.html',
     // electronPath: `./release/${PLATFORM_NAME}/${appString}`,
     appPath: '.',
-    // , appArgs: allArgs
-    openDevTools: true
+    appArgs: allArgs
 };
 
 if (!TEST_UNPACKED) {
