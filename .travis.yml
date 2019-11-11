@@ -13,6 +13,7 @@ matrix:
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+        - NODE_ENV=prod
 
     - os: linux
       language: node_js
@@ -23,6 +24,7 @@ matrix:
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+        - NODE_ENV=prod
       addons:
         apt:
           sources:
@@ -43,6 +45,7 @@ matrix:
         - "12"
       env:
         - YARN_GPG=no # otherwise this starts gpg-agent that never exits
+        - NODE_ENV=prod
 
 
 before_cache:
@@ -95,30 +98,15 @@ before_deploy:
     if [[ $TRAVIS_TAG == *"RC"* || $TRAVIS_TAG == *"rc"* ]]; then
       export IS_RC=yes
     fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" && "$IS_RC" != "yes" ]]; then NODE_ENV=prod yarn package; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" && "$IS_RC" == "yes" ]]; then TEST_PACKAGES=true NODE_ENV=prod yarn package; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export RELEASE_PROD_EXE="$(ls release/*-mac-x64.dmg)";
-    fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export RELEASE_PROD_EXE="$(ls release/*-linux-x64.AppImage)";
-    fi
-  - if [[ "$TRAVIS_OS_NAME" == "win" ]]; then export RELEASE_PROD_EXE="$(ls release/*-win-x64.exe)";
-    fi
-  - export RELEASE_YML="$(ls release/*.yml)"
-  - export RELEASE_ZIP="$(ls release/*.zip)"
-  - export RELEASE_DMG="$(ls release/*.dmg)"
-  - echo "deploying ${RELEASE_PROD_EXE} to GitHub releases as tagged with ${TRAVIS_TAG}"
-  - if [[ "$IS_RC" != "yes" ]]; then ls release; fi
-
+  - if [[ "$IS_RC" == "yes" ]]; then TEST_PACKAGES=true NODE_ENV=prod yarn package; fi
+  - ls release
 
 deploy:
   provider: releases
   skip_cleanup: true
   api_key: $GH_TOKEN
-  file:
-    - "${RELEASE_PROD_EXE}"
-    - "${RELEASE_YML}"
-    - "${RELEASE_ZIP}"
-    - "${RELEASE_DMG}"
+  file_glob: true
+  file: ./release/*
   draft: true
   tag_name: $TRAVIS_TAG
   on:
