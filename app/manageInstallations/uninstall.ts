@@ -19,11 +19,7 @@ import {
     isRunningOnLinux,
     isDryRun
 } from '$Constants';
-import {
-    delay,
-    getApplicationExecutable,
-    getInstalledLocation
-} from '$App/manageInstallations/helpers';
+import { delay, getInstalledLocation } from '$App/manageInstallations/helpers';
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 import { INSTALL_TARGET_DIR } from '$Constants/installConstants';

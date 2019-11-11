@@ -172,6 +172,8 @@ export const silentInstall = async (
     }
 
     const applicationExecutable = getApplicationExecutable( application );
+
+    logger.info( 'silent install will install as:', applicationExecutable );
     switch ( platform ) {
         case MAC_OS: {
             silentInstallMacOS(

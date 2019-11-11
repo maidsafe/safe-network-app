@@ -1,4 +1,5 @@
 import path from 'path';
+import { execSync } from 'child_process';
 
 import { Store } from 'redux';
 import fs from 'fs-extra';
@@ -23,7 +24,38 @@ export const delay = ( time: number ): Promise<void> =>
         ( resolve ): ReturnType<typeof setTimeout> => setTimeout( resolve, time )
     );
 
-export const getApplicationExecutable = ( application: App ): string => {
+const getLocalLinuxAppImageName = ( application ) => {
+    const commandArguments = [
+        INSTALL_TARGET_DIR,
+        '-name',
+        `'${application.packageName || application.name}-v*'`
+    ];
+    logger.verbose(
+        'Attempting to locate an installed linux version via:',
+        'find',
+        ...commandArguments
+    );
+    let installedApp = '';
+
+    try {
+        installedApp = execSync(
+            `find ${INSTALL_TARGET_DIR} -name ${application.packageName ||
+                application.name}-v*`,
+            {
+                encoding: 'utf-8'
+            }
+        );
+    } catch ( error ) {
+        logger.error( 'Error chekcing for local linux appImage', error );
+    }
+
+    return installedApp;
+};
+
+export const getApplicationExecutable = (
+    application: App,
+    getCurrentVersion?: boolean
+): string => {
     // https://github.com/joshuef/electron-typescript-react-boilerplate/releases/tag/v0.1.0
     // TODO ensure name conformity with download, or if different, note how.
 
@@ -43,10 +75,33 @@ export const getApplicationExecutable = ( application: App ): string => {
             break;
         }
         case LINUX: {
+            const targetVersion = getCurrentVersion
+                ? application.currentVersion
+                : application.latestVersion;
             applicationExecutable = `${application.packageName ||
-                application.name}.AppImage`;
+                application.name}-${targetVersion}-linux-x64.AppImage`;
+
+            logger.verbose( 'Target version of app exec', targetVersion );
+            if ( getCurrentVersion && !targetVersion ) {
+                try {
+                    const installedApp = getLocalLinuxAppImageName( application );
+
+                    if ( installedApp.length > 0 ) {
+                        logger.info(
+                            'Installed linux version found: ',
+                            installedApp
+                        );
+                        applicationExecutable = path.basename( installedApp );
+                    }
+                } catch ( error ) {
+                    logger.error(
+                        'Error checking for installed linux version:',
+                        error
+                    );
+                }
+            }
+
             break;
-            // electron-react-boilerplate-0.1.0-x86_64.AppImage
         }
         default: {
             logger.error(
@@ -60,7 +115,11 @@ export const getApplicationExecutable = ( application: App ): string => {
 };
 
 export const getInstalledLocation = ( application: App ): string => {
-    const applicationExecutable = getApplicationExecutable( application );
+    const getCurrentVersion = true;
+    const applicationExecutable = getApplicationExecutable(
+        application,
+        getCurrentVersion
+    );
     const installedPath = path.join( INSTALL_TARGET_DIR, applicationExecutable );
 
     return installedPath;
@@ -69,7 +128,12 @@ export const getInstalledLocation = ( application: App ): string => {
 export const checkIfAppIsInstalledLocally = async (
     application
 ): Promise<boolean> => {
-    const applicationExecutable = getApplicationExecutable( application );
+    const getCurrentVersion = true;
+
+    const applicationExecutable = getApplicationExecutable(
+        application,
+        getCurrentVersion
+    );
 
     const installedPath = getInstalledLocation( application );
 
@@ -86,43 +150,53 @@ export const getLocalAppVersion = ( application, store: Store ): string => {
         path.resolve( INSTALL_TARGET_DIR, application.packageName, 'version' )
     );
 
-    try {
-        // default to MacOs
-        let versionFilePath = path.resolve(
-            getInstalledLocation( application ),
-            'Contents/Resources/version'
-        );
+    let localVersion: string;
 
-        if ( isRunningOnWindows ) {
-            versionFilePath = path.resolve(
+    if ( isRunningOnLinux ) {
+        const installedApp = getLocalLinuxAppImageName( application );
+
+        if ( installedApp ) {
+            const semvarRegex = /(\d+\.)(\d+\.)(\d)/g;
+
+            localVersion = semvarRegex.exec( installedApp )[0] || null; // 0 is full match
+        }
+    } else {
+        try {
+            // default to MacOs
+            let versionFilePath = path.resolve(
                 getInstalledLocation( application ),
-                'version'
+                'Contents/Resources/version'
             );
+
+            if ( isRunningOnWindows ) {
+                versionFilePath = path.resolve(
+                    getInstalledLocation( application ),
+                    'version'
+                );
+            }
+
+            localVersion = fs.readFileSync( versionFilePath ).toString();
+        } catch ( error ) {
+            logger.error( 'Error grabbing local app version', error );
         }
+    }
 
-        if ( isRunningOnLinux ) {
-            // need to mount appIMage to view contents...
-
-            // my.AppImage --appimage-mount
-            versionFilePath = path.resolve(
-                INSTALL_TARGET_DIR,
-                application.packageName,
-                'version'
-            );
-        }
-
-        const localVersion = fs.readFileSync( versionFilePath ).toString();
-
-        logger.info( 'Version found was: ', localVersion );
-
-        store.dispatch(
-            setCurrentVersion( {
-                ...application,
-                currentVersion: localVersion
-            } )
-        );
-        return localVersion;
-    } catch ( error ) {
+    if ( !localVersion || localVersion.length === 0 ) {
         return null;
     }
+
+    if ( !localVersion.startsWith( 'v' ) ) {
+        localVersion = `v${localVersion}`;
+    }
+
+    logger.info( 'Version found was: ', localVersion );
+
+    store.dispatch(
+        setCurrentVersion( {
+            ...application,
+            currentVersion: localVersion
+        } )
+    );
+
+    return localVersion;
 };
