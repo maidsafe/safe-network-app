@@ -151,10 +151,10 @@ export class AppStateButton extends React.Component<Props> {
             progressButtonIcon = pauseIconButton;
         }
 
-        if ( isDownloadingAndUpdating ) {
-            buttonText = I18n.t( `buttons.pause` );
-            progressButtonIcon = pauseIconButton;
-        }
+        // if ( isDownloadingAndUpdating ) {
+        //     buttonText = I18n.t( `buttons.pause` );
+        //     progressButtonIcon = pauseIconButton;
+        // }
 
         if ( isPaused ) {
             buttonText = I18n.t( `buttons.resume` );

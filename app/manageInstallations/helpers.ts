@@ -154,7 +154,10 @@ export const getLocalAppVersion = ( application, store: Store ): string => {
 
     if ( isRunningOnLinux ) {
         const installedApp = getLocalLinuxAppImageName( application );
+        logger.warn( 'Installed linux found: ', installedApp );
 
+        // TODO: why is the update not updating the button?
+        // And why can i not lcik afterwards???
         if ( installedApp ) {
             const semvarRegex = /(\d+\.)(\d+\.)(\d)/g;
 

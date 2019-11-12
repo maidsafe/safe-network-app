@@ -50,6 +50,7 @@ export function appManager( state = initialState, action ): AppManagerState {
             const newVersion = payload.latestVersion;
             theCurrentApp.currentVersion = currentVersion;
 
+            // info is not newer
             if ( compareVersions( newVersion, currentVersion ) < 1 ) {
                 // only update local info
                 targetApp = {
@@ -65,7 +66,11 @@ export function appManager( state = initialState, action ): AppManagerState {
             // otherwise we overwrite.
             targetApp = {
                 ...theCurrentApp,
-                ...payload
+                ...payload,
+                hasUpdate: !!theCurrentApp.isInstalled,
+                currentVersion: theCurrentApp.isInstalled
+                    ? currentVersion
+                    : null
             };
 
             return updateAppInApplicationList( state, targetApp );

@@ -61,7 +61,7 @@ if ( allPassedArguments.includes( '--debug' ) ) {
     hasDebugFlag = true;
 }
 
-if ( allPassedArguments.includes( '--dryRun' ) || process.env.LAUNCHER_DRY_RUN ) {
+if ( allPassedArguments.includes( '--dryRun' ) || process.env.SNAPP_DRY_RUN ) {
     hasDryRunFlag = true;
 }
 

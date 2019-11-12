@@ -142,7 +142,7 @@ export class SafeAppUpdater {
             );
 
             if ( !isDryRun ) {
-                logger.info( `DRY RUN: Update application ${application}` );
+                logger.info( `Updating application ${application}` );
                 // exec on linux doesnt give us a new process, so closing SNAPP
                 // will close the spawned app :|
                 spawn( command, [...cmdArguments], {

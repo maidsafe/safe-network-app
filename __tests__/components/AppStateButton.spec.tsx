@@ -170,6 +170,33 @@ describe( 'AppStateButton', () => {
             expect( props.resumeDownload ).toHaveBeenCalled();
         } );
 
+        it( 'has one buttons when Updating and it is updating', () => {
+            props = {
+                ...props,
+                application: {
+                    ...props.application,
+                    isInstalled: true,
+                    hasUpdate: true,
+                    isUpdating: true
+                }
+            };
+            wrapper = shallow( <AppStateButton {...props} /> );
+
+            expect( wrapper.find( Fab ) ).toHaveLength( 1 );
+
+            const action = wrapper.find(
+                '[aria-label="Application Action Button"]'
+            );
+
+            expect( action ).toHaveLength( 1 );
+
+            action.simulate( 'click' );
+
+            expect( action.text() ).toBe( 'Updating' );
+
+            // expect( props.resumeDownload ).toHaveBeenCalled();
+        } );
+
         it( 'has error msg and one button w/ an errorr', () => {
             props = {
                 ...props,

@@ -180,12 +180,14 @@ const resumeDownloadOfApp = ( application ) => {
 
 export const updateTheApplication = ( application: App ) => {
     ipcRenderer.send( 'updateApplication', application );
+
+    logger.info( 'Updating the applicationnnnnnnnnn', application );
     const store = getCurrentStore();
-    store.dispatch(
-        dismissNotification( {
-            id: `${application.packageName}-update-notification`
-        } )
-    );
+    // store.dispatch(
+    //     dismissNotification( {
+    //         id: `${application.packageName}-update-notification`
+    //     } )
+    // );
     store.dispatch( appIsUpdating( application ) );
     // store.dispatch( resetAppUpdateState( application ) );
 };

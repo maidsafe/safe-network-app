@@ -24,6 +24,7 @@ const getApp = (): App => ( {
     type: 'userApplications' as AppType,
     repositoryOwner: 'joshuef',
     repositorySlug: 'safe_browser',
+    currentVersion: null,
     latestVersion: '0.1.0',
     isDownloadingAndInstalling: false,
     isDownloadingAndUpdating: false,
@@ -104,8 +105,35 @@ describe( 'app manager reducer', () => {
             ).toThrow( ERRORS.VERSION_NOT_FOUND );
         } );
 
-        it( 'Should update application info to newer version, and set current if needs', () => {
+        it( 'Should update application info to newer version, and not set current when not installed', () => {
             const updatedApp1 = { ...app1 };
+            updatedApp1.latestVersion = '1.1.0';
+
+            const nextStore = appManager(
+                { applicationList },
+                {
+                    type: `${TYPES.UPDATE_APP_INFO_IF_NEWER}`,
+                    payload: updatedApp1
+                }
+            );
+
+            expect( Object.keys( nextStore.applicationList ).length ).toEqual( 2 );
+
+            // app1.isInstalled = undefined;
+            expect( nextStore.applicationList[app1.id].id ).toEqual( app1.id );
+            expect( nextStore.applicationList[app1.id].latestVersion ).toEqual(
+                '1.1.0'
+            );
+            expect(
+                nextStore.applicationList[app1.id].currentVersion
+            ).toBeNull();
+            expect( nextStore.applicationList[app1.id].hasUpdate ).toBeFalsy();
+        } );
+
+        it( 'When installed Should update application info to newer version, and set current version and hasUpdate', () => {
+            const updatedApp1 = { ...app1 };
+            applicationList[app1.id].currentVersion = '0.1.0';
+            applicationList[app1.id].isInstalled = true;
             updatedApp1.latestVersion = '1.1.0';
 
             const nextStore = appManager(
@@ -129,6 +157,7 @@ describe( 'app manager reducer', () => {
             expect( nextStore.applicationList[app1.id].currentVersion ).toEqual(
                 applicationList[app1.id].latestVersion
             );
+            expect( nextStore.applicationList[app1.id].hasUpdate ).toBeTruthy();
         } );
 
         it( 'Should overwrite the install state from newer version info', () => {
