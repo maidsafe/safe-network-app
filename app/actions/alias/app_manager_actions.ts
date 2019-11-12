@@ -73,35 +73,30 @@ export const fetchDefaultAppIconFromLocal = ( applicationId: string ): string =>
     return path.resolve( DEFAULT_APP_ICON_PATH, `${applicationId}.png` );
 };
 
-const fetchAppIconFromServer = ( application ): Promise<string> => {
-    return new Promise( async ( resolve ) => {
-        try {
-            const filename = `${
-                application.id
-            }-${application.latestVersion.replace( /\./g, '-' )}.png`;
-            const filePath = path.resolve(
-                getAppDataPath(),
-                'thumbnail',
-                filename
-            );
+const fetchAppIconFromServer = async ( application ): Promise<string> => {
+    try {
+        const filename = `${application.id}-${application.latestVersion.replace(
+            /\./g,
+            '-'
+        )}.png`;
+        const filePath = path.resolve( getAppDataPath(), 'thumbnail', filename );
 
-            // TODO: need to remove old icon
+        // TODO: need to remove old icon
 
-            if ( !fse.pathExistsSync( filePath ) ) {
-                const appIcon = await request( {
-                    uri: `https://github.com/${application.repositoryOwner}/${application.repositorySlug}/releases/download/${application.latestVersion}/icon.png`,
-                    encoding: null,
-                    resolveWithFullResponse: true
-                } );
+        if ( !fse.pathExistsSync( filePath ) ) {
+            const appIcon = await request( {
+                uri: `https://github.com/${application.repositoryOwner}/${application.repositorySlug}/releases/download/${application.latestVersion}/icon.png`,
+                encoding: null,
+                resolveWithFullResponse: true
+            } );
 
-                fse.outputFileSync( filePath, appIcon.body );
-            }
-            return resolve( filePath );
-        } catch ( error ) {
-            logger.warn( error.message );
-            return resolve( null );
+            fse.outputFileSync( filePath, appIcon.body );
         }
-    } );
+        return filePath;
+    } catch ( error ) {
+        logger.warn( error.message );
+        return null;
+    }
 };
 
 const getLatestAppVersions = async (): Promise<void> => {
@@ -188,7 +183,6 @@ export const updateTheApplication = ( application: App ) => {
     //     } )
     // );
     store.dispatch( appIsUpdating( application ) );
-    // store.dispatch( resetAppUpdateState( application ) );
 };
 
 const resumeDownloadOfAllApps = ( appList: App ) => {

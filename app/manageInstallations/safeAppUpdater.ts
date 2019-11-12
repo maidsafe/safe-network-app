@@ -84,7 +84,10 @@ export class SafeAppUpdater {
         logger.info( `Updating application: ${application}` );
         if ( isDryRun ) {
             logger.info( `DRY RUN: Not triggering update ${application}` );
-            store.dispatch( resetAppUpdateState( application ) );
+
+            setTimeout( () => {
+                store.dispatch( resetAppUpdateState( application ) );
+            }, 2000 );
 
             return;
         }
