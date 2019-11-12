@@ -79,9 +79,14 @@ export class SafeAppUpdater {
     }
 
     updateApplication( application ) {
+        const store = this._store;
+
         logger.info( `Updating application: ${application}` );
         if ( isDryRun ) {
-            logger.info( `DRY RUN: Update application ${application}` );
+            logger.info( `DRY RUN: Not triggering update ${application}` );
+            store.dispatch( resetAppUpdateState( application ) );
+
+            return;
         }
 
         const appLocation = getInstalledLocation( application );
@@ -135,20 +140,25 @@ export class SafeAppUpdater {
         }
 
         if ( isRunningOnLinux ) {
-            logger.info(
+            logger.warn(
                 'Opening on linux via spawn command: ',
                 command,
                 cmdArguments
             );
 
             if ( !isDryRun ) {
-                logger.info( `Updating application ${application}` );
-                // exec on linux doesnt give us a new process, so closing SNAPP
-                // will close the spawned app :|
-                spawn( command, [...cmdArguments], {
-                    // eslint-disable-next-line unicorn/prevent-abbreviations
-                    env: newEnvironment,
-                    detached: true
+                logger.warn( `Updating application ${application.name}` );
+
+                // use exec for updates to retrieve info.
+                const output = exec( `${command} ...cmdArguments`, {} );
+
+                output.stderr.on( 'data', ( data ) => {
+                    logger.error(
+                        'Error triggering application update for ',
+                        application.name
+                    );
+                    store.dispatch( resetAppUpdateState( application ) );
+                    throw new Error( data );
                 } );
             }
         }
@@ -158,8 +168,6 @@ export class SafeAppUpdater {
         const CHECK_FOR_UPDATED_VERSION_MS = 5000; // ms  = 5s
         let appHasUpdated = false;
         const targetVersion = application.latestVersion;
-
-        const store = this._store;
 
         let updatedCheckTimeout;
         let updatedVersion: string;

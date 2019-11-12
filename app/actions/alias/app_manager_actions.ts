@@ -181,7 +181,6 @@ const resumeDownloadOfApp = ( application ) => {
 export const updateTheApplication = ( application: App ) => {
     ipcRenderer.send( 'updateApplication', application );
 
-    logger.info( 'Updating the applicationnnnnnnnnn', application );
     const store = getCurrentStore();
     // store.dispatch(
     //     dismissNotification( {
