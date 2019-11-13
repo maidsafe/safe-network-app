@@ -186,7 +186,11 @@ export class SafeAppUpdater {
                 updatedVersion
             );
 
-            if ( compareVersions.compare( targetVersion, updatedVersion, '=' ) ) {
+            if (
+                targetVersion &&
+                updatedVersion &&
+                compareVersions.compare( targetVersion, updatedVersion, '=' )
+            ) {
                 appHasUpdated = true;
 
                 // we're done here!
