@@ -2,6 +2,7 @@ import { Selector } from 'testcafe';
 import { waitForReact } from 'testcafe-react-selectors';
 import { clickOnMainMenuItem } from 'testcafe-browser-provider-electron';
 import { getPageUrl, getPageTitle, getByAria } from '../helpers';
+import { isCI } from '$Constants';
 
 const assertNoConsoleErrors = async ( t ): Promise<void> => {
     const { error } = await t.getBrowserConsoleMessages();
@@ -24,6 +25,12 @@ fixture`Permission Request Flow`
 // TODO: Setup e2e to always have authd running. (as part of app?)
 // Right now authd must be setup and running manually
 test( 'can navigate to login, and attempt/fail to login', async ( t ) => {
+    if ( isCI ) {
+        // @ts-ignore
+        await clickOnMainMenuItem( ['Help', 'Update shared vault config'] );
+        await t.wait( 5000 );
+    }
+
     const loginButton = getByAria( 'Login Button' );
     const password = getByAria( 'Password Field' );
     const passphrase = getByAria( 'Passphrase Field' );
