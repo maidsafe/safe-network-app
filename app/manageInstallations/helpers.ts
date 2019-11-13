@@ -139,14 +139,14 @@ export const checkIfAppIsInstalledLocally = async (
 
     const exists = await fs.pathExists( installedPath );
 
-    logger.warn( 'Checking if path exists', installedPath, exists );
+    logger.info( 'Checking if path exists', installedPath, exists );
 
     return exists;
 };
 
 export const getLocalAppVersion = ( application, store: Store ): string => {
-    logger.warn(
-        'Checking locally installed version: ',
+    logger.info(
+        'Checking locally installed versionvfile: ',
         path.resolve( INSTALL_TARGET_DIR, application.packageName, 'version' )
     );
 
@@ -154,10 +154,8 @@ export const getLocalAppVersion = ( application, store: Store ): string => {
 
     if ( isRunningOnLinux ) {
         const installedApp = getLocalLinuxAppImageName( application );
-        logger.warn( 'Installed linux found: ', installedApp );
+        logger.info( 'Installed linux found: ', installedApp );
 
-        // TODO: why is the update not updating the button?
-        // And why can i not lcik afterwards???
         if ( installedApp ) {
             const semvarRegex = /(\d+\.)(\d+\.)(\d)/g;
 
@@ -193,6 +191,8 @@ export const getLocalAppVersion = ( application, store: Store ): string => {
     }
 
     if ( !localVersion || localVersion.length === 0 ) {
+        logger.info( 'No local version found' );
+
         return null;
     }
 
