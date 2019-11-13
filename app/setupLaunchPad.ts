@@ -140,7 +140,7 @@ export const createSafeLaunchPadTrayWindow = (
         width: WINDOW_SIZE.WIDTH,
         height: WINDOW_SIZE.HEIGHT,
         show: false,
-        frame: true,
+        frame: false,
         fullscreenable: false,
         resizable: false,
         maximizable: false,

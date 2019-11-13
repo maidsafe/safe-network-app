@@ -1,3 +1,25 @@
+.root {
+    flex-grow: 1;
+    min-height: 48px;
+}
+
+.title {
+    flex-grow: 1;
+}
+
+.appLogo {
+    height: 24px;
+    flex-grow: 1;
+}
+.appLogo img {
+    height: 100%;
+}
+
+.BackButton svg {
+    fill: white;
+}
+
+/*
 .base {
     background-color: rgba(255, 255, 255, 0.58);
 }
@@ -5,12 +27,7 @@
     justify-content: space-between;
     min-height: 48px;
 }
-.appLogo {
-    height: 24px;
-}
-.appLogo img {
-    height: 100%;
-}
+
 .navigation {
     margin-left: 16px;
 }
@@ -20,6 +37,5 @@
     color: rgba(0, 0, 0, 0.87);
 }
 
-.BackButton svg {
-    fill: rgba(0, 0, 0, 0.54);
-}
+
+*/
