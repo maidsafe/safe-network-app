@@ -7,7 +7,7 @@ import TitleBar from 'frameless-titlebar';
 import IconButton from '@material-ui/core/IconButton';
 import Settings from '@material-ui/icons/Settings';
 import { I18n } from 'react-redux-i18n';
-
+import MoreIcon from '@material-ui/icons/MoreVert';
 import { notificationTypes } from '$Constants/notifications';
 import { NotificationsHandler } from '$Components/Notifications/NotificationsHandler';
 import { HeaderBar } from '$Components/HeaderBar';
@@ -127,26 +127,21 @@ export class App extends React.PureComponent<Props> {
         const targetTitle = currentPath.split( '/' )[1];
         const pageTitle = I18n.t( `pages.${targetTitle}` );
 
-        if ( currentPath === '/' )
+        // if ( currentPath === '/' )
+        /*
             secondaryAction = (
-                <>
-                    <Link to={SETTINGS}>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="Go to settings"
-                            style={{ fontSize: 18 }}
-                        >
-                            <Settings fontSize="inherit" />
-                        </IconButton>
-                    </Link>
-                    {isLoggedIn && (
-                        <button type="button" onClick={() => logOutOfNetwork()}>
-                            logout!
-                        </button>
-                    )}
-                </>
+                <Link to={SETTINGS}>
+                    <IconButton
+                        edge="end"
+                        color="inherit"
+                        aria-label="Go to settings"
+                        style={{ fontSize: 18 }}
+                    >
+                        <Settings fontSize="inherit" />
+                    </IconButton>
+                </Link>
             );
+            */
 
         if ( currentPath.startsWith( '/application/' ) )
             secondaryAction = this.isInAppDetailPage( currentPath );
