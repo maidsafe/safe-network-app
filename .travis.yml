@@ -67,6 +67,7 @@ before_install:
   - npm --version
   - npm config rm proxy
   - npm config rm https-proxy
+  - export SHOULD_NOTARIZE=true
   # - npm config set cache-lock-retries 500
 
 install:
@@ -90,6 +91,7 @@ script:
   - yarn lint --quiet
   - yarn check-types
   - yarn test
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xattr -cr . ; fi
   - yarn package
   - travis_retry yarn test-e2e-packed
 
