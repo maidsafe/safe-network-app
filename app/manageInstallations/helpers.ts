@@ -179,7 +179,14 @@ export const getLocalAppVersion = ( application, store: Store ): string => {
                 );
             }
 
-            localVersion = fs.readFileSync( versionFilePath ).toString();
+            if ( fs.pathExistsSync( versionFilePath ) ) {
+                localVersion = fs.readFileSync( versionFilePath ).toString();
+            } else {
+                logger.warn(
+                    'Version file was not found. This may be due to an update in progress...'
+                );
+                localVersion = null;
+            }
         } catch ( error ) {
             logger.error( 'Error grabbing local app version', error );
         }
