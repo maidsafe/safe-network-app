@@ -5,7 +5,9 @@ import { isRunningOnMac } from '$Constants/index';
 
 // temp hack for authd
 export const getAuthdLocation = () => {
-    if ( !app.isPackaged ) return path.resolve( '$App/../authd/safe-authd' );
+    const isPackaged = app ? app.isPackaged : remote.app.isPackaged;
+
+    if ( !isPackaged ) return path.resolve( '$App/../authd/safe-authd' );
 
     const exe = app ? app.getPath( 'exe' ) : remote.app.getPath( 'exe' );
 

@@ -26,7 +26,7 @@
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
     "package-linux": "yarn build && electron-builder build --linux",
     "package-win": "yarn build && electron-builder build --win --x64",
-    "postinstall": "electron-builder install-app-deps && yarn build-dll && opencollective-postinstall",
+    "postinstall": "node ./installAuthD.js && electron-builder install-app-deps && yarn build-dll && opencollective-postinstall",
     "prelint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{*{js,ts,tsx,jsx,json},babelrc,eslintrc,prettierrc,stylelintrc}'",
     "postlint-styles-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{css,scss}'",
     "precommit": "lint-staged",
@@ -244,7 +244,7 @@
     "redux-thunk": "^2.3.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.8",
-    "safe-nodejs": "https://github.com/maidsafe/safe-nodejs#0.3.2",
+    "safe-nodejs": "https://github.com/maidsafe/safe-nodejs#0.5.1",
     "source-map-support": "^0.5.16",
     "typeface-roboto": "^0.0.75"
   },
