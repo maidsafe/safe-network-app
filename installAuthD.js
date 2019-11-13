@@ -5,9 +5,9 @@ const os = require( 'os' );
 const path = require( 'path' );
 const { exec } = require( 'child_process' );
 
-// const isRunningOnLinux = process.platform === 'linux';
-// const isRunningOnMac = process.platform === 'darwin';
-// const isRunningOnWindows = process.platform === 'win32';
+const isRunningOnLinux = process.platform === 'linux';
+const isRunningOnMac = process.platform === 'darwin';
+const isRunningOnWindows = process.platform === 'win32';
 
 const s3Url = 'https://safe-authd.s3.eu-central-1.amazonaws.com/mac-safe-authd';
 
@@ -17,6 +17,12 @@ const installTargetDirectory = path.resolve( __dirname, 'authd' );
 const targetFile = path.resolve( installTargetDirectory, 'safe-authd' );
 
 const downloadAuthD = async () => {
+    if ( !isRunningOnMac ) {
+        throw new Error(
+            'AuthD install not yet setup for this platform. Do that now!'
+        );
+    }
+
     fs.ensureDir( installTargetDirectory );
 
     try {
