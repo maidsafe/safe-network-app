@@ -1,7 +1,11 @@
 import path from 'path';
 import { app, remote } from 'electron';
 import { logger } from '$Logger';
-import { isRunningOnMac } from '$Constants/index';
+import {
+    isRunningOnMac,
+    isRunningOnLinux,
+    isRunningOnWindows
+} from '$Constants/index';
 
 // temp hack for authd
 export const getAuthdLocation = () => {
@@ -11,5 +15,9 @@ export const getAuthdLocation = () => {
 
     const exe = app ? app.getPath( 'exe' ) : remote.app.getPath( 'exe' );
 
-    return path.resolve( exe, '../../Resources/authd/safe-authd' );
+    if ( isRunningOnMac ) {
+        return path.resolve( exe, '../../Resources/authd/safe-authd' );
+    }
+
+    return path.resolve( exe, '../resources/authd/safe-authd' );
 };
