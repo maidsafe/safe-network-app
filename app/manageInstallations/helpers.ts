@@ -173,7 +173,8 @@ export const getLocalAppVersion = ( application, store: Store ): string => {
 
             if ( isRunningOnWindows ) {
                 versionFilePath = path.resolve(
-                    getInstalledLocation( application ),
+                    INSTALL_TARGET_DIR,
+                    application.packageName,
                     'version'
                 );
             }
