@@ -2,46 +2,68 @@ import React, { Component } from 'react';
 import { Grid, Button, Typography, TextField, Fab } from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import LockIcon from '@material-ui/icons/Lock';
-import logger from '$Logger';
+import { Redirect } from 'react-router-dom';
+
+import { logger } from '$Logger';
+
+import { HOME } from '$Constants/routes.json';
+
+interface Props {
+    loginError: string;
+    logInToNetwork: Function;
+    setAuthdWorking: Function;
+    isLoggedIn: boolean;
+    isWorking: boolean;
+}
 
 export const LoginPage = ( props: Props ) => {
-    const { passphrase, password, history } = props;
+    const { loginError, isLoggedIn, isWorking } = props;
+
+    if ( isLoggedIn ) return <Redirect to={HOME} />;
+
     const [values, setValues] = React.useState( {
         passphrase: '',
-        password: '',
-        stayLoggedIn: false
+        password: ''
+        // stayLoggedIn: false
     } );
 
-    const [state, setState] = React.useState( {
-        loginSwitch: true
-    } );
+    // const [state, setState] = React.useState( {
+    //     loginSwitch: true
+    // } );
 
     // eslint-disable-next-line  unicorn/consistent-function-scoping
-    const handleChangeSwitch = ( name ) => ( event ) => {
-        setState( { ...state, [name]: event.target.checked } );
-    };
+    // const handleChangeSwitch = ( name ) => ( event ) => {
+    //     setState( { ...state, [name]: event.target.checked } );
+    // };
 
-    // eslint-disable-next-line  unicorn/consistent-function-scoping
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleChange = ( name ) => ( event ) => {
         setValues( { ...values, [name]: event.target.value } );
     };
 
     // until used ignore
-    // eslint-disable-next-line  unicorn/consistent-function-scoping
     const handleLogin = () => {
-        logger.info( 'Save the passssssshrase' );
-        // history.push(ACCOUNT_CREATE_PASSPHRASE);
+        const { logInToNetwork, setAuthdWorking } = props;
+
+        setAuthdWorking();
+        logInToNetwork( values.password, values.passphrase );
     };
 
     // until used ignore
     // eslint-disable-next-line  unicorn/consistent-function-scoping
-    const handleStayLoggedIn = () => {
-        // history.goBack();
-        logger.info( 'clicked stay logged in' );
-    };
+    // const handleStayLoggedIn = () => {
+    //     // history.goBack();
+    //     logger.info( 'clicked stay logged in' );
+    // };
 
     return (
         <Grid container direction="column">
+            {loginError && (
+                <Typography variant="h5" aria-label="Login Error">
+                    {loginError}
+                </Typography>
+            )}
+            {isWorking && <span>Logging in....</span>}
             <Grid item style={{ marginLeft: 'auto', marginRight: 'auto' }}>
                 <TextField
                     aria-label="Password Field"
@@ -72,7 +94,8 @@ export const LoginPage = ( props: Props ) => {
                 <Fab
                     variant="extended"
                     size="small"
-                    aria-label="Login-button"
+                    onClick={handleLogin}
+                    aria-label="Login Button"
                     style={{
                         minWidth: `365px`,
                         minHeight: `48px`,
@@ -100,20 +123,23 @@ export const LoginPage = ( props: Props ) => {
                     </Typography>
                 </Fab>
             </Grid>
-            <Grid item style={{ display: 'inline-flex' }}>
-                <Typography
-                    style={{ lineHeight: `2.5`, justifyContent: 'flex-start' }}
-                >
-                    Keep me logged in
-                </Typography>
-                <Switch
-                    checked={state.loginSwitch}
-                    onChange={handleChangeSwitch( 'loginSwitch' )}
-                    value="loginSwitch"
-                    inputProps={{ 'aria-label': 'secondary checkbox' }}
-                    style={{ justifyContent: 'flex-end' }}
-                />
-            </Grid>
+            {
+                // <Grid item style={{ display: 'inline-flex' }}>
+                // <Typography
+                // style={{ lineHeight: `2.5`, justifyContent: 'flex-start' }}
+                // >
+                // Keep me logged in
+                // </Typography>
+                // <Switch
+                // checked={state.loginSwitch}
+                // onChange={handleChangeSwitch( 'loginSwitch' )}
+                // disabled
+                // value="loginSwitch"
+                // inputProps={{ 'aria-label': 'secondary checkbox' }}
+                // style={{ justifyContent: 'flex-end' }}
+                // />
+                // </Grid>
+            }
         </Grid>
     );
 };

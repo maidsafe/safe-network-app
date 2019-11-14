@@ -13,7 +13,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import {
     SETTINGS,
     ACCOUNT_LOGIN,
-    ACCOUNT_CREATE
+    ACCOUNT_CREATE_PASSWORD
 } from '$Constants/routes.json';
 
 import appLogo from '$Assets/images/app_logo_white.svg';
@@ -48,64 +48,47 @@ const AppLogo = () => {
     );
 };
 
-const MeatballMenu = ( props ) => {
-    return (
-        <React.Fragment>
-            <IconButton
-                onClick={props.handleClick}
-                style={{ fontSize: 18 }}
-                color="inherit"
-            >
-                <MoreVert fontSize="inherit" />
-            </IconButton>
-            <Menu
-                getContentAnchorEl={null}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center'
-                }}
-                anchorEl={props.menuAnchorElement}
-                keepMounted
-                onClose={props.handleClose}
-                open={Boolean( props.menuAnchorElement )}
-            >
-                <Link to={ACCOUNT_LOGIN}>
-                    <MenuItem onClick={props.handleClose}>Login</MenuItem>
-                </Link>
-                <Link to={ACCOUNT_CREATE}>
-                    <MenuItem onClick={props.handleClose}>
-                        Create Account
-                    </MenuItem>
-                </Link>
-                <Link to={SETTINGS}>
-                    <MenuItem onClick={props.handleClose}>Settings</MenuItem>
-                </Link>
-            </Menu>
-        </React.Fragment>
-    );
-};
+interface Props {
+    pageTitle: string;
+    shouldOnBoard: boolean;
+    isLoggedIn: boolean;
+    logOutOfNetwork: Function;
+}
 
-export class HeaderBar extends React.PureComponent<Props> {
+interface State {
+    menuAnchorElement: null | Element;
+}
+
+export class HeaderBar extends React.PureComponent<Props, State> {
     constructor( props ) {
         super( props );
         this.state = { menuAnchorElement: null };
     }
 
+    handleClick = ( event ) => {
+        const previousState = this.state;
+        this.setState( {
+            ...previousState,
+            menuAnchorElement: event.currentTarget
+        } );
+    };
+
+    handleClose = (): void => {
+        const previousState = this.state;
+        this.setState( { ...previousState, menuAnchorElement: null } );
+    };
+
     render() {
-        const { pageTitle, shouldOnBoard, history } = this.props;
+        const {
+            pageTitle,
+            logOutOfNetwork,
+            isLoggedIn,
+            shouldOnBoard
+        } = this.props;
 
-        console.log( history );
-        const handleClick = ( event ) => {
-            const previousState = this.state;
-            this.setState( {
-                ...previousState,
-                menuAnchorElement: event.currentTarget
-            } );
-        };
-
-        const handleClose = (): void => {
-            const previousState = this.state;
-            this.setState( { ...previousState, menuAnchorElement: null } );
+        const handleLogout = () => {
+            logOutOfNetwork();
+            this.handleClose();
         };
 
         if ( shouldOnBoard ) return <div />;
@@ -126,11 +109,47 @@ export class HeaderBar extends React.PureComponent<Props> {
                         ) : (
                             <AppLogo />
                         )}
-                        <MeatballMenu
-                            handleClick={handleClick}
-                            handleClose={handleClose}
-                            menuAnchorElement={this.state.menuAnchorElement}
-                        />
+                        <IconButton
+                            onClick={this.handleClick}
+                            style={{ fontSize: 18 }}
+                            color="inherit"
+                        >
+                            <MoreVert fontSize="inherit" />
+                        </IconButton>
+                        <Menu
+                            getContentAnchorEl={null}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center'
+                            }}
+                            anchorEl={this.state.menuAnchorElement}
+                            keepMounted
+                            onClose={this.handleClose}
+                            open={Boolean( this.state.menuAnchorElement )}
+                        >
+                            {!isLoggedIn && (
+                                <Link to={ACCOUNT_LOGIN}>
+                                    <MenuItem onClick={this.handleClose}>
+                                        Log In
+                                    </MenuItem>
+                                </Link>
+                            )}
+                            {isLoggedIn && (
+                                <MenuItem onClick={handleLogout}>
+                                    Log Out
+                                </MenuItem>
+                            )}
+                            <Link to={ACCOUNT_CREATE_PASSWORD}>
+                                <MenuItem onClick={this.handleClose}>
+                                    Create Account
+                                </MenuItem>
+                            </Link>
+                            <Link to={SETTINGS}>
+                                <MenuItem onClick={this.handleClose}>
+                                    Settings
+                                </MenuItem>
+                            </Link>
+                        </Menu>
                     </Toolbar>
                 </AppBar>
             </div>
