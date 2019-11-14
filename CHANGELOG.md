@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/maidsafe/safe-network-app/compare/v0.0.3...v0.0.4) (2019-11-14)
+
+
+### Bug Fixes
+
+* **linux:** Fix linux app detection. ([afdb0fd](https://github.com/maidsafe/safe-network-app/commit/afdb0fd))
+* **linux:** Get local verion of linux install ([4d0ae70](https://github.com/maidsafe/safe-network-app/commit/4d0ae70))
+* **mac:** Update mac opening commands ([f494443](https://github.com/maidsafe/safe-network-app/commit/f494443))
+* **udpates:** Mac update fix. ([63737dd](https://github.com/maidsafe/safe-network-app/commit/63737dd))
+* **update:** Fixes error for checking localAppversion ([6d4746f](https://github.com/maidsafe/safe-network-app/commit/6d4746f))
+* **win:** Update windows version hunting ([313bcb7](https://github.com/maidsafe/safe-network-app/commit/313bcb7))
+* Improved application update logic ([7e3a593](https://github.com/maidsafe/safe-network-app/commit/7e3a593))
+* Push app update notification, handled app update success and failure, and dryRun the app update. ([b8e187f](https://github.com/maidsafe/safe-network-app/commit/b8e187f))
+* Resolve e2e test stop running while on Notification check. ([b6222f9](https://github.com/maidsafe/safe-network-app/commit/b6222f9))
+* Updated check for update to support Windows and Linux OS ([e5f4794](https://github.com/maidsafe/safe-network-app/commit/e5f4794))
+* Updated Safe Apps update process to fire from background process ([d4479e9](https://github.com/maidsafe/safe-network-app/commit/d4479e9))
+* Updated to support Linux and Windows for triggering update ([bdc5184](https://github.com/maidsafe/safe-network-app/commit/bdc5184))
+
+
+### Features
+
+* **appUpdates:** Update apps from SNAPP ([a80858f](https://github.com/maidsafe/safe-network-app/commit/a80858f))
+* Integrated unit test and e2e test cases. ([d255731](https://github.com/maidsafe/safe-network-app/commit/d255731))
+* Updated to check application update and trigger it. ([c68534a](https://github.com/maidsafe/safe-network-app/commit/c68534a))
+
 ### [0.0.3](https://github.com/maidsafe/safe-network-app/compare/v0.0.1...v0.0.3) (2019-10-10)
 
 
