@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 import { waitForReact } from 'testcafe-react-selectors';
 import { clickOnMainMenuItem } from 'testcafe-browser-provider-electron';
-import { getPageUrl, getPageTitle } from './helpers';
+import { getPageUrl, getPageTitle, getByAria } from './helpers';
 
 const getPreferenceItems = () => {
     const Preferences = Selector( 'ul' ).withAttribute(
@@ -24,10 +24,10 @@ test( 'e2e', async ( t ) => {
 } );
 
 test( 'can navigate to settings page', async ( t ) => {
-    // await t.debug()
-    await t.click(
-        Selector( 'button' ).withAttribute( 'aria-label', 'Go to settings' )
-    );
+    const menu = getByAria( 'Header Menu' );
+    const settingsMenuItem = getByAria( 'Go to Settings' );
+
+    await t.click( menu ).click( settingsMenuItem );
 
     await t
         .expect(
