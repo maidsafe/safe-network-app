@@ -43,14 +43,6 @@ const BackButton = withRouter( ( { location, history } ) => {
     );
 } );
 
-const AppLogo = () => {
-    return (
-        <Box className={styles.appLogo}>
-            <img src={appLogo} alt="App logo" />
-        </Box>
-    );
-};
-
 interface Props {
     pageTitle: string;
     shouldOnBoard: boolean;
@@ -110,7 +102,9 @@ export class HeaderBar extends React.PureComponent<Props, State> {
                                 {pageTitle}
                             </Typography>
                         ) : (
-                            <AppLogo />
+                            <Box className={styles.appLogo}>
+                                <img src={appLogo} alt="App logo" />
+                            </Box>
                         )}
                         <IconButton
                             onClick={this.handleClick}

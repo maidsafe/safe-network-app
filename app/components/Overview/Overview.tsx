@@ -7,7 +7,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
 
 import { logger } from '$Logger';
 import styles from './Overview.css';
@@ -105,15 +105,19 @@ export class Overview extends Component<Props> {
 
         if ( appPreferences.shouldOnboard ) return <Redirect to={ON_BOARDING} />;
 
+        // LOGIN BUTTON: if we want this everywhere use a universal route...
         return (
             <div className={styles.container} data-tid="container">
                 {!isLoggedIn && (
-                    <Button
+                    <Fab
+                        className={styles.loginButton}
+                        color="secondary"
+                        variant="extended"
                         aria-label="Login Button"
                         onClick={this.handleLogIn}
                     >
                         Log in
-                    </Button>
+                    </Fab>
                 )}
                 <span data-istraywindow={isTrayWindow} />
                 {this.loadApps()}
