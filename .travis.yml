@@ -97,10 +97,10 @@ script:
 
 before_deploy:
   - |
-    if [[ $TRAVIS_TAG == *"RC"* || $TRAVIS_TAG == *"rc"* ]]; then
-      export IS_RC=yes
+    if [[ $TRAVIS_TAG == *"TEST"* || $TRAVIS_TAG == *"test"* ]]; then
+      export IS_TEST=yes
     fi
-  - if [[ "$IS_RC" == "yes" ]]; then TEST_PACKAGES=true NODE_ENV=prod yarn package; fi
+  - if [[ "$IS_TEST" == "yes" ]]; then TEST_PACKAGES=true NODE_ENV=prod yarn package; fi
   - ls release
 
 deploy:
