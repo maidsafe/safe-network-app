@@ -122,29 +122,9 @@ export class App extends React.PureComponent<Props> {
             !shouldOnboard ? styles.gridContainer : '',
             !isTrayWindow ? styles.standardWindow : styles.trayWindow
         ];
-        let secondaryAction = null;
 
         const targetTitle = currentPath.split( '/' )[1];
         const pageTitle = I18n.t( `pages.${targetTitle}` );
-
-        // if ( currentPath === '/' )
-        /*
-            secondaryAction = (
-                <Link to={SETTINGS}>
-                    <IconButton
-                        edge="end"
-                        color="inherit"
-                        aria-label="Go to settings"
-                        style={{ fontSize: 18 }}
-                    >
-                        <Settings fontSize="inherit" />
-                    </IconButton>
-                </Link>
-            );
-            */
-
-        if ( currentPath.startsWith( '/application/' ) )
-            secondaryAction = this.isInAppDetailPage( currentPath );
 
         return (
             <ThemeProvider theme={theme}>
@@ -165,7 +145,8 @@ export class App extends React.PureComponent<Props> {
                     <div className={styles.headerBar}>
                         <HeaderBar
                             pageTitle={pageTitle}
-                            secondaryAction={secondaryAction}
+                            isLoggedIn={isLoggedIn}
+                            logOutOfNetwork={logOutOfNetwork}
                             shouldOnBoard={currentPath.startsWith( ON_BOARDING )}
                         />
                     </div>
