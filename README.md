@@ -31,11 +31,12 @@ This will not write to the filesystem, but will log to the console what changes 
 
 -   Fork the SAFE Network App repository
 -   Clone repo locally or ensure the latest commit has been pulled if it is already cloned.
--   Before running yarn commands, remove the RC tags previously generated from both local and remote.
+-   Before running yarn commands, ensure you remove any local tags and pull all tags from master
 -   To install the dependencies run `yarn`.
--   Update the version number in the package.json.
--   We need to push these changes to origin repo, and ensure the changes are merged to master.
--   Run `yarn deploy` to release the packages.
+-   Run `yarn bump --dry-run` to ensure proposed version/changes are correct.
+-   Run `yarn bump`
+-   We need to push these changes to origin repo, and ensure the changes are merged to master. Push changes AND the tag, for a release via CI.
+-   Run `yarn package` to generate packages.
 
 ## License
 
