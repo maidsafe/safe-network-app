@@ -113,6 +113,7 @@ export class HeaderBar extends React.PureComponent<Props, State> {
                             onClick={this.handleClick}
                             style={{ fontSize: 18 }}
                             color="inherit"
+                            aria-label="Header Menu"
                         >
                             <MoreVert fontSize="inherit" />
                         </IconButton>
@@ -145,7 +146,10 @@ export class HeaderBar extends React.PureComponent<Props, State> {
                                 </MenuItem>
                             </Link>
                             <Link to={SETTINGS}>
-                                <MenuItem onClick={this.handleClose}>
+                                <MenuItem
+                                    onClick={this.handleClose}
+                                    aria-label="Go to Settings"
+                                >
                                     Settings
                                 </MenuItem>
                             </Link>

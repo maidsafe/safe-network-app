@@ -33,7 +33,7 @@
     "prepush": "yarn check-types && yarn lint && yarn test",
     "prestart": "yarn build",
     "start": "cross-env NODE_ENV=production electron ./app/main.prod.js",
-    "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register-ts ./app/main.development.ts",
+    "start-main-dev": "cross-env HOT=1 NODE_ENV=development IS_UNPACKED=true electron -r babel-register-ts ./app/main.development.ts",
     "start-renderer-dev": "cross-env NODE_ENV=development webpack-dev-server --config configs/webpack.config.renderer.dev.babel.js",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest -u",
     "test-all": "yarn lint && yarn build && yarn test && yarn build-e2e && yarn test-e2e",
