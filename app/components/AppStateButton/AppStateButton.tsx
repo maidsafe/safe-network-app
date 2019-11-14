@@ -1,15 +1,16 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
-import {
-    Box,
-    Fab,
-    Typography,
-    CircularProgress,
-    Tooltip
-} from '@material-ui/core';
+
 import CancelIcon from '@material-ui/icons/Cancel';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+
+import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
+
 import { getAppStatusText } from '$Utils/app_utils';
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
@@ -181,14 +182,14 @@ export class AppStateButton extends React.Component<Props> {
                 {!isInstalled && progressButtonIcon && (
                     <Box className={styles.progressButton}>
                         <Tooltip title={buttonText} placement="top">
-                            <Fab
-                                color="primary"
+                            <Button
                                 className={styles.progressFab}
+                                color="primary"
                                 onClick={handleClick}
                                 aria-label="Application Action Button"
                             >
                                 {progressButtonIcon}
-                            </Fab>
+                            </Button>
                         </Tooltip>
                         <CircularProgress
                             value={percentageProgress}
@@ -202,8 +203,8 @@ export class AppStateButton extends React.Component<Props> {
                     </Box>
                 )}
                 {!progressButtonIcon && (
-                    <Fab
-                        variant="extended"
+                    <Button
+                        variant="contained"
                         color="primary"
                         onClick={handleClick}
                         aria-label="Application Action Button"
@@ -212,7 +213,7 @@ export class AppStateButton extends React.Component<Props> {
                             styles.openButton}`}
                     >
                         {buttonText}
-                    </Fab>
+                    </Button>
                 )}
 
                 {statusMessage && (

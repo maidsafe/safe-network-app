@@ -1,17 +1,10 @@
 button.actionButton {
     box-shadow: none;
-    background-color: #4054b2;
-    color: #fff;
-    height: 24px;
     border-radius: 17px;
-    padding: 0 8px;
-    min-width: 80px;
-    font-size: 0.75rem;
 }
 
 button.actionButton.openButton {
     background-color: transparent;
-    color: #4054b2;
     border: 1px solid rgba(0, 0, 0, 0.16);
 }
 
@@ -72,10 +65,10 @@ button.actionButton.openButton {
     background-color: transparent;
 }
 
-.progressButton .pauseButton {
+/* .progressButton .pauseButton {
     fill: #4054b2;
 }
 
 .progressButton .cancelButton {
     fill: #ff0c3e;
-}
+} */

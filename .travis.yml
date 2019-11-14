@@ -73,6 +73,7 @@ before_install:
 install:
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then yarn; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then travis_wait 30 yarn --ignore-engines --network-timeout 800000; fi
+  - ls "authd"
   # On Linux, initialize "virtual display". See before_script
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
@@ -95,6 +96,20 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xattr -cr . ; fi
   - yarn package
   - travis_retry yarn test-e2e-packed
+
+after_failure:
+# check resolution...
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then  system_profiler SPDisplaysDataType | grep Resolution
+  fi
+- cat $TMPDIR/safe-network-app.log;
+- ls "/Users/travis/build/joshuef/safe-network-app/authd"
+- ls "/Users/travis/build/joshuef/safe-network-app/release/mac/SAFE Network App.app/Contents/Resources/authd/safe-authd"
+- ls "/Users/travis/build/joshuef/safe-network-app/release/"
+- ls "release/mac/SAFE Network App.app"
+- ls "release/mac/SAFE Network App.app/Contents/Resources/"
+- ls "release/mac/SAFE Network App.app/Contents/Resources/authd"
+- ls "release/linux/resources"
+- ls "release/linux/resources/authd"
 
 before_deploy:
   - ls release
