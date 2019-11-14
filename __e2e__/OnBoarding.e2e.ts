@@ -12,13 +12,13 @@ const clickGetStartedButton = async ( t ) => {
 
 const clickNavNextButton = async ( t ) => {
     await t.click(
-        Selector( 'button' ).withAttribute( 'aria-label', 'OnBoardingNextButton' )
+        Selector( 'button' ).withAttribute( 'aria-label', 'NextStepButton' )
     );
 };
 
 const clickNavBackButton = async ( t ) => {
     await t.click(
-        Selector( 'button' ).withAttribute( 'aria-label', 'OnBoardingBackButton' )
+        Selector( 'button' ).withAttribute( 'aria-label', 'BackStepButton' )
     );
 };
 

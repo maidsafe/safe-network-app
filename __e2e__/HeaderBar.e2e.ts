@@ -1,7 +1,7 @@
 import { ClientFunction, Selector } from 'testcafe';
 import { ReactSelector, waitForReact } from 'testcafe-react-selectors';
 import { clickOnMainMenuItem } from 'testcafe-browser-provider-electron';
-import { getPageUrl, getPageTitle } from './helpers';
+import { getPageUrl, getPageTitle, getByAria } from './helpers';
 
 const assertNoConsoleErrors = async ( t ): Promise<void> => {
     const { error } = await t.getBrowserConsoleMessages();
@@ -25,21 +25,17 @@ test(
 );
 
 // we start as a tray window right now
-test.before( async ( t ) => {
+test( 'can navigate back from another page.', async ( t ) => {
     // @ts-ignore
     await clickOnMainMenuItem( ['Tests', 'Reset Preferences'] );
-} )( 'can navigate back from another page.', async ( t ) => {
-    await t.click(
-        Selector( 'button' ).withAttribute( 'aria-label', 'Go to settings' )
-    );
+
+    const menu = getByAria( 'Header Menu' );
+    const settingsMenuItem = getByAria( 'Go to Settings' );
+
+    await t.click( menu ).click( settingsMenuItem );
+
     await t.click( Selector( 'h6.MuiTypography-subtitle2' ).withText( 'Settings' ) );
-    await t.click(
-        Selector( 'button' ).withAttribute( 'aria-label', 'Go Backwards' )
-    );
-    await t
-        .expect(
-            Selector( 'button' ).withAttribute( 'aria-label', 'Go Backwards' )
-                .exists
-        )
-        .notOk();
+
+    await t.click( getByAria( 'Go Backwards' ) );
+    await t.expect( getByAria( 'Go Backwards' ).exists ).notOk();
 } );
