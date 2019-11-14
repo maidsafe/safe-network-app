@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, withRouter } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -10,6 +10,7 @@ import Box from '@material-ui/core/Box';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ArrowBack from '@material-ui/icons/ArrowBack';
+
 import {
     SETTINGS,
     ACCOUNT_LOGIN,
@@ -20,25 +21,27 @@ import appLogo from '$Assets/images/app_logo_white.svg';
 
 import styles from './HeaderBar.css';
 
-const BackButton = ( { location } ) => {
+const BackButton = withRouter( ( { location, history } ) => {
+    const handleClick = () => {
+        history.goBack();
+    };
     return (
         <>
             {location.pathname !== '/' && (
-                <Link to="/">
-                    <IconButton
-                        className={styles.BackButton}
-                        style={{ fontSize: 18 }}
-                        edge="start"
-                        color="inherit"
-                        aria-label="Go Backwards"
-                    >
-                        <ArrowBack style={{ fontSize: 18 }} />
-                    </IconButton>
-                </Link>
+                <IconButton
+                    className={styles.BackButton}
+                    style={{ fontSize: 18 }}
+                    onClick={handleClick}
+                    edge="start"
+                    color="inherit"
+                    aria-label="Go Backwards"
+                >
+                    <ArrowBack style={{ fontSize: 18 }} />
+                </IconButton>
             )}
         </>
     );
-};
+} );
 
 const AppLogo = () => {
     return (

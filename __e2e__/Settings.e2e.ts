@@ -37,9 +37,10 @@ test( 'can navigate to settings page', async ( t ) => {
 } );
 
 test( 'can toggle switch buttons', async ( t ) => {
-    await t.click(
-        Selector( 'button' ).withAttribute( 'aria-label', 'Go to settings' )
-    );
+    const menu = getByAria( 'Header Menu' );
+    const settingsMenuItem = getByAria( 'Go to Settings' );
+
+    await t.click( menu ).click( settingsMenuItem );
 
     await t
         .expect(
@@ -64,9 +65,10 @@ test( 'can toggle switch buttons', async ( t ) => {
 } );
 
 test( 'Go back from Settings page to Home', async ( t ) => {
-    await t.click(
-        Selector( 'button' ).withAttribute( 'aria-label', 'Go to settings' )
-    );
+    const menu = getByAria( 'Header Menu' );
+    const settingsMenuItem = getByAria( 'Go to Settings' );
+
+    await t.click( menu ).click( settingsMenuItem );
 
     await t
         .expect(
@@ -83,9 +85,10 @@ test( 'Go back from Settings page to Home', async ( t ) => {
 } );
 
 test( 'clicking on pinToMenuBar button toggles window between normal window and tray', async ( t ) => {
-    await t.click(
-        Selector( 'button' ).withAttribute( 'aria-label', 'Go to settings' )
-    );
+    const menu = getByAria( 'Header Menu' );
+    const settingsMenuItem = getByAria( 'Go to Settings' );
+
+    await t.click( menu ).click( settingsMenuItem );
 
     await t
         .expect(
@@ -113,13 +116,14 @@ test( 'clicking on pinToMenuBar button toggles window between normal window and 
         .expect(
             Selector( 'span' ).withAttribute( 'data-istraywindow', 'false' ).exists
         )
-        .ok();
+        .notOk();
 } );
 
 test( 'Changing any preference should persist', async ( t ) => {
-    await t.click(
-        Selector( 'button' ).withAttribute( 'aria-label', 'Go to settings' )
-    );
+    const menu = getByAria( 'Header Menu' );
+    const settingsMenuItem = getByAria( 'Go to Settings' );
+
+    await t.click( menu ).click( settingsMenuItem );
 
     await t
         .expect(
@@ -145,9 +149,7 @@ test( 'Changing any preference should persist', async ( t ) => {
         .expect( getPageUrl() )
         .contains( '#/' );
 
-    await t.click(
-        Selector( 'button' ).withAttribute( 'aria-label', 'Go to settings' )
-    );
+    await t.click( menu ).click( settingsMenuItem );
 
     await t
         .expect(
