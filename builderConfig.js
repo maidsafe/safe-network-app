@@ -38,6 +38,7 @@ const buildConfig = {
     afterPack: './internals/scripts/afterPack.js',
     afterSign: './internals/scripts/afterSign.js',
     productName: 'SAFE Network App',
+    generateUpdatesFilesForAllChannels: true,
     appId: 'org.develar.SAFENetworkApp',
     files: [
         './package.json',
