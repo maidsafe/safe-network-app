@@ -87,6 +87,7 @@ install:
     else
       :
     fi
+
 script:
   - yarn lint --quiet
   - yarn check-types
@@ -96,11 +97,6 @@ script:
   - travis_retry yarn test-e2e-packed
 
 before_deploy:
-  - |
-    if [[ $TRAVIS_TAG == *"RC"* || $TRAVIS_TAG == *"rc"* ]]; then
-      export IS_RC=yes
-    fi
-  - if [[ "$IS_RC" == "yes" ]]; then TEST_PACKAGES=true NODE_ENV=prod yarn package; fi
   - ls release
 
 deploy:
@@ -113,4 +109,4 @@ deploy:
   tag_name: $TRAVIS_TAG
   on:
     tags: true
-    branch: dev
+    branch: master
