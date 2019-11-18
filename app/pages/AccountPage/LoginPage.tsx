@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
-import { Grid, Button, Typography, TextField, Fab } from '@material-ui/core';
+import {
+    Grid,
+    CircularProgress,
+    Typography,
+    TextField,
+    withStyles
+} from '@material-ui/core';
+
 import Switch from '@material-ui/core/Switch';
+import Fab from '@material-ui/core/Fab';
+
 import LockIcon from '@material-ui/icons/Lock';
 import { Redirect } from 'react-router-dom';
+
+import { Page } from '$Components/Page';
+import { CustomTextField } from '$Components/StyledMui';
 
 import { logger } from '$Logger';
 
 import { HOME } from '$Constants/routes.json';
+
+import styles from './Account.css';
 
 interface Props {
     loginError: string;
@@ -57,71 +71,50 @@ export const LoginPage = ( props: Props ) => {
     // };
 
     return (
-        <Grid container direction="column">
+        <Page>
             {loginError && (
-                <Typography variant="h5" aria-label="Login Error">
-                    {loginError}
-                </Typography>
+                <Grid item xs={12}>
+                    <Typography variant="h5" aria-label="Login Error">
+                        {loginError}
+                    </Typography>
+                </Grid>
             )}
-            {isWorking && <span>Logging in....</span>}
-            <Grid item style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-                <TextField
+            <Grid item>
+                <CustomTextField
                     aria-label="Password Field"
                     id="password"
                     label="Password"
-                    style={{ minWidth: `365px` }}
-                    // className={classes.textField}
                     value={values.password}
                     onChange={handleChange( 'password' )}
-                    margin="normal"
-                    variant="outlined"
                 />
             </Grid>
-            <Grid item style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-                <TextField
+            <Grid item>
+                <CustomTextField
                     aria-label="Passphrase Field"
                     id="passphrase"
                     label="Passphrase"
-                    style={{ minWidth: `365px` }}
-                    // className={classes.textField}
                     value={values.passphrase}
                     onChange={handleChange( 'passphrase' )}
-                    margin="normal"
-                    variant="outlined"
                 />
             </Grid>
-            <Grid item style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-                <Fab
-                    variant="extended"
-                    size="small"
-                    onClick={handleLogin}
-                    aria-label="Login Button"
-                    style={{
-                        minWidth: `365px`,
-                        minHeight: `48px`,
-                        borderRadius: `50px`,
-                        justifyContent: `initial`,
-                        backgroundColor: `#4054B2`
-                    }}
-                >
-                    <LockIcon
-                        style={{
-                            fontSize: `21px`,
-                            marginLeft: `5px`,
-                            color: `white`
-                        }}
-                    />
-                    <Typography
-                        variant="button"
-                        style={{
-                            marginRight: `auto`,
-                            marginLeft: `auto`,
-                            color: `white`
-                        }}
+            <Grid container justify="flex-end" spacing={2}>
+                <Grid item>
+                    <Fab
+                        variant="extended"
+                        size="large"
+                        onClick={handleLogin}
+                        aria-label="Login Button"
+                        color="primary"
                     >
-                        LOG IN
-                    </Typography>
-                </Fab>
+                        <LockIcon />
+                        {isWorking ? 'Logging In' : 'Log In'}
+                    </Fab>
+                </Grid>
+                {isWorking && (
+                    <Grid item>
+                        <CircularProgress />
+                    </Grid>
+                )}
             </Grid>
             {
                 // <Grid item style={{ display: 'inline-flex' }}>
@@ -140,6 +133,6 @@ export const LoginPage = ( props: Props ) => {
                 // />
                 // </Grid>
             }
-        </Grid>
+        </Page>
     );
 };

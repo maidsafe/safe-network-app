@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { Grid, Button, Typography, TextField } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
 
 import { withRouter, Redirect } from 'react-router-dom';
 import { Route, Switch, RouteComponentProps } from 'react-router';
 import { logger } from '$Logger';
 import styles from './Account.css';
+import { CustomTextField } from '$Components/StyledMui';
+import { Page } from '$Components/Page';
 
 import {
     HOME,
@@ -57,27 +61,44 @@ const Invite = withRouter( ( props: CreateAccountPageProps ) => {
     return (
         <>
             <Typography variant="body2">Step 1 of 3</Typography>
-            <Typography variant="h4">Enter Invite</Typography>
+            <Typography variant="h5">Enter Invite</Typography>
             <Typography variant="body2">
                 Paste the link to get started.
             </Typography>
-            <TextField
+            <CustomTextField
                 id="invite"
                 aria-label="Redeem Invite Field"
                 label="Invite"
                 // className={classes.textField}
                 value={values.invite}
                 onChange={handleChange( 'invite' )}
-                margin="normal"
                 variant="outlined"
             />
-            <Grid container>
-                <Typography>
-                    <Button onClick={handleLinkClick}>Back</Button>
-                </Typography>
-                <Button onClick={handleSaveInvite} aria-label="Redeem Invite">
-                    Next
-                </Button>
+            <Grid
+                container
+                justify="flex-end"
+                alignContent="flex-end"
+                spacing={2}
+            >
+                <Grid item>
+                    <Button
+                        color="primary"
+                        onClick={handleLinkClick}
+                        // className={ styles.formsButtonBack }
+                    >
+                        Back
+                    </Button>
+                </Grid>
+                <Grid item>
+                    <Button
+                        onClick={handleSaveInvite}
+                        aria-label="Redeem Invite"
+                        color="primary"
+                        variant="contained"
+                    >
+                        Next
+                    </Button>
+                </Grid>
             </Grid>
         </>
     );
@@ -96,28 +117,45 @@ const Password = withRouter( ( props: CreateAccountPageProps ) => {
 
     return (
         <>
-            <Typography variant="body2">Step 2 of 3</Typography>
-            <Typography variant="h4">Choose a Password</Typography>
+            <Typography variant="body2">Step 1 of 2</Typography>
+            <Typography variant="h5">Choose a Password</Typography>
             <Typography variant="body2">
                 Make sure you keep it safe beacuse it can’t be reset or
                 recovered.
             </Typography>
-            <TextField
+            <CustomTextField
                 aria-label="Create Password Field"
                 id="password"
                 label="Password"
                 value={values.password}
                 onChange={handleChange( 'password' )}
-                margin="normal"
                 variant="outlined"
             />
-            <Grid container>
-                <Typography>
-                    <Button onClick={handleLinkClick}>Back</Button>
-                </Typography>
-                <Button aria-label="Save Password" onClick={handleSavePassword}>
-                    Save Password
-                </Button>
+            <Grid
+                container
+                justify="flex-end"
+                alignContent="flex-end"
+                spacing={2}
+            >
+                <Grid item>
+                    <Button
+                        color="primary"
+                        onClick={handleLinkClick}
+                        // className={ styles.formsButtonBack }
+                    >
+                        Back
+                    </Button>
+                </Grid>
+                <Grid item>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        aria-label="Save Password"
+                        onClick={handleSavePassword}
+                    >
+                        Save Password
+                    </Button>
+                </Grid>
             </Grid>
         </>
     );
@@ -146,37 +184,55 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
 
     return (
         <>
-            <Typography variant="body2">Step 3 of 3</Typography>
-            <Typography variant="h4">Choose a Passphrase</Typography>
+            <Typography variant="body2">Step 2 of 2</Typography>
+            <Typography variant="h5">Choose a Passphrase</Typography>
             <Typography variant="body2">
                 Make sure you keep it safe beacuse it can’t be reset or
                 recovered.
             </Typography>
-            <TextField
+            <CustomTextField
                 id="passphrase"
                 label="Passphrase"
                 aria-label="Create Passphrase Field"
                 value={values.passphrase}
                 onChange={handleChange( 'passphrase' )}
-                margin="normal"
                 variant="outlined"
             />
-            <Grid container>
-                <Typography>
-                    <Button onClick={handleLinkClick}>Back</Button>
-                </Typography>
-                <Button
-                    aria-label="Save Passphrase"
-                    onClick={handleSavePassphrase}
-                >
-                    Save Passphrase & Create Account
-                </Button>
-                {isWorking && (
-                    <span aria-label="Working...">working on it...</span>
-                )}
-                {createAccountError && (
-                    <Typography variant="h5">{createAccountError}</Typography>
-                )}
+            <Grid
+                container
+                justify="flex-end"
+                alignContent="flex-end"
+                spacing={2}
+            >
+                <Grid item>
+                    <Button
+                        color="primary"
+                        onClick={handleLinkClick}
+                        // className={ styles.formsButtonBack }
+                    >
+                        Back
+                    </Button>
+                </Grid>
+                <Grid item>
+                    <Button
+                        aria-label="Save Passphrase"
+                        onClick={handleSavePassphrase}
+                        color="primary"
+                        variant="contained"
+                    >
+                        Save Passphrase & Create Account
+                    </Button>
+                </Grid>
+                <Grid item>
+                    {isWorking && (
+                        <span aria-label="Working...">working on it...</span>
+                    )}
+                    {createAccountError && (
+                        <Typography variant="h5">
+                            {createAccountError}
+                        </Typography>
+                    )}
+                </Grid>
             </Grid>
         </>
     );
@@ -204,7 +260,7 @@ export const CreateAccountPage = ( props: CreateAccountProps ) => {
     if ( isLoggedIn ) return <Redirect to={HOME} />;
 
     return (
-        <div>
+        <Page>
             <Switch>
                 <Route
                     path={ACCOUNT_CREATE_REDEEM}
@@ -232,6 +288,6 @@ export const CreateAccountPage = ( props: CreateAccountProps ) => {
                     )}
                 />
             </Switch>
-        </div>
+        </Page>
     );
 };

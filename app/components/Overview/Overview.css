@@ -3,9 +3,17 @@
     padding-top: 1rem;
 }
 
-.container .loginButton {
+.loginNote {
     position: fixed;
-    bottom: 2rem;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+.loginNote .loginButton {
+    position: absolute;
+    top: -1rem;
     right: 2rem;
     z-index: 1200;
 }

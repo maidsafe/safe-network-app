@@ -12,6 +12,8 @@ const SF_PRO = {
     }
 };
 
+const INPUT_OUTLINE = '#0094FF';
+
 const DEFAULT_THEME = {
     // GREEN for ticks etc: #6EDD00
     palette: {
@@ -63,15 +65,21 @@ const DEFAULT_THEME = {
     },
     props: {
         MuiButtonBase: {
-            //     // The default props to change
+            // The default props to change
             disableRipple: true
-            //     // variant: 'contained'
+        },
+        MuiTextField: {
+            variant: 'outlined',
+            fullWidth: true
         }
-        // ,
-        // Button: {
-        //     variant: 'contained',
-        // }
     }
+    // overrides : {
+    //     MuiOutlinedInput: {
+    //         // notchedOutline: {
+    //         //     borderColor: 'red',
+    //         // },
+    //     }
+    // }
 };
 
 export const THEME = DEFAULT_THEME;
