@@ -1,9 +1,6 @@
 .container {
     width: -webkit-fill-available;
-}
-
-.container .List {
-    padding-top: 0;
+    padding-top: 1rem;
 }
 
 .container .loginButton {
@@ -11,4 +8,8 @@
     bottom: 2rem;
     right: 2rem;
     z-index: 1200;
+}
+
+.listHeader {
+    padding-left: 1rem;
 }

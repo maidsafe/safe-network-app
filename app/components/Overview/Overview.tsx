@@ -58,10 +58,12 @@ export class Overview extends Component<Props> {
             history
         } = this.props;
         return (
-            <Grid container>
+            <Grid container className={styles.container}>
+                <Typography variant="body2" className={styles.listHeader}>
+                    Apps & Utilities
+                </Typography>
                 <Grid item xs={12}>
-                    <Typography variant="body2">Applications</Typography>
-                    <List className={styles.List}>
+                    <List>
                         {Object.values( appList ).map( ( theApplication ) => (
                             <ApplicationOverview
                                 key={theApplication.name}
@@ -121,7 +123,10 @@ export class Overview extends Component<Props> {
                 )}
                 <span data-istraywindow={isTrayWindow} />
                 {this.loadApps()}
-                <Deck />
+                {
+                    // TODO: Reenable deck
+                    // <Deck />
+                }
             </div>
         );
     }
