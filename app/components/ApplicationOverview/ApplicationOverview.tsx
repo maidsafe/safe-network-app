@@ -46,7 +46,6 @@ export class ApplicationOverview extends React.PureComponent<Props> {
         return (
             <>
                 <ListItem
-                    className={styles.list}
                     button
                     aria-label={`List ${application.name}`}
                     onClick={() => {
@@ -57,10 +56,9 @@ export class ApplicationOverview extends React.PureComponent<Props> {
                         <AppIcon url={application.iconPath} />
                     </ListItemAvatar>
                     <ListItemText
-                        className={styles.listText}
                         primary={application.name}
                         primaryTypographyProps={{
-                            variant: secondaryText ? 'caption' : 'body2'
+                            variant: secondaryText ? 'caption' : 'body1'
                         }}
                         secondary={secondaryText}
                         secondaryTypographyProps={{
@@ -102,7 +100,6 @@ export class ApplicationOverview extends React.PureComponent<Props> {
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
-                <Divider />
             </>
         );
     }

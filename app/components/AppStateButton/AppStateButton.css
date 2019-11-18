@@ -3,10 +3,10 @@ button.actionButton {
     border-radius: 17px;
 }
 
-button.actionButton.openButton {
+/* button.actionButton.openButton {
     background-color: transparent;
     border: 1px solid rgba(0, 0, 0, 0.16);
-}
+} */
 
 .wrap {
     position: relative;
@@ -50,14 +50,13 @@ button.actionButton.openButton {
 }
 .progressButton .progressFab {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: -3px;
+    left: -14px;
     width: 30px;
     min-height: 30px;
     height: 30px;
     border-radius: 50%;
     box-shadow: none;
-    transform: translate(-50%, -50%);
     z-index: 1;
 }
 
