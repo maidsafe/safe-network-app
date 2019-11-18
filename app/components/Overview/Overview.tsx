@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Fab from '@material-ui/core/Fab';
+import LockIcon from '@material-ui/icons/Lock';
 
 import { logger } from '$Logger';
 import styles from './Overview.css';
@@ -111,15 +112,26 @@ export class Overview extends Component<Props> {
         return (
             <div className={styles.container} data-tid="container">
                 {!isLoggedIn && (
-                    <Fab
-                        className={styles.loginButton}
-                        color="secondary"
-                        variant="extended"
-                        aria-label="Login Button"
-                        onClick={this.handleLogIn}
-                    >
-                        Log in
-                    </Fab>
+                    <>
+                        <div className={styles.loginNote}>
+                            <Typography variant="body2">
+                                Your Safe Account
+                            </Typography>
+                            <Typography variant="body1">
+                                Securely access you SAFE Network Account
+                            </Typography>
+                            <Fab
+                                className={styles.loginButton}
+                                color="secondary"
+                                variant="extended"
+                                aria-label="Login Button"
+                                onClick={this.handleLogIn}
+                            >
+                                <LockIcon />
+                                Log in
+                            </Fab>
+                        </div>
+                    </>
                 )}
                 <span data-istraywindow={isTrayWindow} />
                 {this.loadApps()}
