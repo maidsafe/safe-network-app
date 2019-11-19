@@ -84,6 +84,7 @@ export const LoginPage = ( props: Props ) => {
                     aria-label="Password Field"
                     id="password"
                     label="Password"
+                    type="password"
                     value={values.password}
                     onChange={handleChange( 'password' )}
                 />
@@ -93,6 +94,7 @@ export const LoginPage = ( props: Props ) => {
                     aria-label="Passphrase Field"
                     id="passphrase"
                     label="Passphrase"
+                    type="password"
                     value={values.passphrase}
                     onChange={handleChange( 'passphrase' )}
                 />

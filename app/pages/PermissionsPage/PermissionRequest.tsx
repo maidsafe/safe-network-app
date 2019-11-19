@@ -1,9 +1,15 @@
 import React from 'react';
-import { Grid, Button, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+
+import Button from '@material-ui/core/Button';
+
 import { Redirect, useParams, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 
+import { I18n } from 'react-redux-i18n';
+import { Page } from '$Components/Page';
 import { logger } from '$Logger';
+
 // import styles from './Account.css';
 type PathParamsType = {};
 
@@ -29,17 +35,35 @@ export const PermissionRequest = withRouter( ( props: Props ) => {
     };
 
     return (
-        <>
-            <Typography variant="h5">{appId} would like permission</Typography>
-            <Button
-                onClick={handleAllow}
-                aria-label="Accept Permission Request"
+        <Page>
+            <Typography variant="h5">{appId}</Typography>
+            <Typography variant="body2">
+                {I18n.t( `permissions.allow_message`, { appId } )}
+            </Typography>
+            <Grid
+                container
+                justify="flex-end"
+                alignContent="flex-end"
+                spacing={2}
             >
-                Accept
-            </Button>
-            <Button onClick={handleDeny} aria-label="Deny Permission Request">
-                Deny
-            </Button>
-        </>
+                <Grid item>
+                    <Button
+                        onClick={handleDeny}
+                        aria-label="Deny Permission Request"
+                    >
+                        {I18n.t( `permissions.deny` )}
+                    </Button>
+                </Grid>
+                <Grid item>
+                    <Button
+                        onClick={handleAllow}
+                        variant="contained"
+                        aria-label="Accept Permission Request"
+                    >
+                        {I18n.t( `permissions.allow` )}
+                    </Button>
+                </Grid>
+            </Grid>
+        </Page>
     );
 } );

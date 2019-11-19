@@ -68,6 +68,9 @@ const DEFAULT_THEME = {
             // The default props to change
             disableRipple: true
         },
+        MuiButton: {
+            color: 'primary'
+        },
         MuiTextField: {
             variant: 'outlined',
             fullWidth: true
