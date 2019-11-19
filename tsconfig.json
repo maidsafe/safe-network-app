@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
+        "lib": ["es6", "dom"],
         "moduleResolution": "node",
         "target": "esnext",
         "allowJs": true,

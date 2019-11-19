@@ -1,3 +1,6 @@
+import { PropTypes } from '@material-ui/core';
+import { OutlinedTextFieldProps } from '@material-ui/core/TextField';
+
 const SF_PRO = {
     TEXT: {
         FONT_WEIGHT: {
@@ -12,23 +15,30 @@ const SF_PRO = {
     }
 };
 
-const INPUT_OUTLINE = '#0094FF';
+const DEFAULT_COLOR: PropTypes.Color = 'primary';
+const DEFAULT_TEXT_VARIANT: OutlinedTextFieldProps['variant'] = 'outlined';
 
 const DEFAULT_THEME = {
     // GREEN for ticks etc: #6EDD00
     palette: {
         primary: {
             main: '#283593'
-            // light: '#0094FF'
-            // light: '#E4E6F1',
-            // main: string;
-            // dark?: string;
-            // contrastText?: string;
+            // light: '#3948ab',
+            // dark: '#1a227e',
+            // contrastText: '#FFFFFF'
         },
 
-        secondary: { main: '#FF5722' },
+        secondary: {
+            main: '#FF5722'
+            // light: '#ff8965',
+            // dark: '#e64919',
+            // contrastText: '#FFFFFF'
+        },
         error: {
             main: '#E2254C'
+            // light: '#ee607e',
+            // dark: '#bd1a46',
+            // contrastText: '#FFFFFF'
         }
     },
     // spacing: 2,
@@ -69,10 +79,10 @@ const DEFAULT_THEME = {
             disableRipple: true
         },
         MuiButton: {
-            color: 'primary'
+            color: DEFAULT_COLOR
         },
         MuiTextField: {
-            variant: 'outlined',
+            variant: DEFAULT_TEXT_VARIANT,
             fullWidth: true
         }
     }
