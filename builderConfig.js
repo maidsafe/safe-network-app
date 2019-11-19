@@ -1,3 +1,5 @@
+const pkg = require( './package.json' );
+
 const { platform } = process;
 const allPassedArguments = process.argv;
 const OSX = 'darwin';
@@ -5,39 +7,38 @@ const LINUX = 'linux';
 const WINDOWS = 'win32';
 
 // eslint-disable-next-line consistent-return, @typescript-eslint/explicit-function-return-type
-const publishedFilePath = () => {
-    let buildTestPackages = false;
-    if (
-        allPassedArguments.includes( `--testPackages` ) ||
-        process.env.TEST_PACKAGES
-    ) {
-        console.log( 'Building test package' );
-        buildTestPackages = true;
-    }
 
-    if ( platform === OSX ) {
-        return buildTestPackages
-            ? `safe-network-app-mac-test`
-            : `safe-network-app-mac`;
-        // return `safe-network-app-osx-${env}`;
-    }
+const publishedFilePath = () => {
+    const { name } = pkg;
+
     if ( platform === LINUX ) {
-        return buildTestPackages
-            ? `safe-network-app-linux-test`
-            : `safe-network-app-linux`;
-        // return `safe-network-app-linux-${env}`;
+        return `${name}-linux`;
     }
     if ( platform === WINDOWS ) {
-        return buildTestPackages
-            ? `safe-network-app-win-test`
-            : `safe-network-app-win`;
-        // return `safe-network-app-win-${env}`;
+        return `${name}-win`;
     }
+
+    return `${name}-mac`;
 };
+
+const getProductName = () => {
+    let { productName } = pkg;
+
+    if ( pkg.version.includes( '-alpha' ) ) {
+        productName = `${productName} Alpha`;
+    }
+
+    if ( pkg.version.includes( '-beta' ) ) {
+        productName = `${productName} Beta`;
+    }
+
+    return productName;
+};
+
 const buildConfig = {
     afterPack: './internals/scripts/afterPack.js',
     afterSign: './internals/scripts/afterSign.js',
-    productName: 'SAFE Network App',
+    productName: getProductName(),
     generateUpdatesFilesForAllChannels: true,
     appId: 'org.develar.SAFENetworkApp',
     files: [
@@ -54,7 +55,7 @@ const buildConfig = {
         }
     ],
     extraResources: ['authd/safe-authd'],
-    artifactName: `safe-network-app-v\${version}-\${os}-x64.\${ext}`,
+    artifactName: `${pkg.name}-v\${version}-\${os}-x64.\${ext}`,
     dmg: {
         contents: [
             {

@@ -37,6 +37,10 @@ const subMenuHelp = {
     label: 'Help',
     submenu: [
         {
+            label: `Safe Network App version: ${app.getVersion()}`,
+            enabled: false
+        },
+        {
             label: 'Learn More',
             click() {
                 shell.openExternal( 'http://safenetwork.tech' );
