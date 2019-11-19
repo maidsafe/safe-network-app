@@ -93,7 +93,7 @@ export class HeaderBar extends React.PureComponent<Props, State> {
                 <AppBar position="static">
                     <Toolbar variant="dense">
                         <Route path="/" component={BackButton} />
-                        {pageTitle ? (
+                        {pageTitle !== '/' ? (
                             <Typography
                                 className={styles.title}
                                 aria-label="title"

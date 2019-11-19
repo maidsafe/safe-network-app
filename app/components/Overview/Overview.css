@@ -4,6 +4,8 @@
 }
 
 .loginNote {
+    /* Temp until note is brought in */
+    min-height: 4rem;
     position: fixed;
     bottom: 0;
     width: 100%;

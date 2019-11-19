@@ -1,8 +1,12 @@
 {
     "pages": {
-        "settings": "Settings",
-        "application": "Manage App",
-        "on-boarding": "Basic Settings"
+        "/settings": "Settings",
+        "/application": "Manage App",
+        "/account/create": "Create an Account",
+        "/account/log-in": "Log In",
+        "/on-boarding": "Basic Settings",
+        "/permissions": "Permissions",
+        "/permissions/pending": "Permission to Publish"
     },
     "buttons": {
         "install": "Install",
