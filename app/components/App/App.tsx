@@ -6,10 +6,11 @@ import { ThemeProvider } from '@material-ui/styles';
 import TitleBar from 'frameless-titlebar';
 import IconButton from '@material-ui/core/IconButton';
 import Settings from '@material-ui/icons/Settings';
-import { I18n } from 'react-redux-i18n';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { notificationTypes } from '$Constants/notifications';
 import { NotificationsHandler } from '$Components/Notifications/NotificationsHandler';
+import { getPageTitle } from '$Utils/getPageTitle';
+
 import { HeaderBar } from '$Components/HeaderBar';
 import { logger } from '$Logger';
 import {
@@ -123,8 +124,7 @@ export class App extends React.PureComponent<Props> {
             !isTrayWindow ? styles.standardWindow : styles.trayWindow
         ];
 
-        const targetTitle = currentPath.split( '/' )[1];
-        const pageTitle = I18n.t( `pages.${targetTitle}` );
+        const pageTitle = getPageTitle( currentPath );
 
         return (
             <ThemeProvider theme={theme}>

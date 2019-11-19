@@ -114,12 +114,14 @@ export class Overview extends Component<Props> {
                 {!isLoggedIn && (
                     <>
                         <div className={styles.loginNote}>
-                            <Typography variant="body2">
-                                Your Safe Account
-                            </Typography>
-                            <Typography variant="body1">
-                                Securely access you SAFE Network Account
-                            </Typography>
+                            {
+                                // <Typography variant="body2">
+                                // Your Safe Account
+                                // </Typography>
+                                // <Typography variant="body1">
+                                // Securely access you SAFE Network Account
+                                // </Typography>
+                            }
                             <Fab
                                 className={styles.loginButton}
                                 color="secondary"
