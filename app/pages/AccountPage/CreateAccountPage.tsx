@@ -126,6 +126,7 @@ const Password = withRouter( ( props: CreateAccountPageProps ) => {
             <CustomTextField
                 aria-label="Create Password Field"
                 id="password"
+                type="password"
                 label="Password"
                 value={values.password}
                 onChange={handleChange( 'password' )}
@@ -139,7 +140,6 @@ const Password = withRouter( ( props: CreateAccountPageProps ) => {
             >
                 <Grid item>
                     <Button
-                        color="primary"
                         onClick={handleLinkClick}
                         // className={ styles.formsButtonBack }
                     >
@@ -149,7 +149,6 @@ const Password = withRouter( ( props: CreateAccountPageProps ) => {
                 <Grid item>
                     <Button
                         variant="contained"
-                        color="primary"
                         aria-label="Save Password"
                         onClick={handleSavePassword}
                     >
@@ -197,6 +196,7 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
                 value={values.passphrase}
                 onChange={handleChange( 'passphrase' )}
                 variant="outlined"
+                type="password"
             />
             <Grid
                 container

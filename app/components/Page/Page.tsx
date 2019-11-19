@@ -12,9 +12,7 @@ export const Page = ( props: {
         <Grid
             container
             direction="column"
-            // className={`${styles.pageContainer} ${
-            //     noPaddedSides ? styles.noPaddedSides : ''
-            // }`}
+            className={`${styles.pageContainer}`}
         >
             {children}
         </Grid>

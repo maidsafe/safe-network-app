@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom';
 import { AuthRequest } from '$Definitions/application.d';
 import { PERMISSIONS_PENDING } from '$Constants/routes.json';
 
+import { Page } from '$Components/Page';
+
 import { logger } from '$Logger';
 // import styles from './Account.css';
 interface Props {
@@ -23,9 +25,9 @@ export const PermissionsPending = ( props: Props ) => {
     }
 
     return (
-        <>
+        <Page>
             <Typography variant="h5">Permissions Pending...</Typography>
             <Typography variant="body2">A list of granted apps...</Typography>
-        </>
+        </Page>
     );
 };

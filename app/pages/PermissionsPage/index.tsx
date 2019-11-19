@@ -42,8 +42,6 @@ export const ProtoPermissionsPage = ( props: Props ) => {
         return <Redirect to={ACCOUNT_LOGIN} />;
     }
 
-    logger.info( 'PERMS PAAAAAGGGEE' );
-
     return (
         <Switch>
             <Route path={PERMISSIONS_GRANTED} component={PermissionsGranted} />
