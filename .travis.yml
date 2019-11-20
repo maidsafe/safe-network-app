@@ -44,6 +44,8 @@ matrix:
       node_js:
         - "12"
       env:
+        - ELECTRON_CACHE=$HOME/.cache/electron
+        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
         - YARN_GPG=no # otherwise this starts gpg-agent that never exits
         - NODE_ENV=prod
 
@@ -56,10 +58,12 @@ cache:
   directories:
     - node_modules
     - $(npm config get prefix)/lib/node_modules
-    # - $HOME/.cache/electron
-    # - $HOME/.cache/electron-builder
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
 
 before_install:
+  - echo $TRAVIS_NODE_VERSION
+  - export CSC_IDENTITY_AUTO_DISCOVERY=true
   - |
     if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then
         ./internals/scripts/installLibSodium.sh
@@ -78,7 +82,6 @@ install:
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then yarn; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then travis_wait 30 yarn --ignore-engines --network-timeout 800000; fi
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then ls authd; fi
-  # On Linux, initialize "virtual display". See before_script
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       /sbin/start-stop-daemon \
@@ -97,6 +100,7 @@ script:
   - yarn lint --quiet
   - yarn check-types
   - yarn test
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then unset CSC_LINK || unset CSC_KEY_PASSWORD; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xattr -cr . ; fi
   - yarn package
   # Split up yarn test-e2e-packed for faster/more specific retries
