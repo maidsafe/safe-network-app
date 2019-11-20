@@ -26,11 +26,11 @@ fixture`Permission Request Flow`
 // TODO: Setup e2e to always have authd running. (as part of app?)
 // Right now authd must be setup and running manually
 
-test( 'can navigate to login, and attempt/fail to login', async ( t ) => {
+test( 'can receive a permission request', async ( t ) => {
     if ( isCI ) {
         // @ts-ignore
         await clickOnMainMenuItem( ['Help', 'Update shared vault config'] );
-        await t.wait( 5000 );
+        await t.wait( 15000 );
     }
 
     const loginButton = getByAria( 'Login Button' );
@@ -52,7 +52,7 @@ test( 'can navigate to login, and attempt/fail to login', async ( t ) => {
         .typeText( passphrase, 'x' )
         .click( loginButton )
 
-        .wait( 5000 ); // todo, something less brittle here
+        .wait( 15000 ); // todo, something less brittle here
 
     // @ts-ignore
     await clickOnMainMenuItem( ['Tests', 'Trigger Permission Request'] );
