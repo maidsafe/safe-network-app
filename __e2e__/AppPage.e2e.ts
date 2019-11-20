@@ -1,12 +1,7 @@
 import { ClientFunction, Selector } from 'testcafe';
 import { ReactSelector, waitForReact } from 'testcafe-react-selectors';
 import { clickOnMainMenuItem } from 'testcafe-browser-provider-electron';
-import { getPageUrl, getPageTitle } from './helpers';
-
-const assertNoConsoleErrors = async ( t ): Promise<void> => {
-    const { error } = await t.getBrowserConsoleMessages();
-    await t.expect( error ).eql( [] );
-};
+import { assertNoConsoleErrors, getPageTitle } from './helpers';
 
 fixture`Application Page`
     .page( '../app/app.html' )

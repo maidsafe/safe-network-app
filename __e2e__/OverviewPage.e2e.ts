@@ -4,12 +4,7 @@ import {
     clickOnMainMenuItem,
     getContextMenuItems
 } from 'testcafe-browser-provider-electron';
-import { getPageUrl, getPageTitle } from './helpers';
-
-const assertNoConsoleErrors = async ( t ): Promise<void> => {
-    const { error } = await t.getBrowserConsoleMessages();
-    await t.expect( error ).eql( [] );
-};
+import { assertNoConsoleErrors, getPageTitle, getByAria } from './helpers';
 
 fixture`Overview Page`
     .page( '../app/app.html' )

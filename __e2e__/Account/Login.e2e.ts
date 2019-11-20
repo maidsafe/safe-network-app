@@ -1,12 +1,12 @@
 import { Selector } from 'testcafe';
 import { waitForReact } from 'testcafe-react-selectors';
 import { clickOnMainMenuItem } from 'testcafe-browser-provider-electron';
-import { getPageUrl, getPageTitle, getByAria } from '../helpers';
-
-const assertNoConsoleErrors = async ( t ): Promise<void> => {
-    const { error } = await t.getBrowserConsoleMessages();
-    await t.expect( error ).eql( [] );
-};
+import {
+    assertNoConsoleErrors,
+    getPageUrl,
+    getPageTitle,
+    getByAria
+} from '../helpers';
 
 fixture`Login Flow`
     .page( '../../app/app.html' )
