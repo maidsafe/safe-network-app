@@ -16,6 +16,8 @@ export const getAllByAria = Selector( ( label ) => {
 export const assertNoConsoleErrors = async ( t ): Promise<void> => {
     const { error } = await t.getBrowserConsoleMessages();
     // eslint-disable-next-line no-console
-    console.log( 'found errors:', error );
+    if ( error && error.length > 0 ) {
+        console.log( 'found errors:', error );
+    }
     await t.expect( error ).eql( [] );
 };

@@ -112,33 +112,30 @@ export class Overview extends Component<Props> {
         return (
             <div className={styles.container} data-tid="container">
                 {!isLoggedIn && (
-                    <>
-                        <div className={styles.loginNote}>
-                            {
-                                // <Typography variant="body2">
-                                // Your Safe Account
-                                // </Typography>
-                                // <Typography variant="body1">
-                                // Securely access you SAFE Network Account
-                                // </Typography>
-                            }
-                            <Fab
-                                className={styles.loginButton}
-                                color="secondary"
-                                variant="extended"
-                                aria-label="Login Button"
-                                onClick={this.handleLogIn}
-                            >
-                                <LockIcon />
-                                Log in
-                            </Fab>
-                        </div>
-                    </>
+                    <div className={styles.loginNote}>
+                        {
+                            // <Typography variant="body2">
+                            // Your Safe Account
+                            // </Typography>
+                            // <Typography variant="body1">
+                            // Securely access you SAFE Network Account
+                            // </Typography>
+                        }
+                        <Fab
+                            className={styles.loginButton}
+                            color="secondary"
+                            variant="extended"
+                            aria-label="Login Button"
+                            onClick={this.handleLogIn}
+                        >
+                            <LockIcon />
+                            Log in
+                        </Fab>
+                    </div>
                 )}
                 <span data-istraywindow={isTrayWindow} />
                 {this.loadApps()}
                 {
-                    // TODO: Reenable deck
                     // <Deck />
                 }
             </div>

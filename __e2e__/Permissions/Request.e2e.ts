@@ -10,7 +10,7 @@ import {
 
 const isCI = !!process.env.CI;
 
-fixture.skip`Permission Request Flow`
+fixture`Permission Request Flow`
     .page( '../../app/app.html' )
     .beforeEach( async () => {
         await waitForReact();

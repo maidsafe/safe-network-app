@@ -2,7 +2,7 @@
 import { ClientFunction, Selector } from 'testcafe';
 import { waitForReact } from 'testcafe-react-selectors';
 import { clickOnMainMenuItem } from 'testcafe-browser-provider-electron';
-import { getPageUrl, getPageTitle } from './helpers';
+import { getPageUrl, getPageTitle } from '../helpers';
 
 const Notifications = {
     updateAvailable: {
@@ -37,11 +37,13 @@ const Notifications = {
 
 const numberOfNotification = Object.keys( Notifications );
 
-fixture`Check App Notification`.page( '../app/app.html' ).beforeEach( async () => {
-    // @ts-ignore
-    await clickOnMainMenuItem( ['Tests', `Skip OnBoard App`] );
-    await waitForReact();
-} );
+fixture`Check App Notification`
+    .page( '../../app/app.html' )
+    .beforeEach( async () => {
+        // @ts-ignore
+        await clickOnMainMenuItem( ['Tests', `Skip OnBoard App`] );
+        await waitForReact();
+    } );
 
 // eslint-disable-next-line array-callback-return
 numberOfNotification.forEach( ( type ) => {
