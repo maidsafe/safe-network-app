@@ -73,7 +73,7 @@ before_install:
 install:
   - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then yarn; fi
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then travis_wait 30 yarn --ignore-engines --network-timeout 800000; fi
-  - ls "authd"
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then ls authd; fi
   # On Linux, initialize "virtual display". See before_script
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
@@ -112,7 +112,8 @@ after_failure:
 - ls "release/linux/resources/authd"
 
 before_deploy:
-  - ls release
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then ls releae; fi
+
 
 deploy:
   provider: releases
