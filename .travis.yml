@@ -99,7 +99,14 @@ script:
   - yarn test
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xattr -cr . ; fi
   - yarn package
-  - travis_retry yarn test-e2e-packed
+  # Split up yarn test-e2e-packed for faster/more specific retries
+  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/Account
+  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/AppGeneral
+  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/OnBoarding
+  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/OverviewPage
+  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/Permissions
+  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/Settings
+
 
 after_failure:
 # check resolution...

@@ -22,7 +22,7 @@ fixture`Account Info Pages`
     } );
 
 // TODO: reenable all once this flow is reinstated
-test( 'can navigate to get invite', async ( t ) => {
+test.skip( 'can navigate to get invite', async ( t ) => {
     await t.click( Selector( '#CreateAccountCard' ) );
 
     const nextStep = getByAria( 'NextStepButton' );

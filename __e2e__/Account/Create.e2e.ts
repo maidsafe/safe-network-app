@@ -8,6 +8,12 @@ import {
     getByAria
 } from '../helpers';
 
+const goToCreateAccountPage = async ( t ): Promise<void> => {
+    const menu = getByAria( 'Header Menu' );
+    const createAccountMenuItem = getByAria( 'Go to Create Account' );
+
+    await t.click( menu ).click( createAccountMenuItem );
+};
 fixture`Account Create Flow`
     .page( '../../app/app.html' )
     .beforeEach( async () => {
@@ -26,8 +32,8 @@ test(
     assertNoConsoleErrors
 );
 
-test( 'can navigate through create account onboarding', async ( t ) => {
-    await t.click( Selector( '#CreateAccountCard' ) );
+test.skip( 'can navigate through create account onboarding', async ( t ) => {
+    await goToCreateAccountPage( t );
 
     await t.setTestSpeed( 0.5 );
 
@@ -75,8 +81,9 @@ test( 'can navigate through create account onboarding', async ( t ) => {
     // await t.expect( getByAria( 'IAlreadyHaveInvite' ).exists ).ok();
 } );
 
-test( 'can create an account', async ( t ) => {
-    await t.click( Selector( '#CreateAccountCard' ) );
+test.skip( 'can create an account via onboarding pages', async ( t ) => {
+    // TODO: make this go via Deck
+    // await goToCreateAccountPage(t);
 
     const passphrase = getByAria( 'Create Passphrase Field' );
     const password = getByAria( 'Create Password Field' );
@@ -86,9 +93,41 @@ test( 'can create an account', async ( t ) => {
     const redeem = getByAria( 'Redeem Invite' );
     const nextStep = getByAria( 'NextStepButton' );
 
-    await t.click( nextStep );
-    await t.click( nextStep );
-    await t.click( nextStep );
+    // Needed for the create onboaring steps
+    // await t.click( nextStep );
+    // await t.click( nextStep );
+    // await t.click( nextStep );
+
+    // await t.click( getByAria( 'IAlreadyHaveInvite' ) );
+
+    await t
+        // TODO: reenable once we have redemption
+        // .expect( redeem.exists )
+        // .ok()
+        // .click( redeem )
+        .expect( password.exists )
+        .ok()
+        .click( savePassword )
+        .expect( passphrase.exists )
+        .ok();
+    // .click( savePassphrase )
+} );
+
+test( 'can create an account', async ( t ) => {
+    await goToCreateAccountPage( t );
+
+    const passphrase = getByAria( 'Create Passphrase Field' );
+    const password = getByAria( 'Create Password Field' );
+    const savePassword = getByAria( 'Save Password' );
+    const savePassphrase = getByAria( 'Save Passphrase' );
+    const invite = getByAria( 'Redeem Invite Field' );
+    const redeem = getByAria( 'Redeem Invite' );
+    const nextStep = getByAria( 'NextStepButton' );
+
+    // Needed for the create onboaring steps
+    // await t.click( nextStep );
+    // await t.click( nextStep );
+    // await t.click( nextStep );
 
     // await t.click( getByAria( 'IAlreadyHaveInvite' ) );
 

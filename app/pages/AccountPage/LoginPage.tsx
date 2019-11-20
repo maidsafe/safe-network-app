@@ -72,13 +72,6 @@ export const LoginPage = ( props: Props ) => {
 
     return (
         <Page>
-            {loginError && (
-                <Grid item xs={12}>
-                    <Typography variant="h5" aria-label="Login Error">
-                        {loginError}
-                    </Typography>
-                </Grid>
-            )}
             <Grid item>
                 <CustomTextField
                     aria-label="Password Field"
@@ -99,6 +92,13 @@ export const LoginPage = ( props: Props ) => {
                     onChange={handleChange( 'passphrase' )}
                 />
             </Grid>
+            {loginError && (
+                <Grid item xs={12}>
+                    <Typography variant="h5" aria-label="Login Error">
+                        {loginError}
+                    </Typography>
+                </Grid>
+            )}
             <Grid container justify="flex-end" spacing={2}>
                 <Grid item>
                     <Fab

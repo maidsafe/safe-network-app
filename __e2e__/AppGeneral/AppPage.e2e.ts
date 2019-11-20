@@ -1,10 +1,10 @@
 import { ClientFunction, Selector } from 'testcafe';
 import { ReactSelector, waitForReact } from 'testcafe-react-selectors';
 import { clickOnMainMenuItem } from 'testcafe-browser-provider-electron';
-import { assertNoConsoleErrors, getPageTitle } from './helpers';
+import { assertNoConsoleErrors, getPageTitle } from '../helpers';
 
 fixture`Application Page`
-    .page( '../app/app.html' )
+    .page( '../../app/app.html' )
     .beforeEach( async () => {
         // @ts-ignore
         await clickOnMainMenuItem( ['Tests', `Skip OnBoard App`] );

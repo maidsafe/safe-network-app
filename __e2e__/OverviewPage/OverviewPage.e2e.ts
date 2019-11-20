@@ -4,10 +4,10 @@ import {
     clickOnMainMenuItem,
     getContextMenuItems
 } from 'testcafe-browser-provider-electron';
-import { assertNoConsoleErrors, getPageTitle, getByAria } from './helpers';
+import { assertNoConsoleErrors, getPageTitle, getByAria } from '../helpers';
 
 fixture`Overview Page`
-    .page( '../app/app.html' )
+    .page( '../../app/app.html' )
     .beforeEach( async () => {
         // @ts-ignore
         await clickOnMainMenuItem( ['Tests', `Skip OnBoard App`] );

@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 import { waitForReact } from 'testcafe-react-selectors';
 import { clickOnMainMenuItem } from 'testcafe-browser-provider-electron';
-import { getPageUrl, getPageTitle, getByAria } from './helpers';
+import { getPageUrl, getPageTitle, getByAria } from '../helpers';
 
 const getPreferenceItems = () => {
     const Preferences = Selector( 'ul' ).withAttribute(
@@ -11,7 +11,7 @@ const getPreferenceItems = () => {
     return Preferences.child( 'li' );
 };
 
-fixture`Settings Page`.page( '../app/app.html' ).beforeEach( async () => {
+fixture`Settings Page`.page( '../../app/app.html' ).beforeEach( async () => {
     // @ts-ignore
     await clickOnMainMenuItem( ['Tests', 'Reset Preferences'] );
     // @ts-ignore

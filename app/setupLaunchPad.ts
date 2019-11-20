@@ -9,6 +9,7 @@ import { setAsTrayWindow } from '$Actions/launchpad_actions';
 
 import {
     isRunningTestCafeProcess,
+    isRunningDebug,
     isRunningUnpacked,
     CONFIG,
     isRunningOnWindows,
@@ -184,7 +185,7 @@ export const createSafeLaunchPadTrayWindow = (
             showAsRegularWindow();
         }
 
-        if ( isRunningUnpacked ) {
+        if ( isRunningUnpacked || isRunningDebug ) {
             theWindow.openDevTools( { mode: 'undocked' } );
         }
     } );

@@ -60,40 +60,40 @@ interface Props {
 }
 
 export class App extends React.PureComponent<Props> {
-    isInAppDetailPage = ( currentPath ) => {
-        const {
-            appList,
-            updateApp,
-            unInstallApp,
-            openApp,
-            downloadAndInstallApp,
-            pauseDownload,
-            cancelDownload,
-            resumeDownload
-        } = this.props;
-
-        const applicationId = currentPath.split( '/' )[2];
-        const application = appList[applicationId];
-        let secondaryAction;
-
-        if ( application.isDownloadingAndInstalling || application.isInstalled ) {
-            secondaryAction = (
-                <MeatballMenu
-                    showAboutAppOption={false}
-                    unInstallApp={unInstallApp}
-                    openApp={openApp}
-                    updateApp={updateApp}
-                    downloadAndInstallApp={downloadAndInstallApp}
-                    pauseDownload={pauseDownload}
-                    cancelDownload={cancelDownload}
-                    resumeDownload={resumeDownload}
-                    application={application}
-                />
-            );
-        }
-
-        return secondaryAction;
-    };
+    // isInAppDetailPage = ( currentPath ) => {
+    //     const {
+    //         appList,
+    //         updateApp,
+    //         unInstallApp,
+    //         openApp,
+    //         downloadAndInstallApp,
+    //         pauseDownload,
+    //         cancelDownload,
+    //         resumeDownload
+    //     } = this.props;
+    //
+    //     const applicationId = currentPath.split( '/' )[2];
+    //     const application = appList[applicationId];
+    //     let secondaryAction;
+    //
+    //     if ( application.isDownloadingAndInstalling || application.isInstalled ) {
+    //         secondaryAction = (
+    //             <MeatballMenu
+    //                 showAboutAppOption={false}
+    //                 unInstallApp={unInstallApp}
+    //                 openApp={openApp}
+    //                 updateApp={updateApp}
+    //                 downloadAndInstallApp={downloadAndInstallApp}
+    //                 pauseDownload={pauseDownload}
+    //                 cancelDownload={cancelDownload}
+    //                 resumeDownload={resumeDownload}
+    //                 application={application}
+    //             />
+    //         );
+    //     }
+    //
+    //     return secondaryAction;
+    // };
 
     render() {
         const {

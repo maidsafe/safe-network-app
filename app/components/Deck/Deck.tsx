@@ -34,7 +34,7 @@ const ProtoDeck = ( props: Props ) => {
             >
                 <CardActionArea
                     onClick={() => {
-                        logger.info( 'CLICKED ON CREATE ACCOUNT' );
+                        // logger.info( 'CLICKED ON CREATE ACCOUNT' );
                         history.push( ACCOUNT_ONBOARDING );
                     }}
                 >

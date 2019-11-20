@@ -6,9 +6,9 @@ import {
     getPageUrl,
     getPageTitle,
     getByAria
-} from './helpers';
+} from '../helpers';
 
-fixture`HeaderBar`.page( '../app/app.html' ).beforeEach( async () => {
+fixture`HeaderBar`.page( '../../app/app.html' ).beforeEach( async () => {
     // @ts-ignore
     await clickOnMainMenuItem( ['Tests', `Skip OnBoard App`] );
     await waitForReact();
