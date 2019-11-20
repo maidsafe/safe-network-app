@@ -116,7 +116,7 @@ test( 'clicking on pinToMenuBar button toggles window between normal window and 
         .expect(
             Selector( 'span' ).withAttribute( 'data-istraywindow', 'false' ).exists
         )
-        .notOk();
+        .ok();
 } );
 
 test( 'Changing any preference should persist', async ( t ) => {
