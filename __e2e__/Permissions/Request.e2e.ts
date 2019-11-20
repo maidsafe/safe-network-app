@@ -26,7 +26,7 @@ fixture`Permission Request Flow`
 // TODO: Setup e2e to always have authd running. (as part of app?)
 // Right now authd must be setup and running manually
 
-test( 'can receive a permission request', async ( t ) => {
+test.skip( 'can receive a permission request', async ( t ) => {
     if ( isCI ) {
         // @ts-ignore
         await clickOnMainMenuItem( ['Help', 'Update shared vault config'] );
