@@ -93,8 +93,12 @@ export const LoginPage = ( props: Props ) => {
                 />
             </Grid>
             {loginError && (
-                <Grid item xs={12}>
-                    <Typography variant="h5" aria-label="Login Error">
+                <Grid item>
+                    <Typography
+                        variant="body2"
+                        color="error"
+                        aria-label="Login Error"
+                    >
                         {loginError}
                     </Typography>
                 </Grid>
