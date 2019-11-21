@@ -1,6 +1,6 @@
 {
     "permissions": {
-        "allow_message": "You are about to grant permission for {appId} to publish data. The app can publish publicly and permanently",
+        "allow_message": "You are about to grant permission for %{appId} to publish data. The app can publish publicly and permanently",
         "allow": "Allow",
         "deny": "Block"
     },
