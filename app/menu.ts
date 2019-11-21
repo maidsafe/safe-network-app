@@ -212,7 +212,7 @@ const setupTestsMenu = ( store: Store ) => {
                     store.dispatch(
                         addAuthRequestToPendingList( {
                             appId: 'test app',
-                            requestId: 42
+                            requestId: '42'
                         } )
                     );
 
