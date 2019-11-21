@@ -137,14 +137,16 @@ export class HeaderBar extends React.PureComponent<Props, State> {
                                     Log Out
                                 </MenuItem>
                             )}
-                            <Link to={ACCOUNT_CREATE_PASSWORD}>
-                                <MenuItem
-                                    onClick={this.handleClose}
-                                    aria-label="Go to Create Account"
-                                >
-                                    Create Account
-                                </MenuItem>
-                            </Link>
+                            {!isLoggedIn && (
+                                <Link to={ACCOUNT_CREATE_PASSWORD}>
+                                    <MenuItem
+                                        onClick={this.handleClose}
+                                        aria-label="Go to Create Account"
+                                    >
+                                        Create Account
+                                    </MenuItem>
+                                </Link>
+                            )}
                             <Link to={SETTINGS}>
                                 <MenuItem
                                     onClick={this.handleClose}

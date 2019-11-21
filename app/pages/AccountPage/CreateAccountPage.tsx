@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Typography } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 
@@ -198,6 +199,17 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
                 variant="outlined"
                 type="password"
             />
+            {createAccountError && (
+                <Grid item>
+                    <Typography
+                        variant="body2"
+                        color="error"
+                        aria-label="Login Error"
+                    >
+                        {createAccountError}
+                    </Typography>
+                </Grid>
+            )}
             <Grid
                 container
                 justify="flex-end"
@@ -223,16 +235,11 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
                         Save Passphrase & Create Account
                     </Button>
                 </Grid>
-                <Grid item>
-                    {isWorking && (
-                        <span aria-label="Working...">working on it...</span>
-                    )}
-                    {createAccountError && (
-                        <Typography variant="h5">
-                            {createAccountError}
-                        </Typography>
-                    )}
-                </Grid>
+                {isWorking && (
+                    <Grid item>
+                        <CircularProgress />
+                    </Grid>
+                )}
             </Grid>
         </>
     );
