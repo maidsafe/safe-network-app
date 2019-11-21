@@ -19,5 +19,10 @@ export const getAuthdLocation = () => {
         return path.resolve( exe, '../../Resources/authd/safe-authd' );
     }
 
+    if ( isRunningOnWindows ) {
+        return path.resolve( exe, '../resources/authd/safe-authd.exe' );
+    }
+
+    // otherwise linux
     return path.resolve( exe, '../resources/authd/safe-authd' );
 };

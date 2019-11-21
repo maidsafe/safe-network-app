@@ -12,7 +12,7 @@ const isRunningOnWindows = process.platform === 'win32';
 const s3UrlBasis = 'https://safe-authd.s3.eu-central-1.amazonaws.com';
 const s3UrlMac = `${s3UrlBasis}/mac-safe-authd`;
 const s3UrlLinux = `${s3UrlBasis}/linux-safe-authd`;
-const s3UrWin = `${s3UrlBasis}/win-safe-authd`;
+const s3UrlWin = `${s3UrlBasis}/win-safe-authd.exe`;
 
 let dlUrl = s3UrlMac;
 
@@ -21,17 +21,15 @@ const installTargetDirectory = path.resolve( __dirname, 'authd' );
 if ( isRunningOnLinux ) {
     dlUrl = s3UrlLinux;
 }
-
 // do we install on the system? Or package w/ app?
-const targetFile = path.resolve( installTargetDirectory, 'safe-authd' );
+let targetFile = path.resolve( installTargetDirectory, 'safe-authd' );
+
+if ( isRunningOnWindows ) {
+    dlUrl = s3UrlWin;
+    targetFile = path.resolve( installTargetDirectory, 'safe-authd.exe' );
+}
 
 const downloadAuthD = async () => {
-    if ( isRunningOnWindows ) {
-        throw new Error(
-            'AuthD install not yet setup for this platform. Do that now!'
-        );
-    }
-
     fs.ensureDir( installTargetDirectory );
 
     try {
@@ -43,7 +41,10 @@ const downloadAuthD = async () => {
 
         // This is here incase any errors occur
         writeStream.on( 'error', function( error ) {
-            throw error;
+            console.error( 'Error downloading authd', error );
+
+            // eslint-disable-next-line unicorn/no-process-exit
+            process.exit( 1 );
         } );
         writeStream.on( 'close', function( error ) {
             // eslint-disable-next-line no-console
