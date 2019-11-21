@@ -1,7 +1,7 @@
 {
   "name": "safe-network-app",
   "productName": "SAFE Network App",
-  "version": "0.0.5-alpha.1",
+  "version": "0.0.5-alpha.2",
   "identifier": "SAFE Network App",
   "description": "Launchpad for the SAFE Network",
   "scripts": {
@@ -171,8 +171,8 @@
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "precss": "4.0.0",
     "prettier": "1.18.2",
-    "react-test-renderer": "^16.11.0",
     "react-hot-loader": "^4.12.16",
+    "react-test-renderer": "^16.11.0",
     "redux-mock-store": "^1.5.3",
     "rimraf": "3.0.0",
     "standard-version": "7.0.0",
@@ -246,6 +246,7 @@
     "request-promise-native": "1.0.8",
     "safe-nodejs": "https://github.com/maidsafe/safe-nodejs#0.5.1",
     "source-map-support": "^0.5.16",
+    "sudo-prompt": "9.1.1",
     "typeface-roboto": "^0.0.75"
   },
   "devEngines": {
