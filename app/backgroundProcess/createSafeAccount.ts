@@ -9,7 +9,7 @@ export const createSafeAccount = async (
     try {
         const safeAuthdClient = await setupAuthDaemon();
 
-        logger.info( 'Safe authd running' );
+        logger.info( 'Attempting to create account with:', password, passphrase );
 
         const safe = new Safe();
         const { sk } = safe.keys_create_preload_test_coins( '10' )[1];

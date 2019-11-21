@@ -82,7 +82,9 @@ export const setupAuthDaemon = async (): Promise<AuthDClient> => {
                 ) {
                     if (
                         error &&
+                        // @ts-ignore
                         error.message &&
+                        // @ts-ignore
                         error.message.includes( 'AuthdAlreadyStarted' )
                     ) {
                         logger.info( 'AuthDaemon already exists.' );
