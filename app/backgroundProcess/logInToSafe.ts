@@ -10,7 +10,7 @@ export const logInToSafe = async (
     try {
         const safeAuthdClient = await setupAuthDaemon(); // use default port number
 
-        await safeAuthdClient.log_in( password, passphrase );
+        await safeAuthdClient.log_in( passphrase, password );
         logger.info( 'Logged in' );
 
         return {};
