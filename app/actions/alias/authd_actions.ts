@@ -52,9 +52,9 @@ export const logOutOfNetwork = createAliasedAction(
 
 export const createAccount = createAliasedAction(
     TYPES.ALIAS__CREATE_ACCOUNT,
-    async ( password: string, passphrase: string ) => ( {
+    async ( invite: string, password: string, passphrase: string ) => ( {
         type: TYPES.CREATE_ACCOUNT,
-        payload: await createSafeAccount( password, passphrase )
+        payload: await createSafeAccount( invite, password, passphrase )
     } )
 );
 
