@@ -173,6 +173,12 @@ const resumeDownloadOfApp = ( application ) => {
 };
 
 export const updateTheApplication = ( application: App ) => {
+    if ( application.name === 'SAFE Network App' ) {
+        ipcRenderer.send( 'update-safe-network-app', application );
+
+        return;
+    }
+
     ipcRenderer.send( 'updateApplication', application );
 
     const store = getCurrentStore();
