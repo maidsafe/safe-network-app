@@ -49,6 +49,7 @@ autoUpdater.on( 'update-available', ( info ) => {
         const id = Math.random().toString( '36' );
         const { version } = info;
 
+        // update is treated as special in the app update handler
         store.dispatch(
             pushNotification( {
                 id,
@@ -56,11 +57,13 @@ autoUpdater.on( 'update-available', ( info ) => {
             } )
         );
     } else {
+        logger.info( 'Downloading SNAPP update.' );
         autoUpdater.downloadUpdate();
     }
 } );
 
 ipcMain.on( 'update-safe-network-app', ( event ) => {
+    logger.info( 'Downloading SNAPP update.' );
     autoUpdater.downloadUpdate();
 } );
 
