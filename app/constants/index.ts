@@ -18,6 +18,20 @@ declare const document: Document;
 
 const allPassedArguments = process.argv;
 
+// define update channel.
+// naiive impl checking package.json. I presume this will change w/ from alpha to beta,
+// so a better impl is needed. TODO: make a better implementation of channel checks
+const { version } = pkg;
+let theChannel;
+
+export const ALPHA = 'alpha';
+export const BETA = 'beta';
+
+if ( version.includes( `-${ALPHA}` ) ) theChannel = ALPHA;
+if ( version.includes( `-${BETA}` ) ) theChannel = BETA;
+
+export const RELEASE_CHANNEL = theChannel;
+
 let hasDebugFlag = false;
 let hasDryRunFlag = false;
 let shouldOpenDebugApps = false;

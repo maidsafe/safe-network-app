@@ -9,6 +9,9 @@ import { I18n } from 'react-redux-i18n';
 import { getAppDataPath } from '$Utils/app_utils';
 
 import {
+    RELEASE_CHANNEL,
+    ALPHA,
+    BETA,
     LAUNCHPAD_APP_ID,
     DEFAULT_APP_ICON_PATH,
     isRunningTestCafeProcess,
@@ -112,22 +115,32 @@ const getLatestAppVersions = async (): Promise<void> => {
         try {
             const s3Url = getS3Folder( application );
 
-            // https://safe-network-app.s3.eu-west-2.amazonaws.com/safe-network-app-win/latest.yml
-            let latestVersionFile = `${s3Url}/latest.yml`;
+            let channelModifier = 'latest';
 
-            if ( isRunningOnMac ) latestVersionFile = `${s3Url}/latest-mac.yml`;
+            if ( RELEASE_CHANNEL === ALPHA ) channelModifier = 'alpha';
+
+            if ( RELEASE_CHANNEL === BETA ) channelModifier = 'beta';
+
+            // https://safe-network-app.s3.eu-west-2.amazonaws.com/safe-network-app-win/latest.yml
+            let latestVersionFile = `${s3Url}/${channelModifier}`;
+
+            if ( isRunningOnMac ) latestVersionFile = `${latestVersionFile}-mac`;
 
             if ( isRunningOnLinux )
-                latestVersionFile = `${s3Url}/latest-linux.yml`;
+                latestVersionFile = `${latestVersionFile}-linux`;
 
-            const response = await request( latestVersionFile );
+            const response = await request( `${latestVersionFile}.yml` );
             const latestVersion = `v${yaml.safeLoad( response ).version}`;
 
             logger.debug(
                 `${application.name} latest version is ${latestVersion}`
             );
 
-            const updatedApp = { ...application, latestVersion };
+            const updatedApp = {
+                ...application,
+                latestVersion
+            };
+
             updatedApp.iconPath =
                 ( await fetchAppIconFromServer( updatedApp ) ) ||
                 fetchDefaultAppIconFromLocal( updatedApp.id );

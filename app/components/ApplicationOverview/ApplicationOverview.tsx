@@ -19,6 +19,7 @@ import { AppStateButton } from '$Components/AppStateButton';
 import { getAppStatusText } from '$Utils/app_utils';
 import styles from './ApplicationOverview.css';
 import { App } from '$Definitions/application.d';
+import { RELEASE_CHANNEL } from '$Constants';
 
 interface Props {
     unInstallApp: Function;
@@ -43,6 +44,9 @@ export class ApplicationOverview extends React.PureComponent<Props> {
         const progressText = getAppStatusText( application );
         const secondaryText = application.error || progressText;
 
+        const appName = `${application.name}${
+            RELEASE_CHANNEL ? ` ${RELEASE_CHANNEL}` : ''
+        }`;
         return (
             <>
                 <ListItem
@@ -56,7 +60,7 @@ export class ApplicationOverview extends React.PureComponent<Props> {
                         <AppIcon url={application.iconPath} />
                     </ListItemAvatar>
                     <ListItemText
-                        primary={application.name}
+                        primary={appName}
                         primaryTypographyProps={{
                             variant: secondaryText ? 'caption' : 'body1'
                         }}

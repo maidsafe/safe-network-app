@@ -1,7 +1,7 @@
 {
   "name": "safe-network-app",
   "productName": "SAFE Network App",
-  "version": "0.0.5-alpha.12",
+  "version": "0.0.5-alpha.13",
   "identifier": "SAFE Network App",
   "description": "Launchpad for the SAFE Network",
   "scripts": {

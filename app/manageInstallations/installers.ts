@@ -49,17 +49,20 @@ const silentInstallMacOS = (
         await fs.ensureDir( INSTALL_TARGET_DIR );
         const done = spawnSync( 'cp', ['-r', targetAppPath, INSTALL_TARGET_DIR] );
 
-        if ( done.error || done.stderr.toString() ) {
-            logger.error( 'Error during copy', done.error );
+        const doneError = done.error || done.stderr.toString();
+        if ( doneError ) {
+            logger.error( 'Error during copy', doneError );
             store.dispatch(
                 downloadAndInstallAppFailure( {
                     ...application,
-                    error: done.error
+                    error: doneError
                 } )
             );
         }
 
-        logger.info( 'Copying complete.' );
+        if ( !doneError ) {
+            logger.info( 'Copying complete.' );
+        }
 
         dmg.unmount( mountedPath, function( unmountError ) {
             if ( unmountError ) {
@@ -68,8 +71,11 @@ const silentInstallMacOS = (
 
             // TODO Remove Dlded version?
             spawnSync( 'rm', ['-rf', downloadLocation] );
-            logger.info( 'Install complete.' );
-            store.dispatch( downloadAndInstallAppSuccess( application ) );
+
+            if ( !doneError ) {
+                logger.info( 'Install complete.' );
+                store.dispatch( downloadAndInstallAppSuccess( application ) );
+            }
         } );
     } );
 };
