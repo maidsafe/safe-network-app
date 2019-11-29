@@ -100,6 +100,9 @@ if ( !gotTheLock ) {
 
         theWindow.on( 'close', ( event ) => {
             if ( !appExiting && process.platform === 'darwin' ) {
+                logger.warn(
+                    'APP NOT exiting so not closing.............???????????'
+                );
                 event.preventDefault();
                 if (
                     // isRunningDevelopment ||

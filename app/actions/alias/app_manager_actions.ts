@@ -96,7 +96,7 @@ const fetchAppIconFromServer = async ( application ): Promise<string | null> => 
         }
         return filePath;
     } catch ( error ) {
-        logger.warn( error.message );
+        logger.info( 'Error getting icon from github', error.message );
         return null;
     }
 };
