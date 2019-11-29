@@ -65,7 +65,7 @@ export const setupIPCListeners = ( store ) => {
     } );
 
     ipcMain.on( 'exitSafeNetworkApp', () => {
-        app.exit( 0 );
+        app.quit();
     } );
 
     ipcMain.on( 'checkApplicationsForUpdate', ( _event, application ) => {

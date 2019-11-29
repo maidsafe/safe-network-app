@@ -50,7 +50,6 @@ if ( process.env.NODE_ENV === 'production' ) {
 
 let store: Store;
 let theWindow: Application.Window;
-let appExiting = false;
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -99,19 +98,6 @@ if ( !gotTheLock ) {
         theWindow = createSafeLaunchPadTrayWindow( store );
 
         theWindow.on( 'close', ( event ) => {
-            if ( !appExiting && process.platform === 'darwin' ) {
-                logger.warn(
-                    'APP NOT exiting so not closing.............???????????'
-                );
-                event.preventDefault();
-                if (
-                    // isRunningDevelopment ||
-                    isRunningDebug ||
-                    process.env.DEBUG_PROD === 'true'
-                )
-                    app.hide();
-                else theWindow.hide();
-            }
             if ( isRunningOnWindows || isRunningOnLinux ) app.quit();
         } );
 
@@ -131,21 +117,17 @@ if ( !gotTheLock ) {
     } );
 }
 
-/**
- * Add event listeners...
- */
-app.on( 'before-quit', () => {
-    appExiting = true;
-} );
-
 app.on( 'quit', async ( event ) => {
-    appExiting = true;
     await stopAuthDaemon();
 } );
 
 app.on( 'activate', () => {
-    theWindow.show();
-    theWindow.focus();
+    if ( !theWindow.isDestroyed ) {
+        theWindow.show();
+        theWindow.focus();
+    } else {
+        theWindow = createSafeLaunchPadTrayWindow( store );
+    }
 } );
 
 app.on( 'window-all-closed', () => {
