@@ -18,6 +18,9 @@ import {
 
 import { pushNotification } from '$Actions/launchpad_actions';
 import {
+    RELEASE_CHANNEL,
+    ALPHA,
+    BETA,
     MAC_OS,
     LINUX,
     WINDOWS,
@@ -108,6 +111,7 @@ const getDowloadUrlForApplication = ( application: App ): string => {
     let targetUrl: string;
 
     logger.silly( 'Checking platform', platform );
+
     switch ( platform ) {
         case MAC_OS: {
             // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-mac/safe-browser-v0.15.1-mac-x64.dmg
@@ -141,7 +145,7 @@ const downloadAndInstall = async (
     application: App
 ): Promise<void> => {
     const url: string = getDowloadUrlForApplication( application );
-    logger.info( 'Downloading,', application.name );
+    logger.info( 'Downloading,', application.name, 'from', url );
 
     if ( isDryRun ) {
         logger.info(
@@ -222,7 +226,7 @@ const downloadAndInstall = async (
         // returns https://electronjs.org/docs/api/download-item
         await download( targetWindow, url, downloaderOptions );
     } catch ( error ) {
-        logger.error( 'There was a DL error: ', error.message );
+        logger.error( 'There was a DL error: ', error );
 
         const appWithError = {
             ...application,

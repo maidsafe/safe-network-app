@@ -4,6 +4,9 @@ import { execSync } from 'child_process';
 import { Store } from 'redux';
 import fs from 'fs-extra';
 import {
+    RELEASE_CHANNEL,
+    BETA,
+    ALPHA,
     MAC_OS,
     LINUX,
     WINDOWS,
@@ -52,6 +55,10 @@ const getLocalLinuxAppImageName = ( application ) => {
     return installedApp;
 };
 
+function capitalizeFirstLetter( string ) {
+    return string.charAt( 0 ).toUpperCase() + string.slice( 1 );
+}
+
 export const getApplicationExecutable = (
     application: App,
     getCurrentVersion?: boolean
@@ -60,17 +67,21 @@ export const getApplicationExecutable = (
     // TODO ensure name conformity with download, or if different, note how.
 
     let applicationExecutable: string;
+    const appModifier = RELEASE_CHANNEL
+        ? ` ${capitalizeFirstLetter( RELEASE_CHANNEL )}`
+        : '';
 
     switch ( platform ) {
         case MAC_OS: {
             applicationExecutable = `${application.name ||
-                application.packageName}.app`;
+                application.packageName}${appModifier}.app`;
             break;
         }
         case WINDOWS: {
             applicationExecutable = path.join(
                 `${application.packageName || application.name}`,
-                `${application.name || application.packageName}.exe`
+                `${application.name ||
+                    application.packageName}${appModifier}.exe`
             );
             break;
         }
@@ -146,7 +157,7 @@ export const checkIfAppIsInstalledLocally = async (
 
 export const getLocalAppVersion = ( application, store: Store ): string => {
     logger.info(
-        'Checking locally installed versionvfile: ',
+        'Checking locally installed version file: ',
         path.resolve( INSTALL_TARGET_DIR, application.packageName, 'version' )
     );
 
