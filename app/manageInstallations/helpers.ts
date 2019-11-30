@@ -79,7 +79,7 @@ export const getApplicationExecutable = (
         }
         case WINDOWS: {
             applicationExecutable = path.join(
-                `${application.packageName || application.name}`,
+                `${application.name}`,
                 `${application.name ||
                     application.packageName}${appModifier}.exe`
             );
