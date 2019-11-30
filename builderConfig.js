@@ -54,7 +54,7 @@ const buildConfig = {
             to: 'assets'
         }
     ],
-    extraResources: ['authd/safe-authd'],
+    extraResources: ['authd/safe-authd*'],
     artifactName: `${pkg.name}-v\${version}-\${os}-x64.\${ext}`,
     dmg: {
         contents: [
