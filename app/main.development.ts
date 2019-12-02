@@ -1,21 +1,15 @@
-import { ipcMain, app, dialog } from 'electron';
-import path from 'path';
-import log from 'electron-log';
+import { app } from 'electron';
 import { Store } from 'redux';
 import { enforceMacOSAppLocation } from 'electron-util';
 
-import { updateAppInfoIfNewer } from '$Actions/app_manager_actions';
-import { addApplication } from '$Actions/application_actions';
-import { pushNotification } from '$Actions/launchpad_actions';
 import { logger } from '$Logger';
 import { configureStore } from '$Store/configureStore';
 import { MenuBuilder } from './menu';
-import { Application, App } from './definitions/application.d';
-import { createSafeLaunchPadTrayWindow, createTray } from './setupLaunchPad';
+import { Application } from './definitions/application.d';
+import { createSafeLaunchPadTrayWindow } from './setupLaunchPad';
 import { setupBackground } from './setupBackground';
 import { installExtensions, preferencesJsonSetup } from '$Utils/main_utils';
 import { safeAppUpdater } from '$App/manageInstallations/safeAppUpdater';
-import { notificationTypes } from '$Constants/notifications';
 
 import {
     setupAuthDaemon,
@@ -25,14 +19,10 @@ import {
 import {
     ignoreAppLocation,
     isRunningDebug,
-    isRunningDevelopment,
     isRunningTestCafeProcess,
     isRunningUnpacked,
     isRunningOnLinux,
-    isRunningOnWindows,
-    getAppFolderPath,
-    platform,
-    settingsHandlerName
+    isRunningOnWindows
 } from '$Constants';
 
 import { addNotification } from '$App/env-handling';
@@ -59,7 +49,7 @@ if ( !gotTheLock ) {
     );
     app.quit();
 } else {
-    app.on( 'second-instance', ( event, commandLine, workingDirectory ) => {
+    app.on( 'second-instance', ( _event, _commandLine, _workingDirectory ) => {
         // safeAppUpdater.handleAppUpdateCallback( commandLine );
         // Someone tried to run a second instance, we should focus our window.
         if ( theWindow ) {
@@ -97,7 +87,7 @@ if ( !gotTheLock ) {
         setupBackground( store );
         theWindow = createSafeLaunchPadTrayWindow( store );
 
-        theWindow.on( 'close', ( event ) => {
+        theWindow.on( 'close', ( _event ) => {
             if ( isRunningOnWindows || isRunningOnLinux ) app.quit();
         } );
 
@@ -117,7 +107,7 @@ if ( !gotTheLock ) {
     } );
 }
 
-app.on( 'quit', async ( event ) => {
+app.on( 'quit', async ( _event ) => {
     await stopAuthDaemon();
 } );
 
@@ -138,7 +128,7 @@ app.on( 'window-all-closed', () => {
     }
 } );
 
-app.on( 'open-url', ( _, url ) => {
+app.on( 'open-url', ( _, _url ) => {
     try {
         theWindow.show();
     } catch ( error ) {

@@ -41,7 +41,7 @@ module.exports = {
         'unicorn/throw-new-error': 'off',
         'unicorn/regex-shorthand': 'error',
         'unicorn/no-new-buffer': 'off',
-        'unicorn/no-unsafe-regex': 'error',
+        'unicorn/no-unsafe-regex': 'warn',
         'no-prototype-builtins': 'off',
         'unicorn/prefer-type-error': 'off',
         'unicorn/new-for-builtins': 'off',

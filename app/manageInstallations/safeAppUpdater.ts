@@ -10,17 +10,14 @@ import { notificationTypes } from '$Constants/notifications';
 import { getLocalAppVersion, getInstalledLocation } from './helpers';
 import {
     appHasUpdate,
-    updateAppInfoIfNewer,
     resetAppUpdateState
 } from '$Actions/app_manager_actions';
-import { initialAppManager } from '$Reducers/initialAppManager';
 import {
     isDryRun,
     isRunningOnLinux,
     isRunningOnWindows,
     isRunningOnMac,
-    openAppsInDebugMode,
-    useTestPackages
+    openAppsInDebugMode
 } from '$Constants';
 import { logger } from '$Logger';
 
@@ -153,7 +150,7 @@ export class SafeAppUpdater {
                 logger.warn( `Updating application ${application.name}` );
 
                 // use exec for updates to retrieve info.
-                const output = exec( `${command} ...cmdArguments`, {} );
+                const output = exec( `${command} ${cmdArguments}`, {} );
 
                 output.stderr.on( 'data', ( data ) => {
                     logger.error(
