@@ -16,7 +16,7 @@ import {
     isRunningTestCafeProcess
 } from '$Constants';
 import { INSTALL_TARGET_DIR } from '$Constants/installConstants';
-
+import { capitalize } from '$Utils/capitalize';
 import { setCurrentVersion } from '$Actions/application_actions';
 
 import { logger } from '$Logger';
@@ -28,11 +28,15 @@ export const delay = ( time: number ): Promise<void> =>
     );
 
 const getLocalLinuxAppImageName = ( application ) => {
+    const appPackageNameForChannel = `'${application.packageName ||
+        application.name}-v*${RELEASE_CHANNEL}*'`;
+
     const commandArguments = [
         INSTALL_TARGET_DIR,
         '-name',
-        `'${application.packageName || application.name}-v*'`
+        appPackageNameForChannel
     ];
+
     logger.verbose(
         'Attempting to locate an installed linux version via:',
         'find',
@@ -42,22 +46,17 @@ const getLocalLinuxAppImageName = ( application ) => {
 
     try {
         installedApp = execSync(
-            `find ${INSTALL_TARGET_DIR} -name ${application.packageName ||
-                application.name}-v*`,
+            `find ${INSTALL_TARGET_DIR} -name ${appPackageNameForChannel}`,
             {
                 encoding: 'utf-8'
             }
         );
     } catch ( error ) {
-        logger.error( 'Error chekcing for local linux appImage', error );
+        logger.error( 'Error checking for local linux appImage', error );
     }
 
     return installedApp;
 };
-
-function capitalizeFirstLetter( string ) {
-    return string.charAt( 0 ).toUpperCase() + string.slice( 1 );
-}
 
 export const getApplicationExecutable = (
     application: App,
@@ -68,7 +67,7 @@ export const getApplicationExecutable = (
 
     let applicationExecutable: string;
     const appModifier = RELEASE_CHANNEL
-        ? ` ${capitalizeFirstLetter( RELEASE_CHANNEL )}`
+        ? ` ${capitalize( RELEASE_CHANNEL )}`
         : '';
 
     switch ( platform ) {
@@ -156,24 +155,23 @@ export const checkIfAppIsInstalledLocally = async (
 };
 
 export const getLocalAppVersion = ( application, store: Store ): string => {
-    logger.info(
-        'Checking locally installed version file: ',
-        path.resolve( INSTALL_TARGET_DIR, application.packageName, 'version' )
-    );
+    logger.info( 'Checking locally installed version file' );
 
     let localVersion: string;
 
     if ( isRunningOnLinux ) {
         const installedApp = getLocalLinuxAppImageName( application );
-        logger.info( 'Installed linux found: ', installedApp );
+        logger.verbose( 'Installed linux found: ', installedApp );
 
         if ( installedApp ) {
-            const semvarRegex = /(\d+\.)(\d+\.)(\d)/g;
+            const semvarRegex = /(\d+\.)(\d+\.)(\d+)(-alpha|-beta)?(\.\d+)?/g;
 
             localVersion = semvarRegex.exec( installedApp )[0] || null; // 0 is full match
         }
     } else {
         try {
+            // const appContainingFolder = `'${application.name} ${capitalize(RELEASE_CHANNEL)}'`;
+
             // default to MacOs
             let versionFilePath = path.resolve(
                 getInstalledLocation( application ),
@@ -183,10 +181,15 @@ export const getLocalAppVersion = ( application, store: Store ): string => {
             if ( isRunningOnWindows ) {
                 versionFilePath = path.resolve(
                     INSTALL_TARGET_DIR,
-                    application.packageName,
+                    getInstalledLocation( application ),
+                    '..',
                     'version'
                 );
             }
+            logger.verbose(
+                'locally installed version file location to check: ',
+                versionFilePath
+            );
 
             if ( fs.pathExistsSync( versionFilePath ) ) {
                 localVersion = fs.readFileSync( versionFilePath ).toString();
