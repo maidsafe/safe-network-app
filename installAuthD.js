@@ -9,9 +9,9 @@ const isRunningOnLinux = process.platform === 'linux';
 const isRunningOnMac = process.platform === 'darwin';
 const isRunningOnWindows = process.platform === 'win32';
 
-// https://safe-api.s3.eu-west-2.amazonaws.com/safe-authd-ae59e7f-x86_64-apple-darwin.zip
-const s3UrlBasis =
-    'https://safe-api.s3.eu-west-2.amazonaws.com/safe-authd-ae59e7f-x86_64';
+// https://safe-api.s3.eu-west-2.amazonaws.com/safe-authd-0.0.1-x86_64-apple-darwin.zip
+const AUTHD_VERSION = '0.0.1';
+const s3UrlBasis = `https://safe-api.s3.eu-west-2.amazonaws.com/safe-authd-${AUTHD_VERSION}-x86_64`;
 const s3UrlMac = `${s3UrlBasis}-apple-darwin.zip`;
 const s3UrlLinux = `${s3UrlBasis}-unknown-linux-gnu.zip`;
 const s3UrlWin = `${s3UrlBasis}-pc-windows-gnu.zip`;
