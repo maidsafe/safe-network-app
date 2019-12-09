@@ -11,7 +11,8 @@ const LINUX = 'linux';
 const WINDOWS = 'win32';
 
 const CONFIG_FILE = 'vault_connection_info.config';
-const CONFIG_LINK = `https://github.com/maidsafe/safe_vault/releases/download/0.19.2/${CONFIG_FILE}`;
+// https://safe-vault-config.s3.eu-west-2.amazonaws.com/shared-vault/vault_connection_info.config
+const CONFIG_LINK = `https://safe-vault-config.s3.eu-west-2.amazonaws.com/shared-vault/${CONFIG_FILE}`;
 let targetFolder = '.config/safe_vault/';
 
 const homedir = require( 'os' ).homedir();
