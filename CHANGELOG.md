@@ -2,7 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [0.0.5](https://github.com/maidsafe/safe-network-app/compare/v0.0.5-beta.1...v0.0.5) (2020-01-21)
+### [0.0.5](https://github.com/maidsafe/safe-network-app/compare/v0.0.4...v0.0.5) (2020-01-21)
+
+
+### Bug Fixes
+
+* **authd:** Authd init. ([2eb737f](https://github.com/maidsafe/safe-network-app/commit/2eb737f))
+* **authd:** Windows authd properly packed. ([221444b](https://github.com/maidsafe/safe-network-app/commit/221444b)), closes [#223](https://github.com/maidsafe/safe-network-app/issues/223)
+* **ci:** Add missing windows cert step for travis ([5a1684c](https://github.com/maidsafe/safe-network-app/commit/5a1684c))
+* **create:** Create account flow fix. ([1ed7b20](https://github.com/maidsafe/safe-network-app/commit/1ed7b20))
+* **linux:** Installed version detection fix for channels. ([715479a](https://github.com/maidsafe/safe-network-app/commit/715479a))
+* **mac:** Fix quitting ([8eb44d0](https://github.com/maidsafe/safe-network-app/commit/8eb44d0)), closes [#215](https://github.com/maidsafe/safe-network-app/issues/215)
+* **request:** Make test permission req use a string id. ([3a5a2d8](https://github.com/maidsafe/safe-network-app/commit/3a5a2d8)), closes [#221](https://github.com/maidsafe/safe-network-app/issues/221)
+* **updates:** Specifically handle SNAPP updates. ([e577e7d](https://github.com/maidsafe/safe-network-app/commit/e577e7d))
+* **windows open:** Fix opening of apps on win. ([3c7b0f6](https://github.com/maidsafe/safe-network-app/commit/3c7b0f6)), closes [#214](https://github.com/maidsafe/safe-network-app/issues/214)
+* Authd functionality missing after merge ([e046a4f](https://github.com/maidsafe/safe-network-app/commit/e046a4f))
+* login error placement. ([1984ee7](https://github.com/maidsafe/safe-network-app/commit/1984ee7)), closes [#218](https://github.com/maidsafe/safe-network-app/issues/218)
+* permission template string. ([e326da2](https://github.com/maidsafe/safe-network-app/commit/e326da2)), closes [#220](https://github.com/maidsafe/safe-network-app/issues/220)
+
+
+### Features
+
+* **auth:** Add login/out functionality vis safe-authd ([941ea34](https://github.com/maidsafe/safe-network-app/commit/941ea34))
+* **authd:** Add authenticator request handling. ([42f7d4e](https://github.com/maidsafe/safe-network-app/commit/42f7d4e))
+* **authd:** Packaged authd inclusion ([1186d78](https://github.com/maidsafe/safe-network-app/commit/1186d78))
+* **authd:** Windows authd install ([e04961d](https://github.com/maidsafe/safe-network-app/commit/e04961d)), closes [#219](https://github.com/maidsafe/safe-network-app/issues/219)
+* **channels:** Use electron update release channels ([1558231](https://github.com/maidsafe/safe-network-app/commit/1558231))
+* **invite info:** Add invite info pages. ([08a188d](https://github.com/maidsafe/safe-network-app/commit/08a188d)), closes [#181](https://github.com/maidsafe/safe-network-app/issues/181)
+* **logged out:** Logged out pages and flow skeleton. ([91e50e8](https://github.com/maidsafe/safe-network-app/commit/91e50e8))
+* **perms:** update permissions page ([c869927](https://github.com/maidsafe/safe-network-app/commit/c869927))
+* **release:** Github release workflow for s3 ([5b0bd9c](https://github.com/maidsafe/safe-network-app/commit/5b0bd9c))
+* **release channels:** SNAPP now uses the same release channel for all managed apps ([c576528](https://github.com/maidsafe/safe-network-app/commit/c576528))
+* **safe:** update safe-nodejs to 0.6.0 ([614f093](https://github.com/maidsafe/safe-network-app/commit/614f093))
+* **UI:** Initial UI changes for SNAPP ([8218bdb](https://github.com/maidsafe/safe-network-app/commit/8218bdb))
+* **vault:** add help menu option to update shared vault config ([577a902](https://github.com/maidsafe/safe-network-app/commit/577a902))
+* **Working:** Adds working state to login / auth functionality ([4e58564](https://github.com/maidsafe/safe-network-app/commit/4e58564))
 
 ### [0.0.4](https://github.com/maidsafe/safe-network-app/compare/v0.0.3...v0.0.4) (2019-11-14)
 
