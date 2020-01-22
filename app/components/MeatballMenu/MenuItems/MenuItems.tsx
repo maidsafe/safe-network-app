@@ -7,7 +7,6 @@ import styles from './MenuItems.css';
 import { App } from '$Definitions/application.d';
 import { logger } from '$Logger';
 
-
 interface MenuItemsProps {
     unInstallApp: Function;
     openApp: Function;
@@ -104,7 +103,7 @@ export class MenuItems extends Component<MenuItemsProps> {
         const { showAboutAppOption } = this.props;
 
         return (
-            <>
+            <React.Fragment>
                 {showAboutAppOption && (
                     <MenuItemWrapper
                         className={styles['menu-item']}
@@ -131,7 +130,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                     </MenuItemWrapper>
                 )}
                 {isInstalled && !isUpdating && (
-                    <>
+                    <React.Fragment>
                         <MenuItemWrapper
                             className={styles['menu-item']}
                             onClick={this.handleOpen}
@@ -139,7 +138,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                         >
                             Open
                         </MenuItemWrapper>
-                    </>
+                    </React.Fragment>
                 )}
                 {isDownloadingAndInstalling && (
                     <MenuItemWrapper
@@ -181,7 +180,7 @@ export class MenuItems extends Component<MenuItemsProps> {
                         Skip This Update
                     </MenuItemWrapper>
                 )}
-            </>
+            </React.Fragment>
         );
     }
 }

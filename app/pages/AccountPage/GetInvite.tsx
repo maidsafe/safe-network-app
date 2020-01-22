@@ -8,7 +8,7 @@ import { logger } from '$Logger';
 
 export const GetInvite = ( props ) => {
     return (
-        <>
+        <React.Fragment>
             <Typography variant="h5">Get an invite</Typography>
 
             <Typography variant="body2">
@@ -31,6 +31,6 @@ export const GetInvite = ( props ) => {
                     I already have an invite
                 </Button>
             </Grid>
-        </>
+        </React.Fragment>
     );
 };

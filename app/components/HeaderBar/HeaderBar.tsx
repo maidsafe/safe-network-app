@@ -20,13 +20,12 @@ import {
 } from '$Constants/routes.json';
 import appLogo from '$Assets/images/app_logo_white.svg';
 
-
 const BackButton = withRouter( ( { location, history } ) => {
     const handleClick = () => {
         history.goBack();
     };
     return (
-        <>
+        <React.Fragment>
             {location.pathname !== '/' && (
                 <IconButton
                     className={styles.BackButton}
@@ -39,7 +38,7 @@ const BackButton = withRouter( ( { location, history } ) => {
                     <ArrowBack style={{ fontSize: 18 }} />
                 </IconButton>
             )}
-        </>
+        </React.Fragment>
     );
 } );
 

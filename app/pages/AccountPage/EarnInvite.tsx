@@ -6,7 +6,7 @@ import { Grid, Button, Typography } from '@material-ui/core';
 
 export const EarnInvite = () => {
     return (
-        <>
+        <React.Fragment>
             <Typography variant="h5">Earn an invite</Typography>
             <Typography variant="body2">Run a vault...</Typography>
 
@@ -25,6 +25,6 @@ export const EarnInvite = () => {
                     I already have an invite
                 </Button>
             </Grid>
-        </>
+        </React.Fragment>
     );
 };
