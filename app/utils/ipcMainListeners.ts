@@ -68,6 +68,10 @@ export const setupIPCListeners = ( store ) => {
         app.quit();
     } );
 
+    ipcMain.on( 'focus-the-app', () => {
+        app.focus();
+    } );
+
     ipcMain.on( 'checkApplicationsForUpdate', ( _event, application ) => {
         safeAppUpdater.checkAppsForUpdate( application );
     } );
