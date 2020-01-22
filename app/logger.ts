@@ -13,40 +13,36 @@ import {
     isRunningTestCafeProcess,
     inMainProcess,
     isDryRun,
-    isCI,
-    LOG_FILE_NAME
+    isCI
 } from '$Constants';
+
 
 if ( log.transports ) {
     // Log level
     // error, warn, log, log, debug, silly
-    // log.transports.console.level = 'silly';
     log.transports.file.level = 'silly';
-    log.transports.console.level = 'silly';
+    log.transports.console.format = '[Renderer: {h}:{i}:{s}.{ms}] › {text}';
 
     if (
         isRunningTestCafeProcess ||
-        process.env.NODE_ENV === 'test' ||
-        ( !isRunningDebug && isRunningPackaged )
+    process.env.NODE_ENV === 'test' ||
+    ( !isRunningDebug && isRunningPackaged )
     ) {
         log.transports.file.level = 'warn';
         log.transports.console.level = 'warn';
     }
 
-    log.transports.file.file = path.resolve( os.tmpdir(), LOG_FILE_NAME );
-
-    log.transports.console.format = '[{label} {h}:{i}:{s}.{ms}] › {text}';
     if ( currentWindowId ) {
-        log.variables.label = `window ${currentWindowId}`;
+        log.transports.console.format = `[Window :${currentWindowId}: {h}:{i}:{s}.{ms}] › {text}`;
     }
     if ( inMainProcess ) {
         log.variables.label = 'main';
-        log.transports.console.format =
-            '%c[{label} {h}:{i}:{s}.{ms}]%c › {text}';
+        log.transports.console.format = '%c{h}:{i}:{s}.{ms}%c › {text}';
     }
 
     if ( inBgProcess ) {
-        log.variables.label = 'background';
+        log.transports.file.fileName = 'background.log';
+        log.transports.console.format = '[Background: {h}:{i}:{s}.{ms}] › {text}';
     }
 
     log.transports.file.maxSize = 5 * 1024 * 1024;
