@@ -47,7 +47,7 @@ async function main() {
 
 try {
     main();
-    console.log("AuthD successfully installed.")
+    console.log( "AuthD successfully installed." )
 } catch ( theError ) {
     console.error( 'Error downloading safe-auth or unzipping', theError.message );
     // eslint-disable-next-line unicorn/no-process-exit

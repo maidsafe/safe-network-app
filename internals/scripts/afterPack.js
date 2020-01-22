@@ -5,7 +5,7 @@
 const path = require( 'path' );
 const fs = require( 'fs-extra' );
 
-const pkg = require( '../../package.json' );
+const thePackage = require( '../../package.json' );
 
 // const env = process.env.NODE_ENV || 'production';
 // const isBuildingDev = env.startsWith( 'dev' );
@@ -46,7 +46,7 @@ exports.default = async function( context ) {
 
     console.log( 'Creating version file here:', CONTAINING_FOLDER );
     // add version file
-    fs.outputFileSync( path.resolve( CONTAINING_FOLDER, 'version' ), pkg.version );
+    fs.outputFileSync( path.resolve( CONTAINING_FOLDER, 'version' ), thePackage.version );
 
     // remove licenses
     const removalArray = [

@@ -4,14 +4,14 @@
 
 import path from 'path';
 import webpack from 'webpack';
-import { dependencies } from '../package.json';
+import { dependencies } from '../package';
 
 export default {
     externals: [...Object.keys( dependencies || {} )],
     module: {
         rules: [
             {
-                test: /\.[j|t]sx?$/,
+                test: /\.[jt|]sx?$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',

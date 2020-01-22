@@ -1,4 +1,4 @@
-const pkg = require( './package.json' );
+const thePackage = require( './package.json' );
 
 const { platform } = process;
 const allPassedArguments = process.argv;
@@ -9,7 +9,7 @@ const WINDOWS = 'win32';
 // eslint-disable-next-line consistent-return, @typescript-eslint/explicit-function-return-type
 
 const publishedFilePath = () => {
-    const { name } = pkg;
+    const { name } = thePackage;
 
     if ( platform === LINUX ) {
         return `${name}-linux`;
@@ -22,13 +22,13 @@ const publishedFilePath = () => {
 };
 
 const getProductName = () => {
-    let { productName } = pkg;
+    let { productName } = thePackage;
 
-    if ( pkg.version.includes( '-alpha' ) ) {
+    if ( thePackage.version.includes( '-alpha' ) ) {
         productName = `${productName} Alpha`;
     }
 
-    if ( pkg.version.includes( '-beta' ) ) {
+    if ( thePackage.version.includes( '-beta' ) ) {
         productName = `${productName} Beta`;
     }
 
@@ -55,7 +55,7 @@ const buildConfig = {
         }
     ],
     extraResources: ['authd/safe-authd*'],
-    artifactName: `${pkg.name}-v\${version}-\${os}-x64.\${ext}`,
+    artifactName: `${thePackage.name}-v\${version}-\${os}-x64.\${ext}`,
     dmg: {
         contents: [
             {

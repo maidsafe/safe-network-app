@@ -54,6 +54,7 @@ module.exports = {
             }
         ],
         'import/prefer-default-export': 'off',
+        'import/extensions': ["error", "never"],
         'import/no-default-export': 'error',
         'react/prefer-stateless-function': 'off',
         'react/static-property-placement': 'off',
@@ -66,6 +67,7 @@ module.exports = {
         'react/prefer-stateless-function': 'error',
         '@typescript-eslint/interface-name-prefix': 'off',
         '@typescript-eslint/no-namespace': 'off',
+        '@typescript-eslint/no-unused-expressions': 'off',
         '@typescript-eslint/ban-ts-ignore': 'off',
         '@typescript-eslint/array-type': ['error', { default: 'generic' }],
         indent: 'off',
