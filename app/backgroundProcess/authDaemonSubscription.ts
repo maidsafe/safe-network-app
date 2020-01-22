@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import { Store } from 'redux';
 import getPort from 'get-port';
 
@@ -30,6 +31,8 @@ const handleAuthDSubscriptionCallbacks = (
             requestId
         } )
     );
+
+    ipcRenderer.send( 'focus-the-app' );
 };
 
 export const subscribeForAuthRequests = async (): Promise<void> => {
