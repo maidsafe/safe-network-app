@@ -10,7 +10,7 @@ const isRunningOnMac = process.platform === 'darwin';
 const isRunningOnWindows = process.platform === 'win32';
 
 // https://safe-api.s3.eu-west-2.amazonaws.com/safe-authd-0.0.1-x86_64-apple-darwin.zip
-const AUTHD_VERSION = '0.0.1';
+const AUTHD_VERSION = '0.0.2';
 const s3UrlBasis = `https://safe-api.s3.eu-west-2.amazonaws.com/safe-authd-${AUTHD_VERSION}-x86_64`;
 const s3UrlMac = `${s3UrlBasis}-apple-darwin.zip`;
 const s3UrlLinux = `${s3UrlBasis}-unknown-linux-gnu.zip`;
@@ -47,6 +47,7 @@ async function main() {
 
 try {
     main();
+    console.log("AuthD successfully installed.")
 } catch ( theError ) {
     console.error( 'Error downloading safe-auth or unzipping', theError.message );
     // eslint-disable-next-line unicorn/no-process-exit
