@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Grid, Button, Typography, TextField } from '@material-ui/core';
-
 import { withRouter } from 'react-router-dom';
 import { Route, Switch } from 'react-router';
 
-import { logger } from '$Logger';
 import styles from './Account.css';
+
+import { logger } from '$Logger';
 
 export const RequestCommunityInvite = () => {
     return (

@@ -1,7 +1,8 @@
-import { createActions } from 'redux-actions';
 import { ipcRenderer } from 'electron';
+import { createActions } from 'redux-actions';
 import { autoUpdater } from 'electron-updater';
 import { createAliasedAction } from 'electron-redux';
+
 import { logger } from '$Logger';
 import { dismissNotification } from '$Actions/launchpad_actions';
 import {

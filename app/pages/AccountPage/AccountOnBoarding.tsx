@@ -3,8 +3,10 @@ import { History } from 'history';
 import Grid from '@material-ui/core/Grid';
 import { Switch, Route, Redirect } from 'react-router';
 import { styled } from '@material-ui/core/styles';
-import { logger } from '$Logger';
 
+import styles from './Account.css';
+
+import { logger } from '$Logger';
 import { Stepper, StepperPage } from '$Components/Stepper';
 import {
     ACCOUNT_ONBOARDING,
@@ -13,7 +15,6 @@ import {
     ACCOUNT,
     ACCOUNT_CREATE_PASSWORD
 } from '$Constants/routes.json';
-import styles from './Account.css';
 
 interface Props {
     history: History;

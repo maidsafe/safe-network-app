@@ -1,13 +1,12 @@
 import { BrowserWindow, DownloadItem, ipcMain, shell } from 'electron';
+import { spawn, exec, execFile } from 'child_process';
+import path from 'path';
 import { Store } from 'redux';
 import { download } from 'electron-dl';
 import { I18n } from 'react-redux-i18n';
-import { spawn, exec, execFile } from 'child_process';
-import path from 'path';
 
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
 import { getS3Folder } from '$App/utils/gets3Folders';
-
 import {
     cancelAppDownloadAndInstallation,
     pauseAppDownloadAndInstallation,
@@ -15,7 +14,6 @@ import {
     updateDownloadProgress,
     downloadAndInstallAppFailure
 } from '$Actions/application_actions';
-
 import { pushNotification } from '$Actions/launchpad_actions';
 import {
     RELEASE_CHANNEL,
@@ -32,12 +30,9 @@ import {
     openAppsInDebugMode
 } from '$Constants';
 import { NOTIFICATION_TYPES } from '$Constants/notifications';
-
 import { silentInstall } from '$App/manageInstallations/installers';
 import { unInstallApplication } from '$App/manageInstallations/uninstall';
-
 import { logger } from '$Logger';
-
 import { App } from '$Definitions/application.d';
 import {
     DOWNLOAD_TARGET_DIR,

@@ -1,5 +1,5 @@
-import { createAliasedAction } from 'electron-redux';
 import { ipcRenderer } from 'electron';
+import { createAliasedAction } from 'electron-redux';
 import { createActions } from 'redux-actions';
 
 import { createSafeAccount } from '$Background/createSafeAccount';

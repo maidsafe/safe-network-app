@@ -4,6 +4,7 @@ import {
     clickOnMainMenuItem,
     getContextMenuItems
 } from 'testcafe-browser-provider-electron';
+
 import { assertNoConsoleErrors, getPageTitle, getByAria } from '../helpers';
 
 fixture`Overview Page`

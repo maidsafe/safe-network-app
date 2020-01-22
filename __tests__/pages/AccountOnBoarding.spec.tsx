@@ -5,7 +5,6 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-
 import configureStore from 'redux-mock-store';
 
 import { AccountOnBoarding } from '$Pages/AccountPage/AccountOnBoarding';

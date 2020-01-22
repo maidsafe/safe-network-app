@@ -1,6 +1,8 @@
 import { uniqBy } from 'lodash';
-import { TYPES } from '$Actions/alias/authd_actions';
+
 import { AuthDState } from '../definitions/application.d';
+
+import { TYPES } from '$Actions/alias/authd_actions';
 // import { ERRORS } from '$Constants/errors';
 import { logger } from '$Logger';
 

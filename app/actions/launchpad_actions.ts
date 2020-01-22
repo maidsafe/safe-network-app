@@ -1,4 +1,7 @@
 import { createActions } from 'redux-actions';
+
+import { triggerSetAsTrayWindow } from './alias/launchpad_actions';
+
 import {
     UserPreferences,
     AppPreferences,
@@ -6,7 +9,6 @@ import {
 } from '$Definitions/application.d';
 import { settingsHandler } from '$Actions/helpers/settings_handler';
 
-import { triggerSetAsTrayWindow } from './alias/launchpad_actions';
 
 export const TYPES = {
     ONBOARD_COMPLETED: 'ONBOARD_COMPLETED',

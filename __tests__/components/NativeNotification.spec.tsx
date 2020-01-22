@@ -1,6 +1,7 @@
 import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
 import { Button } from '@material-ui/core';
+
 import { Notification } from '$Components/Notifications/Notification';
 import { notificationTypes } from '$Constants/notifications';
 

@@ -1,8 +1,8 @@
 import path from 'path';
 import { execSync } from 'child_process';
-
 import { Store } from 'redux';
 import fs from 'fs-extra';
+
 import {
     RELEASE_CHANNEL,
     BETA,
@@ -18,7 +18,6 @@ import {
 import { INSTALL_TARGET_DIR } from '$Constants/installConstants';
 import { capitalize } from '$Utils/capitalize';
 import { setCurrentVersion } from '$Actions/application_actions';
-
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 

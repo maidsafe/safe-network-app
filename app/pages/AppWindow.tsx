@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
 import { App } from '$Components/App/App';
 import {
     acceptNotification,
@@ -12,7 +13,6 @@ import {
     dismissNotification
 } from '$Actions/launchpad_actions';
 import { logOutOfNetwork } from '$Actions/alias/authd_actions';
-
 import { logger } from '$Logger';
 import {
     unInstallApp,

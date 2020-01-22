@@ -1,7 +1,8 @@
 import path from 'path';
-import fs from 'fs-extra';
 import http from 'http';
 import https from 'https';
+import fs from 'fs-extra';
+
 import { logger } from '$Logger';
 
 const { platform } = process;

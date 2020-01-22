@@ -1,12 +1,12 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
 import {
     triggerSetAsTrayWindow,
     autoLaunch,
     quitApplication
 } from '$Actions/alias/launchpad_actions';
 import { Settings } from '$Components/Settings';
-
 import {
     setUserPreferences,
     getUserPreferences

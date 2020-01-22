@@ -1,9 +1,9 @@
 import { Store } from 'redux';
 import getPort from 'get-port';
+
 import { setupAuthDaemon } from '$Background/authDaemon';
 import { LAUNCHPAD_APP_ID } from '$Constants';
 import { addAuthRequestToPendingList } from '$Actions/alias/authd_actions';
-
 import { logger } from '$Logger';
 
 let theAuthDaemonWithSubscription;

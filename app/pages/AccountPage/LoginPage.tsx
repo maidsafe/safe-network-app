@@ -6,21 +6,18 @@ import {
     TextField,
     withStyles
 } from '@material-ui/core';
-
 import Switch from '@material-ui/core/Switch';
 import Fab from '@material-ui/core/Fab';
-
 import LockIcon from '@material-ui/icons/Lock';
 import { Redirect } from 'react-router-dom';
 
+import styles from './Account.css';
+
 import { Page } from '$Components/Page';
 import { CustomTextField } from '$Components/StyledMui';
-
 import { logger } from '$Logger';
-
 import { HOME } from '$Constants/routes.json';
 
-import styles from './Account.css';
 
 interface Props {
     loginError: string;

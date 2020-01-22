@@ -1,9 +1,10 @@
-import { createAliasedAction } from 'electron-redux';
 import { ipcRenderer } from 'electron';
+import { createAliasedAction } from 'electron-redux';
+
+import { autoLaunchOnStart } from '../helpers/launchpad';
 
 import { Preferences } from '$Definitions/application.d';
 import { settingsHandler } from '$Actions/helpers/settings_handler';
-import { autoLaunchOnStart } from '../helpers/launchpad';
 
 export const TYPES = {
     ALIAS__SHOULD_ONBOARD: 'ALIAS__SHOULD_ONBOARD',

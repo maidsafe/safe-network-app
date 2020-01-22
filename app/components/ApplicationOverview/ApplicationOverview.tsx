@@ -12,12 +12,14 @@ import {
 } from '@material-ui/core';
 import indigo from '@material-ui/core/colors/indigo';
 import FolderIcon from '@material-ui/icons/Folder';
+
+import styles from './ApplicationOverview.css';
+
 import { MeatballMenu } from '$Components/MeatballMenu';
 import { AppIcon } from '$Components/AppIcon';
 // import { logger } from '$Logger';
 import { AppStateButton } from '$Components/AppStateButton';
 import { getAppStatusText } from '$Utils/app_utils';
-import styles from './ApplicationOverview.css';
 import { App } from '$Definitions/application.d';
 import { RELEASE_CHANNEL } from '$Constants';
 import { capitalize } from '$Utils/capitalize';

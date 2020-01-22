@@ -1,4 +1,5 @@
 const { pathsToModuleNameMapper } = require( 'ts-jest/utils' );
+
 const { compilerOptions } = require( './tsconfig' );
 
 const tsConfigAlias = pathsToModuleNameMapper( compilerOptions.paths, {

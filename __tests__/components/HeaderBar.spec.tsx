@@ -1,7 +1,6 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
-
 import configureStore from 'redux-mock-store';
 
 import { HeaderBar } from '$App/components/HeaderBar';

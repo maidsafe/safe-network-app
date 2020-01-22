@@ -1,26 +1,20 @@
 import { bindActionCreators } from 'redux';
-
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { Redirect } from 'react-router-dom';
-
 import { connect, Dispatch } from 'react-redux';
-// import { PermissionsPage as ThePermissionsPage } from './PermissionsPage';
-import { logger } from '$Logger';
 
+import { notificationTypes } from '../../constants/notifications';
+
+import { logger } from '$Logger';
 import {
     allowAuthRequest,
     denyAuthRequest
 } from '$Actions/alias/authd_actions';
-
 import { AppState, AuthDState, AuthRequest } from '$Definitions/application.d';
-
 import { PermissionsPending } from '$Pages/PermissionsPage/PermissionsPending';
 import { PermissionsGranted } from '$Pages/PermissionsPage/PermissionsGranted';
 import { PermissionRequest } from '$Pages/PermissionsPage/PermissionRequest';
-
-// import styles from './Account.css';
-
 import {
     PERMISSIONS,
     PERMISSIONS_PENDING,
@@ -28,7 +22,6 @@ import {
     PERMISSIONS_REQUEST,
     ACCOUNT_LOGIN
 } from '$Constants/routes.json';
-import { notificationTypes } from '../../constants/notifications';
 
 interface Props {
     isLoggedIn: boolean;

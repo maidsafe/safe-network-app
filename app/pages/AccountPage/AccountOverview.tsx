@@ -2,16 +2,13 @@ import React from 'react';
 import { Grid, List, Typography } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-
-// import { Redirect, Route, Switch } from 'react-router';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-// import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-// import CardMedia from '@material-ui/core/CardMedia';
-import { logger } from '$Logger';
+
 import styles from './Account.css';
 
+import { logger } from '$Logger';
 import {
     ACCOUNT_CREATE,
     ACCOUNT_CREATE_REDEEM,

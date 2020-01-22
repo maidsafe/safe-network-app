@@ -1,6 +1,7 @@
 import { Selector } from 'testcafe';
 import { waitForReact } from 'testcafe-react-selectors';
 import { clickOnMainMenuItem } from 'testcafe-browser-provider-electron';
+
 import { getPageUrl, getPageTitle, getByAria } from '../helpers';
 
 const getPreferenceItems = () => {

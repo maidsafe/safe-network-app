@@ -3,24 +3,26 @@ import { History } from 'history';
 import Grid from '@material-ui/core/Grid';
 import { Switch, Route, Redirect } from 'react-router';
 import { styled } from '@material-ui/core/styles';
-import {
-    UserPreferences,
-    AppPreferences,
-    Preferences,
-    LaunchpadState
-} from '$Definitions/application.d';
 
-import { Stepper } from '$Components/Stepper';
+
 import { GetStarted } from './GetStarted';
 import { Intro } from './Intro';
 import { BasicSettings } from './BasicSettings/BasicSettings';
+import styles from './OnBoarding.css';
+
 import {
     HOME,
     ON_BOARDING_INTRO,
     ON_BOARDING_BASIC_SETTINGS,
     ON_BOARDING
 } from '$Constants/routes.json';
-import styles from './OnBoarding.css';
+import { Stepper } from '$Components/Stepper';
+import {
+    UserPreferences,
+    AppPreferences,
+    Preferences,
+    LaunchpadState
+} from '$Definitions/application.d';
 
 interface Props {
     setAppPreferences: Function;

@@ -7,7 +7,6 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import { RouteComponentProps } from 'react-router';
 
 import { logger } from '$Logger';
-
 import {
     ON_BOARDING,
     ON_BOARDING_BASIC_SETTINGS,

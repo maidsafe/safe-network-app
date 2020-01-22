@@ -1,7 +1,9 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { ApplicationDetail } from '$Components/ApplicationDetail';
 
+import { AppState } from '../definitions/application.d';
+
+import { ApplicationDetail } from '$Components/ApplicationDetail';
 import { updateDownloadProgress } from '$Actions/application_actions';
 import {
     downloadAndInstallApp,
@@ -14,7 +16,6 @@ import {
     fetchLatestAppVersions
 } from '$Actions/alias/app_manager_actions';
 import { triggerSetAsTrayWindow } from '$Actions/alias/launchpad_actions';
-import { AppState } from '../definitions/application.d';
 import { pushNotification } from '$Actions/launchpad_actions';
 import { resetAppInstallationState } from '$Actions/app_manager_actions';
 

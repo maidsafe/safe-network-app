@@ -4,6 +4,7 @@
 
 import path from 'path';
 import webpack from 'webpack';
+
 import { dependencies } from '../package';
 
 export default {

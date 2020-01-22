@@ -3,10 +3,11 @@ import { app, Tray, BrowserWindow, ipcMain, screen, App, Menu } from 'electron';
 import { Store } from 'redux';
 import open from 'open';
 import { is } from 'electron-util';
-import { logger } from '$Logger';
-import { Application } from './definitions/application.d';
-import { setAsTrayWindow } from '$Actions/launchpad_actions';
 
+import { Application } from './definitions/application.d';
+
+import { logger } from '$Logger';
+import { setAsTrayWindow } from '$Actions/launchpad_actions';
 import {
     isRunningTestCafeProcess,
     isRunningDebug,

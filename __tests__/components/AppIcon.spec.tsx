@@ -1,6 +1,7 @@
 import React from 'react';
 import FolderIcon from '@material-ui/icons/Folder';
 import { createShallow } from '@material-ui/core/test-utils';
+
 import { AppIcon } from '$Components/AppIcon';
 
 const shallow = createShallow();

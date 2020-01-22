@@ -1,9 +1,9 @@
-const fs = require( 'fs-extra' );
-const unzipper = require( 'unzipper' );
-const request = require( 'request' );
 const os = require( 'os' );
 const path = require( 'path' );
 const { exec } = require( 'child_process' );
+const fs = require( 'fs-extra' );
+const unzipper = require( 'unzipper' );
+const request = require( 'request' );
 
 const isRunningOnLinux = process.platform === 'linux';
 const isRunningOnMac = process.platform === 'darwin';

@@ -3,6 +3,7 @@
 const fs = require( 'fs' );
 const path = require( 'path' );
 const electronNotarize = require( 'electron-notarize' );
+
 const buildConfig = require( '../../builderConfig' );
 
 const shouldNotarize = process.env.SHOULD_NOTARIZE;

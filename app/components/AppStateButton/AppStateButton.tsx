@@ -1,21 +1,19 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
-
 import CancelIcon from '@material-ui/icons/Cancel';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
-
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 
+import styles from './AppStateButton.css';
+
 import { getAppStatusText } from '$Utils/app_utils';
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
-
-import styles from './AppStateButton.css';
 import { notificationTypes } from '$Constants/notifications';
 
 interface Props {

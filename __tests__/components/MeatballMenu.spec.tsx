@@ -2,6 +2,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { MoreVert } from '@material-ui/icons';
+
 import { MeatballMenu } from '$Components/MeatballMenu';
 
 jest.mock( '$Logger' );

@@ -1,12 +1,12 @@
-import { TYPES } from '$App/actions/launchpad_actions';
-import { TYPES as NOTIFICATION_TYPES } from '$Actions/alias/notification_actions';
-import { TYPES as ALIAS__TYPES } from '$Actions/alias/launchpad_actions';
 import {
     LaunchpadState,
     UserPreferences,
     AppPreferences
 } from '../definitions/application.d';
 
+import { TYPES } from '$App/actions/launchpad_actions';
+import { TYPES as NOTIFICATION_TYPES } from '$Actions/alias/notification_actions';
+import { TYPES as ALIAS__TYPES } from '$Actions/alias/launchpad_actions';
 import { ERRORS } from '$Constants/errors';
 import { defaultPreferences } from '$Constants/index';
 import { logger } from '$Logger';

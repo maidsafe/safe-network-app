@@ -1,8 +1,12 @@
-import * as fs from 'fs-extra';
 import { app, Menu, shell } from 'electron';
-import { Store } from 'redux';
 import path from 'path';
+import * as fs from 'fs-extra';
+import { Store } from 'redux';
 import { push } from 'connected-react-router';
+
+import { safeAppUpdater } from './manageInstallations/safeAppUpdater';
+import { Application } from './definitions/application.d';
+
 import {
     pushNotification,
     setUserPreferences,
@@ -26,11 +30,8 @@ import {
     storePreferences,
     quitApplication
 } from '$Actions/alias/launchpad_actions';
-import { safeAppUpdater } from './manageInstallations/safeAppUpdater';
-import { Application } from './definitions/application.d';
 import { logger } from '$Logger';
 import pkg from '$Package';
-
 import { PERMISSIONS_PENDING } from '$Constants/routes.json';
 
 const subMenuHelp = {

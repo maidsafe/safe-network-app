@@ -1,5 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect, Dispatch } from 'react-redux';
+
 import { AccountPage as TheAccountPage } from './AccountPage';
 
 import {
@@ -7,7 +8,6 @@ import {
     createAccount,
     setAuthdWorking
 } from '$Actions/alias/authd_actions';
-
 import { AppState } from '$Definitions/application.d';
 
 function mapStateToProperties( state: AppState ) {

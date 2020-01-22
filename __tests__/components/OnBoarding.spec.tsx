@@ -1,5 +1,6 @@
 import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
+
 import { OnBoarding } from '$Components/OnBoarding';
 import { Stepper } from '$Components/Stepper';
 import {

@@ -1,4 +1,5 @@
 import { AppManagerState, App } from '../definitions/application.d';
+
 import { fetchDefaultAppIconFromLocal } from '$Actions/alias/app_manager_actions';
 
 export const initialAppManager: AppManagerState = {

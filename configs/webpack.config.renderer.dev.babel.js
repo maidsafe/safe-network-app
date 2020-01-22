@@ -9,10 +9,11 @@
 
 import path from 'path';
 import fs from 'fs';
+import { spawn, execSync } from 'child_process';
 import webpack from 'webpack';
 import chalk from 'chalk';
 import merge from 'webpack-merge';
-import { spawn, execSync } from 'child_process';
+
 import baseConfig from './webpack.config.base';
 
 const CircularDependencyPlugin = require( 'circular-dependency-plugin' );

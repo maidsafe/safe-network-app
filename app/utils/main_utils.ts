@@ -1,6 +1,7 @@
 import { app } from 'electron';
 import path from 'path';
 import * as fs from 'fs-extra';
+
 import pkg from '$Package';
 import {
     setUserPreferences,
@@ -13,7 +14,6 @@ import {
     settingsHandlerName,
     defaultPreferences
 } from '$Constants/index';
-
 import { logger } from '$Logger';
 
 const setPreferences = ( store, preferences ) => {

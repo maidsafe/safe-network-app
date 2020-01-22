@@ -1,6 +1,7 @@
+import { dialog, ipcMain, nativeImage } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { dialog, ipcMain, nativeImage } from 'electron';
+
 import { logger } from '$Logger';
 import { notificationTypes } from '$Constants/notifications';
 import { pushNotification } from '$Actions/launchpad_actions';

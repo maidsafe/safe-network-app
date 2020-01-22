@@ -2,20 +2,20 @@ import { app } from 'electron';
 import { Store } from 'redux';
 import { enforceMacOSAppLocation } from 'electron-util';
 
-import { logger } from '$Logger';
-import { configureStore } from '$Store/configureStore';
 import { MenuBuilder } from './menu';
 import { Application } from './definitions/application.d';
 import { createSafeLaunchPadTrayWindow } from './setupLaunchPad';
 import { setupBackground } from './setupBackground';
+import { AppUpdater } from './autoUpdate';
+
+import { logger } from '$Logger';
+import { configureStore } from '$Store/configureStore';
 import { installExtensions, preferencesJsonSetup } from '$Utils/main_utils';
 import { safeAppUpdater } from '$App/manageInstallations/safeAppUpdater';
-
 import {
     setupAuthDaemon,
     stopAuthDaemon
 } from '$App/backgroundProcess/authDaemon';
-
 import {
     ignoreAppLocation,
     isRunningDebug,
@@ -24,10 +24,7 @@ import {
     isRunningOnLinux,
     isRunningOnWindows
 } from '$Constants';
-
 import { addNotification } from '$App/env-handling';
-import { AppUpdater } from './autoUpdate';
-
 import { setupIPCListeners } from '$Utils/ipcMainListeners';
 
 logger.info( 'User data exists: ', app.getPath( 'userData' ) );

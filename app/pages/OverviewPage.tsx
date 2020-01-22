@@ -1,5 +1,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+import { AppState } from '../definitions/application.d';
+
 import { Overview } from '$Components/Overview';
 import {
     downloadAndInstallApp,
@@ -10,7 +13,6 @@ import {
     unInstallApp,
     updateApp
 } from '$Actions/alias/app_manager_actions';
-
 import { resetAppInstallationState } from '$Actions/app_manager_actions';
 import { updateDownloadProgress } from '$Actions/application_actions';
 import { triggerSetAsTrayWindow } from '$Actions/alias/launchpad_actions';
@@ -18,7 +20,6 @@ import {
     getUserPreferences,
     pushNotification
 } from '$Actions/launchpad_actions';
-import { AppState } from '../definitions/application.d';
 
 function mapStateToProperties( state: AppState ) {
     return {

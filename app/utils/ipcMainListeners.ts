@@ -1,7 +1,7 @@
 import { ipcMain, app } from 'electron';
 import * as cp from 'child_process';
-import { logger } from '$Logger';
 
+import { logger } from '$Logger';
 import { safeAppUpdater } from '$App/manageInstallations/safeAppUpdater';
 
 export const setupIPCListeners = ( store ) => {

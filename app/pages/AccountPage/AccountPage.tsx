@@ -1,19 +1,16 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
 
+import { notificationTypes } from '../../constants/notifications';
+
 import { AccountOverview } from '$Pages/AccountPage/AccountOverview';
 import { AccountOnBoarding } from '$Pages/AccountPage/AccountOnBoarding';
 import { CreateAccountPage } from '$Pages/AccountPage/CreateAccountPage';
 import { LoginPage } from '$Pages/AccountPage/LoginPage';
-
 import { EarnInvite } from '$Pages/AccountPage/EarnInvite';
 import { GetInvite } from '$Pages/AccountPage/GetInvite';
 import { RequestCommunityInvite } from '$Pages/AccountPage/RequestCommunityInvite';
-
 import { AuthDState } from '$Definitions/application.d';
-
-// import styles from './Account.css';
-
 import {
     ACCOUNT,
     ACCOUNT_ONBOARDING,
@@ -23,7 +20,6 @@ import {
     ACCOUNT_INVITES_EARN,
     ACCOUNT_INVITES_REQUEST
 } from '$Constants/routes.json';
-import { notificationTypes } from '../../constants/notifications';
 
 interface Props {
     logInToNetwork: Function;

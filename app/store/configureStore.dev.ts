@@ -6,7 +6,6 @@ import {
     Reducer,
     StoreEnhancer
 } from 'redux';
-
 import { createHashHistory, History } from 'history';
 import { routerMiddleware, routerActions } from 'connected-react-router';
 import {
@@ -21,15 +20,16 @@ import {
     replayActionRenderer
 } from 'electron-redux';
 
+import { createRootReducer } from '../reducers';
+import en from '../locales/en';
+
 import {
     inRendererProcess,
     isRunningTestCafeProcess,
     inMainProcess
 } from '$Constants';
-
-import { createRootReducer } from '../reducers';
 import { addMiddlewares } from '$Store/addMiddlewares';
-import en from '../locales/en';
+
 
 const translationsObject = {
     en

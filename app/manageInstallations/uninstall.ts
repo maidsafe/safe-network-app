@@ -1,9 +1,8 @@
 import { app } from 'electron';
-import { Store } from 'redux';
-
 import { spawnSync } from 'child_process';
-import del from 'del';
 import path from 'path';
+import { Store } from 'redux';
+import del from 'del';
 import { I18n } from 'react-redux-i18n';
 
 import { pushNotification } from '$Actions/launchpad_actions';

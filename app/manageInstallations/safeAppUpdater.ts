@@ -2,12 +2,13 @@
 import fs from 'fs';
 // import * as cp from 'child_process';
 import { spawn, exec, execFile } from 'child_process';
-
 import compareVersions from 'compare-versions';
+
+import { getLocalAppVersion, getInstalledLocation } from './helpers';
+
 import { pushNotification } from '$Actions/launchpad_actions';
 import { getCommandLineParameter } from '$Utils/app_utils';
 import { notificationTypes } from '$Constants/notifications';
-import { getLocalAppVersion, getInstalledLocation } from './helpers';
 import {
     appHasUpdate,
     resetAppUpdateState
