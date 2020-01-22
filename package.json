@@ -29,8 +29,6 @@
     "postinstall": "node ./installAuthD.js && electron-builder install-app-deps && yarn build-dll && opencollective-postinstall",
     "prelint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{*{js,ts,tsx,jsx,json},babelrc,eslintrc,prettierrc,stylelintrc}'",
     "postlint-styles-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{css,scss}'",
-    "precommit": "lint-staged",
-    "prepush": "yarn check-types && yarn lint && yarn test",
     "prestart": "yarn build",
     "start": "cross-env NODE_ENV=production electron ./app/main.prod.js",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development IS_UNPACKED=true electron -r babel-register-ts ./app/main.development.ts",
@@ -50,21 +48,17 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --ignore-path .eslintignore --arrow-parens always --single-quote --write",
-      "cross-env NODE_ENV=development eslint --cache --format=pretty --fix",
-      "git add"
+      "cross-env NODE_ENV=development eslint --cache --format=pretty --fix"
     ],
     "{*.json,.{babelrc,eslintrc,prettierrc,stylelintrc}}": [
-      "prettier --ignore-path .eslintignore --parser json --write",
-      "git add"
+      "prettier --ignore-path .eslintignore --parser json --write"
     ],
     "*.{css,scss}": [
       "stylelint --ignore-path .eslintignore --syntax scss --fix",
-      "prettier --ignore-path .eslintignore --single-quote --write",
-      "git add"
+      "prettier --ignore-path .eslintignore --single-quote --write"
     ],
     "*.(!CHANGELOG.){yml,md}": [
-      "prettier --ignore-path .eslintignore --single-quote --write",
-      "git add"
+      "prettier --ignore-path .eslintignore --single-quote --write"
     ]
   },
   "main": "./app/main.prod.js",
@@ -256,5 +250,11 @@
     "npm": ">=4.x",
     "yarn": ">=0.21.3"
   },
-  "browserslist": "electron 1.6"
+  "browserslist": "electron 1.6",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn check-types && yarn lint && yarn test"
+    }
+  }
 }
