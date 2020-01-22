@@ -36,16 +36,16 @@ export const setupIPCListeners = ( store ) => {
 
         cp.exec( finalcmd, ( error, stdout, stderr ) => {
             if ( error ) {
-                console.error( error );
+                logger.error( error );
                 return;
             }
-            // console.log(stdout);
+            // logger.info(stdout);
             app.exit( 0 );
         } );
     } );
 
     ipcMain.on( 'close-app', ( _event, application ) => {
-        console.log( 'close-app' );
+        logger.info( 'close-app' );
         if (
             process.platform !== 'linux' &&
             process.platform !== 'darwin' &&
@@ -55,7 +55,7 @@ export const setupIPCListeners = ( store ) => {
         }
 
         const appName = application.name;
-        console.log( `Should contact ${appName} and close the app` );
+        logger.info( `Should contact ${appName} and close the app` );
     } );
 
     ipcMain.on( 'onClickQuitApp', () => {
