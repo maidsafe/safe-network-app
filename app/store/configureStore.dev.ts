@@ -29,7 +29,7 @@ import {
 
 import { createRootReducer } from '../reducers';
 import { addMiddlewares } from '$Store/addMiddlewares';
-import en from '../locales/en.json';
+import en from '../locales/en';
 
 const translationsObject = {
     en

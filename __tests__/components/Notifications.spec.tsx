@@ -40,7 +40,7 @@ const shallowSetup = ( propOverrides? ) => {
     };
 };
 
-describe( 'Notifications', () => {
+describe( 'Notifications', ()  => {
     beforeEach( () => {
         // Set up some mocked out file info before each test
         // eslint-disable-next-line global-require, no-unused-expressions
