@@ -3,14 +3,14 @@ import { Grid, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
-
 import { withRouter, Redirect } from 'react-router-dom';
 import { Route, Switch, RouteComponentProps } from 'react-router';
-import { logger } from '$Logger';
+
 import styles from './Account.css';
+
+import { logger } from '$Logger';
 import { CustomTextField } from '$Components/StyledMui';
 import { Page } from '$Components/Page';
-
 import {
     HOME,
     ACCOUNT_CREATE_REDEEM,

@@ -11,15 +11,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
+import styles from './HeaderBar.css';
+
 import {
     SETTINGS,
     ACCOUNT_LOGIN,
     ACCOUNT_CREATE_PASSWORD
 } from '$Constants/routes.json';
-
 import appLogo from '$Assets/images/app_logo_white.svg';
 
-import styles from './HeaderBar.css';
 
 const BackButton = withRouter( ( { location, history } ) => {
     const handleClick = () => {

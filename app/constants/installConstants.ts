@@ -1,5 +1,6 @@
 import path from 'path';
 import { app, remote } from 'electron';
+
 import { LINUX, WINDOWS, platform } from '$Constants';
 
 export const DOWNLOAD_TARGET_DIR = path.resolve(

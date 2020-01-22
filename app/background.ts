@@ -1,6 +1,7 @@
 /* eslint global-require: 1 */
 import _ from 'lodash';
 import { Store } from 'redux';
+
 import { logger } from '$Logger';
 import { setCurrentStoreForNotificationActions } from '$Actions/alias/notification_actions';
 import { configureStore } from '$Store/configureStore';

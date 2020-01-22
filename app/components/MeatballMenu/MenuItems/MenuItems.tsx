@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { App } from '$Definitions/application.d';
+
 import { MenuItemWrapper } from './MenuItemWrapper';
-import { logger } from '$Logger';
 import styles from './MenuItems.css';
+
+import { App } from '$Definitions/application.d';
+import { logger } from '$Logger';
+
 
 interface MenuItemsProps {
     unInstallApp: Function;

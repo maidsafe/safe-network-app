@@ -27,6 +27,7 @@ module.exports = {
     },
     rules: {
         'arrow-parens': ['error', 'always'],
+        'autofix/no-unused-vars': 'off',
         'no-use-before-define': 'off',
         'unicorn/catch-error-name': 'off',
         'no-unused-expressions': [
@@ -55,6 +56,20 @@ module.exports = {
         ],
         'import/prefer-default-export': 'off',
         'import/extensions': ["error", "never"],
+        "import/order": ["error", {
+          "groups": [
+            [
+              "builtin",
+              "external"
+            ],
+            [
+              "parent",
+              "sibling",
+              "index"
+            ]
+          ],
+          "newlines-between": "always"
+        }],
         'import/no-default-export': 'error',
         'react/prefer-stateless-function': 'off',
         'react/static-property-placement': 'off',
@@ -68,6 +83,7 @@ module.exports = {
         '@typescript-eslint/interface-name-prefix': 'off',
         '@typescript-eslint/no-namespace': 'off',
         '@typescript-eslint/no-unused-expressions': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/ban-ts-ignore': 'off',
         '@typescript-eslint/array-type': ['error', { default: 'generic' }],
         indent: 'off',
@@ -124,7 +140,8 @@ module.exports = {
         'promise',
         'import',
         'unicorn',
-        'testcafe'
+        'testcafe',
+        'autofix'
     ],
     settings: {
         // 'import/ignore': '*config*.js',

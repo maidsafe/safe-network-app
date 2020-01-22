@@ -1,6 +1,6 @@
 import path from 'path';
-import fs from 'fs-extra';
 import { app, remote } from 'electron';
+import fs from 'fs-extra';
 
 import pkg from '$Package';
 

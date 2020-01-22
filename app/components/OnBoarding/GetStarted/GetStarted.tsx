@@ -6,8 +6,9 @@ import Box from '@material-ui/core/Box';
 import Fab from '@material-ui/core/Fab';
 
 // @ts-ignore
-import Logo from '$App/assets/images/logo.svg';
 import styles from './GetStarted.css';
+
+import Logo from '$App/assets/images/logo.svg';
 
 interface Props {
     onClickGetStarted: Function;

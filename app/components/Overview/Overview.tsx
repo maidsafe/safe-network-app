@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Grid, List, Typography } from '@material-ui/core';
-
 import { Redirect } from 'react-router';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -10,13 +9,15 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Fab from '@material-ui/core/Fab';
 import LockIcon from '@material-ui/icons/Lock';
 
-import { logger } from '$Logger';
+import { notificationTypes } from '../../constants/notifications';
 import styles from './Overview.css';
+
+import { logger } from '$Logger';
 import { App, AppManagerState } from '$Definitions/application.d';
 import { Deck } from '$Components/Deck';
 import { ApplicationOverview } from '$Components/ApplicationOverview';
 import { ON_BOARDING, HOME, ACCOUNT_LOGIN } from '$Constants/routes.json';
-import { notificationTypes } from '../../constants/notifications';
+
 
 interface Props {
     unInstallApp: Function;

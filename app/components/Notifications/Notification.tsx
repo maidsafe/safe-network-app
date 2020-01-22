@@ -8,9 +8,7 @@ import {
     Button,
     Divider
 } from '@material-ui/core';
-
 import { Banner } from 'material-ui-banner';
-
 // Material-ui Icons
 import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
 import WarningIcon from '@material-ui/icons/Warning';

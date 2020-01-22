@@ -1,4 +1,5 @@
 import { I18n } from 'react-redux-i18n';
+
 import { logger } from '$Logger';
 import {
     PERMISSIONS,

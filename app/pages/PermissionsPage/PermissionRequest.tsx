@@ -1,12 +1,10 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-
 import Button from '@material-ui/core/Button';
-
 import { Redirect, useParams, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-
 import { I18n } from 'react-redux-i18n';
+
 import { Page } from '$Components/Page';
 import { logger } from '$Logger';
 

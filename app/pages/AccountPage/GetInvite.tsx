@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Grid, Button, Typography, TextField } from '@material-ui/core';
-
 import { Route, Switch } from 'react-router';
 
-import { logger } from '$Logger';
 import styles from './Account.css';
+
+import { logger } from '$Logger';
 
 export const GetInvite = ( props ) => {
     return (

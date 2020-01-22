@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { Grid, List, Typography } from '@material-ui/core';
-
 import { withRouter } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import { logger } from '$Logger';
-import styles from './Deck.css';
-import { ACCOUNT_ONBOARDING } from '$Constants/routes.json';
+
 import { notificationTypes } from '../../constants/notifications';
+import styles from './Deck.css';
+
+import { logger } from '$Logger';
+import { ACCOUNT_ONBOARDING } from '$Constants/routes.json';
+
 
 interface Props {
     history: {

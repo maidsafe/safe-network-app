@@ -7,10 +7,12 @@ import TitleBar from 'frameless-titlebar';
 import IconButton from '@material-ui/core/IconButton';
 import Settings from '@material-ui/icons/Settings';
 import MoreIcon from '@material-ui/icons/MoreVert';
+
+import styles from './App.css';
+
 import { notificationTypes } from '$Constants/notifications';
 import { NotificationsHandler } from '$Components/Notifications/NotificationsHandler';
 import { getPageTitle } from '$Utils/getPageTitle';
-
 import { HeaderBar } from '$Components/HeaderBar';
 import { logger } from '$Logger';
 import {
@@ -20,12 +22,9 @@ import {
     HOME
 } from '$Constants/routes.json';
 import { MeatballMenu } from '$App/components/MeatballMenu';
-
 import { AuthRequest } from '$Definitions/application.d';
-
 import { THEME } from '$Constants/theme';
 
-import styles from './App.css';
 
 const theme = createMuiTheme( THEME );
 

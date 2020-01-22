@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { I18n } from 'react-redux-i18n';
 import Box from '@material-ui/core/Box';
+
 import styles from './page.css';
 
 interface StepperPageProps {

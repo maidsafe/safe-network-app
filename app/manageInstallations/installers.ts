@@ -1,15 +1,16 @@
 import { app } from 'electron';
+import { spawnSync } from 'child_process';
+import path from 'path';
 import fs from 'fs-extra';
 import { Store } from 'redux';
-import { spawnSync } from 'child_process';
 import dmg from 'dmg';
-import path from 'path';
+
+
 import {
     downloadAndInstallAppSuccess,
     downloadAndInstallAppFailure
 } from '$Actions/application_actions';
 import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
-
 import { logger } from '$Logger';
 import {
     delay,

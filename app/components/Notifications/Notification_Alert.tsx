@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
 import { remote, nativeImage } from 'electron';
+import React, { Component } from 'react';
+
 import { logger } from '$Logger';
 
 const { dialog } = remote;

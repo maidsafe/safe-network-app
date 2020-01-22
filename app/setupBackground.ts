@@ -1,6 +1,8 @@
 import { BrowserWindow } from 'electron';
 import { download } from 'electron-dl';
+
 import { manageDownloads } from './manageInstallations';
+
 import { logger } from '$Logger';
 import {
     isRunningUnpacked,

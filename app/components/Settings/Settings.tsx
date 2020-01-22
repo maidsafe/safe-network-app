@@ -11,9 +11,9 @@ import {
 } from '@material-ui/core';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
-import { Preferences } from '$Components/Preferences';
 import styles from './Settings.css';
 
+import { Preferences } from '$Components/Preferences';
 import {
     UserPreferences,
     AppPreferences,

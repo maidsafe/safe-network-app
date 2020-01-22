@@ -1,4 +1,5 @@
 import { autoUpdater } from 'electron-updater';
+
 import { logger } from '$Logger';
 import {
     MAC_OS,

@@ -1,4 +1,5 @@
 import { SafeAuthdClient } from 'safe-nodejs';
+
 import { logger } from '$Logger';
 import { getAuthdLocation } from '$Constants/authd';
 import { setupAuthDaemon } from '$Background/authDaemon';

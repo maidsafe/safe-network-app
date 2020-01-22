@@ -4,8 +4,9 @@ import Switch from '@material-ui/core/Switch';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
-import { camelToTitle } from '$Utils/app_utils';
 import styles from './PreferenceItem.css';
+
+import { camelToTitle } from '$Utils/app_utils';
 
 interface Props {
     name: string;

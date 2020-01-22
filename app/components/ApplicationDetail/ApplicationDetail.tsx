@@ -2,9 +2,11 @@ import React from 'react';
 import Markdown from 'markdown-to-jsx';
 import { Grid, Fab, Divider, Avatar, Typography } from '@material-ui/core';
 import FolderIcon from '@material-ui/icons/Folder';
+
+import styles from './ApplicationDetail.css';
+
 import { MeatballMenu } from '$Components/MeatballMenu';
 import { logger } from '$Logger';
-import styles from './ApplicationDetail.css';
 import { App } from '$Definitions/application.d';
 import { AppStateButton } from '$Components/AppStateButton';
 import { AppIcon } from '$Components/AppIcon';

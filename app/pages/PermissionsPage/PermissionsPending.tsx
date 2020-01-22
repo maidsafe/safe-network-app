@@ -1,11 +1,10 @@
 import React from 'react';
 import { Grid, Button, Typography } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
+
 import { AuthRequest } from '$Definitions/application.d';
 import { PERMISSIONS_PENDING } from '$Constants/routes.json';
-
 import { Page } from '$Components/Page';
-
 import { logger } from '$Logger';
 // import styles from './Account.css';
 interface Props {

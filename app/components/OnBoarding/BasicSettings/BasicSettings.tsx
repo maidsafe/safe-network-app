@@ -5,6 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import Toolbar from '@material-ui/core/Toolbar';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+
 import styles from './BasicSettings.css';
 
 import { UserPreferences } from '$Definitions/application.d';

@@ -1,6 +1,7 @@
 import { ClientFunction, Selector } from 'testcafe';
 import { ReactSelector, waitForReact } from 'testcafe-react-selectors';
 import { clickOnMainMenuItem } from 'testcafe-browser-provider-electron';
+
 import {
     assertNoConsoleErrors,
     getPageUrl,

@@ -1,5 +1,6 @@
 import path from 'path';
 import { remote } from 'electron';
+
 import pkg from '$Package';
 
 export const generateRandomString = (): string => {

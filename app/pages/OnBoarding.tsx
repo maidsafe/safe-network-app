@@ -1,13 +1,12 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { OnBoarding } from '$Components/OnBoarding';
 
+import { OnBoarding } from '$Components/OnBoarding';
 import {
     setUserPreferences,
     setAppPreferences,
     getUserPreferences
 } from '$Actions/launchpad_actions';
-
 import {
     autoLaunch,
     triggerSetAsTrayWindow

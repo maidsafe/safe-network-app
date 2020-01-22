@@ -1,13 +1,13 @@
 import path from 'path';
 import os from 'os';
+import { ipcRenderer, remote, app } from 'electron';
 import fse from 'fs-extra';
 import yaml from 'js-yaml';
-import { ipcRenderer, remote, app } from 'electron';
 import { createAliasedAction } from 'electron-redux';
 import request from 'request-promise-native';
 import { I18n } from 'react-redux-i18n';
-import { getAppDataPath } from '$Utils/app_utils';
 
+import { getAppDataPath } from '$Utils/app_utils';
 import {
     RELEASE_CHANNEL,
     ALPHA,
@@ -28,9 +28,7 @@ import {
     checkIfAppIsInstalledLocally
 } from '$App/manageInstallations/helpers';
 import { getS3Folder } from '$App/utils/gets3Folders';
-
 import { NOTIFICATION_TYPES } from '$Constants/notifications';
-
 import {
     getCurrentStore,
     downloadAndInstallAppPending

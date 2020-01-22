@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Menu, IconButton } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
-import { MenuItems } from '$Components/MeatballMenu/MenuItems/MenuItems';
-import { logger } from '$Logger';
 
 import styles from './MeatballMenu.css';
+
+import { MenuItems } from '$Components/MeatballMenu/MenuItems/MenuItems';
+import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 
 interface MeatballMenuProps {

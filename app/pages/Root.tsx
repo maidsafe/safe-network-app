@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Provider, Store } from 'react-redux';
-
 import { create } from 'jss';
 import { ConnectedRouter } from 'connected-react-router';
-import { notificationTypes } from '$Constants/notifications';
+
 import { Routes } from '../Routes';
+
+import { notificationTypes } from '$Constants/notifications';
 import { logger } from '$Logger';
 import {
     pushNotification,

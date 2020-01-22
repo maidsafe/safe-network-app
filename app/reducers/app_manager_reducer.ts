@@ -1,11 +1,12 @@
 import compareVersions from 'compare-versions';
+
+import { AppManagerState, App } from '../definitions/application.d';
+
 import { TYPES } from '$Actions/app_manager_actions';
 import { TYPES as ALIAS__TYPES } from '$Actions/alias/app_manager_actions';
 import { TYPES as APP_TYPES } from '$Actions/application_actions';
 import { logger } from '$Logger';
-import { AppManagerState, App } from '../definitions/application.d';
 import { ERRORS } from '$Constants/errors';
-
 import { initialAppManager } from '$Reducers/initialAppManager';
 
 export const initialState = initialAppManager;

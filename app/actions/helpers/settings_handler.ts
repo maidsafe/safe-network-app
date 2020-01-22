@@ -1,10 +1,9 @@
-import fs from 'fs-extra';
 import path from 'path';
+import fs from 'fs-extra';
+
 import { logger } from '$Logger';
 import pkg from '$Package';
-
 import { Preferences } from '$Definitions/application.d';
-
 import {
     defaultPreferences,
     settingsHandlerName,

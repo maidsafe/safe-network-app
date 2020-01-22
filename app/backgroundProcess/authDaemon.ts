@@ -1,6 +1,7 @@
-import sudo from 'sudo-prompt';
 import { spawnSync } from 'child_process';
+import sudo from 'sudo-prompt';
 import { SafeAuthdClient } from 'safe-nodejs';
+
 import { isRunningOnWindows } from '$Constants';
 import { logger } from '$Logger';
 import { getAuthdLocation } from '$Constants/authd';
