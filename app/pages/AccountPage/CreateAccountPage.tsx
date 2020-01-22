@@ -60,7 +60,7 @@ const Invite = withRouter( ( props: CreateAccountPageProps ) => {
     };
 
     return (
-        <>
+        <React.Fragment>
             <Typography variant="body2">Step 1 of 3</Typography>
             <Typography variant="h5">Enter Invite</Typography>
             <Typography variant="body2">
@@ -101,7 +101,7 @@ const Invite = withRouter( ( props: CreateAccountPageProps ) => {
                     </Button>
                 </Grid>
             </Grid>
-        </>
+        </React.Fragment>
     );
 } );
 
@@ -117,7 +117,7 @@ const Password = withRouter( ( props: CreateAccountPageProps ) => {
     };
 
     return (
-        <>
+        <React.Fragment>
             <Typography variant="body2">Step 1 of 2</Typography>
             <Typography variant="h5">Choose a Password</Typography>
             <Typography variant="body2">
@@ -157,7 +157,7 @@ const Password = withRouter( ( props: CreateAccountPageProps ) => {
                     </Button>
                 </Grid>
             </Grid>
-        </>
+        </React.Fragment>
     );
 } );
 
@@ -183,7 +183,7 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
     };
 
     return (
-        <>
+        <React.Fragment>
             <Typography variant="body2">Step 2 of 2</Typography>
             <Typography variant="h5">Choose a Passphrase</Typography>
             <Typography variant="body2">
@@ -241,7 +241,7 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
                     </Grid>
                 )}
             </Grid>
-        </>
+        </React.Fragment>
     );
 } );
 

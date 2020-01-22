@@ -9,7 +9,7 @@ import { logger } from '$Logger';
 
 export const RequestCommunityInvite = () => {
     return (
-        <>
+        <React.Fragment>
             <Typography variant="h5">Request an invite</Typography>
             <Typography variant="body2">
                 Invites can be gifted by existing Account holders. It’s a
@@ -31,6 +31,6 @@ export const RequestCommunityInvite = () => {
                     I already have an invite
                 </Button>
             </Grid>
-        </>
+        </React.Fragment>
     );
 };

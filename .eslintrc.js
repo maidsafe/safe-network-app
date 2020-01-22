@@ -28,12 +28,32 @@ module.exports = {
     rules: {
         'arrow-parens': ['error', 'always'],
         'autofix/no-unused-vars': 'off',
+        'jsx-a11y/label-has-for': [
+            2,
+            {
+                components: ['Label'],
+                required: {
+                    every: ['id']
+                },
+                allowChildren: true
+            }
+        ],
         'no-use-before-define': 'off',
-        'unicorn/catch-error-name': 'off',
         'no-unused-expressions': [
             'error',
             { allowShortCircuit: true, allowTernary: true }
         ],
+        'prefer-destructuring': [
+            'error',
+            {
+                array: false,
+                object: true
+            },
+            {
+                enforceForRenamedProperties: false
+            }
+        ],
+        'unicorn/catch-error-name': 'off',
         'unicorn/filename-case': 'off',
         'unicorn/prefer-exponentiation-operator': 'off',
         'unicorn/prefer-query-selector': 'off',
@@ -46,6 +66,7 @@ module.exports = {
         'no-prototype-builtins': 'off',
         'unicorn/prefer-type-error': 'off',
         'unicorn/new-for-builtins': 'off',
+        'import/no-cycle': 'warn',
         'import/no-extraneous-dependencies': [
             0,
             {
@@ -55,24 +76,37 @@ module.exports = {
             }
         ],
         'import/prefer-default-export': 'off',
-        'import/extensions': ["error", "never"],
-        "import/order": ["error", {
-          "groups": [
-            [
-              "builtin",
-              "external"
-            ],
-            [
-              "parent",
-              "sibling",
-              "index"
-            ]
-          ],
-          "newlines-between": "always"
-        }],
+        'import/no-default-export': 'error',
+        'import/extensions': ['error', 'never'],
+        'import/order': [
+            'error',
+            {
+                groups: [
+                    ['builtin', 'external'],
+                    ['parent', 'sibling', 'index']
+                ],
+                'newlines-between': 'always'
+            }
+        ],
         'import/no-default-export': 'error',
         'react/prefer-stateless-function': 'off',
         'react/static-property-placement': 'off',
+        'react/sort-comp': [
+            1,
+            {
+                order: [
+                    'type-annotations',
+                    'static-methods',
+                    'lifecycle',
+                    '/^on.+$/',
+                    'render',
+                    'everything-else'
+                ]
+            }
+        ],
+        'react/static-property-placement': 'off',
+        'react/jsx-fragments': ['error', 'element'],
+        'react/jsx-props-no-spreading': 'warn',
         'jest/no-jasmine-globals': 'off',
         'jest/valid-describe': 'off',
         'react/destructuring-assignment': 'off',
@@ -102,13 +136,21 @@ module.exports = {
 
     overrides: [
         {
-            files: ['*config*.js'],
+            files: ['*config*js', 'internals/**/*'],
             rules: {
                 'global-require': 'off',
                 'no-console': 'off',
                 'import/no-default-export': 'off',
                 '@typescript-eslint/tslint/config': 'off',
                 '@typescript-eslint/no-var-requires': 'off'
+            }
+        },
+        {
+            files: ['*.spec.*'],
+            globals: { fixture: 'readonly' },
+            rules: {
+                'consistent-return': 'off',
+                '@typescript-eslint/explicit-function-return-type': 'off'
             }
         },
         {

@@ -51,7 +51,7 @@ export class ApplicationOverview extends React.PureComponent<Props> {
             RELEASE_CHANNEL ? ` ${capitalize( RELEASE_CHANNEL )}` : ''
         }`;
         return (
-            <>
+            <React.Fragment>
                 <ListItem
                     button
                     aria-label={`List ${application.name}`}
@@ -107,7 +107,7 @@ export class ApplicationOverview extends React.PureComponent<Props> {
                         />
                     </ListItemSecondaryAction>
                 </ListItem>
-            </>
+            </React.Fragment>
         );
     }
 }
