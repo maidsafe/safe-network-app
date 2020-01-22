@@ -121,7 +121,7 @@ const Password = withRouter( ( props: CreateAccountPageProps ) => {
             <Typography variant="body2">Step 1 of 2</Typography>
             <Typography variant="h5">Choose a Password</Typography>
             <Typography variant="body2">
-                Make sure you keep it safe beacuse it can’t be reset or
+                Make sure you keep it safe because it can’t be reset or
                 recovered.
             </Typography>
             <CustomTextField
@@ -187,7 +187,7 @@ const Passphrase = withRouter( ( props: CreateAccountPageProps ) => {
             <Typography variant="body2">Step 2 of 2</Typography>
             <Typography variant="h5">Choose a Passphrase</Typography>
             <Typography variant="body2">
-                Make sure you keep it safe beacuse it can’t be reset or
+                Make sure you keep it safe because it can’t be reset or
                 recovered.
             </Typography>
             <CustomTextField
