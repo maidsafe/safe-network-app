@@ -14,18 +14,23 @@ const getApp = (): App => ( {
     id: generateRandomString(),
     name: 'Safe Browser',
     author: 'Maidsafe',
-    size: '2MB',
+    // size: '2MB',
     description:
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     updateDescription:
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     packageName: 'safe-browser',
     iconPath: '/some/path/to/icon.png',
-    type: 'userApplications' as AppType,
+    type: 'electron' as AppType,
     repositoryOwner: 'joshuef',
     repositorySlug: 'safe_browser',
     currentVersion: null,
     latestVersion: '0.1.0',
+    artifactTemplate: {
+        mac: `safe-browser-<version>-mac-x64.dmg`,
+        linux: `safe-browser-<version>-linux-x64.AppImage`,
+        windows: `safe-browser-<version>-win-x64.exe`
+    },
     isDownloadingAndInstalling: false,
     isDownloadingAndUpdating: false,
     isUninstalling: false,

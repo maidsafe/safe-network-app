@@ -15,7 +15,11 @@ import {
     isRunningOnLinux,
     isRunningTestCafeProcess
 } from '$Constants';
-import { INSTALL_TARGET_DIR } from '$Constants/installConstants';
+import {
+    DESKTOP_APP_INSTALL_TARGET_DIR,
+    BIN,
+    getBinInstallDirectory
+} from '$Constants/installConstants';
 import { capitalize } from '$Utils/capitalize';
 import { setCurrentVersion } from '$Actions/application_actions';
 import { logger } from '$Logger';
@@ -31,7 +35,7 @@ const getLocalLinuxAppImageName = ( application ) => {
         application.name}-v*${RELEASE_CHANNEL}*'`;
 
     const commandArguments = [
-        INSTALL_TARGET_DIR,
+        DESKTOP_APP_INSTALL_TARGET_DIR,
         '-name',
         appPackageNameForChannel
     ];
@@ -45,7 +49,7 @@ const getLocalLinuxAppImageName = ( application ) => {
 
     try {
         installedApp = execSync(
-            `find ${INSTALL_TARGET_DIR} -name ${appPackageNameForChannel}`,
+            `find ${DESKTOP_APP_INSTALL_TARGET_DIR} -name ${appPackageNameForChannel}`,
             {
                 encoding: 'utf-8'
             }
@@ -68,6 +72,27 @@ export const getApplicationExecutable = (
     const appModifier = RELEASE_CHANNEL
         ? ` ${capitalize( RELEASE_CHANNEL )}`
         : '';
+
+    if ( application.type === BIN ) {
+        switch ( platform ) {
+            case MAC_OS: {
+                applicationExecutable = application.binName.mac;
+                break;
+            }
+            case WINDOWS: {
+                applicationExecutable = application.binName.windows;
+                break;
+            }
+            case LINUX: {
+                applicationExecutable = application.binName.linux;
+                break;
+            }
+            default:
+                applicationExecutable = application.packageName;
+        }
+
+        return applicationExecutable;
+    }
 
     switch ( platform ) {
         case MAC_OS: {
@@ -129,11 +154,24 @@ export const getInstalledLocation = ( application: App ): string => {
         application,
         getCurrentVersion
     );
-    const installedPath = path.join( INSTALL_TARGET_DIR, applicationExecutable );
+
+    let installedPath;
+    if ( application.type === BIN ) {
+        installedPath = path.join(
+            getBinInstallDirectory( application ),
+            applicationExecutable
+        );
+    } else {
+        installedPath = path.join(
+            DESKTOP_APP_INSTALL_TARGET_DIR,
+            applicationExecutable
+        );
+    }
 
     return installedPath;
 };
 
+// TODO: update these checks
 export const checkIfAppIsInstalledLocally = async (
     application
 ): Promise<boolean> => {
@@ -147,8 +185,12 @@ export const checkIfAppIsInstalledLocally = async (
     const installedPath = getInstalledLocation( application );
 
     const exists = await fs.pathExists( installedPath );
-
-    logger.info( 'Checking if path exists', installedPath, exists );
+    logger.info(
+        'Checking if path exists for',
+        application.name,
+        installedPath,
+        exists
+    );
 
     return exists;
 };
@@ -179,7 +221,7 @@ export const getLocalAppVersion = ( application, store: Store ): string => {
 
             if ( isRunningOnWindows ) {
                 versionFilePath = path.resolve(
-                    INSTALL_TARGET_DIR,
+                    DESKTOP_APP_INSTALL_TARGET_DIR,
                     getInstalledLocation( application ),
                     '..',
                     'version'

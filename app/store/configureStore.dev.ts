@@ -21,7 +21,7 @@ import {
 } from 'electron-redux';
 
 import { createRootReducer } from '../reducers';
-import en from '../locales/en';
+import en from '../locales/en.json'; // ext needed for tsc
 
 import {
     inRendererProcess,
@@ -29,7 +29,6 @@ import {
     inMainProcess
 } from '$Constants';
 import { addMiddlewares } from '$Store/addMiddlewares';
-
 
 const translationsObject = {
     en

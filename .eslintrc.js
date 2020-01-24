@@ -76,8 +76,7 @@ module.exports = {
             }
         ],
         'import/prefer-default-export': 'off',
-        'import/no-default-export': 'error',
-        'import/extensions': ['error', 'never'],
+        'import/extensions': ['warn', 'never'],
         'import/order': [
             'error',
             {

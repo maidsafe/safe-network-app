@@ -1,7 +1,7 @@
 import { SafeAuthdClient } from 'safe-nodejs';
 
 import { logger } from '$Logger';
-import { getAuthdLocation } from '$Constants/authd';
+import { AUTHD_LOCATION } from '$Constants/authd';
 import { setupAuthDaemon } from '$Background/authDaemon';
 
 export const logInToSafe = async (

@@ -10,7 +10,7 @@ import {
 } from '$Constants';
 import { App } from '$Definitions/application.d';
 
-export const getS3Folder = ( application: App ): string => {
+export const getMaidsafeS3Folder = ( application: App ): string => {
     const { packageName } = application;
     const baseUrl = `https://${packageName}.s3.eu-west-2.amazonaws.com/${packageName}`;
 

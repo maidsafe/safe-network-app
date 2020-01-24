@@ -4,7 +4,7 @@ import { SafeAuthdClient } from 'safe-nodejs';
 
 import { isRunningOnWindows } from '$Constants';
 import { logger } from '$Logger';
-import { getAuthdLocation } from '$Constants/authd';
+import { AUTHD_LOCATION } from '$Constants/authd';
 import { AuthDClient, AuthRequest } from '$Definitions/application.d';
 import pkg from '$Package';
 
@@ -71,7 +71,7 @@ const installWindowsServiceIfNeeded = (
 
 export const setupAuthDaemon = async (): Promise<AuthDClient> => {
     const safeAuthdClient = await new SafeAuthdClient();
-    const authdLocation = getAuthdLocation();
+    const authdLocation = AUTHD_LOCATION;
 
     await installWindowsServiceIfNeeded( authdLocation );
 
@@ -94,7 +94,8 @@ export const setupAuthDaemon = async (): Promise<AuthDClient> => {
                 } );
             }
 
-            await safeAuthdClient.start( getAuthdLocation() );
+            // TODO: If no AUTHD_LOCATION bin... we need to trigger install
+            await safeAuthdClient.start();
             authDaemonIsRunning = true;
             logger.info( 'Safe authd started' );
         }
@@ -114,7 +115,7 @@ export const setupAuthDaemon = async (): Promise<AuthDClient> => {
 
 export const stopAuthDaemon = async (): Promise<void> => {
     try {
-        const authdLocation = getAuthdLocation();
+        const authdLocation = AUTHD_LOCATION;
 
         // TODO: we should check if we started this process
         const safeAuthdClient = await setupAuthDaemon();
@@ -129,7 +130,7 @@ export const stopAuthDaemon = async (): Promise<void> => {
                 logger.info( `stdout: ${stdout}` );
             } );
         } else {
-            await safeAuthdClient.stop( getAuthdLocation() );
+            await safeAuthdClient.stop( AUTHD_LOCATION );
         }
         logger.info( 'Safe authd stopped' );
     } catch ( error ) {

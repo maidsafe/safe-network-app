@@ -22,7 +22,7 @@ import {
 } from '$Constants';
 import { logger } from '$Logger';
 
-export class SafeAppUpdater {
+class ElectronAppUpdater {
     private _store;
 
     set store( store ) {
@@ -220,4 +220,4 @@ export class SafeAppUpdater {
     }
 }
 
-export const safeAppUpdater = new SafeAppUpdater();
+export const electronAppUpdater = new ElectronAppUpdater();

@@ -5,7 +5,6 @@ import fs from 'fs-extra';
 import { Store } from 'redux';
 import dmg from 'dmg';
 
-
 import {
     downloadAndInstallAppSuccess,
     downloadAndInstallAppFailure
@@ -17,173 +16,29 @@ import {
     getApplicationExecutable
 } from '$App/manageInstallations/helpers';
 import { App } from '$Definitions/application.d';
-import { INSTALL_TARGET_DIR } from '$Constants/installConstants';
+import {
+    DESKTOP_APP_INSTALL_TARGET_DIR,
+    ELECTRON,
+    BIN
+} from '$Constants/installConstants';
+import {
+    silentInstallAppOnMacOS,
+    silentInstallAppOnWindows,
+    silentInstallAppOnLinux
+} from '$App/manageInstallations/desktopApps/installers';
+import { silentInstallBin } from '$App/manageInstallations/bins/installers';
 
-const silentInstallMacOS = (
-    store,
-    application,
-    executablePath,
-    downloadLocation?
+const installElectronApplication = (
+    store: Store,
+    application: App,
+    downloadLocation: string
 ): void => {
-    if ( isDryRun ) {
-        logger.info(
-            `DRY RUN: Would have then installed to, ${INSTALL_TARGET_DIR}/${executablePath}`
-        );
-
-        store.dispatch( downloadAndInstallAppSuccess( application ) );
-        return;
-    }
-
-    // path must be absolute and the extension must be .dmg
-    dmg.mount( downloadLocation, async ( error, mountedPath ) => {
-        if ( error ) {
-            logger.error(
-                'Problem mounting the dmg for install of: ',
-                downloadLocation
-            );
-            logger.error( error );
-        }
-        const targetAppPath = path.resolve( mountedPath, executablePath );
-
-        logger.info( 'Copying ', targetAppPath, 'to', INSTALL_TARGET_DIR );
-
-        await fs.ensureDir( INSTALL_TARGET_DIR );
-        const done = spawnSync( 'cp', ['-r', targetAppPath, INSTALL_TARGET_DIR] );
-
-        const doneError = done.error || done.stderr.toString();
-        if ( doneError ) {
-            logger.error( 'Error during copy', doneError );
-            store.dispatch(
-                downloadAndInstallAppFailure( {
-                    ...application,
-                    error: doneError
-                } )
-            );
-        }
-
-        if ( !doneError ) {
-            logger.info( 'Copying complete.' );
-        }
-
-        dmg.unmount( mountedPath, function( unmountError ) {
-            if ( unmountError ) {
-                logger.error( 'Error unmounting drive', unmountError );
-            }
-
-            // TODO Remove Dlded version?
-            spawnSync( 'rm', ['-rf', downloadLocation] );
-
-            if ( !doneError ) {
-                logger.info( 'Install complete.' );
-                store.dispatch( downloadAndInstallAppSuccess( application ) );
-            }
-        } );
-    } );
-};
-
-const silentInstallLinux = async (
-    store: Store,
-    application: App,
-    executablePath: string,
-    downloadLocation?: string
-) => {
-    const sourceAppPath = path.resolve( downloadLocation );
-    const installPath = path.resolve( INSTALL_TARGET_DIR, executablePath );
-
-    if ( isDryRun ) {
-        logger.info( `DRY RUN: Would have then installed to, ${installPath}` );
-
-        store.dispatch( downloadAndInstallAppSuccess( application ) );
-        return;
-    }
-
-    logger.info( 'Copying ', sourceAppPath, 'to', installPath );
-    await fs.ensureDir( INSTALL_TARGET_DIR );
-    const copied = spawnSync( 'cp', [sourceAppPath, installPath] );
-
-    if ( copied.error ) {
-        logger.error( 'Error during copy', copied.error );
-    }
-
-    const installedPath = path.resolve( INSTALL_TARGET_DIR, executablePath );
-    const makeExecutable = spawnSync( 'chmod', ['+x', installedPath] );
-    if ( makeExecutable.error ) {
-        logger.error( 'Error during permissions update', makeExecutable.error );
-        store.dispatch(
-            downloadAndInstallAppFailure( {
-                ...application,
-                error: makeExecutable.error
-            } )
-        );
-    }
-    logger.info( 'Copying complete.' );
-    logger.info( 'Install complete.' );
-
-    store.dispatch( downloadAndInstallAppSuccess( application ) );
-};
-
-// https://nsis.sourceforge.io/Docs/Chapter4.html#silent
-const silentInstallWindows = async (
-    store: Store,
-    application: App,
-    downloadLocation?: string
-) => {
-    // Windows has a separate installer to the application name
-    const installAppPath = path.resolve( downloadLocation );
-    const installPath = path.resolve(
-        INSTALL_TARGET_DIR,
-        `${application.name || application.packageName}`
-    );
-
-    if ( isDryRun ) {
-        logger.info( `DRY RUN: Would have then installed to, ${installPath}` );
-        logger.info( `DRY RUN: via command: $ ${installAppPath}` );
-        store.dispatch( downloadAndInstallAppSuccess( application ) );
-        return;
-    }
-
-    // isntalled lives ~/AppData/Local/Programs/safe-launch-pad/safe Launch Pad.exe
-    logger.info(
-        'Triggering NSIS install of ',
-        installAppPath,
-        'to',
-        installPath
-    );
-
-    await fs.ensureDir( INSTALL_TARGET_DIR );
-    const installer = spawnSync( installAppPath, ['/S', `/D=${installPath}`] );
-
-    if ( installer.error ) {
-        logger.error( 'Error during install', installer.error );
-        store.dispatch(
-            downloadAndInstallAppFailure( {
-                ...application,
-                error: installer.error
-            } )
-        );
-    }
-
-    logger.info( 'Install complete.' );
-    store.dispatch( downloadAndInstallAppSuccess( application ) );
-};
-
-export const silentInstall = async (
-    store: Store,
-    application: App,
-    downloadLocation?: string
-): Promise<void> => {
-    logger.info( 'Running silent install for ', downloadLocation );
-
-    if ( isDryRun ) {
-        await delay( 500 );
-    }
-
     const applicationExecutable = getApplicationExecutable( application );
 
-    logger.info( 'silent install will install as:', applicationExecutable );
+    logger.info( 'Silent install will install as:', applicationExecutable );
     switch ( platform ) {
         case MAC_OS: {
-            silentInstallMacOS(
+            silentInstallAppOnMacOS(
                 store,
                 application,
                 applicationExecutable,
@@ -192,11 +47,11 @@ export const silentInstall = async (
             break;
         }
         case WINDOWS: {
-            silentInstallWindows( store, application, downloadLocation );
+            silentInstallAppOnWindows( store, application, downloadLocation );
             break;
         }
         case LINUX: {
-            silentInstallLinux(
+            silentInstallAppOnLinux(
                 store,
                 application,
                 applicationExecutable,
@@ -211,4 +66,38 @@ export const silentInstall = async (
             );
         }
     }
+};
+const installBin = (
+    store: Store,
+    application: App,
+    downloadLocation: string
+): void => {
+    const applicationExecutable = getApplicationExecutable( application );
+
+    logger.info( 'silent install will install bin as:', applicationExecutable );
+    silentInstallBin(
+        store,
+        application,
+        // applicationExecutable,
+        downloadLocation
+    );
+};
+
+export const silentInstall = async (
+    store: Store,
+    application: App,
+    downloadLocation?: string
+): Promise<void> => {
+    logger.info( 'Running silent install for ', downloadLocation );
+
+    if ( isDryRun ) {
+        await delay( 500 );
+    }
+
+    if ( application.type === ELECTRON ) {
+        installElectronApplication( store, application, downloadLocation );
+    }
+
+    if ( application.type === BIN )
+        installBin( store, application, downloadLocation );
 };
