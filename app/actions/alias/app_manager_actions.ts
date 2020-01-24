@@ -18,6 +18,7 @@ import {
     isRunningOnMac,
     isRunningOnLinux
 } from '$Constants/index';
+import { BIN } from '$Constants/installConstants';
 import {
     updateAppInfoIfNewer,
     resetAppUpdateState,
@@ -27,7 +28,7 @@ import {
     getInstalledLocation,
     checkIfAppIsInstalledLocally
 } from '$App/manageInstallations/helpers';
-import { getS3Folder } from '$App/utils/gets3Folders';
+import { getMaidsafeS3Folder } from '$App/utils/getMaidsafeS3Folder';
 import { NOTIFICATION_TYPES } from '$Constants/notifications';
 import {
     getCurrentStore,
@@ -99,7 +100,7 @@ const fetchAppIconFromServer = async ( application ): Promise<string | null> => 
     }
 };
 
-const getLatestAppVersions = async (): Promise<void> => {
+const getLatestElectronAppVersions = async (): Promise<void> => {
     logger.debug( 'Attempting to fetch application versions from The Internets' );
 
     if ( isRunningTestCafeProcess ) return;
@@ -110,8 +111,30 @@ const getLatestAppVersions = async (): Promise<void> => {
     Object.keys( apps ).forEach( async ( theAppId ) => {
         const application: App = apps[theAppId];
 
+        const updatedApp = {
+            ...application
+        };
+        const appIsInstalledLocally = await checkIfAppIsInstalledLocally(
+            application
+        );
+
+        if ( appIsInstalledLocally ) {
+            updatedApp.isInstalled = true;
+            ipcRenderer.send( 'checkApplicationsForUpdate', updatedApp );
+        }
+
+        if ( application.type === BIN ) {
+            logger.info(
+                'cannot check for bin type app updates as yet. ',
+                application.name
+            );
+            store.dispatch( updateAppInfoIfNewer( updatedApp ) );
+
+            return;
+        }
+
         try {
-            const s3Url = getS3Folder( application );
+            const s3Url = getMaidsafeS3Folder( application );
 
             let channelModifier = 'latest';
 
@@ -134,23 +157,12 @@ const getLatestAppVersions = async (): Promise<void> => {
                 `${application.name} latest version is ${latestVersion}`
             );
 
-            const updatedApp = {
-                ...application,
-                latestVersion
-            };
+            updatedApp.latestVersion = latestVersion;
 
             updatedApp.iconPath =
                 ( await fetchAppIconFromServer( updatedApp ) ) ||
                 fetchDefaultAppIconFromLocal( updatedApp.id );
 
-            const isAppInstalledLocally = await checkIfAppIsInstalledLocally(
-                application
-            );
-
-            if ( isAppInstalledLocally ) {
-                updatedApp.isInstalled = true;
-                ipcRenderer.send( 'checkApplicationsForUpdate', updatedApp );
-            }
             store.dispatch( updateAppInfoIfNewer( updatedApp ) );
         } catch ( error ) {
             logger.error( error.message );
@@ -230,7 +242,7 @@ export const fetchLatestAppVersions = createAliasedAction(
     () => {
         return {
             type: TYPES.ALIAS__FETCH_APPS,
-            payload: getLatestAppVersions()
+            payload: getLatestElectronAppVersions()
         };
     }
 );

@@ -1,12 +1,13 @@
 import { BrowserWindow, DownloadItem, ipcMain, shell } from 'electron';
-import { spawn, exec, execFile } from 'child_process';
+import { spawn, spawnSync, exec, execFile } from 'child_process';
 import path from 'path';
 import { Store } from 'redux';
 import { download } from 'electron-dl';
 import { I18n } from 'react-redux-i18n';
+import fs from 'fs-extra';
 
 import { getInstalledLocation } from '$App/manageInstallations/helpers';
-import { getS3Folder } from '$App/utils/gets3Folders';
+import { getMaidsafeS3Folder } from '$App/utils/getMaidsafeS3Folder';
 import {
     cancelAppDownloadAndInstallation,
     pauseAppDownloadAndInstallation,
@@ -36,7 +37,7 @@ import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 import {
     DOWNLOAD_TARGET_DIR,
-    INSTALL_TARGET_DIR
+    DESKTOP_APP_INSTALL_TARGET_DIR
 } from '$Constants/installConstants';
 
 const currentDownloads = {};
@@ -94,42 +95,56 @@ const cancelDownload = ( store: Store, application: App ) => {
     store.dispatch( cancelAppDownloadAndInstallation( application ) );
 };
 
-const getDowloadUrlForApplication = ( application: App ): string => {
-    // https://safe-network-app.s3.eu-west-2.amazonaws.com/safe-network-app-osx/safe-network-app-v0.0.3-mac-x64.zip
-
-    // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-win/latest.yml
-
-    const version = application.latestVersion;
-    const { packageName } = application;
-    const baseUrl = getS3Folder( application );
-
-    let targetUrl: string;
-
-    logger.silly( 'Checking platform', platform );
-
+const getArtifactName = ( application: App ): string => {
+    let name;
     switch ( platform ) {
         case MAC_OS: {
             // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-mac/safe-browser-v0.15.1-mac-x64.dmg
-            targetUrl = `${baseUrl}/${packageName}-${version}-mac-x64.dmg`;
+            // targetUrl = `${baseUrl}/${packageName}-${version}-mac-x64.dmg`;
+            name = application.artifactTemplate.mac.replace(
+                '<version>',
+                application.latestVersion
+            );
             break;
         }
         case WINDOWS: {
             // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-win/safe-browser-v0.15.1-win-x64.exe
-            targetUrl = `${baseUrl}/${packageName}-${version}-win-x64.exe`;
+            name = application.artifactTemplate.windows.replace(
+                '<version>',
+                application.latestVersion
+            );
+            // name = packageName}-${version}-win-x64.exe`;
             break;
         }
         case LINUX: {
             // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-linux/safe-browser-v0.15.1-linux-x64.AppImage
-            targetUrl = `${baseUrl}/${packageName}-${version}-linux-x64.AppImage`;
+            name = application.artifactTemplate.linux.replace(
+                '<version>',
+                application.latestVersion
+            );
+            // name = `${baseUrl}/${packageName}-${version}-linux-x64.AppImage`;
             break;
         }
-        default: {
-            logger.error(
-                'Unsupported platform for desktop applications:',
-                platform
-            );
-        }
+        default:
+            name = '';
     }
+    return name;
+};
+
+const getDowloadUrlForApplication = ( application: App ): string => {
+    const version = application.latestVersion;
+    const { packageName } = application;
+    const baseUrl = application.baseUrl || getMaidsafeS3Folder( application );
+
+    // let targetUrl: string;
+
+    logger.silly( 'Checking platform for download', platform, application );
+
+    if ( !application.latestVersion )
+        throw new Error( `No latest version found for, ${application.name}` );
+
+    const targetUrl = `${baseUrl}/${getArtifactName( application )}`;
+
     logger.info( 'Download URL: ', targetUrl );
     return targetUrl;
 };
@@ -160,6 +175,22 @@ const downloadAndInstall = async (
     }
 
     let theDownload: DownloadItem;
+
+    const downloadPath = path.resolve(
+        DOWNLOAD_TARGET_DIR,
+        getArtifactName( application )
+    );
+
+    if ( await fs.exists( downloadPath ) ) {
+        logger.info(
+            'Path already exists, using previous download.',
+            downloadPath
+        );
+        // skip download
+        // TODO: check if we're trying....
+        silentInstall( store, application, downloadPath );
+        return;
+    }
 
     const downloaderOptions = {
         directory: DOWNLOAD_TARGET_DIR,
@@ -229,6 +260,8 @@ const downloadAndInstall = async (
         };
         store.dispatch( downloadAndInstallAppFailure( appWithError ) );
 
+        // remove broken dl
+        spawnSync( 'rm', ['-rf', downloadPath] );
         store.dispatch(
             pushNotification( {
                 title: `Error downloading ${application.name}`,
@@ -245,6 +278,8 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
     console.log( 'Setting up IPC to manage downloads' );
 
     ipcMain.on( 'initiateDownload', ( event, application: App ) =>
+        // TODO. Here determine app type... naming convention...
+        // target location....
         downloadAndInstall( store, targetWindow, application )
     );
 

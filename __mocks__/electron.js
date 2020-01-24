@@ -7,7 +7,8 @@ module.exports = {
         dialog: {
             showMessageBox: jest.fn()
         },
-        getGlobal: jest.fn()
+        getGlobal: jest.fn(),
+        getName: jest.fn().mockReturnValue( 'SNAPP' )
     },
     nativeImage: {
         createFromPath: jest.fn()

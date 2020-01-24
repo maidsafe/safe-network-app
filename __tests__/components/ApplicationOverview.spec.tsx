@@ -27,7 +27,7 @@ describe( 'ApplicationOverview', () => {
                 packageName: 'safe-browser',
                 repository: 'https://github.com/joshuef/safe_browser',
                 latestVersion: '0.1.0',
-                type: 'userApplications'
+                type: 'electron'
             }
         };
 

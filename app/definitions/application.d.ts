@@ -35,7 +35,7 @@ export interface AuthDState {
 }
 
 export interface ApplicationsState {
-    userApplications: Array<App>;
+    electron: Array<App>;
     developmentApplications: Array<App>;
 }
 
@@ -70,19 +70,51 @@ export interface Preferences {
     id?: number;
 }
 
-export type AppType = 'userApplications' | 'developmentApplications';
+export type AppType = 'electron' | 'bin';
 
 export interface App {
     id: string;
     name: string;
     author: string;
-    size: string;
+    // size: string;
     description: string;
     updateDescription: string;
     packageName: string;
     repositoryOwner: string;
     repositorySlug: string;
-    iconPath: string;
+    iconPath?: string;
+
+    // Link to folder containing platform based releases. If none provided
+    // fallse back to maidsafe s3 package naming.
+    baseUrl?: string;
+    // Template for deriving the app package release namespace. Version ${version}
+    // is parse out as a variable. The <> are required for parsing.
+    // eg: `safe-browser-<version>-mac.dmg`
+    artifactTemplate: {
+        mac: string;
+        linux: string;
+        windows: string;
+    };
+
+    // the bin for calling
+    binName?: {
+        mac: string;
+        linux: string;
+        windows: string;
+    };
+
+    // script to run on postinstall
+    postInstall?: {
+        mac: string;
+        linux: string;
+        windows: string;
+    };
+    // script to run on uninstall
+    uninstall?: {
+        mac: string;
+        linux: string;
+        windows: string;
+    };
 
     type: AppType;
     currentVersion?: string;

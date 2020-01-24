@@ -33,7 +33,7 @@ describe( 'ApplicationDetail', () => {
                     repositorySlug: 'safe_browser',
                     updateDescription: '',
                     latestVersion: '0.1.0',
-                    type: 'userApplications'
+                    type: 'electron'
                 }
             },
             unInstallApp: jest.fn(),

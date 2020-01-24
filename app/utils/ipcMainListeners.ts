@@ -2,14 +2,14 @@ import { ipcMain, app } from 'electron';
 import * as cp from 'child_process';
 
 import { logger } from '$Logger';
-import { safeAppUpdater } from '$App/manageInstallations/safeAppUpdater';
+import { electronAppUpdater } from '$App/manageInstallations/electronAppUpdater';
 
 export const setupIPCListeners = ( store ) => {
     const allApps = store.getState().appManager.applicationList;
 
     Object.keys( allApps ).forEach( ( theApp ) => {
         const application = allApps[theApp];
-        safeAppUpdater.checkAppsForUpdate( application );
+        electronAppUpdater.checkAppsForUpdate( application );
     } );
 
     // IPC handlers from actions.
@@ -73,10 +73,10 @@ export const setupIPCListeners = ( store ) => {
     } );
 
     ipcMain.on( 'checkApplicationsForUpdate', ( _event, application ) => {
-        safeAppUpdater.checkAppsForUpdate( application );
+        electronAppUpdater.checkAppsForUpdate( application );
     } );
 
     ipcMain.on( 'updateApplication', ( _event, application ) => {
-        safeAppUpdater.updateApplication( application );
+        electronAppUpdater.updateApplication( application );
     } );
 };

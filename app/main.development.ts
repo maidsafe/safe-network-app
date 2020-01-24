@@ -11,7 +11,7 @@ import { AppUpdater } from './autoUpdate';
 import { logger } from '$Logger';
 import { configureStore } from '$Store/configureStore';
 import { installExtensions, preferencesJsonSetup } from '$Utils/main_utils';
-import { safeAppUpdater } from '$App/manageInstallations/safeAppUpdater';
+import { electronAppUpdater } from '$App/manageInstallations/electronAppUpdater';
 import {
     setupAuthDaemon,
     stopAuthDaemon
@@ -47,7 +47,7 @@ if ( !gotTheLock ) {
     app.quit();
 } else {
     app.on( 'second-instance', ( _event, _commandLine, _workingDirectory ) => {
-        // safeAppUpdater.handleAppUpdateCallback( commandLine );
+        // electronAppUpdater.handleAppUpdateCallback( commandLine );
         // Someone tried to run a second instance, we should focus our window.
         if ( theWindow ) {
             if ( theWindow.isMinimized() ) theWindow.restore();
@@ -76,7 +76,7 @@ if ( !gotTheLock ) {
         const initialState = {};
         store = configureStore( initialState );
 
-        safeAppUpdater.store = store;
+        electronAppUpdater.store = store;
 
         setupIPCListeners( store );
         await preferencesJsonSetup( store );

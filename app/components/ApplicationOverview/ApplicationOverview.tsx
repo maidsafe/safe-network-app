@@ -45,7 +45,7 @@ export class ApplicationOverview extends React.PureComponent<Props> {
         const { application, history } = this.props;
 
         const progressText = getAppStatusText( application );
-        const secondaryText = application.error || progressText;
+        const secondaryText = application.error || progressText || '';
 
         const appName = `${application.name}${
             RELEASE_CHANNEL ? ` ${capitalize( RELEASE_CHANNEL )}` : ''

@@ -4,7 +4,7 @@ import * as fs from 'fs-extra';
 import { Store } from 'redux';
 import { push } from 'connected-react-router';
 
-import { safeAppUpdater } from './manageInstallations/safeAppUpdater';
+import { electronAppUpdater } from './manageInstallations/electronAppUpdater';
 import { Application } from './definitions/application.d';
 
 import {

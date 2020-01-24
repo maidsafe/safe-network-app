@@ -21,7 +21,7 @@ import {
 import { delay, getInstalledLocation } from '$App/manageInstallations/helpers';
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
-import { INSTALL_TARGET_DIR } from '$Constants/installConstants';
+import { DESKTOP_APP_INSTALL_TARGET_DIR } from '$Constants/installConstants';
 
 export const unInstallApplication = async (
     store: Store,
@@ -39,7 +39,7 @@ export const unInstallApplication = async (
     );
 
     const windowsUninstallLocation = path.join(
-        `${INSTALL_TARGET_DIR}`,
+        `${DESKTOP_APP_INSTALL_TARGET_DIR}`,
         `${application.name || application.packageName}`,
         `Uninstall ${application.name || application.packageName}.exe`
     );

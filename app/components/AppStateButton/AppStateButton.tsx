@@ -15,6 +15,7 @@ import { getAppStatusText } from '$Utils/app_utils';
 import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 import { notificationTypes } from '$Constants/notifications';
+import { BIN } from '$Constants/installConstants';
 
 interface Props {
     unInstallApp: Function;
@@ -119,6 +120,8 @@ export class AppStateButton extends React.Component<Props> {
             ? I18n.t( `buttons.open` )
             : I18n.t( `buttons.install` );
 
+        const isBin = application.type === BIN;
+
         let handleClick = isInstalled ? this.handleOpen : this.handleDownload;
         const progressText = getAppStatusText( application );
         const statusMessage = showAppStatus ? error || progressText : null;
@@ -175,6 +178,8 @@ export class AppStateButton extends React.Component<Props> {
 
         const percentageProgress = progress * 100;
 
+        const isInstalledBin = isBin && isInstalled;
+
         return (
             <Box className={styles.wrap}>
                 {!isInstalled && progressButtonIcon && (
@@ -203,14 +208,18 @@ export class AppStateButton extends React.Component<Props> {
                 {!progressButtonIcon && (
                     <Button
                         variant={isInstalled ? 'outlined' : 'contained'}
-                        color="primary"
+                        color={isInstalledBin ? 'secondary' : 'primary'}
                         onClick={handleClick}
                         aria-label="Application Action Button"
-                        disabled={!!isUninstalling || isUpdating}
+                        disabled={
+                            !!isUninstalling || isUpdating || isInstalledBin
+                        }
                         className={`${styles.actionButton} ${isInstalled &&
                             styles.openButton}`}
                     >
-                        {buttonText}
+                        {isInstalledBin
+                            ? I18n.t( `buttons.installed` )
+                            : buttonText}
                     </Button>
                 )}
 

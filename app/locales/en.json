@@ -14,6 +14,7 @@
         "/permissions/pending": "Permission to Publish"
     },
     "buttons": {
+        "installed": "Installed",
         "install": "Install",
         "update": "Update",
         "cancelInstall": "Cancel Install",

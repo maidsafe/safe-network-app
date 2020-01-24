@@ -32,7 +32,7 @@ describe( 'Overview', () => {
                     packageName: 'safe-browser',
                     repository: 'https://github.com/joshuef/safe_browser',
                     latestVersion: '0.1.0',
-                    type: 'userApplications'
+                    type: 'electron'
                 },
                 'electron.ts.boiler': {
                     id: 'electron.ts.boiler',
@@ -41,7 +41,7 @@ describe( 'Overview', () => {
                     repository:
                         'https://github.com/joshuef/electron-typescript-react-boilerplate',
                     latestVersion: '0.1.0',
-                    type: 'userApplications'
+                    type: 'electron'
                 }
             },
             fetchLatestAppVersions: jest.fn(),
