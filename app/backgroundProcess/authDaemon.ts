@@ -10,7 +10,7 @@ import pkg from '$Package';
 
 let windowsServiceExists = false;
 let authDaemonIsRunning = false;
-// let snappControllingAuthd = true;
+let snappControllingAuthd = false;
 
 const WIN_SUDO_OPTIONS = {
     name: pkg.productName
@@ -97,14 +97,23 @@ export const setupAuthDaemon = async (): Promise<AuthDClient> => {
             // TODO: If no AUTHD_LOCATION bin... we need to trigger install
             await safeAuthdClient.start();
             authDaemonIsRunning = true;
-            logger.info( 'Safe authd started' );
+            snappControllingAuthd = true;
+
+            logger.info( 'Safe authd started and marked as SNAPP controlled.' );
         }
 
         logger.info( 'Safe authd is running' );
     } catch ( error ) {
         if ( error.message && error.message.includes( 'AuthdAlreadyStarted' ) ) {
-            logger.info( 'AuthDaemon already exists.' );
+            logger.info( 'AuthDaemon already exists' );
             authDaemonIsRunning = true;
+
+            // if we're already controlling it, we can skip this on re-init
+            // attempts later on.
+            if ( !snappControllingAuthd ) {
+                logger.info( 'Marking authd as not SNAPP controlled' );
+                snappControllingAuthd = false;
+            }
         } else {
             logger.error( 'Error initing safe authd', error );
         }
@@ -116,6 +125,16 @@ export const setupAuthDaemon = async (): Promise<AuthDClient> => {
 export const stopAuthDaemon = async (): Promise<void> => {
     try {
         const authdLocation = AUTHD_LOCATION;
+
+        if ( !authDaemonIsRunning ) {
+            logger.warn( 'AuthDaemon is not running. Nothing to stop.' );
+            return;
+        }
+
+        if ( !snappControllingAuthd ) {
+            logger.warn( 'AuthDaemon is not being run by SNAPP. Will not stop.' );
+            return;
+        }
 
         // TODO: we should check if we started this process
         const safeAuthdClient = await setupAuthDaemon();
@@ -130,7 +149,7 @@ export const stopAuthDaemon = async (): Promise<void> => {
                 logger.info( `stdout: ${stdout}` );
             } );
         } else {
-            await safeAuthdClient.stop( AUTHD_LOCATION );
+            await safeAuthdClient.stop();
         }
         logger.info( 'Safe authd stopped' );
     } catch ( error ) {
