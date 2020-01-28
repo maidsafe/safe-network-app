@@ -37,8 +37,6 @@ const handleAuthDSubscriptionCallbacks = (
 
 export const subscribeForAuthRequests = async (): Promise<void> => {
     try {
-        // TODO: if presubbed, use a new port... or just use randoooo
-        // TODO: we should check if we started this process
         const PORT = '33001';
 
         const availablePort = await getPort();

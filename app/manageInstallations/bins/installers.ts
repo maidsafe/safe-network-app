@@ -5,10 +5,13 @@ import path from 'path';
 import fs from 'fs-extra';
 import { Store } from 'redux';
 
+import { sudoPrompt } from '$Utils/sudo-exec';
+import { AUTHD_LOCATION } from '$Constants/authd';
 import {
     downloadAndInstallAppSuccess,
     downloadAndInstallAppFailure
 } from '$Actions/application_actions';
+import { setAsInstalled } from '$Actions/alias/authd_actions';
 import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
 import { logger } from '$Logger';
 import {
@@ -17,6 +20,12 @@ import {
 } from '$App/manageInstallations/helpers';
 import { App } from '$Definitions/application.d';
 import { getBinInstallDirectory } from '$Constants/installConstants';
+import pkg from '$Package';
+
+const WIN_SUDO_OPTIONS = {
+    name: pkg.productName
+    // icns: '/Applications/Electron.app/Contents/Resources/Electron.icns', // (optional)
+};
 
 export const silentInstallBin = async (
     store: Store,
@@ -41,14 +50,18 @@ export const silentInstallBin = async (
         logger.info( `Unzipping ${downloadLocation}` );
         const directory = await unzipper.Open.file( downloadLocation );
         await directory.extract( { path: binInstallTarget } );
-
+        logger.info( 'unzipped' );
         switch ( platform ) {
             case MAC_OS: {
                 spawnSync( 'chmod', [
                     '+x',
                     path.resolve( binInstallTarget, application.binName.mac )
                 ] );
-                spawn( application.postInstall.mac, {
+                logger.info(
+                    'About to run binscript:',
+                    application.postInstall.mac
+                );
+                spawnSync( application.postInstall.mac, {
                     env: process.env,
                     shell: true
                 } );
@@ -56,11 +69,17 @@ export const silentInstallBin = async (
             }
             case WINDOWS: {
                 // TODO: how to do this on windows
-                // spawnSync( 'chmod', ['+x', path.resolve(binInstallTarget, application.binName.windows)] );
-                spawn( application.postInstall.windows, {
-                    env: process.env,
-                    shell: true
-                } );
+                spawnSync( 'chmod', [
+                    '+x',
+                    path.resolve( binInstallTarget, application.binName.windows )
+                ] );
+                logger.info(
+                    'About to run binscript:',
+                    application.postInstall.windows
+                );
+                // install the service if not already
+                await sudoPrompt( application.postInstall.windows );
+
                 break;
             }
             case LINUX: {
@@ -68,7 +87,7 @@ export const silentInstallBin = async (
                     '+x',
                     path.resolve( binInstallTarget, application.binName.linux )
                 ] );
-                spawn( application.postInstall.linux, {
+                spawnSync( application.postInstall.linux, {
                     env: process.env,
                     shell: true
                 } );
@@ -78,10 +97,23 @@ export const silentInstallBin = async (
                 break;
         }
 
-        logger.info( 'Install complete.' );
+        logger.info( 'Bin Install complete.' );
         store.dispatch( downloadAndInstallAppSuccess( application ) );
+
+        // Handle special case of authd install
+        if ( application.id === 'safe.cli' ) {
+            let timer;
+            const markAsInstalledIfDone = async () => {
+                if ( await fs.exists( AUTHD_LOCATION ) ) {
+                    store.dispatch( setAsInstalled() );
+                    clearInterval( timer );
+                }
+            };
+
+            timer = setInterval( markAsInstalledIfDone, 500 );
+        }
     } catch ( error ) {
-        logger.error( `Error Unzipping ${downloadLocation}`, error );
+        logger.error( `Error at unzip and install ${downloadLocation}`, error );
         spawnSync( 'rm', ['-rf', downloadLocation] );
         store.dispatch(
             downloadAndInstallAppFailure( {

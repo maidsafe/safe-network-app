@@ -67,6 +67,12 @@ const acceptNotify = ( props ) => {
             ipcRenderer.send( 'close-app' );
             store.dispatch( dismissNotification( { id: props.id } ) );
             break;
+        case 'AUTHD_INSTALL_NEEDED': {
+            const cli = store.getState().appManager.applicationList['safe.cli'];
+            store.dispatch( downloadAndInstallApp( cli ) );
+            store.dispatch( dismissNotification( { id: props.id } ) );
+            break;
+        }
         case 'UPDATE_AVAILABLE_ALERT':
             // store.dispatch( updateApp( application ) );
             store.dispatch( dismissNotification( { id: props.id } ) );

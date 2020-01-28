@@ -11,38 +11,47 @@ import {
     inBgProcess,
     isRunningTestCafeProcessingPackagedApp,
     isRunningTestCafeProcess,
+    isRunningOnWindows,
     inMainProcess,
     isDryRun,
     isCI
 } from '$Constants';
 
-
 if ( log.transports ) {
     // Log level
     // error, warn, log, log, debug, silly
     log.transports.file.level = 'silly';
-    log.transports.console.format = '[Renderer: {h}:{i}:{s}.{ms}] › {text}';
+    if ( !isRunningOnWindows )
+        // for some reason custom format doesnt work
+        log.transports.console.format = '[Renderer: {h}:{i}:{s}.{ms}] › {text}';
 
     if (
         isRunningTestCafeProcess ||
-    process.env.NODE_ENV === 'test' ||
-    ( !isRunningDebug && isRunningPackaged )
+        process.env.NODE_ENV === 'test' ||
+        ( !isRunningDebug && isRunningPackaged )
     ) {
         log.transports.file.level = 'warn';
         log.transports.console.level = 'warn';
     }
 
     if ( currentWindowId ) {
-        log.transports.console.format = `[Window :${currentWindowId}: {h}:{i}:{s}.{ms}] › {text}`;
+        if ( !isRunningOnWindows )
+            // for some reason custom format doesnt work
+            log.transports.console.format = `[Window :${currentWindowId}: {h}:{i}:{s}.{ms}] › {text}`;
     }
     if ( inMainProcess ) {
         log.variables.label = 'main';
-        log.transports.console.format = '%c{h}:{i}:{s}.{ms}%c › {text}';
+        if ( !isRunningOnWindows )
+            // for some reason custom format doesnt work
+            log.transports.console.format = '%c{h}:{i}:{s}.{ms}%c › {text}';
     }
 
     if ( inBgProcess ) {
         log.transports.file.fileName = 'background.log';
-        log.transports.console.format = '[Background: {h}:{i}:{s}.{ms}] › {text}';
+        if ( !isRunningOnWindows )
+            // for some reason custom format doesnt work
+            log.transports.console.format =
+                '[Background: {h}:{i}:{s}.{ms}] › {text}';
     }
 
     log.transports.file.maxSize = 5 * 1024 * 1024;

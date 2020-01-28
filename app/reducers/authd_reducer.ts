@@ -10,7 +10,8 @@ export const initialState: AuthDState = {
     isLoggedIn: false,
     error: null,
     isWorking: false,
-    pendingRequests: []
+    pendingRequests: [],
+    isInstalled: false
 };
 
 export function authd( state = initialState, action ): AuthDState {
@@ -26,6 +27,12 @@ export function authd( state = initialState, action ): AuthDState {
                 isLoggedIn: !payload.error,
                 error: payload.error,
                 isWorking: false
+            };
+        }
+        case TYPES.SET_AS_INSTALLED: {
+            return {
+                ...state,
+                isInstalled: true
             };
         }
         case TYPES.CREATE_ACCOUNT: {

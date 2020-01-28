@@ -30,6 +30,7 @@ export interface AuthRequest {
 export interface AuthDState {
     isLoggedIn: boolean;
     error: string;
+    isInstalled: boolean;
     isWorking: boolean;
     pendingRequests: Array<AuthRequest>;
 }

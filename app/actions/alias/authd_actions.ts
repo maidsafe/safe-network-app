@@ -15,6 +15,7 @@ export const TYPES = {
     ALIAS__CREATE_ACCOUNT: 'ALIAS__CREATE_ACCOUNT',
     CREATE_ACCOUNT: 'CREATE_ACCOUNT',
     CLEAR_ERROR: 'CLEAR_ERROR',
+    SET_AS_INSTALLED: 'SET_AS_INSTALLED',
 
     SET_AUTHD_WORKING: 'SET_AUTHD_WORKING',
     ADD_AUTH_REQUEST_TO_PENDING_LIST: 'ADD_AUTH_REQUEST_TO_PENDING_LIST',
@@ -27,11 +28,13 @@ export const TYPES = {
 export const {
     clearError,
     setAuthdWorking,
-    addAuthRequestToPendingList
+    addAuthRequestToPendingList,
+    setAsInstalled
 } = createActions(
     TYPES.CLEAR_ERROR,
     TYPES.SET_AUTHD_WORKING,
-    TYPES.ADD_AUTH_REQUEST_TO_PENDING_LIST
+    TYPES.ADD_AUTH_REQUEST_TO_PENDING_LIST,
+    TYPES.SET_AS_INSTALLED
 );
 
 export const logInToNetwork = createAliasedAction(

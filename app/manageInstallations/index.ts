@@ -136,14 +136,16 @@ const getDowloadUrlForApplication = ( application: App ): string => {
     const { packageName } = application;
     const baseUrl = application.baseUrl || getMaidsafeS3Folder( application );
 
+    const theApp = { ...application };
     // let targetUrl: string;
 
     logger.silly( 'Checking platform for download', platform, application );
 
-    if ( !application.latestVersion )
-        throw new Error( `No latest version found for, ${application.name}` );
+    if ( !application.latestVersion ) {
+        theApp.latestVersion = application.currentVersion;
+    }
 
-    const targetUrl = `${baseUrl}/${getArtifactName( application )}`;
+    const targetUrl = `${baseUrl}/${getArtifactName( theApp )}`;
 
     logger.info( 'Download URL: ', targetUrl );
     return targetUrl;
@@ -275,7 +277,7 @@ const downloadAndInstall = async (
 };
 
 export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
-    console.log( 'Setting up IPC to manage downloads' );
+    logger.info( 'Setting up IPC to manage downloads' );
 
     ipcMain.on( 'initiateDownload', ( event, application: App ) =>
         // TODO. Here determine app type... naming convention...

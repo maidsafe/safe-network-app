@@ -31,6 +31,18 @@ export const notificationTypes = {
 
         return prepareNotification( title, denyText, otherProperties );
     },
+    AUTHD_INSTALL_NEEDED: () => {
+        return {
+            id: 'auth-install-needed',
+            title: I18n.t( 'notifications.title.authd_install_needed' ),
+            message: I18n.t( 'notifications.message.authd_install_needed' ),
+            acceptText: I18n.t( 'notifications.buttons.acceptText.install_app' ),
+            type: 'AUTHD_INSTALL_NEEDED',
+            icon: 'WarningIcon',
+            priority: 'HIGH',
+            notificationType: NOTIFICATION_TYPES.STANDARD
+        };
+    },
     NO_INTERNET: () => {
         const title = I18n.t( 'notifications.title.no_internet' );
         const denyText = I18n.t( 'notifications.buttons.denyText.dismiss' );
