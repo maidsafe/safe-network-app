@@ -7,11 +7,16 @@ import { setCurrentStoreForNotificationActions } from '$Actions/alias/notificati
 import { configureStore } from '$Store/configureStore';
 import { setCurrentStore } from '$Actions/application_actions';
 import { settingsHandler } from '$Actions/helpers/settings_handler';
-import { setupAuthDaemon } from '$App/backgroundProcess/authDaemon';
+import {
+    isAuthDIsInstalled,
+    setupAuthDaemon,
+    waitForAuthDToBeInstalled
+} from '$App/backgroundProcess/authDaemon';
 import {
     subscribeForAuthRequests,
     setCurrentStoreForAuthDSubscriber
 } from '$App/backgroundProcess/authDaemonSubscription';
+import { setAsInstalled } from '$Actions/alias/authd_actions';
 
 declare let window: Window;
 
@@ -34,7 +39,7 @@ const managePreferencesLocally = async ( store ) => {
     }
 };
 
-const initBgProcess = () => {
+const initBgProcess = async () => {
     const store: Store = configureStore( undefined );
     setCurrentStore( store );
     setCurrentStoreForAuthDSubscriber( store );
@@ -43,7 +48,11 @@ const initBgProcess = () => {
         managePreferencesLocally( store );
     } );
 
-    setupAuthDaemon();
+    if ( await isAuthDIsInstalled() ) {
+        store.dispatch( setAsInstalled() );
+    }
+
+    await setupAuthDaemon( store );
     subscribeForAuthRequests();
 };
 

@@ -1,86 +1,94 @@
 import { spawnSync } from 'child_process';
-import sudo from 'sudo-prompt';
 import { SafeAuthdClient } from 'safe-nodejs';
+import fs from 'fs-extra';
+import { Store } from 'redux';
+import { ipcRenderer } from 'electron';
 
 import { isRunningOnWindows } from '$Constants';
 import { logger } from '$Logger';
 import { AUTHD_LOCATION } from '$Constants/authd';
 import { AuthDClient, AuthRequest } from '$Definitions/application.d';
 import pkg from '$Package';
+import { pushNotification } from '$Actions/launchpad_actions';
+import { notificationTypes } from '$Constants/notifications';
+import { sudoPrompt } from '$Utils/sudo-exec';
 
-let windowsServiceExists = false;
+const windowsServiceExists = false;
 let authDaemonIsRunning = false;
 let snappControllingAuthd = false;
+let theBgStore: Store;
+let pendingAuthDNotificationId: string;
 
-const WIN_SUDO_OPTIONS = {
-    name: pkg.productName
-    // icns: '/Applications/Electron.app/Contents/Resources/Electron.icns', // (optional)
+export const isAuthDIsInstalled = async () => {
+    const exists = await fs.exists( AUTHD_LOCATION );
+    logger.info( 'checking if authd exists here: ', AUTHD_LOCATION, exists );
+
+    return exists;
 };
 
-const installWindowsServiceIfNeeded = (
-    authdLocation: string
+export const waitForAuthDToBeInstalled = async (
+    store: Store
 ): Promise<void> => {
-    if ( !isRunningOnWindows || authDaemonIsRunning ) {
-        return Promise.resolve();
-    }
-
-    // eslint-disable-next-line consistent-return
     return new Promise( ( resolve, reject ) => {
-        // check if service is installed
-        const serviceCheck = `Get-Service 'SAFE Authenticator'`;
-        const powershell = spawnSync( 'powershell.exe', [
-            '-Command',
-            serviceCheck
-        ] );
-        if ( powershell.error ) {
-            logger.error( 'Error checking services', powershell.error );
-
-            reject( powershell.error );
-        }
-
-        logger.verbose( 'Windows service check:', powershell.stdout.toString() );
-        const serviceIsInstalled = powershell.stdout
-            .toString()
-            .includes( 'safe-authd' );
-        const serviceIsRunning = powershell.stdout
-            .toString()
-            .includes( 'Running' );
-
-        windowsServiceExists = serviceIsInstalled;
-        authDaemonIsRunning = serviceIsRunning;
-
-        if ( windowsServiceExists ) {
-            return resolve();
-        }
-
-        // install the service if not already
-        sudo.exec( `${authdLocation} install`, WIN_SUDO_OPTIONS, function(
-            error,
-            stdout,
-            stderr
-        ) {
-            if ( error ) {
-                reject( error );
-            } else {
-                windowsServiceExists = true;
+        let timer;
+        const markAsInstalledIfDone = async () => {
+            if ( await isAuthDIsInstalled() ) {
+                logger.verbose( 'awaiting authd install' );
+                clearInterval( timer );
                 resolve();
             }
-        } );
+        };
+
+        timer = setInterval( markAsInstalledIfDone, 5000 );
     } );
 };
 
-export const setupAuthDaemon = async (): Promise<AuthDClient> => {
-    const safeAuthdClient = await new SafeAuthdClient();
+const waitIfAuthDNotInstalled = async ( store: Store ): Promise<void> => {
+    const authDIsInstalled = await isAuthDIsInstalled();
+
+    if ( !authDIsInstalled ) {
+        // if we've a store, fire a notification to install
+        if ( store ) {
+            theBgStore = store;
+            const cliIsInstalled = store.getState().appManager.applicationList[
+                'safe.cli'
+            ].isInstalled;
+
+            pendingAuthDNotificationId =
+                pendingAuthDNotificationId || Math.random().toString( 36 );
+            const application = {
+                id: pendingAuthDNotificationId,
+                name: 'Safe CLI'
+            };
+
+            const notification = notificationTypes.AUTHD_INSTALL_NEEDED();
+            store.dispatch( pushNotification( notification ) );
+        }
+        if ( !theBgStore ) {
+            logger.warn(
+                'No authd and no store passed... Likely waiting on authd setup from background.ts'
+            );
+        }
+
+        return waitForAuthDToBeInstalled( theBgStore );
+    }
+
+    return Promise.resolve();
+};
+
+export const setupAuthDaemon = async ( store?: Store ): Promise<AuthDClient> => {
     const authdLocation = AUTHD_LOCATION;
 
-    await installWindowsServiceIfNeeded( authdLocation );
+    const safeAuthdClient = await new SafeAuthdClient();
+
+    await waitIfAuthDNotInstalled( store );
 
     try {
         if ( !authDaemonIsRunning ) {
             if ( isRunningOnWindows ) {
-                sudo.exec( `${authdLocation} start`, WIN_SUDO_OPTIONS, function(
-                    error
-                ) {
+                try {
+                    await sudoPrompt( `${authdLocation} start` );
+                } catch ( error ) {
                     if (
                         error &&
                         // @ts-ignore
@@ -90,16 +98,22 @@ export const setupAuthDaemon = async (): Promise<AuthDClient> => {
                     ) {
                         logger.info( 'AuthDaemon already exists.' );
                         authDaemonIsRunning = true;
+                    } else {
+                        logger.error( 'Error initing authd on windows', error );
                     }
-                } );
+                }
+            } else {
+                // TODO: If no AUTHD_LOCATION bin... we need to trigger install
+                await safeAuthdClient.start();
             }
 
-            // TODO: If no AUTHD_LOCATION bin... we need to trigger install
-            await safeAuthdClient.start();
             authDaemonIsRunning = true;
             snappControllingAuthd = true;
 
-            logger.info( 'Safe authd started and marked as SNAPP controlled.' );
+            logger.info(
+                '1111Safe authd started and marked as SNAPP controlled.',
+                authDaemonIsRunning
+            );
         }
 
         logger.info( 'Safe authd is running' );
@@ -122,6 +136,7 @@ export const setupAuthDaemon = async (): Promise<AuthDClient> => {
     return safeAuthdClient;
 };
 
+// Run on main process....
 export const stopAuthDaemon = async (): Promise<void> => {
     try {
         const authdLocation = AUTHD_LOCATION;
@@ -140,14 +155,7 @@ export const stopAuthDaemon = async (): Promise<void> => {
         const safeAuthdClient = await setupAuthDaemon();
 
         if ( isRunningOnWindows ) {
-            sudo.exec( `${authdLocation} stop`, WIN_SUDO_OPTIONS, function(
-                error,
-                stdout,
-                stderr
-            ) {
-                if ( error ) throw error;
-                logger.info( `stdout: ${stdout}` );
-            } );
+            await sudoPrompt( `${authdLocation} stop` );
         } else {
             await safeAuthdClient.stop();
         }
@@ -156,6 +164,11 @@ export const stopAuthDaemon = async (): Promise<void> => {
         logger.error( 'Error stopping safe authd', error );
     }
 };
+
+// bind a listener to enable stop to be triggerfrom main process.
+if ( ipcRenderer ) {
+    ipcRenderer.on( 'stop-authd', stopAuthDaemon );
+}
 
 export const allowRequest = async ( request: AuthRequest ): Promise<{}> => {
     const { requestId } = request;

@@ -9,6 +9,11 @@ describe( 'Auth daemon actions', () => {
         expect( authdActions.TYPES ).toBeDefined();
     } );
 
+    it( 'should set authdinstalled', () => {
+        expect( authdActions.setAsInstalled ).toBeDefined();
+        expect( authdActions.setAsInstalled().type ).toEqual( 'SET_AS_INSTALLED' );
+    } );
+
     it( 'should login', () => {
         expect( authdActions.logInToNetwork ).toBeDefined();
         expect( authdActions.logInToNetwork().type ).toEqual( 'ALIASED' );

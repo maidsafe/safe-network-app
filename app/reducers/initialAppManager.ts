@@ -30,8 +30,8 @@ export const initialAppManager: AppManagerState = {
             baseUrl: `https://safe-api.s3.eu-west-2.amazonaws.com`,
             artifactTemplate: {
                 mac: `safe-cli-<version>-x86_64-apple-darwin.zip`,
-                linux: `safe-cli-<version>-unknown-linux-gnu.zip`,
-                windows: `safe-cli-<version>-x86_64-pc-windows-gnu.zip`
+                linux: `safe-cli-<version>-x86_64-unknown-linux-gnu.zip`,
+                windows: `safe-cli-<version>-x86_64-pc-windows-msvc.zip`
             },
             binName: {
                 mac: `safe`,
@@ -40,14 +40,15 @@ export const initialAppManager: AppManagerState = {
             },
             postInstall: {
                 mac: `ln -s ~/.safe/safe-cli/safe /usr/local/bin/safe ; safe auth install`,
-                linux: `ln -s ~/.safe/safe-cli/safe /usr/local/bin/safe ; safe auth install`,
-                windows: `echo "How to do this in windows......";`
+                linux: `ln -s ~/.safe/safe-cli/safe ~/bin/safe ; safe auth install`,
+                windows: `setx PATH "%PATH%;%USERPROFILE%/.safe/safe-cli" /M & safe auth install`
             },
             uninstall: {
                 mac: `rm /usr/local/bin/safe`,
                 linux: `rm /usr/local/bin/safe`,
                 windows: `echo "How to do this in windows......";`
             },
+            isInstalled: false,
             // size: '~120MB',
             author: 'Maidsafe Ltd.',
             packageName: 'safe-cli',

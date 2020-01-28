@@ -24,7 +24,7 @@ import {
     isRunningOnLinux,
     isRunningOnWindows
 } from '$Constants';
-import { addNotification } from '$App/env-handling';
+import { addNotification } from '$App/add-env-notifications';
 import { setupIPCListeners } from '$Utils/ipcMainListeners';
 
 logger.info( 'User data exists: ', app.getPath( 'userData' ) );
@@ -62,7 +62,7 @@ if ( !gotTheLock ) {
             enforceMacOSAppLocation();
         }
 
-        setupAuthDaemon();
+        // setupAuthDaemon();
 
         if (
             // isRunningTestCafeProcess ||

@@ -91,6 +91,7 @@ describe( 'authd reducer', () => {
 
             const nextStore = authd(
                 {
+                    isInstalled: true,
                     isLoggedIn: true,
                     error: null,
                     isWorking: false,
@@ -118,6 +119,7 @@ describe( 'authd reducer', () => {
 
             const nextStore = authd(
                 {
+                    isInstalled: true,
                     isLoggedIn: true,
                     error: null,
                     isWorking: false,
@@ -153,12 +155,31 @@ describe( 'authd reducer', () => {
             expect( nextStore.isWorking ).toBeFalsy();
         } );
 
+        it( 'Should update installed state', () => {
+            const nextStore = authd(
+                {
+                    isInstalled: false,
+                    isLoggedIn: false,
+                    error: null,
+                    isWorking: true,
+                    pendingRequests: []
+                },
+                {
+                    type: TYPES.SET_AS_INSTALLED
+                }
+            );
+            expect( nextStore.isLoggedIn ).toBeFalsy();
+            expect( nextStore.isInstalled ).toBeTruthy();
+            expect( nextStore.error ).toBeNull();
+            expect( nextStore.isWorking ).toBeTruthy();
+        } );
         it( 'Should update logged in state on log out', () => {
             const authdAction = {
                 error: null
             };
             const nextStore = authd(
                 {
+                    isInstalled: true,
                     isLoggedIn: true,
                     error: null,
                     isWorking: true,
@@ -180,6 +201,7 @@ describe( 'authd reducer', () => {
             };
             const nextStore = authd(
                 {
+                    isInstalled: true,
                     isLoggedIn: false,
                     error: 'ups',
                     isWorking: true,
@@ -200,6 +222,7 @@ describe( 'authd reducer', () => {
             };
             const nextStore = authd(
                 {
+                    isInstalled: true,
                     isLoggedIn: false,
                     error: 'ups',
                     isWorking: true,
@@ -221,6 +244,7 @@ describe( 'authd reducer', () => {
             };
             const nextStore = authd(
                 {
+                    isInstalled: true,
                     isLoggedIn: false,
                     error: null,
                     isWorking: false,
@@ -238,6 +262,7 @@ describe( 'authd reducer', () => {
         it( 'clear error', () => {
             const nextStore = authd(
                 {
+                    isInstalled: true,
                     isLoggedIn: false,
                     error: '42',
                     isWorking: false,
@@ -254,6 +279,7 @@ describe( 'authd reducer', () => {
         it( 'update working state', () => {
             const nextStore = authd(
                 {
+                    isInstalled: true,
                     isLoggedIn: false,
                     error: '42',
                     isWorking: false,

@@ -26,7 +26,8 @@ function mapStateToProperties( state: AppState ) {
         appList: state.appManager.applicationList,
         appPreferences: state.launchpad.appPreferences,
         isTrayWindow: state.launchpad.isTrayWindow,
-        isLoggedIn: state.authd.isLoggedIn
+        isLoggedIn: state.authd.isLoggedIn,
+        authDIsInstalled: state.authd.isInstalled
     };
 }
 function mapDispatchToProperties( dispatch ) {

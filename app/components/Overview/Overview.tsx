@@ -18,7 +18,6 @@ import { Deck } from '$Components/Deck';
 import { ApplicationOverview } from '$Components/ApplicationOverview';
 import { ON_BOARDING, HOME, ACCOUNT_LOGIN } from '$Constants/routes.json';
 
-
 interface Props {
     unInstallApp: Function;
     openApp: Function;
@@ -42,6 +41,7 @@ interface Props {
     triggerSetAsTrayWindow: Function;
     isTrayWindow: boolean;
     isLoggedIn: boolean;
+    authDIsInstalled: boolean;
 }
 
 export class Overview extends Component<Props> {
@@ -104,15 +104,18 @@ export class Overview extends Component<Props> {
             triggerSetAsTrayWindow,
             isTrayWindow,
             appPreferences,
-            isLoggedIn
+            isLoggedIn,
+            authDIsInstalled
         } = this.props;
 
         if ( appPreferences.shouldOnboard ) return <Redirect to={ON_BOARDING} />;
 
+        // const hasAuthDInstalled =
+
         // LOGIN BUTTON: if we want this everywhere use a universal route...
         return (
             <div className={styles.container} data-tid="container">
-                {!isLoggedIn && (
+                {!isLoggedIn && authDIsInstalled && (
                     <div className={styles.loginNote}>
                         {
                             // <Typography variant="body2">
@@ -130,7 +133,7 @@ export class Overview extends Component<Props> {
                             onClick={this.handleLogIn}
                         >
                             <LockIcon />
-                            Log in
+                            Log In
                         </Fab>
                     </div>
                 )}
