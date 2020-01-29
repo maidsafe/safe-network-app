@@ -1,10 +1,12 @@
 import { ipcMain, app } from 'electron';
 import * as cp from 'child_process';
+import { Store } from 'redux';
 
+import { Application } from '$Definitions/application.d';
 import { logger } from '$Logger';
 import { electronAppUpdater } from '$App/manageInstallations/electronAppUpdater';
 
-export const setupIPCListeners = ( store ) => {
+export const setupIPCListeners = ( store, theWindow: Application.Window ) => {
     const allApps = store.getState().appManager.applicationList;
 
     Object.keys( allApps ).forEach( ( theApp ) => {
@@ -69,7 +71,11 @@ export const setupIPCListeners = ( store ) => {
     } );
 
     ipcMain.on( 'focus-the-app', () => {
-        app.focus();
+        logger.info( 'FOCUS REQ RECEIVEDD' );
+
+        if ( theWindow.isMinimized() ) theWindow.restore();
+
+        theWindow.show();
     } );
 
     ipcMain.on( 'checkApplicationsForUpdate', ( _event, application ) => {
