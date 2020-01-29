@@ -1,4 +1,4 @@
-import { app } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import { Store } from 'redux';
 import { enforceMacOSAppLocation } from 'electron-util';
 
@@ -12,10 +12,6 @@ import { logger } from '$Logger';
 import { configureStore } from '$Store/configureStore';
 import { installExtensions, preferencesJsonSetup } from '$Utils/main_utils';
 import { electronAppUpdater } from '$App/manageInstallations/electronAppUpdater';
-import {
-    setupAuthDaemon,
-    stopAuthDaemon
-} from '$App/backgroundProcess/authDaemon';
 import {
     ignoreAppLocation,
     isRunningDebug,
@@ -37,6 +33,7 @@ if ( process.env.NODE_ENV === 'production' ) {
 
 let store: Store;
 let theWindow: Application.Window;
+let theBackgroundProcess: Promise<BrowserWindow>;
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -78,11 +75,11 @@ if ( !gotTheLock ) {
 
         electronAppUpdater.store = store;
 
-        setupIPCListeners( store );
-        await preferencesJsonSetup( store );
-
-        setupBackground( store );
+        theBackgroundProcess = setupBackground( store );
         theWindow = createSafeLaunchPadTrayWindow( store );
+
+        setupIPCListeners( store, theWindow );
+        await preferencesJsonSetup( store );
 
         theWindow.on( 'close', ( _event ) => {
             if ( isRunningOnWindows || isRunningOnLinux ) app.quit();
@@ -105,7 +102,10 @@ if ( !gotTheLock ) {
 }
 
 app.on( 'quit', async ( _event ) => {
-    await stopAuthDaemon();
+    const bg = await theBackgroundProcess;
+    const { webContents } = bg;
+
+    webContents.send( 'stop-authd' );
 } );
 
 app.on( 'activate', () => {
