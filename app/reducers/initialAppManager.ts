@@ -54,7 +54,7 @@ export const initialAppManager: AppManagerState = {
             packageName: 'safe-cli',
             repositoryOwner: 'maidsafe',
             repositorySlug: 'safe-api',
-            latestVersion: '0.7.2',
+            latestVersion: '0.8.1',
             description: 'Safe Network command line interface functionality',
             updateDescription: '',
             type: 'bin' // assumes zip file for now.

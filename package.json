@@ -242,7 +242,7 @@
     "redux-thunk": "^2.3.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.8",
-    "safe-nodejs": "https://github.com/maidsafe/safe-nodejs#0.7.0",
+    "safe-nodejs": "https://github.com/maidsafe/safe-nodejs#0.8.0",
     "source-map-support": "^0.5.16",
     "sudo-prompt": "9.1.1",
     "typeface-roboto": "^0.0.75"
