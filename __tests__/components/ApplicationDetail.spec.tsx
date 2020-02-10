@@ -25,7 +25,7 @@ describe( 'ApplicationDetail', () => {
             appList: {
                 'safe.browser': {
                     id: 'safe.browser',
-                    name: 'SAFE Browser',
+                    name: 'Safe Browser',
                     descrption: 'blablabla',
                     author: 'maidsafe',
                     packageName: 'safe-browser',

@@ -21,7 +21,7 @@ if (pkg.version.includes('-beta')) {
 //
 // if (platform === MAC_OS) {
 //     PLATFORM_NAME = 'mac';
-//     appString = `SAFE Browser${appChannel}.app`;
+//     appString = `Safe Browser${appChannel}.app`;
 //     appResources = 'Contents/Resources/app.asar';
 // }
 //
@@ -31,7 +31,7 @@ if (pkg.version.includes('-beta')) {
 //
 // if (platform === WINDOWS) {
 //     PLATFORM_NAME = 'win-unpacked';
-//     appString = `SAFE Browser${appChannel}.exe`;
+//     appString = `Safe Browser${appChannel}.exe`;
 // }
 
 if (platform === MAC_OS) {

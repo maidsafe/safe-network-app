@@ -67,7 +67,7 @@ test( 'clicking uninstall will uninstall', async ( t ) => {
 
     const uninstall = Selector( 'li' ).withAttribute(
         'aria-label',
-        'Uninstall SAFE Browser'
+        'Uninstall Safe Browser'
     );
 
     await t

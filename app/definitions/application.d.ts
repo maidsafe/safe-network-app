@@ -6,6 +6,8 @@ export namespace Application {
         openDevTools: Function;
         toggleDevTools: Function;
         inspectElement: Function;
+        listenerCount: Function;
+        removeAllListeners: Function;
     }
 }
 
