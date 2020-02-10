@@ -28,7 +28,7 @@ describe( 'Overview', () => {
             appList: {
                 'safe.browser': {
                     id: 'safe.browser',
-                    name: 'SAFE Browser',
+                    name: 'Safe Browser',
                     packageName: 'safe-browser',
                     repository: 'https://github.com/joshuef/safe_browser',
                     latestVersion: '0.1.0',

@@ -8,7 +8,7 @@ export const addNotification = ( store: Store ) => {
         const randomAppId: string = Math.random().toString( 36 );
         const application = {
             id: randomAppId,
-            name: 'SAFE Browser',
+            name: 'Safe Browser',
             version: 'v1.0'
         };
 

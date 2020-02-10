@@ -29,9 +29,9 @@ test(
 // we start as a tray window right now
 test( 'can navigate to the application page and install', async ( t ) => {
     await t.click(
-        Selector( 'div' ).withAttribute( 'aria-label', 'List SAFE Browser' )
+        Selector( 'div' ).withAttribute( 'aria-label', 'List Safe Browser' )
     );
-    await t.expect( Selector( 'h6' ).withText( 'SAFE Browser' ).exists ).ok();
+    await t.expect( Selector( 'h6' ).withText( 'Safe Browser' ).exists ).ok();
 
     await t
         .expect(

@@ -26,7 +26,7 @@ describe( 'MenuItems', () => {
             downloadAndInstallApp: jest.fn(),
             application: {
                 id: 'safe.browser',
-                name: 'SAFE Browser',
+                name: 'Safe Browser',
                 packageName: 'safe-browser',
                 repository: 'https://github.com/joshuef/safe_browser',
                 latestVersion: '0.1.0',
@@ -48,7 +48,7 @@ describe( 'MenuItems', () => {
 
     describe( 'render', () => {
         it( 'Default "About" menu option', () => {
-            expect( wrapper.html().includes( 'About SAFE Browser' ) ).toBeTruthy();
+            expect( wrapper.html().includes( 'About Safe Browser' ) ).toBeTruthy();
         } );
 
         it( '"Install" menu option, when application not installed', () => {

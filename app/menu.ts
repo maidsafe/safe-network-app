@@ -123,7 +123,7 @@ const setupTestsMenu = ( store: Store ) => {
                 click: () => {
                     const application = {
                         id: Math.random().toString( 36 ),
-                        name: 'SAFE Browser'
+                        name: 'Safe Browser'
                     };
 
                     const version = 'v1.0';
@@ -142,7 +142,7 @@ const setupTestsMenu = ( store: Store ) => {
                 click: () => {
                     const application = {
                         id: Math.random().toString( 36 ),
-                        name: 'SAFE Browser'
+                        name: 'Safe Browser'
                     };
 
                     store.dispatch(
@@ -157,7 +157,7 @@ const setupTestsMenu = ( store: Store ) => {
                 click: () => {
                     const application = {
                         id: Math.random().toString( 36 ),
-                        name: 'SAFE Browser'
+                        name: 'Safe Browser'
                     };
 
                     store.dispatch(

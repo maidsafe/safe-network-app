@@ -25,13 +25,13 @@ const Notifications = {
     adminPassRequest: {
         name: 'Admin Pass Req',
         title:
-            'Your Administrator Password is required to finish installing SAFE Browser.',
+            'Your Administrator Password is required to finish installing Safe Browser.',
         acceptButtonExists: true
     },
     serverTimedOut: {
         name: 'Server Timed Out',
         title:
-            'Download Server has timed out. Installation of SAFE Browser has been paused.',
+            'Download Server has timed out. Installation of Safe Browser has been paused.',
         acceptButtonExists: true
     }
 };
