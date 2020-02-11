@@ -1,5 +1,6 @@
 env:
   global:
+    - SAFE_CLI_VERSION=0.8.1
     - secure: "G+hQbK2+8f6XFDopDJNddw3D8pEYx8OcWS4HAPpdXWY3Uo1mOFMObQsK7PjKoVKU7+n/ScL6t1FmRPuqCaxzEZa4jztgtViyVlb04mUI331f0xnuURiSOwHNwkEXpYAOXjmA79UFkSw4BTDVH+A4cJr5wxep+Xr85wGUwRscyDMjNg4DFQHmkNYK+JluquZ2+31yDI/Rl8qgM6vOQAhf4hV72UGKNpjGknPtFqiwnf/j2Q8IT3QiUeOLaEQbgOFAQ/ad7YGt9B0vhRBkh7X3vUMrSU5JXtsZZwETpfOzE6rDUg5d+YJpwhmIlPgqg/o7hL0gyZm+mk5fY/fdWoKAoHSa2/OkMyRN0UXopg5ZDDq1NQb5Pt1a1ndgWH9tlJXRfjXaurtip+ExEamXhr+bMISqbFHyQkLHCnyC1O3LQOLbIHOv6kjNqPYLAHIE/ysagkXg6iZ9k7WOv4Rw436GoMNS1rEL0a2iacC9+X3w770QZ1mlSxYqXsswxtJLvI7kHNN+2vwJb563FJxaaaTYm66T2dYFpZhG0/o0IIM8BPTEGDit8mIBFjzZtbMP1DVRjfZhoX6zc9hXggFr8PdWBHIy6MC3dl23f84X74NnBf6RgDF6EnlQRA5D4YnB8hMHbyzwpl+Zu1ACnKfmdn7Q8QoKOC8bS9Fb/nBr7svqguo="
 matrix:
   allow_failures:
@@ -66,6 +67,24 @@ before_install:
     if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then
         ./internals/scripts/installLibSodium.sh
     fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then yarn; fi
+   # install safe-cli + authd
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then mkdir ~/.safe/safe-cli; fi
+  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then mkdir -p ~/.safe/safe-cli; fi
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then wget "https://github.com/maidsafe/safe-api/releases/download/$SAFE_CLI_VERSION/safe-cli-$SAFE_CLI_VERSION-x86_64-apple-darwin.tar.gz" -O $TMPDIR/safe.tar.gz;
+    tar -xvzf $TMPDIR/safe.tar.gz -C ~/.safe/safe-cli/
+    fi
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget "https://github.com/maidsafe/safe-api/releases/download/$SAFE_CLI_VERSION/safe-cli-$SAFE_CLI_VERSION-x86_64-unknown-linux-gnu.tar.gz" -O /tmp/safe.tar.gz;
+    tar -xvzf /tmp/safe.tar.gz -C ~/.safe/safe-cli/
+    fi
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install wget;
+    wget "https://github.com/maidsafe/safe-api/releases/download/%SAFE_CLI_VERSION%/safe-cli-%SAFE_CLI_VERSION%-x86_64-pc-windows-msvc.tar.gz" -O /%Temp%/safe.tar.gz;
+    tar -xvf /%Temp%/safe.tar.gz -C ~/.safe/config/safe-cli
+    fi
+  - ~/.safe/safe-cli/safe auth install;
   - echo $TRAVIS_NODE_VERSION
   - export CSC_IDENTITY_AUTO_DISCOVERY=true
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-8"; fi
