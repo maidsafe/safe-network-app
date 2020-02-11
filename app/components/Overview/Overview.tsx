@@ -9,9 +9,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Fab from '@material-ui/core/Fab';
 import LockIcon from '@material-ui/icons/Lock';
 
-import { notificationTypes } from '../../constants/notifications';
 import styles from './Overview.css';
 
+import { notificationTypes } from '$Constants/notifications';
+import { isCI } from '$Constants';
 import { logger } from '$Logger';
 import { App, AppManagerState } from '$Definitions/application.d';
 import { Deck } from '$Components/Deck';
@@ -110,12 +111,11 @@ export class Overview extends Component<Props> {
 
         if ( appPreferences.shouldOnboard ) return <Redirect to={ON_BOARDING} />;
 
-        // const hasAuthDInstalled =
+        const shouldShowLogin = isCI || ( !isLoggedIn && authDIsInstalled );
 
-        // LOGIN BUTTON: if we want this everywhere use a universal route...
         return (
             <div className={styles.container} data-tid="container">
-                {!isLoggedIn && authDIsInstalled && (
+                {shouldShowLogin && (
                     <div className={styles.loginNote}>
                         {
                             // <Typography variant="body2">
