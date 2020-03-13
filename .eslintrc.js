@@ -3,6 +3,10 @@ const aliases = require('./.aliases.config');
 const aliasesArray = Object.keys(aliases);
 
 module.exports = {
+    env: {
+        browser: true,
+        node: true
+    },
     parser: '@typescript-eslint/parser',
     extends: [
         'airbnb-typescript',
@@ -16,6 +20,7 @@ module.exports = {
         'plugin:testcafe/recommended'
     ],
     parserOptions: {
+        project: `./tsconfig.json`,
         ecmaFeatures: {
             jsx: true
         },
@@ -76,7 +81,8 @@ module.exports = {
             }
         ],
         'import/prefer-default-export': 'off',
-        'import/extensions': ['warn', 'never'],
+        'import/no-default-export': 'error',
+        'import/extensions': ['error', 'never'],
         'import/order': [
             'error',
             {
@@ -136,6 +142,7 @@ module.exports = {
     overrides: [
         {
             files: ['*config*js', 'internals/**/*'],
+            parserOptions: {},
             rules: {
                 'global-require': 'off',
                 'no-console': 'off',

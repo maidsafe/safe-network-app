@@ -46,7 +46,7 @@ export function launchpadReducer( state = initialState, action ): LaunchpadState
                 Object.keys( newAppPreferences ).length !==
                 Object.keys( initialState.appPreferences ).length
             ) {
-                throw ERRORS.INVALID_PROP;
+                throw new Error( ERRORS.INVALID_PROP );
             }
 
             return { ...state, appPreferences: newAppPreferences };

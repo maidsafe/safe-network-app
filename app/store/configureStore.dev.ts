@@ -21,7 +21,7 @@ import {
 } from 'electron-redux';
 
 import { createRootReducer } from '../reducers';
-import en from '../locales/en.json'; // ext needed for tsc
+import en from '../locales/en'; // ext needed for tsc
 
 import {
     inRendererProcess,
