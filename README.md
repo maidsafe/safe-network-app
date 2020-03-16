@@ -9,7 +9,7 @@ Desktop app for managing the your SAFE Network applications.
 | [MaidSafe website](https://maidsafe.net) | [SAFE Dev Forum](https://forum.safedev.org) | [SAFE Network Forum](https://safenetforum.org) |
 | :--------------------------------------: | :-----------------------------------------: | :--------------------------------------------: |
 
-## Downloading 
+## Downloading
 
 Downloading from the GitHub releases page on Linux, using an AppImage will require adding execution permission on some linux dists:
 
@@ -42,6 +42,10 @@ This will not write to the filesystem, but will log to the console what changes 
 
 This SAFE Network library is dual-licensed under the Modified BSD ([LICENSE-BSD](LICENSE-BSD) https://opensource.org/licenses/BSD-3-Clause) or the MIT license ([LICENSE-MIT](LICENSE-MIT) https://opensource.org/licenses/MIT) at your option.
 
-## Contribution
+## Contributing
 
-Copyrights in the SAFE Network are retained by their contributors. No copyright assignment is required to contribute to this project.
+Want to contribute? Great :tada:
+
+There are many ways to give back to the project, whether it be writing new code, fixing bugs, or just reporting errors. All forms of contributions are encouraged!
+
+For instructions on how to contribute, see our [Guide to contributing](https://github.com/maidsafe/QA/blob/master/CONTRIBUTING.md).
