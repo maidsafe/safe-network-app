@@ -398,6 +398,14 @@ export class MenuBuilder {
                     click: () => {
                         this.mainWindow.close();
                     }
+                },
+                { type: 'separator' },
+                {
+                    label: 'Quit',
+                    accelerator: 'Ctrl+Q',
+                    click: () => {
+                        this.store.dispatch( quitApplication() );
+                    }
                 }
             ]
         };
