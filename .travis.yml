@@ -3,8 +3,6 @@ env:
     - SAFE_CLI_VERSION=0.9.0
     - secure: "G+hQbK2+8f6XFDopDJNddw3D8pEYx8OcWS4HAPpdXWY3Uo1mOFMObQsK7PjKoVKU7+n/ScL6t1FmRPuqCaxzEZa4jztgtViyVlb04mUI331f0xnuURiSOwHNwkEXpYAOXjmA79UFkSw4BTDVH+A4cJr5wxep+Xr85wGUwRscyDMjNg4DFQHmkNYK+JluquZ2+31yDI/Rl8qgM6vOQAhf4hV72UGKNpjGknPtFqiwnf/j2Q8IT3QiUeOLaEQbgOFAQ/ad7YGt9B0vhRBkh7X3vUMrSU5JXtsZZwETpfOzE6rDUg5d+YJpwhmIlPgqg/o7hL0gyZm+mk5fY/fdWoKAoHSa2/OkMyRN0UXopg5ZDDq1NQb5Pt1a1ndgWH9tlJXRfjXaurtip+ExEamXhr+bMISqbFHyQkLHCnyC1O3LQOLbIHOv6kjNqPYLAHIE/ysagkXg6iZ9k7WOv4Rw436GoMNS1rEL0a2iacC9+X3w770QZ1mlSxYqXsswxtJLvI7kHNN+2vwJb563FJxaaaTYm66T2dYFpZhG0/o0IIM8BPTEGDit8mIBFjzZtbMP1DVRjfZhoX6zc9hXggFr8PdWBHIy6MC3dl23f84X74NnBf6RgDF6EnlQRA5D4YnB8hMHbyzwpl+Zu1ACnKfmdn7Q8QoKOC8bS9Fb/nBr7svqguo="
 matrix:
-  allow_failures:
-    - os: windows
   include:
     - os: osx
       osx_image: xcode11
@@ -15,44 +13,6 @@ matrix:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
         - NODE_ENV=prod
-
-    - os: linux
-      language: node_js
-      services:
-        - xvfb
-      node_js:
-        - "12"
-      env:
-        - ELECTRON_CACHE=$HOME/.cache/electron
-        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-        - NODE_ENV=prod
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-multilib
-            - g++-8
-            - g++-multilib
-            - icnsutils
-            - graphicsmagick
-            - xz-utils
-            - xorriso
-            - rpm
-
-    - os: windows
-      language: node_js
-      node_js:
-        - "12"
-      env:
-        - ELECTRON_CACHE=$HOME/.cache/electron
-        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-        - YARN_GPG=no # otherwise this starts gpg-agent that never exits
-        - NODE_ENV=prod
-
-
-before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
 
 cache:
   yarn: true
@@ -65,64 +25,32 @@ cache:
 before_install:
   - echo $TRAVIS_NODE_VERSION
   - export CSC_IDENTITY_AUTO_DISCOVERY=true
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-8"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; fi
-  - yarn config delete proxy
   - yarn --version
-  - npm --version
-  - npm config rm proxy
-  - npm config rm https-proxy
   - export SHOULD_NOTARIZE=true
-  # - npm config set cache-lock-retries 500
 
 install:
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then yarn; fi
+  - yarn;
   # install safe-cli + authd
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then mkdir ~/.safe/safe-cli; fi
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then mkdir -p ~/.safe/safe-cli; fi
+  - mkdir -p ~/.safe/safe-cli;
   - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then wget "https://github.com/maidsafe/safe-api/releases/download/$SAFE_CLI_VERSION/safe-cli-$SAFE_CLI_VERSION-x86_64-apple-darwin.tar.gz" -O $TMPDIR/safe.tar.gz;
+    wget "https://github.com/maidsafe/safe-api/releases/download/$SAFE_CLI_VERSION/safe-cli-$SAFE_CLI_VERSION-x86_64-apple-darwin.tar.gz" -O $TMPDIR/safe.tar.gz;
     tar -xvzf $TMPDIR/safe.tar.gz -C ~/.safe/safe-cli/
     fi
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget "https://github.com/maidsafe/safe-api/releases/download/$SAFE_CLI_VERSION/safe-cli-$SAFE_CLI_VERSION-x86_64-unknown-linux-gnu.tar.gz" -O /tmp/safe.tar.gz;
-    tar -xvzf /tmp/safe.tar.gz -C ~/.safe/safe-cli/
-    fi
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install wget;
-    wget "https://github.com/maidsafe/safe-api/releases/download/%SAFE_CLI_VERSION%/safe-cli-%SAFE_CLI_VERSION%-x86_64-pc-windows-msvc.tar.gz" -O /%Temp%/safe.tar.gz;
-    tar -xvf /%Temp%/safe.tar.gz -C ~/.safe/config/safe-cli
-    fi
   - ~/.safe/safe-cli/safe auth install;
-  # setup xvfb
-  - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      /sbin/start-stop-daemon \
-      --start \
-      --quiet \
-      --pidfile /tmp/custom_xvfb_99.pid \
-      --make-pidfile \
-      --background \
-      --exec /usr/bin/Xvfb \
-      -- :99 -ac -screen 0 1280x1024x16
-    else
-      :
-    fi
 
 script:
   # bump version in package.json if on alpha/beta tag.
-  - yarn config set version-tag-prefix ""
-  - yarn config set version-git-tag false
-  - |
-    if [[ $TRAVIS_TAG == *"-alpha"* || $TRAVIS_TAG == *"-beta"* ]]; then
-      export IS_PRE_RELEASE=yes
-    fi
-  - if [[ "$IS_PRE_RELEASE" == "yes" ]]; then yarn version --new-version $TRAVIS_TAG; fi
+  # - yarn config set version-tag-prefix ""
+  # - yarn config set version-git-tag false
+  # - |
+  #   if [[ $TRAVIS_TAG == *"-alpha"* || $TRAVIS_TAG == *"-beta"* ]]; then
+  #     export IS_PRE_RELEASE=yes
+  #   fi
+  # - if [[ "$IS_PRE_RELEASE" == "yes" ]]; then yarn version --new-version $TRAVIS_TAG; fi
   # tests
   - yarn lint --quiet
   - yarn check-types
   - yarn test
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then unset CSC_LINK || unset CSC_KEY_PASSWORD; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xattr -cr . ; fi
   - yarn package
   # Split up yarn test-e2e-packed for faster/more specific retries
@@ -143,20 +71,3 @@ after_failure:
 - ls "release/mac/SAFE Network App.app"
 - ls "release/mac/SAFE Network App.app/Contents/Resources/"
 - ls "release/linux/resources"
-
-before_deploy:
-  - if [[ "$TRAVIS_OS_NAME" != "windows" ]]; then ls release; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then dir release; fi
-
-
-deploy:
-  provider: releases
-  skip_cleanup: true
-  api_key: $GH_TOKEN
-  file_glob: true
-  file: ./release/*
-  draft: true
-  tag_name: $TRAVIS_TAG
-  on:
-    tags: true
-    branch: master
