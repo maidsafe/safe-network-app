@@ -18,9 +18,9 @@ For example:
 QA:
 Easiest way to test this PR would be to:
 - Run API playground
-- Initialise app
+- Initialize app
 - Copy the value from [authReqWithoutMockBit](https://github.com/maidsafe/safe_browser/compare/master...hunterlester:454?expand=1#diff-a003f29f7e2f9aeecfe6e3fbb39e3d2eR30)
-- Paste value into `authorise` operation and run
+- Paste value into `authorize` operation and run
 - Expect to see an error notification
 - Same steps for [encodedNonExistentShareMDataReq](https://github.com/maidsafe/safe_browser/compare/master...hunterlester:454?expand=1#diff-a003f29f7e2f9aeecfe6e3fbb39e3d2eR28)
 
