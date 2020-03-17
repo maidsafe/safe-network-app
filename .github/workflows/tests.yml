@@ -5,6 +5,7 @@ on: [push, pull_request]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NODE_ENV: prod
+  IS_CI: true
 jobs:
   tests:
     name: Test

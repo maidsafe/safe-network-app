@@ -22,6 +22,7 @@ env:
   APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
   NODE_ENV: prod
   SHOULD_NOTARIZE: true
+  # IS_CI: true
 jobs:
   build:
     name: Build
