@@ -22,10 +22,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
+      - run: echo "Is this the CI? $IS_CI"
       - name: Install Safe CLI
         run:  |
-          wget "https://github.com/maidsafe/safe-api/releases/download/${{env.SAFE_CLI_VERSION}}/safe-cli-${{env.SAFE_CLI_VERSION}}-x86_64-unknown-linux-gnu.tar.gz" -O /tmp/safe.tar.gz;
-          tar -xvzf /tmp/safe.tar.gz -C ~/.safe/safe-cli/
+          wget "https://github.com/maidsafe/safe-api/releases/download/${{env.SAFE_CLI_VERSION}}/safe-cli-${{env.SAFE_CLI_VERSION}}-x86_64-unknown-linux-gnu.tar.gz" -O ./safe.tar.gz;
+          ls .
+          mkdir -p $HOME/.safe/safe-cli
+          tar -xvzf ./safe.tar.gz -C $HOME/.safe/safe-cli/
         if: matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest'
       - name: Install
         run: yarn install --ignore-engines --network-timeout 800000;
@@ -36,6 +39,10 @@ jobs:
         uses: GabrielBB/xvfb-action@v1.0
         with:
           run: yarn test-e2e-packed
+      - name: So... the job has failed. What do our logs say?
+        if: failure()
+        run: cat ~/config/safe-network-app/logs/*.log
+
       # - uses: DevExpress/testcafe-action@latest
       #   with:
       #     args: 'electron:. ./__testcafe__/*.spec.*'

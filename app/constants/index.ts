@@ -97,7 +97,7 @@ export const environment = process.env.NODE_ENV || 'production';
 export const isRunningDevelopment = environment.startsWith( 'dev' );
 
 export const isCI: boolean =
-    remote && remote.getGlobal ? remote.getGlobal( 'isCI' ) : process.env.CI;
+    remote && remote.getGlobal ? remote.getGlobal( 'isCI' ) : process.env.IS_CI;
 export const travisOS = process.env.TRAVIS_OS_NAME || '';
 // other considerations?
 export const isHot = process.env.HOT || 0;
