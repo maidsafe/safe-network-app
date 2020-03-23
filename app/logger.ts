@@ -21,9 +21,7 @@ if ( log.transports ) {
     // Log level
     // error, warn, log, log, debug, silly
     log.transports.file.level = 'silly';
-    if ( !isRunningOnWindows )
-        // for some reason custom format doesnt work
-        log.transports.console.format = '[Renderer: {h}:{i}:{s}.{ms}] › {text}';
+    log.transports.console.format = '[Renderer: {h}:{i}:{s}.{ms}] › {text}';
 
     if (
         isRunningTestCafeProcess ||
@@ -35,23 +33,17 @@ if ( log.transports ) {
     }
 
     if ( currentWindowId ) {
-        if ( !isRunningOnWindows )
-            // for some reason custom format doesnt work
-            log.transports.console.format = `[Window :${currentWindowId}: {h}:{i}:{s}.{ms}] › {text}`;
+        log.transports.console.format = `[Window :${currentWindowId}: {h}:{i}:{s}.{ms}] › {text}`;
     }
     if ( inMainProcess ) {
         log.variables.label = 'main';
-        if ( !isRunningOnWindows )
-            // for some reason custom format doesnt work
-            log.transports.console.format = '%c{h}:{i}:{s}.{ms}%c › {text}';
+        log.transports.console.format = '%c{h}:{i}:{s}.{ms}%c › {text}';
     }
 
     if ( inBgProcess ) {
         log.transports.file.fileName = 'background.log';
-        if ( !isRunningOnWindows )
-            // for some reason custom format doesnt work
-            log.transports.console.format =
-                '[Background: {h}:{i}:{s}.{ms}] › {text}';
+        log.transports.console.format =
+            '[Background: {h}:{i}:{s}.{ms}] › {text}';
     }
 
     log.transports.file.maxSize = 5 * 1024 * 1024;
@@ -60,7 +52,7 @@ if ( log.transports ) {
 // HACK: for jest
 if (
     // ( inMainProcess && isRunningUnpacked ) ||
-    isRunningDebug &&
+    inMainProcess &&
     !isRunningTestCafeProcess
 ) {
     // TODO: add buld ID if prod. Incase you're opening up, NOT THIS BUILD.
