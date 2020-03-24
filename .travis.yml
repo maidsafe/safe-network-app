@@ -35,7 +35,6 @@ install:
   - |
     wget "https://github.com/maidsafe/safe-api/releases/download/$SAFE_CLI_VERSION/safe-cli-$SAFE_CLI_VERSION-x86_64-apple-darwin.tar.gz" -O $TMPDIR/safe.tar.gz;
     tar -xvzf $TMPDIR/safe.tar.gz -C ~/.safe/safe-cli/
-    fi
   - ~/.safe/safe-cli/safe auth install;
 
 script:
@@ -51,7 +50,7 @@ script:
   - yarn lint --quiet
   - yarn check-types
   - yarn test
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xattr -cr . ; fi
+  - xattr -cr . ;
   - yarn package
   # Split up yarn test-e2e-packed for faster/more specific retries
   - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/Account
@@ -64,8 +63,7 @@ script:
 
 after_failure:
 # check resolution...
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then  system_profiler SPDisplaysDataType | grep Resolution
-  fi
+- system_profiler SPDisplaysDataType | grep Resolution
 - cat $TMPDIR/safe-network-app.log;
 - ls "/Users/travis/build/joshuef/safe-network-app/release/"
 - ls "release/mac/SAFE Network App.app"

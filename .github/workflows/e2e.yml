@@ -4,7 +4,8 @@ on: [push, pull_request]
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  SAFE_CLI_VERSION: "0.9.0"
+  SAFE_CLI_VERSION: "0.10.1"
+  SAFE_VAULT_VERSION: "0.22.0"
   IS_CI: true
   # No CSC Keys etc as PRs dont have access to this.
   NODE_ENV: prod
@@ -14,35 +15,78 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        # os: [ubuntu-latest]
+        # no mac as e2e has a bad time there
         os: [ubuntu-latest, windows-latest]
-        # os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
-      - run: echo "Is this the CI? $IS_CI"
-      - name: Install Safe CLI
+      - name: Download Safe Vault Ubuntu
+        if: matrix.os == 'ubuntu-latest'
+        run:  wget "https://github.com/maidsafe/safe_vault/releases/download/${{env.SAFE_VAULT_VERSION}}/safe_vault-${{env.SAFE_VAULT_VERSION}}-x86_64-unknown-linux-musl.tar.gz" -O ./vault.tar.gz;
+    
+      # - name: Download Safe Vault Mac
+      #   if: matrix.os == 'macos-latest'
+      #   run: wget "https://github.com/maidsafe/safe_vault/releases/download/${{env.SAFE_VAULT_VERSION}}/safe_vault-${{env.SAFE_VAULT_VERSION}}-x86_64-apple-darwin.tar.gz" -O ./vault.tar.gz;
+    
+      - name: Download Safe Vault Win
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install wget
+          wget "https://github.com/maidsafe/safe_vault/releases/download/${{env.SAFE_VAULT_VERSION}}/safe_vault-${{env.SAFE_VAULT_VERSION}}-x86_64-pc-windows-msvc.tar.gz" -O ./vault.tar.gz;
+    
+      - name: Place Safe Vault
         run:  |
-          wget "https://github.com/maidsafe/safe-api/releases/download/${{env.SAFE_CLI_VERSION}}/safe-cli-${{env.SAFE_CLI_VERSION}}-x86_64-unknown-linux-gnu.tar.gz" -O ./safe.tar.gz;
+          ls .
+          mkdir -p $HOME/.safe/vault
+          tar -xvzf ./vault.tar.gz -C $HOME/.safe/vault/
+          chmod +x $HOME/.safe/vault/safe_vault
+
+      - name: Download Safe CLI Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: wget "https://github.com/maidsafe/safe-api/releases/download/${{env.SAFE_CLI_VERSION}}/safe-cli-${{env.SAFE_CLI_VERSION}}-x86_64-unknown-linux-gnu.tar.gz" -O ./safe.tar.gz;
+      
+      # - name: Download Safe CLI Mac
+      #   if: matrix.os == 'macos-latest'
+      #   run: wget "https://github.com/maidsafe/safe-api/releases/download/${{env.SAFE_CLI_VERSION}}/safe-cli-${{env.SAFE_CLI_VERSION}}-x86_64-apple-darwin.tar.gz" -O ./safe.tar.gz;
+      
+      - name: Download Safe CLI Windows
+        if: matrix.os == 'windows-latest'
+        run: wget "https://github.com/maidsafe/safe-api/releases/download/${{env.SAFE_CLI_VERSION}}/safe-cli-${{env.SAFE_CLI_VERSION}}-x86_64-pc-windows-msvc.tar.gz" -O ./safe.tar.gz;
+
+      - name: Place Safe CLI
+        run:  |
           ls .
           mkdir -p $HOME/.safe/safe-cli
+          mkdir -p $HOME/.safe/authd
           tar -xvzf ./safe.tar.gz -C $HOME/.safe/safe-cli/
-        if: matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest'
-      - name: Install
+          echo "::add-path::$HOME/.safe/safe-cli"
+          echo "::add-path::$HOME/.safe/authd"
+          chmod +x $HOME/.safe/safe-cli/safe
+
+
+      - name: Start local network
+        run: safe vault run-baby-fleming
+      - name: Install Safe AuthD
+        run: |
+          safe auth install
+          chmod +x $HOME/.safe/authd/safe-authd
+      - name: Use local safe network
+        run: |
+          safe auth stop || true
+          safe networks add local
+          safe networks switch local
+      - name: Yarn Install
         run: yarn install --ignore-engines --network-timeout 800000;
-
-      - run: yarn package
-
-      - name: Run headless test
+      - name: Package
+        run: yarn package
+      - name: Run headless tests
         uses: GabrielBB/xvfb-action@v1.0
         with:
           run: yarn test-e2e-packed
-      - name: So... the job has failed. What do our logs say?
+      - name: The job has failed. What do the logs say?
         if: failure()
         run: cat ~/config/safe-network-app/logs/*.log
-
-      # - uses: DevExpress/testcafe-action@latest
-      #   with:
-      #     args: 'electron:. ./__testcafe__/*.spec.*'
