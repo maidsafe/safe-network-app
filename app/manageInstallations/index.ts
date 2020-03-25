@@ -13,7 +13,7 @@ import {
     pauseAppDownloadAndInstallation,
     resumeAppDownloadAndInstallation,
     updateDownloadProgress,
-    downloadAndInstallAppFailure
+    downloadAndInstallAppFailure,
 } from '$Actions/application_actions';
 import { pushNotification } from '$Actions/launchpad_actions';
 import {
@@ -28,7 +28,7 @@ import {
     isRunningOnMac,
     isRunningOnLinux,
     isRunningOnWindows,
-    openAppsInDebugMode
+    openAppsInDebugMode,
 } from '$Constants';
 import { NOTIFICATION_TYPES } from '$Constants/notifications';
 import { silentInstall } from '$App/manageInstallations/installers';
@@ -37,7 +37,7 @@ import { logger } from '$Logger';
 import { App } from '$Definitions/application.d';
 import {
     DOWNLOAD_TARGET_DIR,
-    DESKTOP_APP_INSTALL_TARGET_DIR
+    DESKTOP_APP_INSTALL_TARGET_DIR,
 } from '$Constants/installConstants';
 
 const currentDownloads = {};
@@ -167,7 +167,7 @@ const downloadAndInstall = async (
         store.dispatch(
             updateDownloadProgress( {
                 ...application,
-                progress: 1
+                progress: 1,
             } )
         );
 
@@ -183,7 +183,7 @@ const downloadAndInstall = async (
         getArtifactName( application )
     );
 
-    if ( await fs.exists( downloadPath ) ) {
+    if ( await fs.pathExists( downloadPath ) ) {
         logger.info(
             'Path already exists, using previous download.',
             downloadPath
@@ -240,14 +240,14 @@ const downloadAndInstall = async (
             store.dispatch(
                 updateDownloadProgress( {
                     ...application,
-                    progress
+                    progress,
                 } )
             );
 
             if ( progress === 1 ) {
                 logger.info( 'Finshed download' );
             }
-        }
+        },
     };
 
     try {
@@ -258,7 +258,7 @@ const downloadAndInstall = async (
 
         const appWithError = {
             ...application,
-            error: error.message
+            error: error.message,
         };
         store.dispatch( downloadAndInstallAppFailure( appWithError ) );
 
@@ -270,7 +270,7 @@ const downloadAndInstall = async (
                 application,
                 acceptText: 'Retry',
                 type: 'RETRY_INSTALL',
-                notificationType: NOTIFICATION_TYPES.STANDARD
+                notificationType: NOTIFICATION_TYPES.STANDARD,
             } )
         );
     }
@@ -309,7 +309,7 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
         const newEnvironment = {
             ...process.env,
             NODE_ENV: 'prod',
-            HOT: 'false'
+            HOT: 'false',
         };
         // needs to be actually deleted.
         delete newEnvironment.HOT;
@@ -323,20 +323,20 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
 
             exec( command, {
                 // eslint-disable-next-line unicorn/prevent-abbreviations
-                env: newEnvironment
+                env: newEnvironment,
             } );
         }
         if ( isRunningOnWindows ) {
             if ( openAppsInDebugMode ) {
                 execFile( command, ['--debug'], {
                     // eslint-disable-next-line unicorn/prevent-abbreviations
-                    env: newEnvironment
+                    env: newEnvironment,
                 } );
                 return;
             }
             execFile( command, {
                 // eslint-disable-next-line unicorn/prevent-abbreviations
-                env: newEnvironment
+                env: newEnvironment,
             } );
             return;
         }
@@ -349,13 +349,13 @@ export function manageDownloads( store: Store, targetWindow: BrowserWindow ) {
                 spawn( command, ['--debug'], {
                     // eslint-disable-next-line unicorn/prevent-abbreviations
                     env: newEnvironment,
-                    detached: true
+                    detached: true,
                 } );
             } else {
                 spawn( command, {
                     // eslint-disable-next-line unicorn/prevent-abbreviations
                     env: newEnvironment,
-                    detached: true
+                    detached: true,
                 } );
             }
         }

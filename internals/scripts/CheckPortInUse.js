@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import detectPort from 'detect-port';
 
-( function CheckPortInUse() {
+export function CheckPortInUse() {
     const port = process.env.PORT || '1232';
 
     detectPort( port, ( error, availablePort ) => {
@@ -16,4 +16,6 @@ import detectPort from 'detect-port';
             process.exit( 0 );
         }
     } );
-} )();
+}
+
+CheckPortInUse();

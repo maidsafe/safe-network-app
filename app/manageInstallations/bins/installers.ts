@@ -9,21 +9,21 @@ import { sudoPrompt } from '$Utils/sudo-exec';
 import { AUTHD_LOCATION } from '$Constants/authd';
 import {
     downloadAndInstallAppSuccess,
-    downloadAndInstallAppFailure
+    downloadAndInstallAppFailure,
 } from '$Actions/application_actions';
 import { setAsInstalled } from '$Actions/alias/authd_actions';
 import { MAC_OS, LINUX, WINDOWS, isDryRun, platform } from '$Constants';
 import { logger } from '$Logger';
 import {
     delay,
-    getApplicationExecutable
+    getApplicationExecutable,
 } from '$App/manageInstallations/helpers';
 import { App } from '$Definitions/application.d';
 import { getBinInstallDirectory } from '$Constants/installConstants';
 import pkg from '$Package';
 
 const WIN_SUDO_OPTIONS = {
-    name: pkg.productName
+    name: pkg.productName,
     // icns: '/Applications/Electron.app/Contents/Resources/Electron.icns', // (optional)
 };
 
@@ -55,7 +55,7 @@ export const silentInstallBin = async (
             case MAC_OS: {
                 spawnSync( 'chmod', [
                     '+x',
-                    path.resolve( binInstallTarget, application.binName.mac )
+                    path.resolve( binInstallTarget, application.binName.mac ),
                 ] );
                 logger.info(
                     'About to run binscript:',
@@ -63,7 +63,7 @@ export const silentInstallBin = async (
                 );
                 spawnSync( application.postInstall.mac, {
                     env: process.env,
-                    shell: true
+                    shell: true,
                 } );
                 break;
             }
@@ -71,7 +71,7 @@ export const silentInstallBin = async (
                 // TODO: how to do this on windows
                 spawnSync( 'chmod', [
                     '+x',
-                    path.resolve( binInstallTarget, application.binName.windows )
+                    path.resolve( binInstallTarget, application.binName.windows ),
                 ] );
                 logger.info(
                     'About to run binscript:',
@@ -85,11 +85,11 @@ export const silentInstallBin = async (
             case LINUX: {
                 spawnSync( 'chmod', [
                     '+x',
-                    path.resolve( binInstallTarget, application.binName.linux )
+                    path.resolve( binInstallTarget, application.binName.linux ),
                 ] );
                 spawnSync( application.postInstall.linux, {
                     env: process.env,
-                    shell: true
+                    shell: true,
                 } );
                 break;
             }
@@ -104,7 +104,7 @@ export const silentInstallBin = async (
         if ( application.id === 'safe.cli' ) {
             let timer;
             const markAsInstalledIfDone = async () => {
-                if ( await fs.exists( AUTHD_LOCATION ) ) {
+                if ( await fs.pathExists( AUTHD_LOCATION ) ) {
                     store.dispatch( setAsInstalled() );
                     clearInterval( timer );
                 }
@@ -118,7 +118,7 @@ export const silentInstallBin = async (
         store.dispatch(
             downloadAndInstallAppFailure( {
                 ...application,
-                error: `Error unzipping ${downloadLocation}, or running postInstall script.`
+                error: `Error unzipping ${downloadLocation}, or running postInstall script.`,
             } )
         );
     }

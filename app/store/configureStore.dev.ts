@@ -4,34 +4,34 @@ import {
     compose,
     Store,
     Reducer,
-    StoreEnhancer
+    StoreEnhancer,
 } from 'redux';
 import { createHashHistory, History } from 'history';
 import { routerMiddleware, routerActions } from 'connected-react-router';
 import {
     loadTranslations,
     setLocale,
-    syncTranslationWithStore
+    syncTranslationWithStore,
 } from 'react-redux-i18n';
 import { createLogger } from 'redux-logger';
 import {
     getInitialStateRenderer,
     replayActionMain,
-    replayActionRenderer
+    replayActionRenderer,
 } from 'electron-redux';
 
 import { createRootReducer } from '../reducers';
-import en from '../locales/en'; // ext needed for tsc
+import en from '../locales/en.json'; // ext needed for tsc
 
 import {
     inRendererProcess,
     isRunningTestCafeProcess,
-    inMainProcess
+    inMainProcess,
 } from '$Constants';
 import { addMiddlewares } from '$Store/addMiddlewares';
 
 const translationsObject = {
-    en
+    en,
 };
 
 const initialStateFromMain: {} = inRendererProcess
@@ -66,7 +66,7 @@ export const configureStore = ( initialState: {} = initialStateFromMain ) => {
     // Logging Middleware
     const logger = createLogger( {
         level: 'info',
-        collapsed: true
+        collapsed: true,
     } );
 
     // Skip redux logs in console during the tests
@@ -76,7 +76,7 @@ export const configureStore = ( initialState: {} = initialStateFromMain ) => {
 
     // Redux DevTools Configuration
     const actionCreators = {
-        ...routerActions
+        ...routerActions,
     };
 
     let composeEnhancers;
@@ -87,7 +87,7 @@ export const configureStore = ( initialState: {} = initialStateFromMain ) => {
         composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
             ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__( {
                 // Options: http://extension.remotedev.io/docs/API/Arguments.html
-                actionCreators
+                actionCreators,
             } )
             : compose;
         /* eslint-enable no-underscore-dangle */

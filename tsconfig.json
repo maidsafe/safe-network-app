@@ -29,5 +29,5 @@
             "$Package": ["package.json"]
         }
     },
-    "exclude": ["app/*.prod.js", "app/dist", "node_modules"]
+    "exclude": ["app/*.prod.js", "app/dist", "node_modules", "__e2e__"]
 }

@@ -20,7 +20,7 @@ let theBgStore: Store;
 let pendingAuthDNotificationId: string;
 
 export const isAuthDIsInstalled = async () => {
-    const exists = await fs.exists( AUTHD_LOCATION );
+    const exists = await fs.pathExists( AUTHD_LOCATION );
     logger.info( 'checking if authd exists here: ', AUTHD_LOCATION, exists );
 
     return exists;
@@ -58,7 +58,7 @@ const waitIfAuthDNotInstalled = async ( store: Store ): Promise<void> => {
                 pendingAuthDNotificationId || Math.random().toString( 36 );
             const application = {
                 id: pendingAuthDNotificationId,
-                name: 'Safe CLI'
+                name: 'Safe CLI',
             };
 
             const notification = notificationTypes.AUTHD_INSTALL_NEEDED();
