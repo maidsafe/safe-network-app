@@ -7,8 +7,8 @@ import {
     HOME,
     SETTINGS,
     ACCOUNT,
-    ON_BOARDING
-} from './constants/routes';
+    ON_BOARDING,
+} from './constants/routes.json';
 import { AppWindow } from './pages/AppWindow';
 import { AccountPage } from './pages/AccountPage';
 import { OverviewPage } from './pages/OverviewPage';

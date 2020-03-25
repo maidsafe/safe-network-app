@@ -25,6 +25,8 @@ jobs:
 
       - name: Lint
         run: yarn lint --quiet
+      - name: Typescript
+        run: yarn check-types
       - name: Unit Tests
         run: yarn run test --forceExit
 

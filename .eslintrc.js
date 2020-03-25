@@ -3,6 +3,8 @@ const aliases = require('./.aliases.config');
 const aliasesArray = Object.keys(aliases);
 
 module.exports = {
+    // Ignore until testcafe and jest conflicts are sorted
+    ignorePatterns: ['__e2e__/**/*.ts'],
     env: {
         browser: true,
         node: true
@@ -82,7 +84,7 @@ module.exports = {
         ],
         'import/prefer-default-export': 'off',
         'import/no-default-export': 'error',
-        'import/extensions': ['error', 'never'],
+        'import/extensions': ['warn', 'never'],
         'import/order': [
             'error',
             {
@@ -141,7 +143,7 @@ module.exports = {
 
     overrides: [
         {
-            files: ['*config*js', 'internals/**/*'],
+            files: ['*config*js', 'internals/**/*', './__e2e__/**/*.ts'],
             parserOptions: {},
             rules: {
                 'global-require': 'off',
@@ -188,11 +190,10 @@ module.exports = {
         'promise',
         'import',
         'unicorn',
-        'testcafe',
         'autofix'
     ],
     settings: {
-        // 'import/ignore': '*config*.js',
+        'import/ignore': '__e2e__/**/*',
         'import/core-modules': ['electron'],
         'import/resolver': {
             'babel-module': {
