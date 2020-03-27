@@ -42,20 +42,22 @@ install:
     tar -xvzf $TMPDIR/vault.tar.gz -C ~/.safe/vault/
   - ~/.safe/safe-cli/safe auth install;
   - ~/.safe/safe-cli/safe vault run-baby-fleming
+  - sleep 15
   - ~/.safe/safe-cli/safe auth stop || true
   - ~/.safe/safe-cli/safe networks add local
   - ~/.safe/safe-cli/safe networks switch local
+  - sleep 15
 
 script:
   - xattr -cr . ;
-  - yarn package
+  - yarn build-e2e
   # Split up yarn test-e2e-packed for faster/more specific retries. Only first _needs_ safe auth
-  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/Account
-  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/AppGeneral
-  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/OnBoarding
-  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/OverviewPage
-  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/Permissions
-  - travis_retry yarn cross-env NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/Settings
+  - travis_retry yarn cross-env TEST_UNPACKED=true NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/Account
+  - travis_retry yarn cross-env TEST_UNPACKED=true NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/AppGeneral
+  - travis_retry yarn cross-env TEST_UNPACKED=true NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/OnBoarding
+  - travis_retry yarn cross-env TEST_UNPACKED=true NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/OverviewPage
+  - travis_retry yarn cross-env TEST_UNPACKED=true NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/Permissions
+  - travis_retry yarn cross-env TEST_UNPACKED=true NODE_ENV=test TEST_CAFE=true testcafe electron:. ./__e2e__/Settings
 
 
 after_failure:
