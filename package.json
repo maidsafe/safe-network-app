@@ -1,7 +1,7 @@
 {
   "name": "safe-network-app",
   "productName": "SAFE Network App",
-  "version": "0.0.6-alpha",
+  "version": "0.0.6",
   "identifier": "SAFE Network App",
   "description": "Launchpad for the SAFE Network",
   "scripts": {
@@ -242,7 +242,7 @@
     "redux-thunk": "^2.3.0",
     "request": "2.88.2",
     "request-promise-native": "1.0.8",
-    "safe-nodejs": "https://github.com/maidsafe/safe-nodejs#0.10.0",
+    "safe-nodejs": "https://github.com/maidsafe/safe-nodejs#0.11.1",
     "source-map-support": "^0.5.16",
     "sudo-prompt": "9.1.1",
     "typeface-roboto": "^0.0.75"
