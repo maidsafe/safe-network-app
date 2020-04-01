@@ -1,9 +1,6 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - master
   create:
     tags:
       - v*
@@ -29,7 +26,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # os: [ubuntu-latest]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
@@ -108,7 +104,7 @@ jobs:
 
       - name: Generate Changelog
         shell: bash
-        run: awk '/^## /{c++;p=1;next} p;{if(c==2){exit}}' CHANGELOG.md > ${{ github.workflow }}-CHANGELOG.txt
+        run: awk '/# \[/{c++;p=1}{if(c==2){exit}}p;' CHANGELOG.md > ${{ github.workflow }}-CHANGELOG.txt
 
       - name: Shasum Title for Changelog
         run: echo '## SHA-256 checksum:' >> ${{ github.workflow }}-CHANGELOG.txt
