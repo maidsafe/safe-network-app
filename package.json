@@ -1,7 +1,7 @@
 {
   "name": "safe-network-app",
   "productName": "SAFE Network App",
-  "version": "0.0.6",
+  "version": "0.0.5",
   "identifier": "SAFE Network App",
   "description": "Launchpad for the SAFE Network",
   "scripts": {
@@ -10,7 +10,7 @@
     "build-e2e": "cross-env E2E_BUILD=true yarn build",
     "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.main.production.babel.js --colors",
     "build-renderer-n-bg": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.background.production.babel.js --colors",
-    "bump": "git fetch upstream --tags -f || git fetch --tags -f; git tag -d $(git tag -l | grep alpha ); git tag -d $(git tag -l | grep beta ); standard-version -a",
+    "bump": "standard-version -a",
     "prerelease": "standard-version --prerelease rc",
     "check-types": "tsc",
     "dev": "cross-env START_HOT=1 node -r babel-register-ts ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev",
