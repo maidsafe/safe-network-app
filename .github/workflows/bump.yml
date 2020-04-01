@@ -35,16 +35,16 @@ jobs:
           git config --local user.name "GitHub Action"
 
       - name: Alpha Bump
-        if: contains( env.BRANCH_NAME, "alpha" ) 
+        if: contains( env.BRANCH_NAME, alpha ) 
         run: npx standard-version -a --prerelease alpha
       
       - name: Beta Bump
-        if: contains( env.BRANCH_NAME, "beta" ) 
+        if: contains( env.BRANCH_NAME, beta ) 
         run: npx standard-version -a --prerelease beta
 
       - name: Bump Version
         run: npx standard-version -a
-        if: '!contains(github.ref, "alpha") && !contains(github.ref, "beta")'
+        if: '!contains(github.ref, alpha) && !contains(github.ref, beta)'
 
       - name: Push changes & tags to master
         run: git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY" HEAD:master --tags

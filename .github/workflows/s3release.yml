@@ -98,7 +98,7 @@ jobs:
         uses: Xotl/cool-github-releases@v1
         with:
           mode: update
-          isPrerelease: contains(github.ref, "alpha") || contains(github.ref, "beta")
+          isPrerelease: contains(github.ref, alpha) || contains(github.ref, beta)
           assets: ${{ env.APPLICATION }}-${{ env.RELEASE_VERSION }}-mac-x64.dmg;${{ env.APPLICATION }}-${{ env.RELEASE_VERSION }}-linux-x64.AppImage|application/vnd.appimage;${{ env.APPLICATION }}-${{ env.RELEASE_VERSION }}-win-x64.exe;
           github_token: ${{ github.token }}
           tag_name: ${{ env.RELEASE_VERSION }}
