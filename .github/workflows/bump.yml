@@ -36,15 +36,19 @@ jobs:
 
       - name: Alpha Bump
         if: contains( github.ref, 'alpha' ) 
-        run: npx standard-version -a --prerelease alpha
+        run: | 
+          npx standard-version -a --prerelease alpha
+          echo ::set-env name=PRE_RELEASE::true
       
       - name: Beta Bump
         if: contains( github.ref, 'beta' ) 
-        run: npx standard-version -a --prerelease beta
+        run: |
+          npx standard-version -a --prerelease beta
+          echo ::set-env name=PRE_RELEASE::true
 
       - name: Bump Version
         run: npx standard-version -a
-        if: '!contains(github.ref, "alpha") && !contains(github.ref, "beta")'
+        if: '! env.PRE_RELEASE '
 
       - name: Push changes & tags to master
         run: git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY" HEAD:master --tags
