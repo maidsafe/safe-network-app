@@ -18,26 +18,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **focus:** Fix focus on auth request ([1ef6530](https://github.com/maidsafe/safe-network-app/commit/1ef653029762625fbee089207589e00d9afd68b6))
 
-### [0.0.7](https://github.com/maidsafe/safe-network-app/compare/v0.0.6-alpha.0...v0.0.7) (2020-04-01)
-
-### [0.0.6](https://github.com/maidsafe/safe-network-app/compare/v0.0.6-alpha.0...v0.0.6) (2020-04-01)
-
-### [0.0.6-alpha.0](https://github.com/maidsafe/safe-network-app/compare/v0.0.5...v0.0.6-alpha.0) (2020-04-01)
-
-
-### Features
-
-* **auth:** SNAPP for CLI/authd install ([c137d37](https://github.com/maidsafe/safe-network-app/commit/c137d378b239fde29a8d043aa4e10c0bebcb2453))
-* **authd:** Only stop authd when snapp started it ([184e134](https://github.com/maidsafe/safe-network-app/commit/184e134144764be2c798f20d77107d4ecf380367))
-* **cli:** Enable bins and management of the CLI ([ad04bce](https://github.com/maidsafe/safe-network-app/commit/ad04bce564b479d846f18d0f5444a5a75a18ee03)), closes [#229](https://github.com/maidsafe/safe-network-app/issues/229)
-* focus app on authd subscription reception ([d73a9dc](https://github.com/maidsafe/safe-network-app/commit/d73a9dcfa92c56c3da0007106a7711fad6957764))
-* **safe_app:** Update safe_app_nodejs version to 0.7.0 ([6ad0d07](https://github.com/maidsafe/safe-network-app/commit/6ad0d07e9b3e376f7a204588d3d1e77f3e325cef))
-
-
-### Bug Fixes
-
-* **focus:** Fix focus on auth request ([1ef6530](https://github.com/maidsafe/safe-network-app/commit/1ef653029762625fbee089207589e00d9afd68b6))
-
 ### [0.0.5](https://github.com/maidsafe/safe-network-app/compare/v0.0.4...v0.0.5) (2020-01-21)
 
 
