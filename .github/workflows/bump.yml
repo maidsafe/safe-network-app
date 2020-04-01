@@ -51,4 +51,11 @@ jobs:
         if: '! env.PRE_RELEASE '
 
       - name: Push changes & tags to master
+        if: '! env.PRE_RELEASE '
         run: git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY" HEAD:master --tags
+      
+      - name: Push changes to current branch
+        if: env.PRE_RELEASE
+        run: git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY" HEAD:$BRANCH_NAME --tags
+
+      
