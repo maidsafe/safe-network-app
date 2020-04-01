@@ -35,11 +35,11 @@ jobs:
           git config --local user.name "GitHub Action"
 
       - name: Alpha Bump
-        if: contains( env.BRANCH_NAME, "alpha" ) 
+        if: contains( github.ref, 'alpha' ) 
         run: npx standard-version -a --prerelease alpha
       
       - name: Beta Bump
-        if: contains( env.BRANCH_NAME, "beta" ) 
+        if: contains( github.ref, 'beta' ) 
         run: npx standard-version -a --prerelease beta
 
       - name: Bump Version
