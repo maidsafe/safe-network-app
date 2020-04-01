@@ -56,6 +56,6 @@ jobs:
       
       - name: Push changes to current branch
         if: env.PRE_RELEASE
-        run: git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY" $BRANCH_NAME --tags
+        run: git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY" HEAD:$BRANCH_NAME --tags
 
       
