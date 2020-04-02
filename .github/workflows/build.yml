@@ -69,7 +69,6 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: yarn package
 
-
       - run: cp ./release/*.zip ./release/${{ env.APPLICATION }}-${{ matrix.os }}.zip
         if: matrix.os != 'macos-latest'
 
