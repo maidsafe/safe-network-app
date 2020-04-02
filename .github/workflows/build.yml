@@ -46,7 +46,6 @@ jobs:
         shell: bash
         run: echo ${{ env.RELEASE_VERSION }}
 
-      # If we have a tag, lets do a release
       - name: Release preparation
         run: yarn version --new-version ${{ env.RELEASE_VERSION }}
         if: startsWith(github.ref, 'refs/tags/')
