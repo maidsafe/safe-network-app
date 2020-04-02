@@ -51,49 +51,50 @@ const buildConfig = {
         'app/main.prod.js.map',
         {
             from: 'app/assets',
-            to: 'assets'
-        }
+            to: 'assets',
+        },
     ],
     artifactName: `${thePackage.name}-v\${version}-\${os}-x64.\${ext}`,
     dmg: {
         contents: [
             {
                 x: 130,
-                y: 220
+                y: 220,
             },
             {
                 x: 410,
                 y: 220,
                 type: 'link',
-                path: '/Applications'
-            }
-        ]
+                path: '/Applications',
+            },
+        ],
     },
     win: {
-        target: ['nsis', 'msi']
+        target: ['nsis', 'msi'],
+        publisherName: 'MaidSafe.net Limited',
     },
     mac: {
         target: ['dmg', 'pkg', 'zip'],
         hardenedRuntime: true,
         entitlements: 'resources/entitlements.mac.plist',
-        entitlementsInherit: 'resources/entitlements.mac.plist'
+        entitlementsInherit: 'resources/entitlements.mac.plist',
     },
     linux: {
         target: ['AppImage', 'zip'],
-        category: 'Productivity'
+        category: 'Productivity',
     },
     directories: {
         buildResources: 'resources',
-        output: 'release'
+        output: 'release',
     },
     publish: [
         {
             provider: 's3',
             bucket: 'safe-network-app',
             path: `${publishedFilePath()}`,
-            acl: 'public-read'
-        }
-    ]
+            acl: 'public-read',
+        },
+    ],
 };
 
 module.exports = buildConfig;
