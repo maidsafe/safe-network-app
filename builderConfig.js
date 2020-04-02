@@ -6,8 +6,9 @@ const OSX = 'darwin';
 const LINUX = 'linux';
 const WINDOWS = 'win32';
 
-// eslint-disable-next-line consistent-return, @typescript-eslint/explicit-function-return-type
+// chchchanges for a bump
 
+// eslint-disable-next-line consistent-return, @typescript-eslint/explicit-function-return-type
 const publishedFilePath = () => {
     const { name } = thePackage;
 
