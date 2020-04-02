@@ -5,8 +5,8 @@ on:
   push:
     branches:
       - master
-      - "alpha-*"
-      - "beta-*"
+      - "alpha*"
+      - "beta*"
 
 env:
   NODE_ENV: 'development'
