@@ -80,7 +80,7 @@ jobs:
 
       - name: Verify Mac Notarisation
         if: matrix.os == 'macos-latest'
-        run: spctl -a -t install "release/mac/SAFE Browser$RELEASE_CHANNEL.app"
+        run: spctl -a -t install "release/mac/SAFE Network App$RELEASE_CHANNEL.app"
 
 
       - name: Package Linux
