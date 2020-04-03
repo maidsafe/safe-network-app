@@ -22,6 +22,7 @@ const publishedFilePath = () => {
     return `${name}-mac`;
 };
 
+// eslint-disable-next-line consistent-return, @typescript-eslint/explicit-function-return-type
 const getProductName = () => {
     let { productName } = thePackage;
 
@@ -37,11 +38,12 @@ const getProductName = () => {
 };
 
 const buildConfig = {
-    afterPack: './internals/scripts/afterPack.js',
-    afterSign: './internals/scripts/afterSign.js',
-    productName: getProductName(),
-    generateUpdatesFilesForAllChannels: true,
     appId: 'org.develar.SAFENetworkApp',
+    generateUpdatesFilesForAllChannels: true,
+    artifactName: `${thePackage.name}-v\${version}-\${os}-x64.\${ext}`,
+    afterPack: './afterPack.js',
+    afterSign: './afterSign.js',
+    productName: getProductName(),
     files: [
         './package.json',
         'app/dist',
@@ -55,7 +57,6 @@ const buildConfig = {
             to: 'assets',
         },
     ],
-    artifactName: `${thePackage.name}-v\${version}-\${os}-x64.\${ext}`,
     dmg: {
         contents: [
             {
@@ -71,18 +72,18 @@ const buildConfig = {
         ],
     },
     win: {
-        target: ['nsis', 'msi'],
+        target: ['nsis', 'zip'],
         publisherName: 'MaidSafe.net Limited',
+    },
+    linux: {
+        target: ['AppImage', 'zip'],
+        category: 'Productivity',
     },
     mac: {
         target: ['dmg', 'pkg', 'zip'],
         hardenedRuntime: true,
         entitlements: 'resources/entitlements.mac.plist',
         entitlementsInherit: 'resources/entitlements.mac.plist',
-    },
-    linux: {
-        target: ['AppImage', 'zip'],
-        category: 'Productivity',
     },
     directories: {
         buildResources: 'resources',
