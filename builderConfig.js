@@ -41,8 +41,8 @@ const buildConfig = {
     appId: 'org.develar.SAFENetworkApp',
     generateUpdatesFilesForAllChannels: true,
     artifactName: `${thePackage.name}-v\${version}-\${os}-x64.\${ext}`,
-    afterPack: './afterPack.js',
-    afterSign: './afterSign.js',
+    afterPack: './internals/scripts/afterPack.js',
+    afterSign: './internals/scripts/afterSign.js',
     productName: getProductName(),
     files: [
         './package.json',
