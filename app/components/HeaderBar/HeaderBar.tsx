@@ -16,7 +16,7 @@ import styles from './HeaderBar.css';
 import {
     SETTINGS,
     ACCOUNT_LOGIN,
-    ACCOUNT_CREATE_PASSWORD
+    ACCOUNT_CREATE_PASSWORD,
 } from '$Constants/routes.json';
 import appLogo from '$Assets/images/app_logo_white.svg';
 
@@ -63,7 +63,7 @@ export class HeaderBar extends React.PureComponent<Props, State> {
         const previousState = this.state;
         this.setState( {
             ...previousState,
-            menuAnchorElement: event.currentTarget
+            menuAnchorElement: event.currentTarget,
         } );
     };
 
@@ -77,7 +77,8 @@ export class HeaderBar extends React.PureComponent<Props, State> {
             pageTitle,
             logOutOfNetwork,
             isLoggedIn,
-            shouldOnBoard
+            shouldOnBoard,
+            quitApplication,
         } = this.props;
 
         const handleLogout = () => {
@@ -117,7 +118,7 @@ export class HeaderBar extends React.PureComponent<Props, State> {
                             getContentAnchorEl={null}
                             anchorOrigin={{
                                 vertical: 'bottom',
-                                horizontal: 'center'
+                                horizontal: 'center',
                             }}
                             anchorEl={this.state.menuAnchorElement}
                             keepMounted
@@ -154,6 +155,13 @@ export class HeaderBar extends React.PureComponent<Props, State> {
                                     Settings
                                 </MenuItem>
                             </Link>
+                            <MenuItem
+                                onClick={() => {
+                                    quitApplication();
+                                }}
+                            >
+                                Quit
+                            </MenuItem>
                         </Menu>
                     </Toolbar>
                 </AppBar>

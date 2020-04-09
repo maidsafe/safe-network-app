@@ -111,6 +111,7 @@ export class App extends React.PureComponent<Props> {
             isLoggedIn,
             logOutOfNetwork,
             pendingRequests,
+            quitApplication,
         } = this.props;
 
         // if only one request, lets forwad to perms page...
@@ -154,6 +155,7 @@ export class App extends React.PureComponent<Props> {
                         <HeaderBar
                             pageTitle={pageTitle}
                             isLoggedIn={isLoggedIn}
+                            quitApplication={quitApplication}
                             logOutOfNetwork={logOutOfNetwork}
                             shouldOnBoard={currentPath.startsWith( ON_BOARDING )}
                         />
