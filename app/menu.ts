@@ -1,4 +1,4 @@
-import { app, Menu, shell } from 'electron';
+import { Menu, shell } from 'electron';
 import path from 'path';
 import * as fs from 'fs-extra';
 import { Store } from 'redux';
@@ -10,25 +10,25 @@ import { Application } from './definitions/application.d';
 import {
     pushNotification,
     setUserPreferences,
-    setAppPreferences
+    setAppPreferences,
 } from '$Actions/launchpad_actions';
 import {
     resetToInitialState,
     resetAppUpdateState,
-    appHasUpdate
+    appHasUpdate,
 } from '$Actions/app_manager_actions';
 import { addAuthRequestToPendingList } from '$Actions/alias/authd_actions';
 import { notificationTypes } from '$Constants/notifications';
-import {
+import { version ,
     isRunningTestCafeProcess,
     isHot,
     defaultPreferences,
-    isRunningDebug
-} from '$Constants/index';
+    isRunningDebug,
+} from '$Constants';
 import { updateSharedVaultConfig } from '$App/updateSharedVaultConfig';
 import {
     storePreferences,
-    quitApplication
+    quitApplication,
 } from '$Actions/alias/launchpad_actions';
 import { logger } from '$Logger';
 import pkg from '$Package';
@@ -38,14 +38,14 @@ const subMenuHelp = {
     label: 'Help',
     submenu: [
         {
-            label: `Safe Network App version: ${app.getVersion()}`,
-            enabled: false
+            label: `Safe Network App version: ${version}`,
+            enabled: false,
         },
         {
             label: 'Learn More',
             click() {
                 shell.openExternal( 'http://safenetwork.tech' );
-            }
+            },
         },
         {
             label: 'Documentation',
@@ -53,13 +53,13 @@ const subMenuHelp = {
                 shell.openExternal(
                     'https://github.com/maidsafe/safe-network-app'
                 );
-            }
+            },
         },
         {
             label: 'Community Discussions',
             click() {
                 shell.openExternal( 'https://safenetforum.org/' );
-            }
+            },
         },
         {
             label: 'Search Issues',
@@ -67,15 +67,15 @@ const subMenuHelp = {
                 shell.openExternal(
                     'https://github.com/maidsafe/safe-network-app/issues'
                 );
-            }
+            },
         },
         {
             label: 'Update shared vault config',
             click() {
                 updateSharedVaultConfig();
-            }
-        }
-    ]
+            },
+        },
+    ],
 };
 
 const setupTestsMenu = ( store: Store ) => {
@@ -86,7 +86,7 @@ const setupTestsMenu = ( store: Store ) => {
                 label: 'Reset application list',
                 click: () => {
                     store.dispatch( resetToInitialState() );
-                }
+                },
             },
             {
                 label: 'Add a No Internet Notification',
@@ -94,7 +94,7 @@ const setupTestsMenu = ( store: Store ) => {
                     store.dispatch(
                         pushNotification( notificationTypes.NO_INTERNET() )
                     );
-                }
+                },
             },
             {
                 label: 'Add a Disc Full Notification',
@@ -105,7 +105,7 @@ const setupTestsMenu = ( store: Store ) => {
                             notificationTypes.DISC_FULL( application )
                         )
                     );
-                }
+                },
             },
             {
                 label: 'Add a Global Failure Notification',
@@ -116,33 +116,33 @@ const setupTestsMenu = ( store: Store ) => {
                             notificationTypes.GLOBAL_FAILURE( application )
                         )
                     );
-                }
+                },
             },
             {
                 label: 'Add a Update Available Notification',
                 click: () => {
                     const application = {
                         id: Math.random().toString( 36 ),
-                        name: 'Safe Browser'
+                        name: 'Safe Browser',
                     };
 
-                    const version = 'v1.0';
+                    const testVersion = 'v1.0';
                     store.dispatch(
                         pushNotification(
                             notificationTypes.UPDATE_AVAILABLE(
                                 application,
-                                version
+                                testVersion
                             )
                         )
                     );
-                }
+                },
             },
             {
                 label: 'Add a Admin Pass Req Notification',
                 click: () => {
                     const application = {
                         id: Math.random().toString( 36 ),
-                        name: 'Safe Browser'
+                        name: 'Safe Browser',
                     };
 
                     store.dispatch(
@@ -150,14 +150,14 @@ const setupTestsMenu = ( store: Store ) => {
                             notificationTypes.ADMIN_PASS_REQ( application )
                         )
                     );
-                }
+                },
             },
             {
                 label: 'Add a Server Timed Out Notification',
                 click: () => {
                     const application = {
                         id: Math.random().toString( 36 ),
-                        name: 'Safe Browser'
+                        name: 'Safe Browser',
                     };
 
                     store.dispatch(
@@ -165,7 +165,7 @@ const setupTestsMenu = ( store: Store ) => {
                             notificationTypes.SERVER_TIMED_OUT( application )
                         )
                     );
-                }
+                },
             },
             {
                 label: 'Reset Preferences',
@@ -174,38 +174,38 @@ const setupTestsMenu = ( store: Store ) => {
                     store.dispatch(
                         setUserPreferences( defaultPreferences.userPreferences )
                     );
-                }
+                },
             },
             {
                 label: 'OnBoard App',
                 click: () => {
                     store.dispatch( setAppPreferences( { shouldOnboard: true } ) );
-                }
+                },
             },
             {
                 label: 'Skip OnBoard App',
                 click: () => {
                     store.dispatch( setAppPreferences( { shouldOnboard: false } ) );
-                }
+                },
             },
             {
                 label: 'Check Safe Applications Update',
                 click: () => {
                     const application = {
                         id: 'safe.browser',
-                        hasUpdate: true
+                        hasUpdate: true,
                     };
                     store.dispatch( appHasUpdate( application ) );
-                }
+                },
             },
             {
                 label: 'App Update Complete',
                 click: () => {
                     const application = {
-                        id: 'safe.browser'
+                        id: 'safe.browser',
                     };
                     store.dispatch( resetAppUpdateState( application ) );
-                }
+                },
             },
             {
                 label: 'Trigger Permission Request',
@@ -213,15 +213,100 @@ const setupTestsMenu = ( store: Store ) => {
                     store.dispatch(
                         addAuthRequestToPendingList( {
                             appId: 'test app',
-                            requestId: '42'
+                            requestId: '42',
                         } )
                     );
 
                     store.dispatch( push( PERMISSIONS_PENDING ) );
-                }
-            }
-        ]
+                },
+            },
+        ],
     };
+};
+
+// Default template to be used on non-mac platforms, and as part of the manually isnerted frameless-titlebar react component
+export const buildDefaultTemplate = (
+    theWindowTarget,
+    quitTheApplication: Function,
+    testMenu?
+): Array<{}> => {
+    const subMenuFile = {
+        label: '&File',
+        submenu: [
+            {
+                label: '&Open',
+                accelerator: 'Ctrl+O',
+            },
+            {
+                label: '&Close',
+                accelerator: 'Ctrl+W',
+                click: () => {
+                    theWindowTarget.close();
+                },
+            },
+            { type: 'separator' },
+            {
+                label: 'Quit',
+                accelerator: 'Ctrl+Q',
+                click: () => {
+                    quitTheApplication();
+                },
+            },
+        ],
+    };
+
+    const subMenuView = {
+        label: '&View',
+        submenu:
+            process.env.NODE_ENV === 'development'
+                ? [
+                    {
+                        label: '&Reload',
+                        accelerator: 'Ctrl+R',
+                        click: () => {
+                            theWindowTarget.webContents.reload();
+                        },
+                    },
+                    {
+                        label: 'Toggle &Full Screen',
+                        accelerator: 'F11',
+                        click: () => {
+                            theWindowTarget.setFullScreen(
+                                !theWindowTarget.isFullScreen()
+                            );
+                        },
+                    },
+                    {
+                        label: 'Toggle &Developer Tools',
+                        accelerator: 'Alt+Ctrl+I',
+                        click: () => {
+                            theWindowTarget.toggleDevTools();
+                        },
+                    },
+                ]
+                : [
+                    {
+                        label: 'Toggle &Full Screen',
+                        accelerator: 'F11',
+                        click: () => {
+                            theWindowTarget.setFullScreen(
+                                !theWindowTarget.isFullScreen()
+                            );
+                        },
+                    },
+                ],
+    };
+
+    const templateDefault = [
+        subMenuFile,
+        // subMenuView,
+        // subMenuHelp,
+        // ...( isRunningTestCafeProcess || isRunningDebug || isHot
+        //     ? [testMenu]
+        //     : [] )
+    ];
+
+    return templateDefault;
 };
 
 export class MenuBuilder {
@@ -245,10 +330,17 @@ export class MenuBuilder {
 
         let template: Array<{}>;
 
+        const quitter = this.store.dispatch( quitApplication() );
+        const subMenuTests = setupTestsMenu( store );
+
         if ( process.platform === 'darwin' ) {
             template = this.buildDarwinTemplate();
         } else {
-            template = this.buildDefaultTemplate();
+            template = buildDefaultTemplate(
+                this.mainWindow,
+                quitter,
+                subMenuTests
+            );
         }
 
         const menu = Menu.buildFromTemplate( template );
@@ -266,8 +358,8 @@ export class MenuBuilder {
                     label: 'Inspect element',
                     click: () => {
                         this.mainWindow.inspectElement( x, y );
-                    }
-                }
+                    },
+                },
             ] ).popup( { window: this.mainWindow } );
         } );
     }
@@ -279,7 +371,7 @@ export class MenuBuilder {
             submenu: [
                 {
                     label: 'About Safe Network App',
-                    selector: 'orderFrontStandardAboutPanel:'
+                    selector: 'orderFrontStandardAboutPanel:',
                 },
                 { type: 'separator' },
                 { label: 'Services', submenu: [] },
@@ -287,12 +379,12 @@ export class MenuBuilder {
                 {
                     label: 'Hide Safe Network App',
                     accelerator: 'Command+H',
-                    selector: 'hide:'
+                    selector: 'hide:',
                 },
                 {
                     label: 'Hide Others',
                     accelerator: 'Command+Shift+H',
-                    selector: 'hideOtherApplications:'
+                    selector: 'hideOtherApplications:',
                 },
                 { label: 'Show All', selector: 'unhideAllApplications:' },
                 { type: 'separator' },
@@ -301,9 +393,9 @@ export class MenuBuilder {
                     accelerator: 'Command+Q',
                     click: () => {
                         this.store.dispatch( quitApplication() );
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         };
         const subMenuEdit = {
             label: 'Edit',
@@ -312,7 +404,7 @@ export class MenuBuilder {
                 {
                     label: 'Redo',
                     accelerator: 'Shift+Command+Z',
-                    selector: 'redo:'
+                    selector: 'redo:',
                 },
                 { type: 'separator' },
                 { label: 'Cut', accelerator: 'Command+X', selector: 'cut:' },
@@ -320,14 +412,14 @@ export class MenuBuilder {
                 {
                     label: 'Paste',
                     accelerator: 'Command+V',
-                    selector: 'paste:'
+                    selector: 'paste:',
                 },
                 {
                     label: 'Select All',
                     accelerator: 'Command+A',
-                    selector: 'selectAll:'
-                }
-            ]
+                    selector: 'selectAll:',
+                },
+            ],
         };
         const subMenuViewDevelopment = {
             label: 'View',
@@ -337,16 +429,16 @@ export class MenuBuilder {
                     accelerator: 'Command+R',
                     click: () => {
                         this.mainWindow.webContents.reload();
-                    }
+                    },
                 },
                 {
                     label: 'Toggle Developer Tools',
                     accelerator: 'Alt+Command+I',
                     click: () => {
                         this.mainWindow.toggleDevTools();
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         };
         const subMenuWindow = {
             label: 'Window',
@@ -354,16 +446,16 @@ export class MenuBuilder {
                 {
                     label: 'Minimize',
                     accelerator: 'Command+M',
-                    selector: 'performMiniaturize:'
+                    selector: 'performMiniaturize:',
                 },
                 {
                     label: 'Close',
                     accelerator: 'Command+W',
-                    selector: 'performClose:'
+                    selector: 'performClose:',
                 },
                 { type: 'separator' },
-                { label: 'Bring All to Front', selector: 'arrangeInFront:' }
-            ]
+                { label: 'Bring All to Front', selector: 'arrangeInFront:' },
+            ],
         };
 
         const subMenuTests = setupTestsMenu( store );
@@ -378,91 +470,7 @@ export class MenuBuilder {
             subMenuHelp,
             ...( isRunningTestCafeProcess || isRunningDebug || isHot
                 ? [subMenuTests]
-                : [] )
+                : [] ),
         ];
-    }
-
-    private buildDefaultTemplate(): Array<{}> {
-        const { store } = this;
-
-        const subMenuFile = {
-            label: '&File',
-            submenu: [
-                {
-                    label: '&Open',
-                    accelerator: 'Ctrl+O'
-                },
-                {
-                    label: '&Close',
-                    accelerator: 'Ctrl+W',
-                    click: () => {
-                        this.mainWindow.close();
-                    }
-                },
-                { type: 'separator' },
-                {
-                    label: 'Quit',
-                    accelerator: 'Ctrl+Q',
-                    click: () => {
-                        this.store.dispatch( quitApplication() );
-                    }
-                }
-            ]
-        };
-
-        const subMenuView = {
-            label: '&View',
-            submenu:
-                process.env.NODE_ENV === 'development'
-                    ? [
-                        {
-                            label: '&Reload',
-                            accelerator: 'Ctrl+R',
-                            click: () => {
-                                this.mainWindow.webContents.reload();
-                            }
-                        },
-                        {
-                            label: 'Toggle &Full Screen',
-                            accelerator: 'F11',
-                            click: () => {
-                                this.mainWindow.setFullScreen(
-                                    !this.mainWindow.isFullScreen()
-                                );
-                            }
-                        },
-                        {
-                            label: 'Toggle &Developer Tools',
-                            accelerator: 'Alt+Ctrl+I',
-                            click: () => {
-                                this.mainWindow.toggleDevTools();
-                            }
-                        }
-                    ]
-                    : [
-                        {
-                            label: 'Toggle &Full Screen',
-                            accelerator: 'F11',
-                            click: () => {
-                                this.mainWindow.setFullScreen(
-                                    !this.mainWindow.isFullScreen()
-                                );
-                            }
-                        }
-                    ]
-        };
-
-        const subMenuTests = setupTestsMenu( store );
-
-        const templateDefault = [
-            subMenuFile,
-            subMenuView,
-            subMenuHelp,
-            ...( isRunningTestCafeProcess || isRunningDebug || isHot
-                ? [subMenuTests]
-                : [] )
-        ];
-
-        return templateDefault;
     }
 }

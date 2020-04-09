@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { remote, Menu } from 'electron';
 import { Grid } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { Link, Route, Redirect } from 'react-router-dom';
@@ -19,12 +20,13 @@ import {
     SETTINGS,
     ON_BOARDING,
     PERMISSIONS_PENDING,
-    HOME
+    HOME,
 } from '$Constants/routes.json';
 import { MeatballMenu } from '$App/components/MeatballMenu';
 import { AuthRequest } from '$Definitions/application.d';
 import { THEME } from '$Constants/theme';
 
+const currentWindow = remote.getCurrentWindow();
 
 const theme = createMuiTheme( THEME );
 
@@ -46,6 +48,7 @@ interface Props {
     currentPath: string;
     unInstallApp: Function;
     openApp: Function;
+    quitApplication: Function;
     downloadAndInstallApp: Function;
     pauseDownload: Function;
     cancelDownload: Function;
@@ -107,7 +110,7 @@ export class App extends React.PureComponent<Props> {
             pathname,
             isLoggedIn,
             logOutOfNetwork,
-            pendingRequests
+            pendingRequests,
         } = this.props;
 
         // if only one request, lets forwad to perms page...
@@ -120,7 +123,7 @@ export class App extends React.PureComponent<Props> {
 
         const baseClassList = [
             !shouldOnboard ? styles.gridContainer : '',
-            !isTrayWindow ? styles.standardWindow : styles.trayWindow
+            !isTrayWindow ? styles.standardWindow : styles.trayWindow,
         ];
 
         const pageTitle = getPageTitle( currentPath );
@@ -131,12 +134,18 @@ export class App extends React.PureComponent<Props> {
                     <div className={styles.titleBarContainer}>
                         {!isTrayWindow && (
                             <TitleBar
-                                app="SAFE Network App"
+                                // icon={icon} // app icon
+                                currentWindow={currentWindow} // electron window instance
+                                platform={process.platform} // win32, darwin, linux
+                                // menu={menu}
+                                onClose={() => currentWindow.close()}
+                                onMinimize={() => currentWindow.minimize()}
+                                title="SAFE Network App"
                                 theme={{
                                     barTheme: 'light',
                                     barBackgroundColor: '#eaeaea',
                                     menuHighlightColor: '#33c151',
-                                    showIconDarwin: false
+                                    showIconDarwin: false,
                                 }}
                             />
                         )}

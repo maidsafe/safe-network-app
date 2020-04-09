@@ -21,7 +21,7 @@ const allPassedArguments = process.argv;
 // define update channel.
 // naiive impl checking package.json. I presume this will change w/ from alpha to beta,
 // so a better impl is needed. TODO: make a better implementation of channel checks
-const { version } = pkg;
+export const { version } = pkg;
 let theChannel;
 
 export const ALPHA = 'alpha';
@@ -126,14 +126,14 @@ export const getAppFolderPath = () => {
 export const I18N_CONFIG = {
     locales: ['en'],
     directory: path.resolve( __dirname, 'locales' ),
-    objectNotation: true
+    objectNotation: true,
 };
 
 export const CONFIG = {
     APP_HTML_PATH: path.join( __dirname, '..', './app.html' ),
     APP_HTML_PATH_ASAR: path.join( __dirname, './app.html' ),
     DATE_FORMAT: 'h:MM-mmm dd',
-    NET_STATUS_CONNECTED: 'Connected'
+    NET_STATUS_CONNECTED: 'Connected',
 };
 
 if ( inMainProcess ) {
@@ -153,14 +153,14 @@ export const defaultPreferences = {
         pinToMenuBar: true,
         launchOnStart: true,
         showDeveloperApps: false,
-        warnOnAccessingClearnet: true
+        warnOnAccessingClearnet: true,
     },
     appPreferences: {
-        shouldOnboard: true
-    }
+        shouldOnboard: true,
+    },
 };
 
 export const settingsHandlerName = {
     production: 'preferences',
-    test: 'testPreferences'
+    test: 'testPreferences',
 };

@@ -218,7 +218,7 @@
     "electron-updater": "^4.2.5",
     "electron-util": "0.14.0",
     "enum": "2.5.0",
-    "frameless-titlebar": "1.0.8",
+    "frameless-titlebar": "2.0.0",
     "fs-extra": "9.0.0",
     "get-port": "5.1.1",
     "history": "^4.10.1",

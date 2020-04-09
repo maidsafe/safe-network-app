@@ -6,11 +6,11 @@ import { App } from '$Components/App/App';
 import {
     acceptNotification,
     denyNotification,
-    notificationToggleCheckBox
+    notificationToggleCheckBox,
 } from '$Actions/alias/notification_actions';
 import {
     pushNotification,
-    dismissNotification
+    dismissNotification,
 } from '$Actions/launchpad_actions';
 import { logOutOfNetwork } from '$Actions/alias/authd_actions';
 import { logger } from '$Logger';
@@ -22,10 +22,13 @@ import {
     cancelDownload,
     resumeDownload,
     fetchLatestAppVersions,
-    updateApp
+    updateApp,
 } from '$Actions/alias/app_manager_actions';
 import { updateDownloadProgress } from '$Actions/application_actions';
-import { triggerSetAsTrayWindow } from '$Actions/alias/launchpad_actions';
+import {
+    triggerSetAsTrayWindow,
+    quitApplication,
+} from '$Actions/alias/launchpad_actions';
 
 function mapStateToProperties( state ) {
     return {
@@ -36,7 +39,7 @@ function mapStateToProperties( state ) {
         notificationCheckBox: state.launchpad.notificationCheckBox,
         pathname: state.router.location.pathname,
         isLoggedIn: state.authd.isLoggedIn,
-        pendingRequests: state.authd.pendingRequests
+        pendingRequests: state.authd.pendingRequests,
     };
 }
 function mapDispatchToProperties( dispatch ) {
@@ -57,13 +60,14 @@ function mapDispatchToProperties( dispatch ) {
         fetchLatestAppVersions,
 
         triggerSetAsTrayWindow,
+        quitApplication,
 
         acceptNotification,
         denyNotification,
         pushNotification,
         notificationToggleCheckBox,
 
-        logOutOfNetwork
+        logOutOfNetwork,
     };
 
     return bindActionCreators( actions, dispatch );
