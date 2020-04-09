@@ -300,11 +300,11 @@ export const buildDefaultTemplate = (
 
     const templateDefault = [
         subMenuFile,
-        // subMenuView,
-        // subMenuHelp,
-        // ...( isRunningTestCafeProcess || isRunningDebug || isHot
-        //     ? [testMenu]
-        //     : [] )
+        subMenuView,
+        subMenuHelp,
+        ...( isRunningTestCafeProcess || isRunningDebug || isHot
+            ? [testMenu]
+            : [] ),
     ];
 
     return templateDefault;
