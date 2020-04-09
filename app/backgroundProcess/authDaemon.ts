@@ -177,7 +177,7 @@ export const allowRequest = async ( request: AuthRequest ): Promise<{}> => {
         // TODO: we should check if we started this process
         const safeAuthdClient = await setupAuthDaemon();
 
-        await safeAuthdClient.allow( parseInt( requestId, 10 ) );
+        await safeAuthdClient.allow( Number.parseInt( requestId, 10 ) );
         logger.info( 'Auth request allowed' );
 
         return request;
@@ -193,7 +193,7 @@ export const denyRequest = async ( request: AuthRequest ): Promise<{}> => {
     logger.info( 'Attempting to deny request', requestId, typeof requestId );
     try {
         const safeAuthdClient = await setupAuthDaemon();
-        await safeAuthdClient.deny( parseInt( requestId, 10 ) );
+        await safeAuthdClient.deny( Number.parseInt( requestId, 10 ) );
         logger.info( 'Auth request denied' );
 
         return request;
