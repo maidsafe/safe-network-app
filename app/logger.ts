@@ -14,14 +14,13 @@ import {
     isRunningOnWindows,
     inMainProcess,
     isDryRun,
-    isCI
+    isCI,
 } from '$Constants';
 
 if ( log.transports ) {
     // Log level
     // error, warn, log, log, debug, silly
     log.transports.file.level = 'silly';
-    log.transports.console.format = '[Renderer: {h}:{i}:{s}.{ms}] › {text}';
 
     if (
         isRunningTestCafeProcess ||
@@ -37,7 +36,6 @@ if ( log.transports ) {
     }
     if ( inMainProcess ) {
         log.variables.label = 'main';
-        log.transports.console.format = '%c{h}:{i}:{s}.{ms}%c › {text}';
     }
 
     if ( inBgProcess ) {
