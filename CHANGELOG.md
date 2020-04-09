@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6-alpha.16](https://github.com/maidsafe/safe-network-app/compare/v0.0.6-alpha.15...v0.0.6-alpha.16) (2020-04-09)
+
+
+### Features
+
+* **close:** update in app dropdown with quit option ([933f5ca](https://github.com/maidsafe/safe-network-app/commit/933f5cae75d1d0a3a6248311fba55dd86974adb8))
+* **close:** update menu bar for windowed mode ([b175b8c](https://github.com/maidsafe/safe-network-app/commit/b175b8c3f7650ce203a98ed6f6367b7d0e26076d))
+* **notification:** add subscribe fail message ([0d116ef](https://github.com/maidsafe/safe-network-app/commit/0d116ef8bd867a59375bf3c058f9efa34e6bff7d))
+
+
+### Bug Fixes
+
+* **logs:** tidy logging output ([84ed270](https://github.com/maidsafe/safe-network-app/commit/84ed270b2a850cd200a572917671e436570a2dbc))
+* **ts:** typescript fixes ([20a1b91](https://github.com/maidsafe/safe-network-app/commit/20a1b91ba1437dab06adb55b4f3b6f83bd1d45c5))
+
 ### [0.0.6-alpha.15](https://github.com/maidsafe/safe-network-app/compare/v0.0.6-alpha.14...v0.0.6-alpha.15) (2020-04-03)
 
 ### [0.0.6-alpha.14](https://github.com/maidsafe/safe-network-app/compare/v0.0.6-alpha.13...v0.0.6-alpha.14) (2020-04-03)
