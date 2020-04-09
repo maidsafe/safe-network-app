@@ -11,6 +11,13 @@
     margin-right: 16px;
 }
 
+.Base .Message {
+    color: rgba(0, 0, 0, 0.54);
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 16px;
+}
+
 .Base .Icon {
     width: 36px;
     height: 36px;

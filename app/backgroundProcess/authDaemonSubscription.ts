@@ -6,6 +6,8 @@ import { setupAuthDaemon } from '$Background/authDaemon';
 import { LAUNCHPAD_APP_ID } from '$Constants';
 import { addAuthRequestToPendingList } from '$Actions/alias/authd_actions';
 import { logger } from '$Logger';
+import { pushNotification } from '$Actions/launchpad_actions';
+import { notificationTypes } from '$Constants/notifications';
 
 let theAuthDaemonWithSubscription;
 
@@ -28,14 +30,14 @@ const handleAuthDSubscriptionCallbacks = (
     theBgStore.dispatch(
         addAuthRequestToPendingList( {
             appId,
-            requestId
+            requestId,
         } )
     );
 
     ipcRenderer.send( 'focus-the-app' );
 };
 
-export const subscribeForAuthRequests = async (): Promise<void> => {
+export const subscribeForAuthRequests = async ( store: Store ): Promise<void> => {
     try {
         const PORT = '33001';
 
@@ -56,5 +58,9 @@ export const subscribeForAuthRequests = async (): Promise<void> => {
         logger.info( 'Subscibed successfully on port', availablePort );
     } catch ( error ) {
         logger.error( 'Error subscribing to safe authd', error );
+
+        const notification = notificationTypes.AUTHD_SUBSCRIBE_FAIL();
+
+        store.dispatch( pushNotification( notification ) );
     }
 };

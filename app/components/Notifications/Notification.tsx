@@ -6,7 +6,7 @@ import {
     Avatar,
     Typography,
     Button,
-    Divider
+    Divider,
 } from '@material-ui/core';
 import { Banner } from 'material-ui-banner';
 // Material-ui Icons
@@ -31,7 +31,7 @@ export class Notification extends React.PureComponent<Props> {
         const {
             latestNotification,
             acceptNotification,
-            denyNotification
+            denyNotification,
         } = this.props;
 
         const components = {
@@ -41,7 +41,7 @@ export class Notification extends React.PureComponent<Props> {
             InfoIcon,
             LockIcon,
             DiscFullIcon,
-            LoopIcon
+            LoopIcon,
         };
 
         const handleOnAccept = () => {
@@ -80,6 +80,23 @@ export class Notification extends React.PureComponent<Props> {
                             </Typography>
                         </Grid>
                     </Grid>
+                    {latestNotification.message && (
+                        <Grid
+                            container
+                            justify="flex-end"
+                            className={styles.Actions}
+                        >
+                            <Grid item>
+                                <Typography
+                                    aria-label="NotificationMessage"
+                                    variant="body2"
+                                    className={styles.Message}
+                                >
+                                    {latestNotification.message}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    )}
                     <Grid
                         container
                         justify="flex-end"

@@ -45,6 +45,7 @@
     "notifications": {
         "title": {
             "authd_install_needed": "Safe authenticator process not installed.",
+            "authd_subscribe_fail": "Failed to subscribe to the authenticator daemon.",
             "permissions_pending": "%{name} needs requests permissions.",
             "restart_app_now": "%{name} needs to restart to finish updating.",
             "restart_app_later": "%{name} needs to restart to once your installaltion is complete.",
@@ -65,6 +66,7 @@
         },
         "message": {
             "authd_install_needed": "The Safe CLI and authenticator daemon are needed in order to log in to the network.",
+            "authd_subscribe_suggest": "Authd could have reached its subscription limit. Please try the `safe auth restart` command in the terminal.",
             "close_app": "SAFE Network App requires %{name} to be closed to complete updating.",
             "update_available": "%{name} %{version} is ready to install. What’s New?",
             "uninstall_app": "Click Uninstall to continue and remove %{name} from your computer.",

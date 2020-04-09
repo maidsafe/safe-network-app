@@ -10,11 +10,11 @@ import { settingsHandler } from '$Actions/helpers/settings_handler';
 import {
     isAuthDIsInstalled,
     setupAuthDaemon,
-    waitForAuthDToBeInstalled
+    waitForAuthDToBeInstalled,
 } from '$App/backgroundProcess/authDaemon';
 import {
     subscribeForAuthRequests,
-    setCurrentStoreForAuthDSubscriber
+    setCurrentStoreForAuthDSubscriber,
 } from '$App/backgroundProcess/authDaemonSubscription';
 import { setAsInstalled } from '$Actions/alias/authd_actions';
 
@@ -53,7 +53,7 @@ const initBgProcess = async () => {
     }
 
     await setupAuthDaemon( store );
-    subscribeForAuthRequests();
+    subscribeForAuthRequests( store );
 };
 
 initBgProcess();
