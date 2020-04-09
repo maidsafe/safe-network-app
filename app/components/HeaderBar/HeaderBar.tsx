@@ -46,6 +46,7 @@ interface Props {
     pageTitle: string;
     shouldOnBoard: boolean;
     isLoggedIn: boolean;
+    quitApplication: Function;
     logOutOfNetwork: Function;
 }
 

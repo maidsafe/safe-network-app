@@ -19,7 +19,8 @@ import {
 } from '$Actions/app_manager_actions';
 import { addAuthRequestToPendingList } from '$Actions/alias/authd_actions';
 import { notificationTypes } from '$Constants/notifications';
-import { version ,
+import {
+    version,
     isRunningTestCafeProcess,
     isHot,
     defaultPreferences,
@@ -331,7 +332,7 @@ export class MenuBuilder {
         let template: Array<{}>;
 
         const quitter = this.store.dispatch( quitApplication() );
-        const subMenuTests = setupTestsMenu( store );
+        const subMenuTests = setupTestsMenu( this.store );
 
         if ( process.platform === 'darwin' ) {
             template = this.buildDarwinTemplate();
