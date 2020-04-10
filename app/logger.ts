@@ -19,7 +19,7 @@ import {
 
 if ( log.transports ) {
     // Log level
-    // error, warn, log, log, debug, silly
+    // levels available: error, warn, log, log, debug, silly
     log.transports.file.level = 'silly';
 
     if (
