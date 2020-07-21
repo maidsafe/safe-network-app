@@ -1,7 +1,11 @@
 {
   "name": "safe-network-app",
   "productName": "SAFE Network App",
+<<<<<<< HEAD
   "version": "0.0.6-alpha.18",
+=======
+  "version": "0.0.6",
+>>>>>>> fix(deps): webpack merge dep update fixes
   "identifier": "SAFE Network App",
   "description": "Launchpad for the SAFE Network",
   "scripts": {
