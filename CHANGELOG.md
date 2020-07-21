@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6-alpha.23](https://github.com/maidsafe/safe-network-app/compare/v0.0.6-alpha.22...v0.0.6-alpha.23) (2020-07-21)
+
 ### [0.0.6-alpha.19](https://github.com/maidsafe/safe-network-app/compare/v0.0.6-alpha.18...v0.0.6-alpha.19) (2020-07-21)
 
 
