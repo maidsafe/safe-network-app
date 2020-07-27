@@ -24,7 +24,11 @@ import {
 } from '$Constants/routes.json';
 import { MeatballMenu } from '$App/components/MeatballMenu';
 import { AuthRequest } from '$Definitions/application.d';
+import { isRunningOnMac, isRunningOnWindows } from '$Constants';
 import { THEME } from '$Constants/theme';
+
+// for titlebar
+declare type Platform = 'win32' | 'linux' | 'darwin';
 
 const currentWindow = remote.getCurrentWindow();
 
@@ -129,6 +133,16 @@ export class App extends React.PureComponent<Props> {
 
         const pageTitle = getPageTitle( currentPath );
 
+        let sanitisedPlatformForTitle: Platform = 'linux';
+
+        if ( isRunningOnMac ) {
+            sanitisedPlatformForTitle = 'darwin';
+        }
+
+        if ( isRunningOnWindows ) {
+            sanitisedPlatformForTitle = 'win32';
+        }
+
         return (
             <ThemeProvider theme={theme}>
                 <div className={baseClassList.join( ' ' )}>
@@ -137,16 +151,16 @@ export class App extends React.PureComponent<Props> {
                             <TitleBar
                                 // icon={icon} // app icon
                                 currentWindow={currentWindow} // electron window instance
-                                platform={process.platform} // win32, darwin, linux
+                                platform={sanitisedPlatformForTitle} // win32, darwin, linux
                                 // menu={menu}
                                 onClose={() => currentWindow.close()}
                                 onMinimize={() => currentWindow.minimize()}
                                 title="SAFE Network App"
                                 theme={{
-                                    barTheme: 'light',
-                                    barBackgroundColor: '#eaeaea',
-                                    menuHighlightColor: '#33c151',
-                                    showIconDarwin: false,
+                                    bar: {
+                                        palette: 'light',
+                                        background: '#eaeaea',
+                                    },
                                 }}
                             />
                         )}

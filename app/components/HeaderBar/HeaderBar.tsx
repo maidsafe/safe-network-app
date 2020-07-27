@@ -22,7 +22,7 @@ import appLogo from '$Assets/images/app_logo_white.svg';
 
 const BackButton = withRouter( ( { location, history } ) => {
     const handleClick = () => {
-        history.goBack();
+        history.back();
     };
     return (
         <React.Fragment>
