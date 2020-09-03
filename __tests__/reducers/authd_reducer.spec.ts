@@ -3,8 +3,8 @@ import { TYPES } from '$Actions/alias/authd_actions';
 import { generateRandomString } from '$Utils/app_utils';
 import { ERRORS } from '$Constants/errors';
 
-jest.mock( 'safe-nodejs', () => ( {
-    SafeAuthdClient: jest.fn()
+jest.mock( 'sn_nodejs', () => ( {
+    SafeAuthdClient: jest.fn(),
 } ) );
 
 describe( 'authd reducer', () => {
@@ -16,12 +16,12 @@ describe( 'authd reducer', () => {
         it( 'Should add action to pending list', () => {
             const authdAction = {
                 requestId: '22',
-                appId: 'testApp'
+                appId: 'testApp',
             };
 
             const nextStore = authd( undefined, {
                 type: TYPES.ADD_AUTH_REQUEST_TO_PENDING_LIST,
-                payload: { ...authdAction }
+                payload: { ...authdAction },
             } );
 
             // expect( nextStore.isLoggedIn ).toBeTruthy();
@@ -36,17 +36,17 @@ describe( 'authd reducer', () => {
         it( 'Added action to be uniq', () => {
             const authdAction = {
                 requestId: '22',
-                appId: 'testApp'
+                appId: 'testApp',
             };
 
             const nextStore = authd( undefined, {
                 type: TYPES.ADD_AUTH_REQUEST_TO_PENDING_LIST,
-                payload: { ...authdAction }
+                payload: { ...authdAction },
             } );
 
             const nextStore2 = authd( nextStore, {
                 type: TYPES.ADD_AUTH_REQUEST_TO_PENDING_LIST,
-                payload: { ...authdAction }
+                payload: { ...authdAction },
             } );
 
             // expect( nextStore.isLoggedIn ).toBeTruthy();
@@ -60,33 +60,33 @@ describe( 'authd reducer', () => {
 
         it( 'should throw with no appid', () => {
             const authdAction = {
-                requestId: '22'
+                requestId: '22',
             };
 
             expect( () =>
                 authd( undefined, {
                     type: TYPES.ADD_AUTH_REQUEST_TO_PENDING_LIST,
-                    payload: { ...authdAction }
+                    payload: { ...authdAction },
                 } )
             ).toThrowError( /appId/ );
         } );
 
         it( 'should throw with no requestId', () => {
             const authdAction = {
-                appId: '22'
+                appId: '22',
             };
 
             expect( () =>
                 authd( undefined, {
                     type: TYPES.ADD_AUTH_REQUEST_TO_PENDING_LIST,
-                    payload: { ...authdAction }
+                    payload: { ...authdAction },
                 } )
             ).toThrowError( /requestId/ );
         } );
 
         it( 'Should remove action on allow', () => {
             const authdAction = {
-                requestId: '22'
+                requestId: '22',
             };
 
             const nextStore = authd(
@@ -95,11 +95,11 @@ describe( 'authd reducer', () => {
                     isLoggedIn: true,
                     error: null,
                     isWorking: false,
-                    pendingRequests: [{ appId: 'hi', requestId: '22' }]
+                    pendingRequests: [{ appId: 'hi', requestId: '22' }],
                 },
                 {
                     type: TYPES.AUTHD_ALLOW_REQUEST,
-                    payload: { ...authdAction }
+                    payload: { ...authdAction },
                 }
             );
 
@@ -114,7 +114,7 @@ describe( 'authd reducer', () => {
 
         it( 'Should remove action on deny', () => {
             const authdAction = {
-                requestId: '22'
+                requestId: '22',
             };
 
             const nextStore = authd(
@@ -123,11 +123,11 @@ describe( 'authd reducer', () => {
                     isLoggedIn: true,
                     error: null,
                     isWorking: false,
-                    pendingRequests: [{ appId: 'hi', requestId: '22' }]
+                    pendingRequests: [{ appId: 'hi', requestId: '22' }],
                 },
                 {
                     type: TYPES.AUTHD_DENY_REQUEST,
-                    payload: { ...authdAction }
+                    payload: { ...authdAction },
                 }
             );
 
@@ -144,11 +144,11 @@ describe( 'authd reducer', () => {
     describe( 'LOG_IN_TO_NETWORK', () => {
         it( 'Should update logged in state on log in', () => {
             const authdAction = {
-                error: null
+                error: null,
             };
             const nextStore = authd( undefined, {
                 type: TYPES.LOG_IN_TO_NETWORK,
-                payload: { ...authdAction }
+                payload: { ...authdAction },
             } );
             expect( nextStore.isLoggedIn ).toBeTruthy();
             expect( nextStore.error ).toBeNull();
@@ -162,10 +162,10 @@ describe( 'authd reducer', () => {
                     isLoggedIn: false,
                     error: null,
                     isWorking: true,
-                    pendingRequests: []
+                    pendingRequests: [],
                 },
                 {
-                    type: TYPES.SET_AS_INSTALLED
+                    type: TYPES.SET_AS_INSTALLED,
                 }
             );
             expect( nextStore.isLoggedIn ).toBeFalsy();
@@ -175,7 +175,7 @@ describe( 'authd reducer', () => {
         } );
         it( 'Should update logged in state on log out', () => {
             const authdAction = {
-                error: null
+                error: null,
             };
             const nextStore = authd(
                 {
@@ -183,11 +183,11 @@ describe( 'authd reducer', () => {
                     isLoggedIn: true,
                     error: null,
                     isWorking: true,
-                    pendingRequests: []
+                    pendingRequests: [],
                 },
                 {
                     type: TYPES.LOG_OUT_OF_NETWORK,
-                    payload: { ...authdAction }
+                    payload: { ...authdAction },
                 }
             );
             expect( nextStore.isLoggedIn ).toBeFalsy();
@@ -197,7 +197,7 @@ describe( 'authd reducer', () => {
 
         it( 'Should overwrite a logged in error on success', () => {
             const authdAction = {
-                error: null
+                error: null,
             };
             const nextStore = authd(
                 {
@@ -205,11 +205,11 @@ describe( 'authd reducer', () => {
                     isLoggedIn: false,
                     error: 'ups',
                     isWorking: true,
-                    pendingRequests: []
+                    pendingRequests: [],
                 },
                 {
                     type: TYPES.LOG_IN_TO_NETWORK,
-                    payload: { ...authdAction }
+                    payload: { ...authdAction },
                 }
             );
             expect( nextStore.isLoggedIn ).toBeTruthy();
@@ -218,7 +218,7 @@ describe( 'authd reducer', () => {
 
         it( 'Should overwrite working state on success', () => {
             const authdAction = {
-                error: null
+                error: null,
             };
             const nextStore = authd(
                 {
@@ -226,11 +226,11 @@ describe( 'authd reducer', () => {
                     isLoggedIn: false,
                     error: 'ups',
                     isWorking: true,
-                    pendingRequests: []
+                    pendingRequests: [],
                 },
                 {
                     type: TYPES.LOG_IN_TO_NETWORK,
-                    payload: { ...authdAction }
+                    payload: { ...authdAction },
                 }
             );
             expect( nextStore.isLoggedIn ).toBeTruthy();
@@ -240,7 +240,7 @@ describe( 'authd reducer', () => {
 
         it( 'Should update with error on fail', () => {
             const authdAction = {
-                error: 'crap'
+                error: 'crap',
             };
             const nextStore = authd(
                 {
@@ -248,11 +248,11 @@ describe( 'authd reducer', () => {
                     isLoggedIn: false,
                     error: null,
                     isWorking: false,
-                    pendingRequests: []
+                    pendingRequests: [],
                 },
                 {
                     type: TYPES.LOG_IN_TO_NETWORK,
-                    payload: { ...authdAction }
+                    payload: { ...authdAction },
                 }
             );
             expect( nextStore.isLoggedIn ).toBeFalsy();
@@ -266,10 +266,10 @@ describe( 'authd reducer', () => {
                     isLoggedIn: false,
                     error: '42',
                     isWorking: false,
-                    pendingRequests: []
+                    pendingRequests: [],
                 },
                 {
-                    type: TYPES.CLEAR_ERROR
+                    type: TYPES.CLEAR_ERROR,
                 }
             );
             expect( nextStore.isLoggedIn ).toEqual( false );
@@ -283,10 +283,10 @@ describe( 'authd reducer', () => {
                     isLoggedIn: false,
                     error: '42',
                     isWorking: false,
-                    pendingRequests: []
+                    pendingRequests: [],
                 },
                 {
-                    type: TYPES.SET_AUTHD_WORKING
+                    type: TYPES.SET_AUTHD_WORKING,
                 }
             );
             expect( nextStore.isLoggedIn ).toEqual( false );

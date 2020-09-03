@@ -12,8 +12,8 @@ import { AccountPage } from '$Pages/AccountPage';
 import { ACCOUNT, ACCOUNT_CREATE_REDEEM } from '$Constants/routes.json';
 
 jest.mock( '$Logger' );
-jest.mock( 'safe-nodejs', () => ( {
-    SafeAuthdClient: jest.fn()
+jest.mock( 'sn_nodejs', () => ( {
+    SafeAuthdClient: jest.fn(),
 } ) );
 const mockStore = configureStore();
 
@@ -28,9 +28,9 @@ describe( 'AccountPage', () => {
             authd: {
                 isWorking: false,
                 isLoggedIn: false,
-                error: null
+                error: null,
             },
-            history: { push: jest.fn() }
+            history: { push: jest.fn() },
         };
 
         store = mockStore( props );
@@ -52,7 +52,7 @@ describe( 'AccountPage', () => {
 
             expect(
                 wrapper.find( {
-                    'aria-label': 'Get Invite'
+                    'aria-label': 'Get Invite',
                 } ).exists
             ).toBeTruthy();
         } );
@@ -60,14 +60,14 @@ describe( 'AccountPage', () => {
         it( 'Get invite card exists', () => {
             expect(
                 wrapper.find( {
-                    'aria-label': 'Get Invite'
+                    'aria-label': 'Get Invite',
                 } ).exists
             ).toBeTruthy();
         } );
         it( 'Request invite card exists', () => {
             expect(
                 wrapper.find( {
-                    'aria-label': 'Request Invite'
+                    'aria-label': 'Request Invite',
                 } ).exists
             ).toBeTruthy();
         } );
@@ -75,7 +75,7 @@ describe( 'AccountPage', () => {
         it( 'Earn invite card exists', () => {
             expect(
                 wrapper.find( {
-                    'aria-label': 'Earn Invite'
+                    'aria-label': 'Earn Invite',
                 } ).exists
             ).toBeTruthy();
         } );
@@ -83,7 +83,7 @@ describe( 'AccountPage', () => {
         it( 'Already have invite exists', () => {
             expect(
                 wrapper.find( {
-                    'aria-label': 'IAlreadyHaveInvite'
+                    'aria-label': 'IAlreadyHaveInvite',
                 } ).exists
             ).toBeTruthy();
         } );
