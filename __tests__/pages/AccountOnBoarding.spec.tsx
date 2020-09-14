@@ -12,8 +12,8 @@ import { AccountOnBoarding } from '$Pages/AccountPage/AccountOnBoarding';
 import { ACCOUNT_ONBOARDING } from '$Constants/routes.json';
 
 jest.mock( '$Logger' );
-jest.mock( 'safe-nodejs', () => ( {
-    SafeAuthdClient: jest.fn()
+jest.mock( 'sn_nodejs', () => ( {
+    SafeAuthdClient: jest.fn(),
 } ) );
 const mockStore = configureStore();
 
@@ -31,8 +31,8 @@ describe( 'Account Onboarding', () => {
                     isLoggedIn: false,
                     isWorking: false,
                     setAuthdWorking: jest.fn(),
-                    createAccount: jest.fn()
-                }
+                    createAccount: jest.fn(),
+                },
             };
 
             store = mockStore( props );
@@ -54,7 +54,7 @@ describe( 'Account Onboarding', () => {
 
             expect(
                 wrapper.find( {
-                    'aria-label': 'NextStepButton'
+                    'aria-label': 'NextStepButton',
                 } ).exists
             ).toBeTruthy();
         } );

@@ -1,5 +1,5 @@
 import { spawnSync } from 'child_process';
-import { SafeAuthdClient } from 'safe-nodejs';
+import { SafeAuthdClient } from 'sn_nodejs';
 import fs from 'fs-extra';
 import { Store } from 'redux';
 import { ipcRenderer } from 'electron';

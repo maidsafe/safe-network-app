@@ -1,4 +1,4 @@
-import { SafeAuthdClient } from 'safe-nodejs';
+import { SafeAuthdClient } from 'sn_nodejs';
 
 import { logger } from '$Logger';
 import { setupAuthDaemon } from '$Background/authDaemon';

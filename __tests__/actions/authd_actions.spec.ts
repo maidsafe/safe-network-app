@@ -1,7 +1,7 @@
 import * as authdActions from '$Actions/alias/authd_actions';
 
-jest.mock( 'safe-nodejs', () => ( {
-    SafeAuthdClient: jest.fn()
+jest.mock( 'sn_nodejs', () => ( {
+    SafeAuthdClient: jest.fn(),
 } ) );
 
 describe( 'Auth daemon actions', () => {

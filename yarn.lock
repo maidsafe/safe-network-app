@@ -13663,17 +13663,6 @@ safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1,
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.0.tgz#b74daec49b1148f88c64b68d49b1e815c1f2f519"
   integrity sha512-fZEwUGbVl7kouZs1jCdMLdt95hdIv0ZeHg6L7qPeciMZhZ+/gdesW4wgTARkrFWEpspjEATAzUGPG8N2jJiwbg==
 
-"safe-nodejs@https://github.com/maidsafe/safe-nodejs#0.10.0":
-  version "0.10.0"
-  resolved "https://github.com/maidsafe/safe-nodejs#f2cdacd79bb23b0a4d3d2ca88be735dd55c2529e"
-  dependencies:
-    add "^2.0.6"
-    neon-cli "^0.3.1"
-    node-pre-gyp amilajack/node-pre-gyp
-    node-pre-gyp-github "^1.4.3"
-    standard-version "7.0.0"
-    yarn "^1.17.3"
-
 safe-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/safe-regex/-/safe-regex-1.1.0.tgz#40a3669f3b077d1e943d44629e157dd48023bf2e"
@@ -13985,6 +13974,17 @@ slice-ansi@^2.1.0:
     ansi-styles "^3.2.0"
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
+
+"sn_nodejs@https://github.com/maidsafe/sn_nodejs#0.10.0":
+  version "0.10.0"
+  resolved "https://github.com/maidsafe/sn_nodejs#f2cdacd79bb23b0a4d3d2ca88be735dd55c2529e"
+  dependencies:
+    add "^2.0.6"
+    neon-cli "^0.3.1"
+    node-pre-gyp amilajack/node-pre-gyp
+    node-pre-gyp-github "^1.4.3"
+    standard-version "7.0.0"
+    yarn "^1.17.3"
 
 snapdragon-node@^2.0.1:
   version "2.1.1"

@@ -13,8 +13,8 @@ import { AccountPage } from '$Pages/AccountPage';
 import { ACCOUNT_CREATE_REDEEM } from '$Constants/routes.json';
 
 jest.mock( '$Logger' );
-jest.mock( 'safe-nodejs', () => ( {
-    SafeAuthdClient: jest.fn()
+jest.mock( 'sn_nodejs', () => ( {
+    SafeAuthdClient: jest.fn(),
 } ) );
 const mockStore = configureStore();
 
@@ -31,7 +31,7 @@ describe( 'Create CreateAccountPage', () => {
                 isLoggedIn: false,
                 isWorking: false,
                 setAuthdWorking: jest.fn(),
-                createAccount: jest.fn()
+                createAccount: jest.fn(),
             };
 
             store = mockStore( props );
@@ -50,7 +50,7 @@ describe( 'Create CreateAccountPage', () => {
 
             expect(
                 wrapper.find( {
-                    'aria-label': 'Redeem Invite'
+                    'aria-label': 'Redeem Invite',
                 } ).exists
             ).toBeTruthy();
         } );
@@ -58,7 +58,7 @@ describe( 'Create CreateAccountPage', () => {
         it( 'Should show password second', () => {
             wrapper
                 .find( {
-                    'aria-label': 'Redeem Invite'
+                    'aria-label': 'Redeem Invite',
                 } )
                 .hostNodes()
                 .simulate( 'click' );
@@ -67,7 +67,7 @@ describe( 'Create CreateAccountPage', () => {
 
             expect(
                 wrapper.find( {
-                    'aria-label': 'Save Password'
+                    'aria-label': 'Save Password',
                 } ).exists
             ).toBeTruthy();
         } );
@@ -75,7 +75,7 @@ describe( 'Create CreateAccountPage', () => {
         it( 'Should show passphrase last, and trigger create account on click', () => {
             wrapper
                 .find( {
-                    'aria-label': 'Redeem Invite'
+                    'aria-label': 'Redeem Invite',
                 } )
                 .hostNodes()
                 .simulate( 'click' );
@@ -84,7 +84,7 @@ describe( 'Create CreateAccountPage', () => {
 
             wrapper
                 .find( {
-                    'aria-label': 'Save Password'
+                    'aria-label': 'Save Password',
                 } )
                 .hostNodes()
                 .simulate( 'click' );
@@ -93,7 +93,7 @@ describe( 'Create CreateAccountPage', () => {
 
             wrapper
                 .find( {
-                    'aria-label': 'Save Passphrase'
+                    'aria-label': 'Save Passphrase',
                 } )
                 .hostNodes()
                 .simulate( 'click' );
@@ -103,7 +103,7 @@ describe( 'Create CreateAccountPage', () => {
 
             expect(
                 wrapper.find( {
-                    'aria-label': 'Working...'
+                    'aria-label': 'Working...',
                 } ).exists
             ).toBeTruthy();
         } );
