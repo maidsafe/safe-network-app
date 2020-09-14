@@ -3,7 +3,7 @@ import os from 'os';
 
 import { isRunningOnWindows } from '$Constants';
 
-let relativeExecLocation = '.safe/authd/safe-authd';
+let relativeExecLocation = '.safe/authd/sn_authd';
 
 if ( isRunningOnWindows ) {
     relativeExecLocation = `${relativeExecLocation}.exe`;
