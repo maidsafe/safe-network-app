@@ -63,7 +63,7 @@ autoUpdater.on( 'update-available', ( info ) => {
     }
 } );
 
-ipcMain.on( 'update-safe-network-app', ( event ) => {
+ipcMain.on( 'update-sn_app', ( event ) => {
     logger.info( 'Downloading SNAPP update.' );
     autoUpdater.downloadUpdate();
 } );
@@ -77,7 +77,7 @@ autoUpdater.on( 'update-downloaded', () => {
     );
 } );
 
-ipcMain.on( 'install-safe-network-app', ( event ) => {
+ipcMain.on( 'install-sn_app', ( event ) => {
     const appIsDownloading = checkIfAppIsDownloading();
     if ( appIsDownloading )
         store.subscribe( () => {

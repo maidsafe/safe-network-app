@@ -12,7 +12,8 @@ env:
   AWS_ACCESS_KEY_ID: AKIAVVODCRMSJ5MV63VB
   AWS_SECRET_ACCESS_KEY: ${{ secrets.DEPLOY_USER_SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: eu-west-2
-  APPLICATION: safe-network-app
+  BUCKET: safe-network-app
+  APPLICATION: sn_app
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
   CSC_LINK: ${{ secrets.CSC_LINK }}
@@ -164,7 +165,7 @@ jobs:
       # s3
       - name: Put all release files on s3
         shell: bash
-        run: aws s3 cp release/ s3://${{ env.APPLICATION }}/tag-builds/${{ env.RELEASE_VERSION }} --acl public-read --recursive
+        run: aws s3 cp release/ s3://${{ env.BUCKET }}/tag-builds/${{ env.RELEASE_VERSION }} --acl public-read --recursive
 
       - name: Release generation
         uses: softprops/action-gh-release@91409e712cf565ce9eff10c87a8d1b11b81757ae

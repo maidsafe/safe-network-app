@@ -40,7 +40,7 @@ const buildConfig = {
     afterSign: './internals/scripts/afterSign.js',
     productName: getProductName(),
     generateUpdatesFilesForAllChannels: true,
-    appId: 'org.develar.SAFENetworkApp',
+    appId: 'org.develar.SafeNetworkApp',
     files: [
         './package.json',
         'app/dist',

@@ -1,4 +1,4 @@
-let appString = 'safe-network-app';
+let appString = 'sn_app';
 
 let TEST_UNPACKED = process.env.TEST_UNPACKED;
 const pkg = require('./package.json');
