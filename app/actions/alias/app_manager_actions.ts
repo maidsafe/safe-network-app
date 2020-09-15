@@ -46,7 +46,7 @@ export const storeApplicationSkipVersion = ( application: App ) => mockPromise()
 
 const userAgentRequest = request.defaults( {
     headers: {
-        'User-Agent': 'safe-network-app'
+        'User-Agent': 'sn_app'
     }
 } );
 
@@ -142,7 +142,7 @@ const getLatestElectronAppVersions = async (): Promise<void> => {
 
             if ( RELEASE_CHANNEL === BETA ) channelModifier = 'beta';
 
-            // https://safe-network-app.s3.eu-west-2.amazonaws.com/safe-network-app-win/latest.yml
+            // https://safe-network-app.s3.eu-west-2.amazonaws.com/sn_app-win/latest.yml
             let latestVersionFile = `${s3Url}/${channelModifier}`;
 
             if ( isRunningOnMac ) latestVersionFile = `${latestVersionFile}-mac`;
@@ -197,7 +197,7 @@ const resumeDownloadOfApp = ( application ) => {
 
 export const updateTheApplication = ( application: App ) => {
     if ( application.name === 'SAFE Network App' ) {
-        ipcRenderer.send( 'update-safe-network-app', application );
+        ipcRenderer.send( 'update-sn_app', application );
 
         return;
     }
@@ -233,7 +233,7 @@ const pauseDownloadOfAllApps = ( appList: App ) => {
 
 const restartTheApplication = ( application: App ) => {
     if ( application.name === 'SAFE Network App' )
-        ipcRenderer.send( 'install-safe-network-app' );
+        ipcRenderer.send( 'install-sn_app' );
     else console.log( 'no app update feature available at the moment' );
 };
 

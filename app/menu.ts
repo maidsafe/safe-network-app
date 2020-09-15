@@ -51,7 +51,7 @@ const subMenuHelp = {
             label: 'Documentation',
             click() {
                 shell.openExternal(
-                    'https://github.com/maidsafe/safe-network-app'
+                    'https://github.com/maidsafe/sn_app'
                 );
             }
         },
@@ -65,7 +65,7 @@ const subMenuHelp = {
             label: 'Search Issues',
             click() {
                 shell.openExternal(
-                    'https://github.com/maidsafe/safe-network-app/issues'
+                    'https://github.com/maidsafe/sn_app/issues'
                 );
             }
         },

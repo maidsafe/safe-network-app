@@ -1,12 +1,12 @@
-# SAFE Network App
+# Safe Network App
 
-Desktop app for managing the your SAFE Network applications.
+Desktop app for managing the your Safe Network applications.
 
 |                                                                Linux/OS X                                                                 | Windows | Issues |                                                Lines of Code                                                 |
 | :---------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :----: | :----------------------------------------------------------------------------------------------------------: |
-| [![Build Status](https://travis-ci.com/maidsafe/safe_launchpad_app.svg?branch=master)](https://travis-ci.com/maidsafe/safe_launchpad_app) |         |        | [![LoC](https://tokei.rs/b1/github/maidsafe/safe-network-app)](https://github.com/maidsafe/safe-network-app) |
+| [![Build Status](https://travis-ci.com/maidsafe/safe_launchpad_app.svg?branch=master)](https://travis-ci.com/maidsafe/safe_launchpad_app) |         |        | [![LoC](https://tokei.rs/b1/github/maidsafe/sn_app)](https://github.com/maidsafe/sn_app) |
 
-| [MaidSafe website](https://maidsafe.net) | [SAFE Dev Forum](https://forum.safedev.org) | [SAFE Network Forum](https://safenetforum.org) |
+| [MaidSafe website](https://maidsafe.net) | [Safe Dev Forum](https://forum.safedev.org) | [Safe Network Forum](https://safenetforum.org) |
 | :--------------------------------------: | :-----------------------------------------: | :--------------------------------------------: |
 
 ## Downloading
@@ -29,7 +29,7 @@ This will not write to the filesystem, but will log to the console what changes 
 
 ## Releases
 
--   Fork the SAFE Network App repository
+-   Fork the Safe Network App repository
 -   Clone repo locally or ensure the latest commit has been pulled if it is already cloned.
 -   Before running yarn commands, ensure you remove any local tags and pull all tags from master
 -   To install the dependencies run `yarn`.
@@ -40,7 +40,7 @@ This will not write to the filesystem, but will log to the console what changes 
 
 ## License
 
-This SAFE Network library is dual-licensed under the Modified BSD ([LICENSE-BSD](LICENSE-BSD) https://opensource.org/licenses/BSD-3-Clause) or the MIT license ([LICENSE-MIT](LICENSE-MIT) https://opensource.org/licenses/MIT) at your option.
+This Safe Network library is dual-licensed under the Modified BSD ([LICENSE-BSD](LICENSE-BSD) https://opensource.org/licenses/BSD-3-Clause) or the MIT license ([LICENSE-MIT](LICENSE-MIT) https://opensource.org/licenses/MIT) at your option.
 
 ## Contributing
 

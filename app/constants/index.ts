@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 
 import pkg from '$Package';
 
-export const LOG_FILE_NAME = 'safe-network-app.log';
+export const LOG_FILE_NAME = 'sn_app.log';
 
 export const { platform } = process;
 export const MAC_OS = 'darwin';

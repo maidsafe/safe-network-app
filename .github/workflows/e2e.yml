@@ -90,4 +90,4 @@ jobs:
           run: yarn test-e2e-packed 
       - name: Check logs on fail
         if: failure()
-        run: cat ~/config/safe-network-app/logs/*.log
+        run: cat ~/config/sn_app/logs/*.log

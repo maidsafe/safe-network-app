@@ -63,8 +63,8 @@ script:
 after_failure:
 # check resolution...
 - system_profiler SPDisplaysDataType | grep Resolution
-- cat $TMPDIR/safe-network-app.log;
-- ls "/Users/travis/build/joshuef/safe-network-app/release/"
+- cat $TMPDIR/sn_app.log;
+- ls "/Users/travis/build/joshuef/sn_app/release/"
 - ls "release/mac/SAFE Network App.app"
 - ls "release/mac/SAFE Network App.app/Contents/Resources/"
 - ls "release/linux/resources"
