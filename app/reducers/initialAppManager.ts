@@ -8,16 +8,16 @@ export const initialAppManager: AppManagerState = {
             id: 'safe.browser',
             name: 'Safe Browser',
             // size: '~120MB',
-            // baseUrl: `https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser`,
+            // baseUrl: `https://sn_browser.s3.eu-west-2.amazonaws.com/sn_browser`,
             artifactTemplate: {
-                mac: `safe-browser-<version>-mac-x64.dmg`,
-                linux: `safe-browser-<version>-linux-x64.AppImage`,
-                windows: `safe-browser-<version>-win-x64.exe`
+                mac: `sn_browser-<version>-mac-x64.dmg`,
+                linux: `sn_browser-<version>-linux-x64.AppImage`,
+                windows: `sn_browser-<version>-win-x64.exe`
             },
             author: 'Maidsafe Ltd.',
-            packageName: 'safe-browser',
+            packageName: 'sn_browser',
             repositoryOwner: 'maidsafe',
-            repositorySlug: 'safe_browser',
+            repositorySlug: 'sn_browser',
             latestVersion: 'v0.15.2',
             description: 'Browse the Safe Network',
             updateDescription: '',
