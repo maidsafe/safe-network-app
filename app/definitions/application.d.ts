@@ -92,7 +92,7 @@ export interface App {
     baseUrl?: string;
     // Template for deriving the app package release namespace. Version ${version}
     // is parse out as a variable. The <> are required for parsing.
-    // eg: `safe-browser-<version>-mac.dmg`
+    // eg: `sn_browser-<version>-mac.dmg`
     artifactTemplate: {
         mac: string;
         linux: string;

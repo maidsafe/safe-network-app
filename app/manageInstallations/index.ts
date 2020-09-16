@@ -99,7 +99,7 @@ const getArtifactName = ( application: App ): string => {
     let name;
     switch ( platform ) {
         case MAC_OS: {
-            // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-mac/safe-browser-v0.15.1-mac-x64.dmg
+            // https://sn-browser.s3.eu-west-2.amazonaws.com/sn_browser-mac/sn_browser-v0.15.1-mac-x64.dmg
             // targetUrl = `${baseUrl}/${packageName}-${version}-mac-x64.dmg`;
             name = application.artifactTemplate.mac.replace(
                 '<version>',
@@ -108,7 +108,7 @@ const getArtifactName = ( application: App ): string => {
             break;
         }
         case WINDOWS: {
-            // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-win/safe-browser-v0.15.1-win-x64.exe
+            // https://sn-browser.s3.eu-west-2.amazonaws.com/sn_browser-win/sn_browser-v0.15.1-win-x64.exe
             name = application.artifactTemplate.windows.replace(
                 '<version>',
                 application.latestVersion
@@ -117,7 +117,7 @@ const getArtifactName = ( application: App ): string => {
             break;
         }
         case LINUX: {
-            // https://safe-browser.s3.eu-west-2.amazonaws.com/safe-browser-linux/safe-browser-v0.15.1-linux-x64.AppImage
+            // https://sn-browser.s3.eu-west-2.amazonaws.com/sn_browser-linux/sn_browser-v0.15.1-linux-x64.AppImage
             name = application.artifactTemplate.linux.replace(
                 '<version>',
                 application.latestVersion
