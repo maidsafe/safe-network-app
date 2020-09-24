@@ -5,7 +5,7 @@ on: [push, pull_request]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SAFE_CLI_VERSION: "0.10.1"
-  SAFE_VAULT_VERSION: "0.22.0"
+  SN_NODE_VERSION: "0.22.0"
   IS_CI: true
   # No CSC Keys etc as PRs dont have access to this.
   NODE_ENV: prod
@@ -24,27 +24,27 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
-      - name: Download Safe Vault Ubuntu
+      - name: Download Safe Node Ubuntu
         if: matrix.os == 'ubuntu-latest'
-        run:  wget "https://github.com/maidsafe/safe_vault/releases/download/${{env.SAFE_VAULT_VERSION}}/safe_vault-${{env.SAFE_VAULT_VERSION}}-x86_64-unknown-linux-musl.tar.gz" -O ./vault.tar.gz;
+        run:  wget "https://github.com/maidsafe/sn_node/releases/download/${{env.SN_NODE_VERSION}}/sn_node-${{env.SN_NODE_VERSION}}-x86_64-unknown-linux-musl.tar.gz" -O ./node.tar.gz;
     
-      - name: Download Safe Vault Mac
+      - name: Download Safe Node Mac
         if: matrix.os == 'macos-latest'
-        run: wget "https://github.com/maidsafe/safe_vault/releases/download/${{env.SAFE_VAULT_VERSION}}/safe_vault-${{env.SAFE_VAULT_VERSION}}-x86_64-apple-darwin.tar.gz" -O ./vault.tar.gz;
+        run: wget "https://github.com/maidsafe/sn_node/releases/download/${{env.SN_NODE_VERSION}}/sn_node-${{env.SN_NODE_VERSION}}-x86_64-apple-darwin.tar.gz" -O ./node.tar.gz;
     
 
-     - name: Download Safe Vault Win
+     - name: Download Safe Node Win
         if: matrix.os == 'windows-latest'
         run: |
           choco install wget
-          wget "https://github.com/maidsafe/safe_vault/releases/download/${{env.SAFE_VAULT_VERSION}}/safe_vault-${{env.SAFE_VAULT_VERSION}}-x86_64-pc-windows-msvc.tar.gz" -O ./vault.tar.gz;
+          wget "https://github.com/maidsafe/sn_node/releases/download/${{env.SN_NODE_VERSION}}/sn_node-${{env.SN_NODE_VERSION}}-x86_64-pc-windows-msvc.tar.gz" -O ./node.tar.gz;
     
-      - name: Place Safe Vault
+      - name: Place Safe Node
         run:  |
           ls .
-          mkdir -p $HOME/.safe/vault
-          tar -xvzf ./vault.tar.gz -C $HOME/.safe/vault/
-          chmod +x $HOME/.safe/vault/safe_vault
+          mkdir -p $HOME/.safe/node
+          tar -xvzf ./node.tar.gz -C $HOME/.safe/node/
+          chmod +x $HOME/.safe/node/sn_node
 
       - name: Download Safe CLI Linux
         if: matrix.os == 'ubuntu-latest'
@@ -70,7 +70,7 @@ jobs:
 
 
       - name: Start local network
-        run: safe vault run-baby-fleming
+        run: safe node run-baby-fleming
       - name: Install Safe AuthD
         run: |
           safe auth install

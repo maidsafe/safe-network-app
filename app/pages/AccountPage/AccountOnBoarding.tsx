@@ -56,8 +56,8 @@ export class AccountOnBoarding extends React.Component<Props> {
                             path={ACCOUNT_ONBOARDING_EARN}
                             component={() => (
                                 <StepperPage
-                                    title="Earn Safecoin with a Vault."
-                                    description="You can pay for your account by running a Vault on your home computer. Contribute computer power to the network and be rewarded for it. "
+                                    title="Earn Safecoin with a Node."
+                                    description="You can pay for your account by running a Node on your home computer. Contribute computer power to the network and be rewarded for it. "
                                 />
                             )}
                         />
