@@ -30,7 +30,7 @@ fixture`Permission Request Flow`
 test.skip( 'can receive a permission request', async ( t ) => {
     if ( isCI ) {
         // @ts-ignore
-        await clickOnMainMenuItem( ['Help', 'Update shared vault config'] );
+        await clickOnMainMenuItem( ['Help', 'Update shared node config'] );
         await t.wait( 15000 );
     }
 

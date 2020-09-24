@@ -11,22 +11,22 @@ const MAC_OS = 'darwin';
 const LINUX = 'linux';
 const WINDOWS = 'win32';
 
-const CONFIG_FILE = 'vault_connection_info.config';
-// https://safe-vault-config.s3.eu-west-2.amazonaws.com/shared-vault/vault_connection_info.config
-const CONFIG_LINK = `https://safe-vault-config.s3.eu-west-2.amazonaws.com/shared-vault/${CONFIG_FILE}`;
-let targetFolder = '.config/safe_vault/';
+const CONFIG_FILE = 'node_connection_info.config';
+// https://sn-node-config.s3.eu-west-2.amazonaws.com/shared-node/node_connection_info.config
+const CONFIG_LINK = `https://sn-node-config.s3.eu-west-2.amazonaws.com/shared-node/${CONFIG_FILE}`;
+let targetFolder = '.config/sn_node/';
 
 const homedir = require( 'os' ).homedir();
 
 if ( platform === MAC_OS ) {
-    targetFolder = 'Library/Preferences/net.MaidSafe.safe_vault/';
+    targetFolder = 'Library/Preferences/net.MaidSafe.sn_node/';
 }
 
 // if (platform === LINUX) {
 // }
 
 if ( platform === WINDOWS ) {
-    targetFolder = 'AppData/Roaming/MaidSafe/safe_vault/config/';
+    targetFolder = 'AppData/Roaming/MaidSafe/sn_node/config/';
 }
 
 const targetPath = path.resolve( homedir, targetFolder, CONFIG_FILE );
@@ -74,7 +74,7 @@ const getContent = function( url ) {
     } );
 };
 
-export const updateSharedVaultConfig = async () => {
+export const updateSharedNodeConfig = async () => {
     logger.info( 'Downloading to:', targetPath );
 
     const config = await getContent( CONFIG_LINK );

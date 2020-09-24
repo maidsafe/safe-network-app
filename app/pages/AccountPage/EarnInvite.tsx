@@ -8,14 +8,14 @@ export const EarnInvite = () => {
     return (
         <React.Fragment>
             <Typography variant="h5">Earn an invite</Typography>
-            <Typography variant="body2">Run a vault...</Typography>
+            <Typography variant="body2">Run a node...</Typography>
 
             <Grid container>
                 <Typography>
                     <Button
                     // onClick={}
                     >
-                        Run a Vault
+                        Run a Node
                     </Button>
                 </Typography>
                 <Button

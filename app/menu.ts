@@ -25,7 +25,7 @@ import {
     defaultPreferences,
     isRunningDebug
 } from '$Constants/index';
-import { updateSharedVaultConfig } from '$App/updateSharedVaultConfig';
+import { updateSharedNodeConfig } from '$App/updateSharedNodeConfig';
 import {
     storePreferences,
     quitApplication
@@ -70,9 +70,9 @@ const subMenuHelp = {
             }
         },
         {
-            label: 'Update shared vault config',
+            label: 'Update shared node config',
             click() {
-                updateSharedVaultConfig();
+                updateSharedNodeConfig();
             }
         }
     ]

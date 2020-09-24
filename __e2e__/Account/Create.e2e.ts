@@ -61,7 +61,7 @@ test.skip( 'can navigate through create account onboarding', async ( t ) => {
     await t.click( nextStep );
 
     await t
-        .expect( Selector( 'h6' ).withText( 'Earn Safecoin with a Vault.' ).exists )
+        .expect( Selector( 'h6' ).withText( 'Earn Safecoin with a Node.' ).exists )
         .ok();
 
     // we can go back a screen
